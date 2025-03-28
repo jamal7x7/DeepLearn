@@ -1,6 +1,6 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
-import { Manrope } from 'next/font/google';
+import { Manrope, Instrument_Sans } from 'next/font/google';
 import { UserProvider } from '@/lib/auth';
 import { getUser } from '@/lib/db/queries';
 
@@ -24,6 +24,7 @@ export const viewport: Viewport = {
 };
 
 const manrope = Manrope({ subsets: ['latin'] });
+const instrumentSans  = Instrument_Sans ({ subsets: ['latin'] });
 
 export default async function RootLayout({
   children,
@@ -40,8 +41,16 @@ export default async function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className}`}
+      // className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className}`}
+      className={`${instrumentSans.className}`}
     >
+      <head>
+        <script
+          crossOrigin="anonymous"
+          src="//unpkg.com/react-scan/dist/auto.global.js"
+        />
+        {/* rest of your scripts go under */}
+      </head>
       <body
         className={cn(
           "bg-background overscroll-none font-sans antialiased",

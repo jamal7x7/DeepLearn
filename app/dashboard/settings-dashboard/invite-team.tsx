@@ -37,7 +37,7 @@ export function InviteTeamMember() {
       </CardHeader>
       <CardContent>
         <form action={inviteAction} className="space-y-4">
-          <div>
+        <div className="space-y-3">
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
@@ -48,7 +48,7 @@ export function InviteTeamMember() {
               disabled={!isOwner}
             />
           </div>
-          <div>
+          <div className="space-y-3">
             <Label>Role</Label>
             <RadioGroup
               defaultValue="member"
@@ -99,5 +99,5 @@ export function InviteTeamMember() {
         </CardFooter>
       )}
     </Card>
-  );
+  )
 }

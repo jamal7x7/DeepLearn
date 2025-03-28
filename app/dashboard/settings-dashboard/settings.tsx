@@ -8,6 +8,7 @@ import { useActionState } from 'react';
 import { TeamDataWithMembers, User } from '@/lib/db/schema';
 import { removeTeamMember } from '@/app/(login)/actions';
 import { InviteTeamMember } from './invite-team';
+import HeadingSmall from '@/components/heading-small';
 
 type ActionState = {
   error?: string;
@@ -25,9 +26,10 @@ export function Settings({ teamData }: { teamData: TeamDataWithMembers }) {
   };
 
   return (
-    <section className="flex-1 p-4 lg:p-8">
-      <h1 className="text-lg lg:text-2xl font-medium mb-6">Team Settings</h1>
-      <Card className="mb-8">
+    <section className="flex-1 p-4 lg:p-0">
+      {/* <h1 className="text-lg lg:text-2xl font-medium mb-6">Team Settings</h1> */}
+      <HeadingSmall title='Team Settings' description='Update your Team  and Team Subscription'/>
+      <Card className="mb-8 mt-6">
         <CardHeader>
           <CardTitle>Team Subscription</CardTitle>
         </CardHeader>
@@ -108,5 +110,5 @@ export function Settings({ teamData }: { teamData: TeamDataWithMembers }) {
       </Card>
       <InviteTeamMember />
     </section>
-  );
+  )
 }

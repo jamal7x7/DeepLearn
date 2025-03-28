@@ -4,7 +4,7 @@ import { Terminal } from './terminal';
 
 export default function HomePage() {
   return (
-    <main>
+    <main className=''>
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="lg:grid lg:grid-cols-12 lg:gap-8">
@@ -37,7 +37,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-16 bg-white w-full">
+      <section className="py-16  w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="lg:grid lg:grid-cols-3 lg:gap-8">
             <div>
@@ -93,7 +93,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
             <div>

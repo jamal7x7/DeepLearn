@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Loader2 } from 'lucide-react';
 import { useUser } from '@/lib/auth';
 import { updateAccount } from '@/app/(login)/actions';
+import HeadingSmall from '@/components/heading-small';
 
 type ActionState = {
   error?: string;
@@ -37,18 +38,19 @@ export default function GeneralPage() {
   };
 
   return (
-    <section className="flex-1 p-4 lg:p-8">
-      <h1 className="text-lg lg:text-2xl font-medium text-gray-900 mb-6">
+    <section className="flex-1 p-4 lg:p-0">
+      {/* <h1 className="text-lg lg:text-2xl font-medium  mb-6">
         General Settings
-      </h1>
-
-      <Card>
+      </h1> */}
+            <HeadingSmall title='General Settings' description='Update your General Settings'/>
+      
+      <Card className="mb-8 mt-6">
         <CardHeader>
           <CardTitle>Account Information</CardTitle>
         </CardHeader>
         <CardContent>
           <form className="space-y-4" onSubmit={handleSubmit}>
-            <div>
+          <div className="space-y-3">
               <Label htmlFor="name">Name</Label>
               <Input
                 id="name"
@@ -58,7 +60,7 @@ export default function GeneralPage() {
                 required
               />
             </div>
-            <div>
+            <div className="space-y-3">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"

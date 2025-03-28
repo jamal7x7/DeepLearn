@@ -1,12 +1,13 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Lock, Trash2, Loader2 } from 'lucide-react';
-import { startTransition, useActionState } from 'react';
-import { updatePassword, deleteAccount } from '@/app/(login)/actions';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Lock, Trash2, Loader2 } from "lucide-react";
+import { startTransition, useActionState } from "react";
+import { updatePassword, deleteAccount } from "@/app/(login)/actions";
+import HeadingSmall from "@/components/heading-small";
 
 type ActionState = {
   error?: string;
@@ -17,12 +18,12 @@ export default function SecurityPage() {
   const [passwordState, passwordAction, isPasswordPending] = useActionState<
     ActionState,
     FormData
-  >(updatePassword, { error: '', success: '' });
+  >(updatePassword, { error: "", success: "" });
 
   const [deleteState, deleteAction, isDeletePending] = useActionState<
     ActionState,
     FormData
-  >(deleteAccount, { error: '', success: '' });
+  >(deleteAccount, { error: "", success: "" });
 
   const handlePasswordSubmit = async (
     event: React.FormEvent<HTMLFormElement>
@@ -50,17 +51,20 @@ export default function SecurityPage() {
   };
 
   return (
-    <section className="flex-1 p-4 lg:p-8">
-      <h1 className="text-lg lg:text-2xl font-medium bold text-gray-900 mb-6">
+    <section className="flex-1 p-4 lg:p-0">
+      {/* <h1 className="text-lg lg:text-2xl font-medium bold  mb-6">
+      
         Security Settings
-      </h1>
-      <Card className="mb-8">
+      </h1> */}
+      <HeadingSmall title='Security Settings' description="Update your Password or delete your account "/>
+
+      <Card className="mb-8 mt-6">
         <CardHeader>
           <CardTitle>Password</CardTitle>
         </CardHeader>
         <CardContent>
           <form className="space-y-4" onSubmit={handlePasswordSubmit}>
-            <div>
+            <div className="space-y-3">
               <Label htmlFor="current-password">Current Password</Label>
               <Input
                 id="current-password"
@@ -72,7 +76,7 @@ export default function SecurityPage() {
                 maxLength={100}
               />
             </div>
-            <div>
+            <div className="space-y-3">
               <Label htmlFor="new-password">New Password</Label>
               <Input
                 id="new-password"
@@ -84,7 +88,7 @@ export default function SecurityPage() {
                 maxLength={100}
               />
             </div>
-            <div>
+            <div className="space-y-3">
               <Label htmlFor="confirm-password">Confirm New Password</Label>
               <Input
                 id="confirm-password"
@@ -103,7 +107,8 @@ export default function SecurityPage() {
             )}
             <Button
               type="submit"
-              className="bg-orange-500 hover:bg-orange-600 text-white"
+              // variant={"default"}
+              className="bg-amber-600 hover:bg-amber-700 text-white"
               disabled={isPasswordPending}
             >
               {isPasswordPending ? (
@@ -122,7 +127,7 @@ export default function SecurityPage() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card  className=" rounded-lg border border-red-100 bg-red-50  dark:border-red-200/10 dark:bg-red-700/10">
         <CardHeader>
           <CardTitle>Delete Account</CardTitle>
         </CardHeader>
@@ -131,7 +136,7 @@ export default function SecurityPage() {
             Account deletion is non-reversable. Please proceed with caution.
           </p>
           <form onSubmit={handleDeleteSubmit} className="space-y-4">
-            <div>
+            <div className="space-y-3">
               <Label htmlFor="delete-password">Confirm Password</Label>
               <Input
                 id="delete-password"
@@ -147,8 +152,8 @@ export default function SecurityPage() {
             )}
             <Button
               type="submit"
-              variant="destructive"
-              className="bg-red-600 hover:bg-red-700"
+              // variant="destructive"
+              className="bg-destructive hover:bg-red-700"
               disabled={isDeletePending}
             >
               {isDeletePending ? (

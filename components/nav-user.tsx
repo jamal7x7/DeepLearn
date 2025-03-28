@@ -1,5 +1,6 @@
 "use client"
 
+
 import {
   IconCreditCard,
   IconDotsVertical,
@@ -29,16 +30,41 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 
+import {  signOut } from '@/app/(login)/actions';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@/lib/auth';
+import { use, useState, Suspense } from 'react';
+import { TeamDataWithMembers, User } from '@/lib/db/schema';
+
+import Jdenticon from 'react-jdenticon';
+
+
+
+
 export function NavUser({
-  user,
+  user0,
 }: {
-  user: {
+  user0: {
     name: string
     email: string
     avatar: string
   }
 }) {
   const { isMobile } = useSidebar()
+  const router = useRouter();
+ const { userPromise } = useUser();
+  const user = use(userPromise);
+  
+
+    async function handleSignOut() {
+      await signOut();
+      router.refresh();
+      router.push('/');
+    }
+
+      const getUserDisplayName = (user: Pick<User, 'id' | 'name' | 'email'>) => {
+        return user.name || user.email || 'Unknown User';
+      };
 
   return (
     <SidebarMenu>
@@ -49,14 +75,20 @@ export function NavUser({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+              <Avatar  className="h-8 w-8 rounded-lg  ">
+                <AvatarImage src={user?.avatar} alt={ user?.name} />
+                <AvatarFallback className="rounded-lg">
+                <Jdenticon size="48" value={user?.name} />
+                      {/* {getUserDisplayName(user)
+                        .split(' ')
+                        .map((n) => n[0])
+                        .join('')} */}
+                    </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate font-medium">{user?.name}</span>
                 <span className="text-muted-foreground truncate text-xs">
-                  {user.email}
+                  {user?.email}
                 </span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
@@ -71,13 +103,19 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarImage  src={user?.avatar} alt={user?.name} />
+                  <AvatarFallback className="rounded-lg">
+                  <Jdenticon size="48" value={user?.name} />
+                      {/* {getUserDisplayName(user)
+                        .split(' ')
+                        .map((n) => n[0])
+                        .join('')} */}
+                    </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
+                  <span className="truncate font-medium">{user?.name}</span>
                   <span className="text-muted-foreground truncate text-xs">
-                    {user.email}
+                    {user?.email}
                   </span>
                 </div>
               </div>
@@ -100,7 +138,14 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <IconLogout />
-              Log out
+              <form action={handleSignOut} className="w-full">
+          <button type="submit" className="flex w-full">
+            <DropdownMenuItem className="w-full flex-1 cursor-pointer">
+              {/* <LogOut className="mr-2 h-4 w-4" /> */}
+              <span>Sign out</span>
+            </DropdownMenuItem>
+          </button>
+        </form>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
