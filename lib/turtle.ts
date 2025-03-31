@@ -1,35 +1,49 @@
 // lib/turtle.ts
+import { TurtleStyle, DEFAULT_TURTLE_STYLE } from './turtleStyles'; // Import styles
 
 export class Turtle {
     x: number = 0; // Initializer
     y: number = 0; // Initializer
-    angle: number = 0; // Degrees, 0 is UP, positive is clockwise - Initializer
+    angle: number = 0; // Degrees, 0 is UP, positive is clockwise - Initializer (Reverted)
     isPenDown: boolean = true; // Initializer
-    color: string = '#000000'; // Initializer
+    color: string = '#000000'; // Initializer for pen color
     private backgroundColor: string; // No default here, set in constructor
-    private ctx: CanvasRenderingContext2D;
     private canvasWidth: number;
     private canvasHeight: number;
     private onBgChange: ((color: string) => void) | null = null; // Callback for bg change
     private isVisible: boolean = true; // Added visibility flag
+    private style: TurtleStyle; // Add style property
 
     constructor(
         private ctx: CanvasRenderingContext2D,
         private width: number,
         private height: number,
         initialBackgroundColor: string, // Receive initial color
-        onBgChange?: (color: string) => void // Optional callback
+        onBgChange?: (color: string) => void, // Optional callback
+        initialStyle?: TurtleStyle // Optional initial style
     ) {
         this.ctx = ctx;
         this.canvasWidth = width;
         this.canvasHeight = height;
         this.backgroundColor = initialBackgroundColor || 'rgb(0,0,0)';
         this.onBgChange = onBgChange || null; // Store the callback
+        this.style = initialStyle || DEFAULT_TURTLE_STYLE; // Set initial style
         this.isVisible = true; // Ensure visible initially
         this.home();
         this.penDown();
         this.setPenColor(255, 255, 255); // Default pen color to white
         // No need to call clearScreen here usually, let initial render handle it or call externally
+    }
+
+    // Method to update the turtle's style
+    setStyle(newStyle: TurtleStyle): void {
+        this.style = newStyle;
+        // Optionally redraw the turtle immediately if visible
+        if (this.isVisible) {
+            // Need a way to trigger redraw from the outside, or handle it here
+            // For now, just update the style. The next draw cycle will use it.
+            console.log(`Turtle style set to: ${newStyle.name}`);
+        }
     }
 
     private _normalizeAngle(angle: number): number {
@@ -45,16 +59,16 @@ export class Turtle {
          // Adjust angle so 0 is UP, then convert degrees to radians
          // Canvas rotation: 0 is right, positive is clockwise
          // Logo angle: 0 is up, positive is clockwise
-         // Canvas angle = Logo angle - 90 degrees
+         // Canvas angle = Logo angle - 90 degrees (Reverted)
         return (this.angle - 90) * (Math.PI / 180);
     }
 
     home(): void {
         this.x = this.canvasWidth / 2;
         this.y = this.canvasHeight / 2;
-        this.angle = 0;
+        this.angle = 0; // Reverted default angle to 0 (UP)
         this.isPenDown = true;
-        this.color = '#000000';
+        this.color = '#000000'; // Reset pen color too? Or keep current? Keeping current for now.
         this.ctx.strokeStyle = this.color;
         this.ctx.lineWidth = 1;
         this.ctx.beginPath(); // Reset path state
@@ -66,6 +80,7 @@ export class Turtle {
     reset(): void {
         console.log("Resetting Turtle state and clearing screen...");
         this.clearScreen();
+        this.style = DEFAULT_TURTLE_STYLE; // Reset style on full reset
     }
 
     clearScreen(): void {
@@ -87,6 +102,15 @@ export class Turtle {
         console.log("Pen DOWN (PD/BC)");
     }
 
+    // Public getter for visibility
+    getIsVisible(): boolean {
+        return this.isVisible;
+    }
+
+    getBackgroundColor(): string {
+        return this.backgroundColor;
+    }
+
     right(degrees: number): void {
         this.angle = this._normalizeAngle(this.angle + degrees);
         console.log(`Turn RIGHT ${degrees}. New Angle: ${this.angle}`);
@@ -104,7 +128,7 @@ export class Turtle {
         this.x += distance * Math.cos(angleRad);
         this.y += distance * Math.sin(angleRad);
 
-        console.log(`Move FORWARD ${distance}. New Pos: (${this.x.toFixed(2)}, ${this.y.toFixed(2)})`);
+        // console.log(`Move FORWARD ${distance}. New Pos: (${this.x.toFixed(2)}, ${this.y.toFixed(2)})`);
 
         if (this.isPenDown) {
             this.ctx.lineTo(this.x, this.y);
@@ -118,7 +142,6 @@ export class Turtle {
 
     backward(distance: number): void {
         this.forward(-distance); // Reuses forward logic
-        // Console log for backward is handled within forward's console.log check for negative dist
         // console.log(`Move BACKWARD ${distance}`); // Logged correctly by forward
     }
 
@@ -159,7 +182,7 @@ export class Turtle {
 
     setX(x: number): void {
         const newX = this.canvasWidth / 2 + x; // Assume Logo 0,0 is center
-        console.log(`Set X: From ${this.x.toFixed(2)} to ${newX.toFixed(2)} (Logo X: ${x})`);
+        // console.log(`Set X: From ${this.x.toFixed(2)} to ${newX.toFixed(2)} (Logo X: ${x})`);
         if (this.isPenDown) {
             this.ctx.lineTo(newX, this.y);
             this.ctx.stroke();
@@ -171,7 +194,7 @@ export class Turtle {
 
     setY(y: number): void {
         const newY = this.canvasHeight / 2 - y; // Assume Logo Y increases upwards, Canvas Y downwards
-        console.log(`Set Y: From ${this.y.toFixed(2)} to ${newY.toFixed(2)} (Logo Y: ${y})`);
+        // console.log(`Set Y: From ${this.y.toFixed(2)} to ${newY.toFixed(2)} (Logo Y: ${y})`);
         if (this.isPenDown) {
             this.ctx.lineTo(this.x, newY);
             this.ctx.stroke();
@@ -184,7 +207,7 @@ export class Turtle {
     setPos(x: number, y: number): void {
         const newX = this.canvasWidth / 2 + x;
         const newY = this.canvasHeight / 2 - y;
-        console.log(`Set Pos: To (${newX.toFixed(2)}, ${newY.toFixed(2)}) (Logo Pos: ${x}, ${y})`);
+        // console.log(`Set Pos: To (${newX.toFixed(2)}, ${newY.toFixed(2)}) (Logo Pos: ${x}, ${y})`);
         if (this.isPenDown) {
             this.ctx.lineTo(newX, newY);
             this.ctx.stroke();
@@ -196,142 +219,160 @@ export class Turtle {
     }
 
     drawTurtle(): void {
-          const ctx = this.ctx;
-    const currentAngle = this.angle; // Get angle value
-    const rotationRadians = this._getCanvasAngleRad(); // Calculate radians
+        if (!this.isVisible) return; // Don't draw if hidden
 
-    // *** Add this log ***
-    console.log(`[drawTurtle] Rendering turtle at angle: ${currentAngle} degrees, applying rotation: ${(rotationRadians * 180 / Math.PI).toFixed(1)} degrees`);
+        const ctx = this.ctx;
+        const currentAngle = this.angle; // Get angle value
+        // Calculate base rotation for movement/logic (0=UP -> -PI/2 canvas)
+        const logicRotationRadians = this._getCanvasAngleRad();
+        // Adjust rotation for drawing: align turtle's drawn UP (-Y local) with the logical direction.
+        // Requires adding 90 degrees (PI/2 radians) to the logic rotation.
+        const visualRotationRadians = logicRotationRadians + Math.PI / 2;
 
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(rotationRadians); // Use the calculated value
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(visualRotationRadians); // Use the visually corrected rotation
 
-        // Turtle properties
-        const bodyRadiusX = 8;
-        const bodyRadiusY = 10;
-        // Make head a perfect circle for clarity, placed forward (negative Y)
-        const headRadius = 4;
-        // Position the center of the head slightly *in front* of the body's front edge.
-        const headCenterY = -(bodyRadiusY + headRadius * 0.5); // Center Y in rotated coords
-        const legLength = 5; // Slightly longer legs
-        const legWidth = 3;
-        const legOutwardOffset = bodyRadiusX + legWidth * 0.5 - 1; // How far legs stick out sideways
-        const legForwardOffset = bodyRadiusY * 0.3; // How far legs are towards front/back
+        // --- Use current style ---
+        const style = this.style;
 
-        // Colors
-        const bodyColor = '#609966';
-        const headColor = '#40513B';
-        const outlineColor = '#1A4D2E';
-        const penUpColorBody = '#9DC08B';
-        const penUpColorHead = '#6b8e6b'; // Slightly darker "up" color for head
+        // --- Sea Turtle Properties (Could be adjusted based on style later) ---
+        const bodyRadiusX = 9;
+        const bodyRadiusY = 11;
+        const headRadius = 4.5;
+        const headCenterY = -(bodyRadiusY + headRadius * 0.6);
 
-        ctx.lineWidth = 1;
+        const flipperLength = 14;
+        const flipperWidth = 6;
+        const flipperOutwardOffset = bodyRadiusX + flipperWidth * 0.3;
+        const flipperForwardOffset = bodyRadiusY * 0.1;
+
+        const backLegLength = 6;
+        const backLegWidth = 4;
+        const backLegOutwardOffset = bodyRadiusX * 0.8;
+        const backLegForwardOffset = bodyRadiusY * 0.7;
+
+        // --- Colors from Style ---
+        const bodyColor = style.bodyColor;
+        const headColor = style.headColor;
+        const outlineColor = style.outlineColor;
+        const penUpColorBody = style.penUpBodyColor;
+        const penUpColorHead = style.penUpHeadColor;
+
+        ctx.lineWidth = 1.5;
         ctx.strokeStyle = outlineColor;
 
-        // Determine fill colors based on pen state
+        // Determine fill colors based on pen state and style
         const currentBodyFill = this.isPenDown ? bodyColor : penUpColorBody;
         const currentHeadFill = this.isPenDown ? headColor : penUpColorHead;
 
+        // --- Draw Legs/Flippers ---
+        ctx.fillStyle = currentBodyFill; // Use body color for legs
 
-        // --- Draw Legs ---
-        // Draw them rotated slightly outwards for a more 'turtle' look
-        ctx.fillStyle = currentBodyFill;
-
-        // Helper function to draw a rotated leg
-        const drawLeg = (x: number, y: number, angleDeg: number) => {
+        // Helper function to draw a rounded rectangle (flipper shape)
+        const drawFlipper = (x: number, y: number, width: number, height: number, angleDeg: number) => {
             ctx.save();
             ctx.translate(x, y);
             ctx.rotate(angleDeg * Math.PI / 180);
-            // Draw rectangle centered around the new origin
-            ctx.fillRect(-legWidth / 2, -legLength / 2, legWidth, legLength);
-            ctx.strokeRect(-legWidth / 2, -legLength / 2, legWidth, legLength);
+            ctx.beginPath();
+            ctx.moveTo(-width / 2, -height / 2 + width / 2);
+            ctx.quadraticCurveTo(-width / 2, -height / 2, -width / 2 + width / 2, -height / 2);
+            ctx.lineTo(width / 2 - width / 2, -height / 2);
+            ctx.quadraticCurveTo(width / 2, -height / 2, width / 2, -height / 2 + width / 2);
+            ctx.lineTo(width / 2, height / 2 - width / 2);
+            ctx.quadraticCurveTo(width / 2, height / 2, width / 2 - width / 2, height / 2);
+            ctx.lineTo(-width / 2 + width / 2, height / 2);
+            ctx.quadraticCurveTo(-width / 2, height / 2, -width / 2, height / 2 - width / 2);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
             ctx.restore();
         };
 
-        // Front-left leg (points forward-left)
-        drawLeg(-legOutwardOffset, -legForwardOffset, -30);
-        // Front-right leg (points forward-right)
-        drawLeg( legOutwardOffset, -legForwardOffset, 30);
-        // Back-left leg (points backward-left)
-        drawLeg(-legOutwardOffset, legForwardOffset, -150);
-        // Back-right leg (points backward-right)
-        drawLeg( legOutwardOffset, legForwardOffset, 150);
+         // Helper function to draw a simple rectangle leg
+         const drawBackLeg = (x: number, y: number, width: number, height: number, angleDeg: number) => {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angleDeg * Math.PI / 180);
+            ctx.fillRect(-width / 2, -height / 2, width, height);
+            ctx.strokeRect(-width / 2, -height / 2, width, height);
+            ctx.restore();
+        };
 
+        // Front-left Flipper
+        drawFlipper(-flipperOutwardOffset, -flipperForwardOffset, flipperWidth, flipperLength, -45);
+        // Front-right Flipper
+        drawFlipper( flipperOutwardOffset, -flipperForwardOffset, flipperWidth, flipperLength, 45);
+        // Back-left Leg
+        drawBackLeg(-backLegOutwardOffset, backLegForwardOffset, backLegWidth, backLegLength, -135);
+        // Back-right Leg
+        drawBackLeg( backLegOutwardOffset, backLegForwardOffset, backLegWidth, backLegLength, 135);
 
-        // --- Draw Body (Oval - Drawn after legs to overlap slightly) ---
+        // --- Draw Body (Oval - Drawn after legs) ---
         ctx.beginPath();
         ctx.ellipse(0, 0, bodyRadiusX, bodyRadiusY, 0, 0, Math.PI * 2);
         ctx.fillStyle = currentBodyFill;
         ctx.fill();
         ctx.stroke();
 
-        // --- Draw Head (Circle - Positioned along the negative Y axis = Forward) ---
+        // --- Draw Head (Circle - Positioned forward) ---
         ctx.beginPath();
-        // Position center at (0, headCenterY) in the rotated coordinate system
         ctx.arc(0, headCenterY, headRadius, 0, Math.PI * 2);
         ctx.fillStyle = currentHeadFill;
         ctx.fill();
         ctx.stroke();
 
-        // --- Draw Tail (Small triangle - Pointing backward = positive Y) ---
+        // --- Draw Tail (Shorter, stubbier triangle) ---
         ctx.beginPath();
-        const tailBaseY = bodyRadiusY; // Base of tail starts at back of body
-        const tailTipY = bodyRadiusY + 6; // Tip points further back
-        const tailWidth = 4;
-        ctx.moveTo(0, tailBaseY); // Start at back center
+        const tailBaseY = bodyRadiusY * 0.9;
+        const tailTipY = bodyRadiusY + 4;
+        const tailWidth = 5;
+        ctx.moveTo(0, tailBaseY);
         ctx.lineTo(-tailWidth / 2, tailTipY);
         ctx.lineTo( tailWidth / 2, tailTipY);
         ctx.closePath();
-        ctx.fillStyle = currentBodyFill; // Match body color
+        ctx.fillStyle = currentBodyFill; // Match body
         ctx.fill();
         ctx.stroke();
-
 
         ctx.restore(); // Restore original canvas state
     }
 
-    getBackgroundColor(): string {
-        return this.backgroundColor;
-    }
-
     // Helper to erase the turtle shape by drawing background color over it
     private clearTurtle() {
-        // Save current state
+        // This needs to erase the *current* shape accurately.
+        // For simplicity, let's just clear a bounding box slightly larger than the turtle.
+        // A more precise method would redraw the turtle shape with the background color.
+        // Use fixed estimated dimensions for clearing, independent of style properties
+        const estimatedMaxDimension = 14; // Based on flipperLength being the largest visual part
+        const size = estimatedMaxDimension * 2.5; // Estimate clearing size
+        const angleRad = this._getCanvasAngleRad();
+
         this.ctx.save();
         this.ctx.translate(this.x, this.y);
-        this.ctx.rotate(this.angle * Math.PI / 180);
-
-        // Use current background color for erasing
+        this.ctx.rotate(angleRad);
+        // Clear a rectangle centered around the turtle's rotated position
         this.ctx.fillStyle = this.backgroundColor;
-        this.ctx.strokeStyle = this.backgroundColor; // Use bg color for stroke too
-        this.ctx.lineWidth = 1; // Match line width? Or just fill? Fill is safer.
-
-        // Draw the same triangle shape but filled/stroked with background color
-        this.ctx.beginPath();
-        this.ctx.moveTo(0, -10); // Tip
-        this.ctx.lineTo(5, 5);   // Bottom right
-        this.ctx.lineTo(-5, 5);  // Bottom left
-        this.ctx.closePath();
-        this.ctx.fill();   // Fill with background color
-        // this.ctx.stroke(); // Optional: Stroke with background color if needed
-
-        // Restore previous state
+        // Adjust clearing area based on turtle dimensions if needed
+        this.ctx.fillRect(-size / 2, -size / 2, size, size);
         this.ctx.restore();
     }
 
     // Added HT/ST methods
     hideTurtle() {
         if (this.isVisible) {
-            this.clearTurtle(); // Erase the current turtle
+            // Erasing needs refinement if clearTurtle isn't perfect
+            // this.clearTurtle(); // Temporarily disable complex erase
             this.isVisible = false;
+            // Need external redraw trigger
         }
     }
 
     showTurtle() {
         if (!this.isVisible) {
             this.isVisible = true;
-            this.drawTurtle(); // Draw the turtle immediately
+            // Need external redraw trigger
+            // this.drawTurtle(); // Don't draw immediately, let the main loop handle it
         }
     }
 }

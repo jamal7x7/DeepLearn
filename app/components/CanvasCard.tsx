@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TURTLE_DESIGNS } from '../lib/turtle';
+import { TURTLE_DESIGNS } from '@/lib/turtle';
 
 function CanvasCard() {
     const [selectedTurtleDesign, setSelectedTurtleDesign] = useState(TURTLE_DESIGNS[0]);
