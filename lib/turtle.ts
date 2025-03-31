@@ -1,22 +1,35 @@
 // lib/turtle.ts
 
 export class Turtle {
-    x: number;
-    y: number;
-    angle: number; // Degrees, 0 is UP, positive is clockwise
-    isPenDown: boolean;
-    color: string;
-    backgroundColor: string; // New
+    x: number = 0; // Initializer
+    y: number = 0; // Initializer
+    angle: number = 0; // Degrees, 0 is UP, positive is clockwise - Initializer
+    isPenDown: boolean = true; // Initializer
+    color: string = '#000000'; // Initializer
+    private backgroundColor: string; // No default here, set in constructor
     private ctx: CanvasRenderingContext2D;
     private canvasWidth: number;
     private canvasHeight: number;
+    private onBgChange: ((color: string) => void) | null = null; // Callback for bg change
+    private isVisible: boolean = true; // Added visibility flag
 
-    constructor(ctx: CanvasRenderingContext2D, width: number, height: number) {
+    constructor(
+        private ctx: CanvasRenderingContext2D,
+        private width: number,
+        private height: number,
+        initialBackgroundColor: string, // Receive initial color
+        onBgChange?: (color: string) => void // Optional callback
+    ) {
         this.ctx = ctx;
         this.canvasWidth = width;
         this.canvasHeight = height;
-        this.backgroundColor = '#ffffff'; // Default white background
+        this.backgroundColor = initialBackgroundColor || 'rgb(0,0,0)';
+        this.onBgChange = onBgChange || null; // Store the callback
+        this.isVisible = true; // Ensure visible initially
         this.home();
+        this.penDown();
+        this.setPenColor(255, 255, 255); // Default pen color to white
+        // No need to call clearScreen here usually, let initial render handle it or call externally
     }
 
     private _normalizeAngle(angle: number): number {
@@ -49,13 +62,18 @@ export class Turtle {
         console.log(`Turtle HOME: (${this.x.toFixed(2)}, ${this.y.toFixed(2)}), Angle: ${this.angle}`);
     }
 
+    // Add reset method
+    reset(): void {
+        console.log("Resetting Turtle state and clearing screen...");
+        this.clearScreen();
+    }
+
     clearScreen(): void {
-        // Clear with background color
         this.ctx.fillStyle = this.backgroundColor;
         this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
-        // Reset turtle state and drawing settings
-        this.home();
-        console.log(`Canvas Cleared (CS/VE) with background ${this.backgroundColor}`);
+        this.home(); // Reset position after clearing
+        // Notify about background color potentially being applied
+        this.onBgChange?.(this.backgroundColor);
     }
 
     penUp(): void {
@@ -120,34 +138,18 @@ export class Turtle {
     }
 
     setBackgroundColor(r: number, g: number, b: number): void {
-        const nr = Math.max(0, Math.min(255, Math.round(r)));
-        const ng = Math.max(0, Math.min(255, Math.round(g)));
-        const nb = Math.max(0, Math.min(255, Math.round(b)));
-        const color = `rgb(${nr}, ${ng}, ${nb})`;
-        this.backgroundColor = color;
-        // Immediately redraw background, but keep existing drawing
-        const currentStroke = this.ctx.strokeStyle; // Save current settings
-        const currentFill = this.ctx.fillStyle;
-        const currentLineWidth = this.ctx.lineWidth;
-
-        this.ctx.fillStyle = this.backgroundColor;
-        this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
-         // This simple version redraws only the background.
-         // A full version would need to store all past commands and redraw them
-         // OR use layers (offscreen canvas) to preserve the drawing.
-         // For now, setting background effectively clears the drawing.
-        console.warn("SETBACKGROUND currently clears the drawing. Redrawing everything is needed for full effect.");
-        // Let's call clearScreen to reset turtle position too, consistent with simple implementation
-        this.clearScreen(); // Simplification: treat SETBG like CS + set background color
-
-        // Restore settings (though clearScreen resets them anyway)
-        // this.ctx.strokeStyle = currentStroke;
-        // this.ctx.fillStyle = currentFill;
-        // this.ctx.lineWidth = currentLineWidth;
-        // this.ctx.beginPath();
-        // this.ctx.moveTo(this.x, this.y); // Move to current pos after clear
-
-        console.log(`Set Background Color (SETBG/FCF): ${this.backgroundColor}`);
+        r = Math.max(0, Math.min(255, Math.round(r)));
+        g = Math.max(0, Math.min(255, Math.round(g)));
+        b = Math.max(0, Math.min(255, Math.round(b)));
+        const newColor = `rgb(${r},${g},${b})`;
+        if (newColor !== this.backgroundColor) { // Only update if color actually changed
+            this.backgroundColor = newColor;
+            // Apply immediately
+            this.ctx.fillStyle = this.backgroundColor;
+            this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+            // Notify about the change
+            this.onBgChange?.(this.backgroundColor);
+        }
     }
 
     setHeading(angle: number): void {
@@ -192,9 +194,6 @@ export class Turtle {
         this.y = newY;
         this.ctx.moveTo(this.x, this.y);
     }
-
-// lib/turtle.ts
-// ... (keep existing code for constructor, movement methods, etc.) ...
 
     drawTurtle(): void {
           const ctx = this.ctx;
@@ -292,5 +291,47 @@ export class Turtle {
         ctx.restore(); // Restore original canvas state
     }
 
-// ... (rest of the Turtle class) ...
+    getBackgroundColor(): string {
+        return this.backgroundColor;
+    }
+
+    // Helper to erase the turtle shape by drawing background color over it
+    private clearTurtle() {
+        // Save current state
+        this.ctx.save();
+        this.ctx.translate(this.x, this.y);
+        this.ctx.rotate(this.angle * Math.PI / 180);
+
+        // Use current background color for erasing
+        this.ctx.fillStyle = this.backgroundColor;
+        this.ctx.strokeStyle = this.backgroundColor; // Use bg color for stroke too
+        this.ctx.lineWidth = 1; // Match line width? Or just fill? Fill is safer.
+
+        // Draw the same triangle shape but filled/stroked with background color
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, -10); // Tip
+        this.ctx.lineTo(5, 5);   // Bottom right
+        this.ctx.lineTo(-5, 5);  // Bottom left
+        this.ctx.closePath();
+        this.ctx.fill();   // Fill with background color
+        // this.ctx.stroke(); // Optional: Stroke with background color if needed
+
+        // Restore previous state
+        this.ctx.restore();
+    }
+
+    // Added HT/ST methods
+    hideTurtle() {
+        if (this.isVisible) {
+            this.clearTurtle(); // Erase the current turtle
+            this.isVisible = false;
+        }
+    }
+
+    showTurtle() {
+        if (!this.isVisible) {
+            this.isVisible = true;
+            this.drawTurtle(); // Draw the turtle immediately
+        }
+    }
 }

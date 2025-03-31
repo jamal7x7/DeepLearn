@@ -1,0 +1,29 @@
+ve
+; fcf will be set based on theme initially
+; fcf 20 20 20
+to color :r :g :b
+    fcc hasard :r hasard :g hasard :b
+end
+
+to koch :size :level
+  if :level = 0 [color 10 10 10 fd :size ]
+  if :level != 0 [
+    color 255 10 10 koch :size / 3 :level - 1
+    lt 60
+    color 255 10 255 koch :size / 3 :level - 1
+    rt 120
+    color 255 255 10 koch :size / 3 :level - 1
+    lt 60
+   color 25 255 255 koch :size / 3 :level - 1
+  ]
+end
+
+pu
+setpos -100 -200
+pd
+repeat 3 [
+  koch 400 4
+  rt 120
+]
+ht
+; fcf 50 0 0 ; Example override

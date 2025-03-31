@@ -1,0 +1,11 @@
+ve
+
+POUR C :m :n :t
+  repete :m[ 
+    fcc hasard 255 hasard 255 hasard 255
+    REPETE :n [ AV :t TD 360/:n wait 10 ] 
+    td 360/:m
+    ]
+FIN
+
+C 40 20 30

@@ -1,0 +1,30 @@
+
+ve
+; fcf will be set based on theme initially
+; fcf 20 20 20
+fcc 222 222 222
+
+td 18
+to koch :size :level
+
+  if :level = 0 [ fd :size ]
+  if :level != 0 [
+    koch :size / 3 :level - 1
+    lt 72
+    koch :size / 3 :level - 1
+    rt 144
+    koch :size / 3 :level - 1
+    lt 72
+    koch :size / 3 :level - 1
+  ]
+end
+
+pu
+setpos -100 -200
+pd
+repeat 3 [
+  koch 600 5
+  rt 144
+]
+ct
+; fcf 50 0 0 ; Example override
