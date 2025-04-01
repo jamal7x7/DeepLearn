@@ -20,8 +20,8 @@ export const TurtlePreview: React.FC<TurtlePreviewProps> = ({
   const headRadius = 2.2 * (viewBoxSize / 22);
   const headCenterY = -(bodyRadiusY + headRadius * 0.6);
 
-  const flipperLength = 7 * (viewBoxSize / 22);
-  const flipperWidth = 3 * (viewBoxSize / 22);
+  const flipperLength = 5 * (viewBoxSize / 22); // Reduced length proportionally
+  const flipperWidth = 2.5 * (viewBoxSize / 22); // Reduced width proportionally
   const flipperOutwardOffset = bodyRadiusX + flipperWidth * 0.3;
   const flipperForwardOffset = bodyRadiusY * 0.1;
 
@@ -67,27 +67,42 @@ export const TurtlePreview: React.FC<TurtlePreviewProps> = ({
           transform={`rotate(135, ${backLegOutwardOffset}, ${backLegForwardOffset})`}
         />
 
-        {/* Front Flippers (Simplified as ellipses for SVG) */}
-         <ellipse
-          cx={-flipperOutwardOffset}
-          cy={-flipperForwardOffset}
-          rx={flipperWidth / 2}
-          ry={flipperLength / 2}
-          fill={bodyFill}
-          stroke={outline}
-          strokeWidth="0.7"
-          transform={`rotate(-45, ${-flipperOutwardOffset}, ${-flipperForwardOffset})`}
-        />
-        <ellipse
-          cx={flipperOutwardOffset}
-          cy={-flipperForwardOffset}
-          rx={flipperWidth / 2}
-          ry={flipperLength / 2}
-          fill={bodyFill}
-          stroke={outline}
-          strokeWidth="0.7"
-          transform={`rotate(45, ${flipperOutwardOffset}, ${-flipperForwardOffset})`}
-        />
+        {/* Front Flippers (Using curved paths) */}
+        {(() => {
+          const halfWidth = flipperWidth / 2;
+          const height = flipperLength;
+          const tipY = -height / 2;
+          const baseY = height / 2;
+          const curveFactor = 1.5; // Match canvas curve factor
+          const controlX1 = -halfWidth * curveFactor;
+          const controlY1 = tipY + (baseY - tipY) * 0.3;
+          const controlX2 = halfWidth * curveFactor;
+          const controlY2 = tipY + (baseY - tipY) * 0.3;
+
+          // Path data string for the curved flipper shape
+          const pathData = `M ${-halfWidth},${baseY} Q ${controlX1},${controlY1} 0,${tipY} Q ${controlX2},${controlY2} ${halfWidth},${baseY} Z`;
+
+          return (
+            <>
+              {/* Left Flipper */}
+              <path
+                d={pathData}
+                fill={bodyFill}
+                stroke={outline}
+                strokeWidth="0.7"
+                transform={`translate(${-flipperOutwardOffset}, ${-flipperForwardOffset}) rotate(-55)`} // Adjusted angle
+              />
+              {/* Right Flipper */}
+              <path
+                d={pathData}
+                fill={bodyFill}
+                stroke={outline}
+                strokeWidth="0.7"
+                transform={`translate(${flipperOutwardOffset}, ${-flipperForwardOffset}) rotate(55)`} // Adjusted angle
+              />
+            </>
+          );
+        })()}
 
         {/* Body */}
         <ellipse

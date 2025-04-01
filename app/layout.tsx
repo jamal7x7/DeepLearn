@@ -1,4 +1,6 @@
 import './globals.css';
+import 'katex/dist/katex.min.css'; // Add KaTeX CSS
+import 'prismjs/themes/prism-okaidia.css' ; // Add Prism theme CSS
 import type { Metadata, Viewport } from 'next';
 import { Manrope, Instrument_Sans } from 'next/font/google';
 import { UserProvider } from '@/lib/auth';
@@ -8,6 +10,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ActiveThemeProvider } from "@/components/active-theme";
 import { cookies } from "next/headers";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner"; // Import Toaster
 
 const META_THEME_COLORS = {
   light: "#ffffff",
@@ -72,6 +75,7 @@ export default async function RootLayout({
 
             </UserProvider>
           </ActiveThemeProvider>
+          <Toaster /> {/* Add Toaster component here */}
         </ThemeProvider>
       </body>
     </html>

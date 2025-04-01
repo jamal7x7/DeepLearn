@@ -1,0 +1,32 @@
+# Example 3: Math Expressions
+
+This example demonstrates math rendering using KaTeX.
+
+## Inline Math
+
+Inline math expressions like $E = mc^2$ are rendered within the text.
+
+
+
+## Block Math
+
+Block math expressions are displayed on their own line:
+
+$$
+\\int_{-\\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+$$
+
+Another example:
+
+$$
+\frac{d}{dx} \left( \frac{f(x)}{g(x)} \right) = \frac{f'(x)g(x) - f(x)g'(x)}{[g(x)]^2}
+$$
+
+## Custom Macros
+You can define custom macros for convenience. For example, if you want to define a Fourier transform, you can use:
+$$
+% \f is defined as #1f(#2) using the macro
+\f\relax{x} = \int_{-\infty}^\infty
+    \f\hat\xi\,e^{2 \pi i \xi x}
+    \,d\xi
+$$

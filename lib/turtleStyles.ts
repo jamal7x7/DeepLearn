@@ -6,6 +6,7 @@ export interface TurtleStyle {
   outlineColor: string;
   penUpBodyColor: string;
   penUpHeadColor: string;
+  speed: number; // Animation speed (e.g., 1-10)
   // Optional: Add other properties like flipper size/shape if needed later
 }
 
@@ -18,6 +19,7 @@ export const TURTLE_STYLES: TurtleStyle[] = [
     outlineColor: '#1B5E20', // Very dark outline
     penUpBodyColor: '#AED581', // Lighter green when pen up
     penUpHeadColor: '#9CCC65', // Lighter head when pen up
+    speed: 5,
   },
   {
     id: 'classic',
@@ -27,6 +29,7 @@ export const TURTLE_STYLES: TurtleStyle[] = [
     outlineColor: '#1A4D2E',
     penUpBodyColor: '#9DC08B',
     penUpHeadColor: '#6b8e6b',
+    speed: 5,
   },
   {
     id: 'ocean_blue',
@@ -36,6 +39,7 @@ export const TURTLE_STYLES: TurtleStyle[] = [
     outlineColor: '#0B3D91',
     penUpBodyColor: '#90CAF9', // Light Blue
     penUpHeadColor: '#64B5F6',
+    speed: 5,
   },
   {
     id: 'desert_shell',
@@ -45,6 +49,7 @@ export const TURTLE_STYLES: TurtleStyle[] = [
     outlineColor: '#5D3A1A',
     penUpBodyColor: '#F5DEB3', // Wheat
     penUpHeadColor: '#CD853F', // Peru
+    speed: 5,
   },
   {
     id: 'lava_flow',
@@ -54,6 +59,7 @@ export const TURTLE_STYLES: TurtleStyle[] = [
     outlineColor: '#87260A',
     penUpBodyColor: '#FFCCBC', // Light Orange/Pink
     penUpHeadColor: '#FFAB91',
+    speed: 5,
   },
   {
     id: 'royal_purple',
@@ -63,6 +69,7 @@ export const TURTLE_STYLES: TurtleStyle[] = [
     outlineColor: '#380E6B',
     penUpBodyColor: '#CE93D8', // Light Purple
     penUpHeadColor: '#BA68C8',
+    speed: 5,
   },
 ];
 

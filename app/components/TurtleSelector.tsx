@@ -36,7 +36,7 @@ export const TurtleSelector: React.FC<TurtleSelectorProps> = ({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="end">
-        <div className="grid grid-cols-3 gap-2 p-4">
+        <div className="grid grid-cols-2 gap-2 p-4">
           {TURTLE_STYLES.map((style) => (
             <Button
               key={style.id}

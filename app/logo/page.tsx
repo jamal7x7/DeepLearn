@@ -31,33 +31,17 @@ const MIN_ZOOM = 0.2;
 const MAX_ZOOM = 5.0;
 
 const defaultCode = `
-
 ve
-; fcf will be set based on theme initially
-; fcf 20 20 20
-fcc 222 222 222
-to koch :size :level
-  if :level = 0 [ fd :size ]
-  if :level != 0 [
-    koch :size / 3 :level - 1
-    lt 60
-    koch :size / 3 :level - 1
-    rt 120
-    koch :size / 3 :level - 1
-    lt 60
-    koch :size / 3 :level - 1
-  ]
-end
 
-pu
-setpos -100 -200
-pd
-repeat 3 [
-  koch 400 4
-  rt 120
-]
+POUR C :m :n :t
+  repete :m[ 
+    fcc hasard 255 hasard 255 hasard 255
+    REPETE :n [ AV :t TD 360/:n wait 10 ] 
+    td 360/:m
+    ]
+FIN
 
-; fcf 50 0 0 ; Example override
+C 40 20 30
 `;
 
 export default function LogoPage() {
