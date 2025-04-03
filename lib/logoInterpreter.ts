@@ -328,12 +328,12 @@ export class LogoInterpreter {
         // Standard Logo: 0 degrees is up, positive Y is up.
         // Canvas: 0 degrees is right, positive Y is down.
         // Let's assume standard Logo coordinates for state, conversion happens during rendering.
-        // If 0 degrees is UP:
-        // const endX = startX + distance * Math.sin(angleRad);
-        // const endY = startY + distance * Math.cos(angleRad);
-        // If 0 degrees is RIGHT (more common in canvas):
-        const endX = startX + distance * Math.cos(angleRad);
-        const endY = startY + distance * Math.sin(angleRad);
+        // If 0 degrees is UP (Logo standard):
+        const endX = startX + distance * Math.sin(angleRad);
+        const endY = startY + distance * Math.cos(angleRad);
+        // If 0 degrees is RIGHT (Canvas standard):
+        // const endX = startX + distance * Math.cos(angleRad);
+        // const endY = startY + distance * Math.sin(angleRad);
 
 
         const action: MoveAction = {

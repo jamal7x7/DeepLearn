@@ -198,7 +198,12 @@ export class Turtle implements TurtleState {
         const canvasY = canvasOriginY - this.y; // Invert Y
 
         // Calculate rotation needed for drawing (adjusts Logo angle to Canvas angle)
-        const visualRotationRadians = this.getCanvasAngleRad() + Math.PI / 2;
+        // Rotation needed: Logical Angle (A=0 is UP) mapped to Visual Angle (C=0 is RIGHT).
+        // Turtle shape points local -Y, which is UP in canvas coords before rotation (C=-90).
+        // Target visual angle C = A - 90.
+        // Initial angle (-90) + Rotation (R) = Target angle (A - 90)
+        // -90 + R = A - 90  =>  R = A
+        const visualRotationRadians = degreesToRadians(this.angle);
 
         ctx.save();
         ctx.translate(canvasX, canvasY);
