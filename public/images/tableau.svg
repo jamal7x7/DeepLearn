@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#f5f5f5"/>
+  <rect x="50" y="50" width="700" height="400" rx="10" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+  
+  <!-- Word Ribbon -->
+  <rect x="50" y="50" width="700" height="80" rx="5" fill="#2b579a"/>
+  
+  <!-- Insert Tab (Active) -->
+  <rect x="145" y="50" width="80" height="30" rx="5" fill="#4472c4"/>
+  <text x="185" y="70" font-family="Arial" font-size="14" fill="white" text-anchor="middle">Insertion</text>
+  
+  <!-- Home Tab -->
+  <rect x="60" y="50" width="80" height="30" rx="5" fill="#2b579a"/>
+  <text x="100" y="70" font-family="Arial" font-size="14" fill="white" text-anchor="middle">Accueil</text>
+  
+  <!-- Insert Ribbon -->
+  <rect x="60" y="90" width="680" height="40" rx="2" fill="#f0f0f0" stroke="#e0e0e0" stroke-width="1"/>
+  
+  <!-- Table Button (Highlighted) -->
+  <rect x="300" y="95" width="80" height="30" rx="2" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="1"/>
+  <text x="340" y="115" font-family="Arial" font-size="12" fill="#333333" text-anchor="middle">Tableau</text>
+  
+  <!-- Table Icon -->
+  <rect x="310" y="100" width="20" height="20" fill="#2b579a"/>
+  <rect x="312" y="102" width="7" height="5" fill="white" stroke="#2b579a" stroke-width="0.5"/>
+  <rect x="321" y="102" width="7" height="5" fill="white" stroke="#2b579a" stroke-width="0.5"/>
+  <rect x="312" y="108" width="7" height="5" fill="white" stroke="#2b579a" stroke-width="0.5"/>
+  <rect x="321" y="108" width="7" height="5" fill="white" stroke="#2b579a" stroke-width="0.5"/>
+  <rect x="312" y="114" width="7" height="5" fill="white" stroke="#2b579a" stroke-width="0.5"/>
+  <rect x="321" y="114" width="7" height="5" fill="white" stroke="#2b579a" stroke-width="0.5"/>
+  
+  <!-- Table Dropdown Menu -->
+  <rect x="250" y="140" width="300" height="250" rx="5" fill="white" stroke="#a0a0a0" stroke-width="1" filter="drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1))"/>
+  
+  <!-- Table Grid -->
+  <rect x="270" y="160" width="260" height="180" rx="2" fill="#f9f9f9" stroke="#d0d0d0" stroke-width="1"/>
+  
+  <!-- Grid Cells (8x10) -->
+  <g id="tableGrid">
+    <!-- Row 1 -->
+    <rect x="270" y="160" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="296" y="160" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="322" y="160" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="348" y="160" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="374" y="160" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="400" y="160" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="426" y="160" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="452" y="160" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="478" y="160" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="504" y="160" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    
+    <!-- Row 2 -->
+    <rect x="270" y="178" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="296" y="178" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="322" y="178" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="348" y="178" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="374" y="178" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="400" y="178" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="426" y="178" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="452" y="178" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="478" y="178" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="504" y="178" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    
+    <!-- Row 3 -->
+    <rect x="270" y="196" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="296" y="196" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="322" y="196" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="348" y="196" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="374" y="196" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="400" y="196" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="426" y="196" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="452" y="196" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="478" y="196" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+    <rect x="504" y="196" width="26" height="18" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="0.5"/>
+  </g>
+  
+  <!-- Selected Grid Area (3x4) -->
+  <rect x="270" y="160" width="104" height="54" fill="#2b579a" fill-opacity="0.3" stroke="#2b579a" stroke-width="1.5"/>
+  
+  <!-- Selection Text -->
+  <text x="270" y="350" font-family="Arial" font-size="12" fill="#333333">Tableau 3x4</text>
+  
+  <!-- Table Options -->
+  <rect x="270" y="360" width="260" height="20" rx="2" fill="#f0f0f0" stroke="#d0d0d0" stroke-width="1"/>
+  <text x="280" y="375" font-family="Arial" font-size="12" fill="#333333">Insérer un tableau</text>
+  
+  <!-- Document Area with Table -->
+  <rect x="50" y="400" width="700" height="50" fill="white"/>
+  
+  <!-- Cursor Position -->
+  <rect x="100" y="425" width="2" height="20" fill="#2b579a"/>
+</svg>

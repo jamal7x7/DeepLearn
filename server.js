@@ -46,12 +46,33 @@ app.prepare().then(async () => {
   });
 
   const io = new Server(httpServer);
+  
+  // Track total connected clients from student-stream
+  let connectedClients = 0;
+  // Track connected socket IDs from student-stream
+  let connectedSocketIds = new Set();
+  // Track which sockets are from student-stream
+  let studentStreamSockets = new Set();
 
   io.on('connection', (socket) => {
-    console.log('Client connected:', socket.id);
+    // Check if connection is from student-stream page
+    const isStudentStream = socket.handshake.headers.referer && 
+      socket.handshake.headers.referer.includes('/mdx-server/student-stream');
+    
+    if (isStudentStream) {
+      connectedClients++;
+      connectedSocketIds.add(socket.id);
+      studentStreamSockets.add(socket.id);
+      console.log('Student connected:', socket.id, 'Total student connections:', connectedClients);
+    } else {
+      console.log('Non-student client connected:', socket.id);
+    }
 
     // Send the currently selected file and its content to the new client
     socket.emit('current-mdx', { fileName: currentMdxFile, content: currentMdxContent });
+    
+    // Broadcast updated connection count and socket IDs to all clients
+    io.emit('connection-count', { count: connectedClients, socketIds: Array.from(connectedSocketIds) });
 
     // Handle teacher selecting a new file
     socket.on('select-file', async (fileName) => {
@@ -127,8 +148,27 @@ app.prepare().then(async () => {
      });
 
 
+    // Handle requests for connected socket IDs
+    socket.on('get-socket-ids', () => {
+      socket.emit('connection-count', { count: connectedClients, socketIds: Array.from(connectedSocketIds) });
+    });
+
     socket.on('disconnect', () => {
-      console.log('Client disconnected:', socket.id);
+      // Only decrement counter if this was a student-stream socket
+      if (studentStreamSockets.has(socket.id)) {
+        connectedClients--;
+        connectedSocketIds.delete(socket.id);
+        studentStreamSockets.delete(socket.id);
+        console.log('Student disconnected:', socket.id, 'Total student connections:', connectedClients);
+        // Broadcast updated connection count and socket IDs to all clients
+        io.emit('connection-count', { count: connectedClients, socketIds: Array.from(connectedSocketIds) });
+      } else if (connectedSocketIds.has(socket.id)) {
+        // Handle non-student socket that was somehow in the IDs set
+        connectedSocketIds.delete(socket.id);
+        console.log('Non-student client disconnected:', socket.id);
+      } else {
+        console.log('Duplicate disconnect event for:', socket.id);
+      }
     });
   });
 

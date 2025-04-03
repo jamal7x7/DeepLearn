@@ -1,8 +1,13 @@
 // lib/logoInterpreter.ts
-import { Turtle } from './turtle';
+// import { Turtle } from './turtle'; // No longer needed for direct drawing
 import { tokenize } from './lexer';
 import { Parser } from './parser';
-import { Program, Statement, Token, TokenType, ASTNode, CommandNode, NumberNode, RepeatNode, ProcedureDefinitionNode, ProcedureCallNode, VariableNode, Expression, RandomNode, BinaryOpNode, IfNode, OutputNode, ComparisonNode } from './types'; // Import necessary types
+import {
+    Program, Statement, Token, TokenType, ASTNode, CommandNode, NumberNode, RepeatNode,
+    ProcedureDefinitionNode, ProcedureCallNode, VariableNode, Expression, RandomNode,
+    BinaryOpNode, IfNode, OutputNode, ComparisonNode,
+    TurtleState, TurtleAction, MoveAction, TurnAction, PenAction, ColorAction, ClearAction, HomeAction, WaitAction, VisibilityAction // Import action types
+} from './types';
 
 // Define a structure to hold procedure definitions
 interface Procedure {
@@ -11,21 +16,44 @@ interface Procedure {
 }
 
 // Define a structure for execution scope (variables)
-type Scope = Map<string, number | string | boolean>; // Allow boolean for comparison results
+type Scope = Map<string, number | string | boolean>;
+
+// --- Helper Functions ---
+function degreesToRadians(degrees: number): number {
+    return degrees * (Math.PI / 180);
+}
+
+function normalizeAngle(angle: number): number {
+    let normalized = angle % 360;
+    if (normalized < 0) {
+        normalized += 360;
+    }
+    return normalized;
+}
+
+// Simple RGB to CSS string converter
+function rgbToCssString(r: number, g: number, b: number): string {
+    // Clamp values to 0-255 and ensure they are integers
+    const r_ = Math.max(0, Math.min(255, Math.round(r)));
+    const g_ = Math.max(0, Math.min(255, Math.round(g)));
+    const b_ = Math.max(0, Math.min(255, Math.round(b)));
+    return `rgb(${r_}, ${g_}, ${b_})`;
+}
+// --- End Helper Functions ---
+
 
 export class LogoInterpreter {
-    private turtle: Turtle | null = null;
-    private procedures: Map<string, Procedure> = new Map(); // Store defined procedures
-    private globalScope: Scope = new Map(); // Global variables
-    private executionLog: string[] = []; // Renamed for clarity
-    private parseErrors: string[] = []; // Store parse errors separately
+    private procedures: Map<string, Procedure> = new Map();
+    private globalScope: Scope = new Map();
+    private executionLog: string[] = [];
+    private parseErrors: string[] = [];
+    private actions: TurtleAction[] = []; // Array to store generated actions
+    private turtleState!: TurtleState; // Initialized in execute/reset
 
-    setTurtle(turtle: Turtle) {
-        this.turtle = turtle;
-    }
+    // Removed setTurtle
 
     getLog(): string[] {
-        return [...this.parseErrors, ...this.executionLog]; // Combine parse and execution logs
+        return [...this.parseErrors, ...this.executionLog];
     }
 
     private log(message: string) {
@@ -55,20 +83,28 @@ export class LogoInterpreter {
         throw new Error(errorMsg);
     }
 
-
-    async execute(code: string): Promise<void> { // Make execute async
-        if (!this.turtle) {
-            this.log("ERROR: Turtle not initialized.");
-            return Promise.resolve(); // Return resolved promise if no turtle
-        }
-
-        // --- Reset State ---
+    private resetState(): void {
         this.executionLog = [];
         this.parseErrors = [];
-        this.procedures = new Map(); // Clear procedures for new execution
-        this.globalScope = new Map(); // Clear global scope
+        this.procedures = new Map();
+        this.globalScope = new Map();
+        this.actions = [];
+        // Initialize turtle state (adjust defaults as needed)
+        this.turtleState = {
+            x: 0, // Assuming canvas center is 0,0 or adjusted later
+            y: 0,
+            angle: 0, // 0 degrees often means facing upwards in Logo
+            penDown: true,
+            penColor: 'rgb(0, 0, 0)', // Default black
+            isVisible: true,
+        };
+        this.log("Interpreter state reset.");
+    }
+
+
+    async execute(code: string): Promise<TurtleAction[]> { // Return actions
+        this.resetState(); // Reset all state including actions and turtleState
         this.log("Starting execution...");
-        this.turtle.reset(); // Reset turtle state (position, angle, pen)
 
         // --- Phase 1: Lexing ---
         this.log("Lexing code...");
@@ -84,8 +120,7 @@ export class LogoInterpreter {
         // Check if parsing generated errors
         if (this.parseErrors.length > 0) {
             this.log("Execution aborted due to parsing errors.");
-            // No need to log again, errors are already in parseErrors array
-            return; // Stop execution
+            return this.actions; // Return actions generated so far (likely empty)
         }
 
         // Optional: Log the AST for debugging
@@ -97,14 +132,15 @@ export class LogoInterpreter {
             await this.interpretProgram(programAst, this.globalScope); // Await the async interpretation
             this.log("Execution finished.");
         } catch (error: any) {
-            // Catch runtime errors that might have been thrown by logRuntimeError
-            // or other unexpected issues during interpretation.
-            // logRuntimeError already added the message to the log.
+            // Catch runtime errors
             this.log(`Execution aborted due to runtime error: ${error.message}`);
+            // Return actions generated so far, even if execution failed mid-way
+            return this.actions;
         }
 
-        // Final redraw after execution completes or aborts
-        this.turtle.drawTurtle();
+        // No final redraw here - animation component handles drawing
+        this.log("Action generation finished.");
+        return this.actions; // Return the generated actions
     }
 
     // --- AST Interpretation Methods ---
@@ -140,9 +176,8 @@ export class LogoInterpreter {
     }
 
     // Interpret a single statement within a given scope
-    private async interpretStatement(statement: Statement, scope: Scope): Promise<void> { // Make async
-        if (!this.turtle) return Promise.resolve(); // Return promise
-
+    private async interpretStatement(statement: Statement, scope: Scope): Promise<void> {
+        // No turtle check needed anymore
         switch (statement.type) {
             case 'Command':
                 await this.executeCommand(statement, scope); // Await
@@ -175,12 +210,12 @@ export class LogoInterpreter {
 
     // --- Command Execution ---
 
-    private async executeCommand(node: CommandNode, scope: Scope): Promise<void> { // Make async
-        if (!this.turtle) return Promise.resolve(); // Return promise
-        const command = node.command; // Canonical command name (uppercase)
-        const args = node.args.map(arg => this.evaluateExpression(arg, scope)); // Evaluate arguments first
+    private async executeCommand(node: CommandNode, scope: Scope): Promise<void> {
+        // No turtle check needed anymore
+        const command = node.command;
+        const args = node.args.map(arg => this.evaluateExpression(arg, scope));
 
-        // Helper to validate argument count and types
+        // Helper to validate argument count and types (remains the same)
         const checkArgs = (expectedCount: number, types?: ('number' | 'string' | 'any')[]) => {
             if (args.length !== expectedCount) {
                 this.logRuntimeError(`${command} requires ${expectedCount} arguments, got ${args.length}`, node.line);
@@ -209,53 +244,67 @@ export class LogoInterpreter {
                 case 'FD':
                 case 'FORWARD':
                     checkArgs(1, ['number']);
-                    await this.turtle.forward(args[0] as number); // Await
+                    this.executeMove(args[0] as number); // Positive distance for FD
                     break;
                 case 'BK':
                 case 'BACKWARD':
                     checkArgs(1, ['number']);
-                    await this.turtle.backward(args[0] as number); // Await
+                    this.executeMove(-(args[0] as number)); // Negative distance for BK
                     break;
                 case 'RT':
                 case 'RIGHT':
                     checkArgs(1, ['number']);
-                    await this.turtle.right(args[0] as number); // Await
+                    this.executeTurn(args[0] as number); // Positive angle for RT
                     break;
                 case 'LT':
                 case 'LEFT':
                     checkArgs(1, ['number']);
-                    await this.turtle.left(args[0] as number); // Await
+                    this.executeTurn(-(args[0] as number)); // Negative angle for LT
                     break;
                 case 'PU':
                 case 'PENUP':
                     checkArgs(0);
-                    this.turtle.penUp();
+                    this.executePenChange(false);
                     break;
                 case 'PD':
                 case 'PENDOWN':
                     checkArgs(0);
-                    this.turtle.penDown();
+                    this.executePenChange(true);
                     break;
                 case 'CS':
                 case 'CLEARSCREEN':
                     checkArgs(0);
-                    await this.turtle.clearScreen(); // Await
+                    this.executeClearScreen(); // Includes HOME logic now
                     break;
                 case 'HOME':
                     checkArgs(0);
-                    await this.turtle.home(); // Await
+                    this.executeHome();
                     break;
                 case 'SETPC':
                 case 'SETPENCOLOR':
+                    // Assuming args are R, G, B (0-255 or similar range)
                     checkArgs(3, ['number', 'number', 'number']);
-                    this.turtle.setPenColor(args[0] as number, args[1] as number, args[2] as number);
+                    this.executeColorChange(args[0] as number, args[1] as number, args[2] as number);
                     break;
                 case 'WAIT':
                     checkArgs(1, ['number']);
-                    const waitTime = args[0] as number;
-                    await new Promise(resolve => setTimeout(resolve, waitTime));
+                    // Assuming wait time is in ticks or a unit convertible to ms
+                    // Let's treat it as 1/60th of a second per tick for now
+                    const waitDuration = (args[0] as number) * (1000 / 60);
+                    this.executeWait(waitDuration);
                     break;
-                // REPEAT, IF, OUTPUT are handled by interpretStatement, not here
+                 case 'HT':
+                 case 'HIDETURTLE':
+                    checkArgs(0);
+                    this.executeVisibilityChange(false);
+                    break;
+                 case 'ST':
+                 case 'SHOWTURTLE':
+                    checkArgs(0);
+                    this.executeVisibilityChange(true);
+                    break;
+                // SETHEADING, SETPOS, SETX, SETY, SETBACKGROUND, PRINT etc. need implementation
+                // REPEAT, IF, OUTPUT are handled by interpretStatement
                 // RANDOM is handled by evaluateExpression
                 // TO, END are handled by parsing/definition phase
                 default:
@@ -264,17 +313,157 @@ export class LogoInterpreter {
         } catch (error: any) {
             // Catch potential errors from turtle methods themselves
                     this.logRuntimeError(`Error during ${command}: ${error.message}`, node.line);
-                    return Promise.resolve(); // Return promise on error
+                    // No need to return promise, method is void
         }
-        // Redrawing is now handled by the animation loop via redrawCallback
-        // this.turtle.drawTurtle(); // Remove this line
+        // No drawing calls here
     }
+
+    // --- Action Generation Helpers ---
+
+    private executeMove(distance: number): void {
+        const startX = this.turtleState.x;
+        const startY = this.turtleState.y;
+        const angleRad = degreesToRadians(this.turtleState.angle);
+
+        // Standard Logo: 0 degrees is up, positive Y is up.
+        // Canvas: 0 degrees is right, positive Y is down.
+        // Let's assume standard Logo coordinates for state, conversion happens during rendering.
+        // If 0 degrees is UP:
+        // const endX = startX + distance * Math.sin(angleRad);
+        // const endY = startY + distance * Math.cos(angleRad);
+        // If 0 degrees is RIGHT (more common in canvas):
+        const endX = startX + distance * Math.cos(angleRad);
+        const endY = startY + distance * Math.sin(angleRad);
+
+
+        const action: MoveAction = {
+            type: 'move',
+            startX,
+            startY,
+            endX,
+            endY,
+            distance,
+            penDown: this.turtleState.penDown,
+            penColor: this.turtleState.penColor,
+        };
+        this.actions.push(action);
+
+        // Update state
+        this.turtleState.x = endX;
+        this.turtleState.y = endY;
+    }
+
+    private executeTurn(degrees: number): void {
+        const startAngle = this.turtleState.angle;
+        const endAngle = normalizeAngle(startAngle + degrees);
+
+        const action: TurnAction = {
+            type: 'turn',
+            startAngle,
+            endAngle,
+            degrees,
+        };
+        this.actions.push(action);
+
+        // Update state
+        this.turtleState.angle = endAngle;
+    }
+
+    private executePenChange(penDown: boolean): void {
+        if (this.turtleState.penDown !== penDown) {
+            this.turtleState.penDown = penDown;
+            const action: PenAction = { type: 'pen', penDown };
+            this.actions.push(action);
+        }
+    }
+
+     private executeColorChange(r: number, g: number, b: number): void {
+        const newColor = rgbToCssString(r, g, b);
+        if (this.turtleState.penColor !== newColor) {
+            this.turtleState.penColor = newColor;
+            const action: ColorAction = { type: 'color', color: newColor };
+            this.actions.push(action);
+        }
+    }
+
+    private executeClearScreen(): void {
+        // CS often implies HOME as well in Logo
+        this.actions.push({ type: 'clear' });
+        this.executeHome(true); // Pass flag to avoid duplicate HOME action if CS implies it
+    }
+
+    private executeHome(calledFromCS: boolean = false): void {
+        const startX = this.turtleState.x;
+        const startY = this.turtleState.y;
+        const startAngle = this.turtleState.angle;
+
+        // Check if already home to avoid redundant actions
+        const needsMove = startX !== 0 || startY !== 0;
+        const needsTurn = startAngle !== 0; // Assuming home angle is 0
+
+        if (needsMove) {
+             // Generate a move action back to origin
+             const homeMoveAction: MoveAction = {
+                type: 'move',
+                startX,
+                startY,
+                endX: 0,
+                endY: 0,
+                distance: Math.sqrt(startX * startX + startY * startY), // Calculate distance
+                penDown: false, // HOME move is typically pen up
+                penColor: this.turtleState.penColor, // Color doesn't matter if pen up
+            };
+            this.actions.push(homeMoveAction);
+            this.turtleState.x = 0;
+            this.turtleState.y = 0;
+        }
+
+        if (needsTurn) {
+            // Generate a turn action to angle 0
+             const homeTurnAction: TurnAction = {
+                type: 'turn',
+                startAngle,
+                endAngle: 0,
+                degrees: -startAngle, // Turn required to get back to 0
+            };
+            this.actions.push(homeTurnAction);
+            this.turtleState.angle = 0;
+        }
+
+        // Add a specific HOME action *if* not called implicitly by CS
+        // and if any state actually changed.
+        if (!calledFromCS && (needsMove || needsTurn)) {
+             // This specific 'home' action might be redundant if move/turn are generated,
+             // but can be useful for the animator to know HOME was explicitly called.
+             // Consider if it's needed based on animation logic.
+             // this.actions.push({ type: 'home' });
+        }
+
+        // Ensure pen is down after HOME, as per some Logo standards
+        this.executePenChange(true);
+    }
+
+     private executeWait(duration: number): void {
+        if (duration > 0) {
+            this.actions.push({ type: 'wait', duration });
+        }
+    }
+
+     private executeVisibilityChange(isVisible: boolean): void {
+        if (this.turtleState.isVisible !== isVisible) {
+            this.turtleState.isVisible = isVisible;
+            this.actions.push({ type: 'visibility', isVisible });
+        }
+    }
+
 
     // --- Control Structures ---
 
-    private async executeRepeat(node: RepeatNode, scope: Scope): Promise<void> { // Make async
-        const countValue = this.evaluateExpression(node.count, scope);
+    private async executeRepeat(node: RepeatNode, scope: Scope): Promise<void> {
+        // Cast node.count to Expression to satisfy evaluateExpression
+        const countValue = this.evaluateExpression(node.count as Expression, scope);
         if (typeof countValue !== 'number' || !Number.isInteger(countValue) || countValue < 0) {
+            // Use the original node.count for line number reporting
             this.logRuntimeError(`REPEAT count must be a non-negative integer, got ${countValue}`, node.count.line);
             return;
         }
@@ -451,10 +640,11 @@ export class LogoInterpreter {
 
 
     private evaluateRandom(node: RandomNode, scope: Scope): number {
-        const maxVal = this.evaluateExpression(node.max, scope);
+        // Cast node.max to Expression to satisfy evaluateExpression
+        const maxVal = this.evaluateExpression(node.max as Expression, scope);
         if (typeof maxVal !== 'number' || !Number.isInteger(maxVal) || maxVal <= 0) {
-             // Pass the line number of the RandomNode
-            this.logRuntimeError(`RANDOM requires a positive integer argument, got ${maxVal}`, node.line);
+             // Use the original node.max for line number reporting
+            this.logRuntimeError(`RANDOM requires a positive integer argument, got ${maxVal}`, node.max.line);
             return 0; // Placeholder
         }
         // Logo's RANDOM is often exclusive of the max, returning 0 to max-1

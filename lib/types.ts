@@ -162,6 +162,78 @@ for (const canonical in keywordAliases) {
 }
 
 
+// --- Turtle Animation Actions ---
+
+export interface TurtleState {
+    x: number;
+    y: number;
+    angle: number; // Degrees, 0 is typically 'up' or 'right' depending on convention
+    penDown: boolean;
+    penColor: string; // e.g., 'rgb(r,g,b)' or '#rrggbb'
+    isVisible: boolean;
+}
+
+export interface MoveAction {
+    type: 'move';
+    startX: number;
+    startY: number;
+    endX: number;
+    endY: number;
+    distance: number; // The requested distance (positive for FD, negative for BK)
+    penDown: boolean; // Pen status *during* this move
+    penColor: string; // Pen color *during* this move
+}
+
+export interface TurnAction {
+    type: 'turn';
+    startAngle: number;
+    endAngle: number;
+    degrees: number; // Amount turned (positive for RT, negative for LT)
+}
+
+export interface PenAction {
+    type: 'pen';
+    penDown: boolean; // The new state
+}
+
+export interface ColorAction {
+    type: 'color';
+    color: string; // The new pen color
+}
+
+export interface ClearAction {
+    type: 'clear';
+}
+
+export interface HomeAction {
+    type: 'home';
+    // Includes implicit move to 0,0 and set angle to 0
+    // We might generate separate move/turn actions instead,
+    // but a dedicated action can be simpler for the animator.
+}
+
+export interface WaitAction {
+    type: 'wait';
+    duration: number; // Milliseconds or ticks
+}
+
+export interface VisibilityAction {
+    type: 'visibility';
+    isVisible: boolean; // The new state
+}
+
+// Union type for all possible actions the interpreter generates
+export type TurtleAction =
+    | MoveAction
+    | TurnAction
+    | PenAction
+    | ColorAction
+    | ClearAction
+    | HomeAction
+    | WaitAction
+    | VisibilityAction;
+
+
 // --- Command Aliases ---
 
 // Map English command names to their aliases (including French)

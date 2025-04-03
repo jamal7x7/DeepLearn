@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#f5f5f5"/>
+  <rect x="50" y="50" width="700" height="400" rx="10" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+  
+  <!-- Word Ribbon -->
+  <rect x="50" y="50" width="700" height="80" rx="5" fill="#2b579a"/>
+  
+  <!-- Home Tab (Active) -->
+  <rect x="60" y="50" width="80" height="30" rx="5" fill="#4472c4"/>
+  <text x="100" y="70" font-family="Arial" font-size="14" fill="white" text-anchor="middle">Accueil</text>
+  
+  <!-- Insert Tab -->
+  <rect x="145" y="50" width="80" height="30" rx="5" fill="#2b579a"/>
+  <text x="185" y="70" font-family="Arial" font-size="14" fill="white" text-anchor="middle">Insertion</text>
+  
+  <!-- Paragraph Section -->
+  <rect x="300" y="90" width="200" height="40" rx="2" fill="#f0f0f0" stroke="#e0e0e0" stroke-width="1"/>
+  
+  <!-- Bullet List Button (Highlighted) -->
+  <rect x="310" y="95" width="30" height="30" rx="2" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="1"/>
+  <circle cx="318" cy="105" r="2" fill="#333333"/>
+  <rect x="322" y="104" width="10" height="2" fill="#333333"/>
+  <circle cx="318" cy="110" r="2" fill="#333333"/>
+  <rect x="322" y="109" width="10" height="2" fill="#333333"/>
+  <circle cx="318" cy="115" r="2" fill="#333333"/>
+  <rect x="322" y="114" width="10" height="2" fill="#333333"/>
+  
+  <!-- Numbered List Button -->
+  <rect x="345" y="95" width="30" height="30" rx="2" fill="white" stroke="#d0d0d0" stroke-width="1"/>
+  <text x="350" y="105" font-family="Arial" font-size="8" fill="#333333">1.</text>
+  <rect x="357" y="102" width="10" height="1.5" fill="#333333"/>
+  <text x="350" y="112" font-family="Arial" font-size="8" fill="#333333">2.</text>
+  <rect x="357" y="109" width="10" height="1.5" fill="#333333"/>
+  <text x="350" y="119" font-family="Arial" font-size="8" fill="#333333">3.</text>
+  <rect x="357" y="116" width="10" height="1.5" fill="#333333"/>
+  
+  <!-- Multilevel List Button -->
+  <rect x="380" y="95" width="30" height="30" rx="2" fill="white" stroke="#d0d0d0" stroke-width="1"/>
+  <text x="385" y="105" font-family="Arial" font-size="8" fill="#333333">1.</text>
+  <rect x="392" y="102" width="10" height="1.5" fill="#333333"/>
+  <text x="387" y="112" font-family="Arial" font-size="8" fill="#333333">a.</text>
+  <rect x="394" y="109" width="8" height="1.5" fill="#333333"/>
+  <text x="389" y="119" font-family="Arial" font-size="8" fill="#333333">i.</text>
+  <rect x="396" y="116" width="6" height="1.5" fill="#333333"/>
+  
+  <!-- Decrease Indent Button -->
+  <rect x="415" y="95" width="30" height="30" rx="2" fill="white" stroke="#d0d0d0" stroke-width="1"/>
+  <polygon points="425,110 435,105 435,115" fill="#333333"/>
+  <rect x="420" y="105" width="5" height="10" fill="white"/>
+  
+  <!-- Increase Indent Button -->
+  <rect x="450" y="95" width="30" height="30" rx="2" fill="white" stroke="#d0d0d0" stroke-width="1"/>
+  <polygon points="455,110 445,105 445,115" fill="#333333"/>
+  <rect x="455" y="105" width="5" height="10" fill="white"/>
+  
+  <!-- Document Area with Bullet List -->
+  <rect x="50" y="140" width="700" height="310" fill="white"/>
+  
+  <!-- Bullet List in Document -->
+  <circle cx="70" cy="180" r="3" fill="#333333"/>
+  <text x="80" y="185" font-family="Calibri, Arial" font-size="16" fill="#333333">Premier élément de la liste</text>
+  
+  <circle cx="70" cy="210" r="3" fill="#333333"/>
+  <text x="80" y="215" font-family="Calibri, Arial" font-size="16" fill="#333333">Deuxième élément de la liste</text>
+  
+  <circle cx="70" cy="240" r="3" fill="#333333"/>
+  <text x="80" y="245" font-family="Calibri, Arial" font-size="16" fill="#333333">Troisième élément de la liste</text>
+  
+  <!-- Cursor at end of list -->
+  <rect x="80" y="270" width="2" height="20" fill="#2b579a"/>
+  
+  <!-- Bullet List Dropdown Menu -->
+  <rect x="150" y="300" width="200" height="120" rx="5" fill="white" stroke="#a0a0a0" stroke-width="1" filter="drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1))"/>
+  
+  <!-- Bullet Options -->
+  <circle cx="170" cy="320" r="3" fill="#333333"/>
+  <rect x="180" y="317" width="150" height="6" rx="1" fill="#f0f0f0"/>
+  
+  <text x="170" y="340" font-family="Wingdings" font-size="12" fill="#333333">❖</text>
+  <rect x="180" y="337" width="150" height="6" rx="1" fill="#f0f0f0"/>
+  
+  <text x="170" y="360" font-family="Wingdings" font-size="12" fill="#333333">➢</text>
+  <rect x="180" y="357" width="150" height="6" rx="1" fill="#f0f0f0"/>
+  
+  <text x="170" y="380" font-family="Wingdings" font-size="12" fill="#333333">✓</text>
+  <rect x="180" y="377" width="150" height="6" rx="1" fill="#f0f0f0"/>
+  
+  <text x="170" y="400" font-family="Wingdings" font-size="12" fill="#333333">❑</text>
+  <rect x="180" y="397" width="150" height="6" rx="1" fill="#f0f0f0"/>
+</svg>

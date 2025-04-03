@@ -18,7 +18,7 @@ const META_THEME_COLORS = {
 };
 
 export const metadata: Metadata = {
-  title: 'Next.js SaaS Starter',
+  title: 'Triangl',
   description: 'Get started quickly with Next.js, Postgres, and Stripe.',
 };
 
@@ -48,10 +48,10 @@ export default async function RootLayout({
       className={`${instrumentSans.className}`}
     >
       <head>
-        <script
+        {/* <script
           crossOrigin="anonymous"
           src="//unpkg.com/react-scan/dist/auto.global.js"
-        />
+        /> */}
         {/* rest of your scripts go under */}
       </head>
       <body

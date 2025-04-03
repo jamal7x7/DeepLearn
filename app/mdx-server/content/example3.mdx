@@ -26,7 +26,19 @@ $$
 You can define custom macros for convenience. For example, if you want to define a Fourier transform, you can use:
 $$
 % \f is defined as #1f(#2) using the macro
-\f\relax{x} = \int_{-\infty}^\infty
-    \f\hat\xi\,e^{2 \pi i \xi x}
+f\relax{x} = \int_{-\infty}^\infty
+    f\hat\xi\,e^{2 \pi i \xi x}
     \,d\xi
 $$
+
+---
+$\sum_{i=1}^\infty\frac{1}{n^2}
+=\frac{\pi^2}{6}$
+
+---
+$$
+f(x) = \int_{-\infty}^\infty\hat f(\xi)\,e^{2 \pi i \xi x}\,d\xi
+$$
+---
+
+$$ f(x) = \int_{-\infty}^\infinity\hat f(\xi)\,e^{2 \pi i \xi x}\,d\xi $$

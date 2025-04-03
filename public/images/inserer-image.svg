@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#f5f5f5"/>
+  <rect x="50" y="50" width="700" height="400" rx="10" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+  
+  <!-- Word Ribbon -->
+  <rect x="50" y="50" width="700" height="80" rx="5" fill="#2b579a"/>
+  
+  <!-- Insert Tab (Active) -->
+  <rect x="145" y="50" width="80" height="30" rx="5" fill="#4472c4"/>
+  <text x="185" y="70" font-family="Arial" font-size="14" fill="white" text-anchor="middle">Insertion</text>
+  
+  <!-- Home Tab -->
+  <rect x="60" y="50" width="80" height="30" rx="5" fill="#2b579a"/>
+  <text x="100" y="70" font-family="Arial" font-size="14" fill="white" text-anchor="middle">Accueil</text>
+  
+  <!-- File Tab -->
+  <rect x="230" y="50" width="80" height="30" rx="5" fill="#2b579a"/>
+  <text x="270" y="70" font-family="Arial" font-size="14" fill="white" text-anchor="middle">Fichier</text>
+  
+  <!-- Insert Ribbon -->
+  <rect x="60" y="90" width="680" height="40" rx="2" fill="#f0f0f0" stroke="#e0e0e0" stroke-width="1"/>
+  
+  <!-- Images Section (Highlighted) -->
+  <rect x="200" y="95" width="80" height="30" rx="2" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="1"/>
+  <text x="240" y="115" font-family="Arial" font-size="12" fill="#333333" text-anchor="middle">Images</text>
+  
+  <!-- Image Icon -->
+  <rect x="210" y="100" width="20" height="20" fill="#2b579a"/>
+  <circle cx="215" cy="105" r="3" fill="#ffcc00"/>
+  <polygon points="210,110 215,105 220,110 220,115 210,115" fill="#7fba00"/>
+  
+  <!-- Image Dialog Box -->
+  <rect x="150" y="150" width="500" height="250" rx="5" fill="white" stroke="#a0a0a0" stroke-width="2" filter="drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1))"/>
+  <rect x="150" y="150" width="500" height="30" rx="5 5 0 0" fill="#f0f0f0" stroke="#a0a0a0" stroke-width="1"/>
+  <text x="170" y="170" font-family="Arial" font-size="14" fill="#333333">Insérer une image</text>
+  
+  <!-- Image Sources -->
+  <rect x="170" y="190" width="460" height="30" rx="2" fill="#f9f9f9" stroke="#d0d0d0" stroke-width="1"/>
+  <text x="190" y="210" font-family="Arial" font-size="12" font-weight="bold" fill="#333333">Cet appareil</text>
+  <text x="290" y="210" font-family="Arial" font-size="12" fill="#333333">Images en ligne</text>
+  <text x="390" y="210" font-family="Arial" font-size="12" fill="#333333">OneDrive</text>
+  
+  <!-- File Browser -->
+  <rect x="170" y="230" width="460" height="130" rx="2" fill="#f9f9f9" stroke="#d0d0d0" stroke-width="1"/>
+  
+  <!-- Image Thumbnails -->
+  <rect x="180" y="240" width="80" height="60" rx="2" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="1"/>
+  <rect x="270" y="240" width="80" height="60" rx="2" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="1"/>
+  <rect x="360" y="240" width="80" height="60" rx="2" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="1"/>
+  <rect x="450" y="240" width="80" height="60" rx="2" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="1"/>
+  
+  <rect x="180" y="310" width="80" height="60" rx="2" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="1"/>
+  <rect x="270" y="310" width="80" height="60" rx="2" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="1"/>
+  <rect x="360" y="310" width="80" height="60" rx="2" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="1"/>
+  <rect x="450" y="310" width="80" height="60" rx="2" fill="#e6e6e6" stroke="#d0d0d0" stroke-width="1"/>
+  
+  <!-- Simple Image Icons in Thumbnails -->
+  <rect x="195" y="255" width="50" height="30" fill="#7fba00"/>
+  <circle cx="210" cy="265" r="5" fill="#ffcc00"/>
+  
+  <rect x="285" y="255" width="50" height="30" fill="#00a1f1"/>
+  <circle cx="300" cy="265" r="5" fill="#ffffff"/>
+  
+  <!-- Dialog Buttons -->
+  <rect x="550" y="370" width="80" height="25" rx="2" fill="#2b579a" stroke="#1e3f6f" stroke-width="1"/>
+  <text x="590" y="385" font-family="Arial" font-size="12" fill="white" text-anchor="middle">Insérer</text>
+  
+  <rect x="460" y="370" width="80" height="25" rx="2" fill="#f0f0f0" stroke="#d0d0d0" stroke-width="1"/>
+  <text x="500" y="385" font-family="Arial" font-size="12" fill="#333333" text-anchor="middle">Annuler</text>
+</svg>

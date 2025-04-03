@@ -4,15 +4,21 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { createHighlighter, Highlighter } from 'shiki';
 import Editor from 'react-simple-code-editor';
-import { Turtle } from '@/lib/turtle';
-import { TurtleStyle, TURTLE_STYLES, DEFAULT_TURTLE_STYLE } from '@/lib/turtleStyles'; // Import styles
-import { LogoInterpreter } from '@/lib/interpreter';
+// import { Turtle } from '@/lib/turtle'; // No longer needed directly
+import { TurtleStyle, TURTLE_STYLES, DEFAULT_TURTLE_STYLE } from '@/lib/turtleStyles';
+// import { LogoInterpreter } from '@/lib/interpreter'; // No longer needed directly
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { TurtleSelector } from '@/app/components/TurtleSelector'; // Import selector
+import { TurtleSelector } from '@/app/components/TurtleSelector';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Play, Square, ZoomIn, ZoomOut, RefreshCw, Palette } from 'lucide-react'; // Added Palette for consistency if needed elsewhere
+// import { Play, Square, ZoomIn, ZoomOut, RefreshCw, Palette } from 'lucide-react'; // Removed unused icons
+import { Play, Square, Gauge } from 'lucide-react'; // Added Gauge icon for speed control
+import { Slider } from "@/components/ui/slider"; // Import Slider component
+import { Label } from "@/components/ui/label"; // Import Label component
+
+// Import the new preview component
+import { TurtlePreview } from '@/app/components/TurtlePreview';
 
 // Import theme hook
 import { useTheme } from 'next-themes';
@@ -22,13 +28,19 @@ import darkTheme from '../../assets/moonlight-ii.json';
 // Import the new light theme
 import lightTheme from '../../assets/moonlight-ii-light.json'; // Changed from github-light.json
 
-const CANVAS_WIDTH = 2000;
-const CANVAS_HEIGHT = 1600;
-const CANVAS_ASPECT_RATIO = `${CANVAS_WIDTH} / ${CANVAS_HEIGHT}`;
+// Canvas size constants might not be needed here anymore, TurtlePreview uses defaults
+// const CANVAS_WIDTH = 2000;
+// const CANVAS_HEIGHT = 1600;
 const LOG_AREA_HEIGHT = '200px';
-const ZOOM_FACTOR = 1.2; // How much to zoom in/out each step
-const MIN_ZOOM = 0.2;
-const MAX_ZOOM = 5.0;
+// Zoom constants removed
+// const ZOOM_FACTOR = 1.2;
+// const MIN_ZOOM = 0.2;
+// const MAX_ZOOM = 5.0;
+
+// Speed slider constants
+const MIN_SPEED = 1;
+const MAX_SPEED = 100;
+const DEFAULT_SPEED = 10;
 
 const defaultCode = `
 ve
@@ -46,56 +58,17 @@ C 40 20 30
 
 export default function LogoPage() {
     const [code, setCode] = useState<string>(defaultCode);
-    const [logs, setLogs] = useState<string[]>([]);
-    const [isRunning, setIsRunning] = useState<boolean>(false);
+    const [logs, setLogs] = useState<string[]>(["Interpreter ready."]); // Initial log
+    const [isRunning, setIsRunning] = useState<boolean>(false); // Added back for run button control
     const [isHighlighterReady, setIsHighlighterReady] = useState(false);
-    const [canvasBgColor, setCanvasBgColor] = useState<string>('rgb(255,255,255)');
-    const [zoomLevel, setZoomLevel] = useState<number>(1);
-    const [currentTurtleStyle, setCurrentTurtleStyle] = useState<TurtleStyle>(DEFAULT_TURTLE_STYLE); // Add state for turtle style
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-    const turtleInstanceRef = useRef<Turtle | null>(null);
-    const interpreterInstanceRef = useRef<LogoInterpreter | null>(null);
+    const [currentTurtleStyle, setCurrentTurtleStyle] = useState<TurtleStyle>(DEFAULT_TURTLE_STYLE);
+    const [animationSpeed, setAnimationSpeed] = useState<number>(DEFAULT_SPEED); // Add state for animation speed
     const highlighterRef = useRef<Highlighter | null>(null);
 
     // Get theme info
     const { resolvedTheme } = useTheme();
 
-    useEffect(() => {
-        if (canvasRef.current && !interpreterInstanceRef.current) {
-            const canvas = canvasRef.current;
-            const ctx = canvas.getContext('2d');
-            if (ctx) {
-                canvas.width = CANVAS_WIDTH;
-                canvas.height = CANVAS_HEIGHT;
-
-                // Determine initial background based on theme
-                const initialBg = resolvedTheme === 'dark' ? 'rgb(30, 30, 30)' : 'rgb(250, 250, 250)';
-
-                const turtle = new Turtle(
-                    ctx,
-                    CANVAS_WIDTH,
-                    CANVAS_HEIGHT,
-                    initialBg, // Pass initial background
-                    (newColor) => { setCanvasBgColor(newColor); }, // Pass update callback
-                    currentTurtleStyle // Pass initial style
-                );
-
-                setCanvasBgColor(turtle.getBackgroundColor()); // Set state from turtle's actual initial color
-
-                const interpreter = new LogoInterpreter();
-                interpreter.setTurtle(turtle);
-                turtleInstanceRef.current = turtle;
-                interpreterInstanceRef.current = interpreter;
-                turtle.clearScreen(); // Clear with initial color
-                turtle.drawTurtle();
-                setLogs(["Interpreter ready."]);
-            } else {
-                setLogs(["Error: Failed to initialize Canvas."]);
-            }
-        }
-    // Re-run if theme or *initial* style changes (though style shouldn't change initially often)
-    }, [resolvedTheme, currentTurtleStyle]);
-
+    // useEffect for Shiki highlighter remains the same
     useEffect(() => {
         let isMounted = true;
         createHighlighter({
@@ -112,68 +85,39 @@ export default function LogoPage() {
             }
         });
         return () => { isMounted = false; };
-    }, []);
+    }, []); // End of Shiki useEffect
 
-    const handleRunCode = useCallback(async () => {
-        const interpreter = interpreterInstanceRef.current;
-        if (!interpreter) return;
+    // Added back run and stop handlers
+    const handleRunCode = useCallback(() => {
         setIsRunning(true);
-        setLogs(["Running code..."]);
-        let finalLogs: string[] = [];
-        try {
-            finalLogs = await interpreter.execute(code);
-        } catch (error) {
-            if (error instanceof Error && error.message === "STOP") {
-                finalLogs = [...interpreter.getLog()];
-            } else {
-                console.error("Unexpected error during handleRunCode:", error);
-                finalLogs = [...interpreter.getLog(), `UNEXPECTED UI ERROR: ${error instanceof Error ? error.message : String(error)}`];
-            }
-        } finally {
-            setLogs(finalLogs);
-            setIsRunning(false);
-        }
-    }, [code]);
+    }, []);
 
     const handleStopCode = useCallback(() => {
-        const interpreter = interpreterInstanceRef.current;
-        if (interpreter && isRunning) {
-            interpreter.requestStop();
-        }
-    }, [isRunning]);
+        setIsRunning(false);
+    }, []);
 
-    // Style Change Handler
+    // Style Change Handler - Simplified
     const handleStyleChange = useCallback((newStyle: TurtleStyle) => {
         setCurrentTurtleStyle(newStyle);
-        if (turtleInstanceRef.current) {
-            turtleInstanceRef.current.setStyle(newStyle);
-            // Force a redraw if the turtle is visible and not currently running code
-            // This requires modifying the interpreter or having a dedicated redraw function
-            // For now, the style change will apply on the next interpreter step or run
-             if (turtleInstanceRef.current.getIsVisible() && !isRunning) { // Use getter here
-               // Simple redraw logic: clear and draw turtle in new style
-               // Note: This clears any existing drawings if called standalone.
-               // A better approach might involve a dedicated redraw function in the interpreter
-               // that preserves the drawing state.
-               // turtleInstanceRef.current.clearScreen(); // Avoid clearing full screen
-               // turtleInstanceRef.current.drawTurtle(); // Draw with new style
-               console.log("Style changed, redraw needed (manual trigger or next run)");
-             }
+        // TurtlePreview component will react to the prop change
+    }, []);
+
+    // Speed Change Handler
+    const handleSpeedChange = useCallback((value: number[]) => {
+        const newSpeed = value[0];
+        if (newSpeed !== undefined) {
+            // Update the turtle style with the new speed
+            setCurrentTurtleStyle(prevStyle => ({
+                ...prevStyle,
+                speed: newSpeed
+            }));
+            setAnimationSpeed(newSpeed);
         }
-    }, [isRunning]);
-
-
-    // Zoom Handlers
-    const handleZoomIn = useCallback(() => {
-        setZoomLevel(prev => Math.min(MAX_ZOOM, prev * ZOOM_FACTOR));
     }, []);
 
-    const handleZoomOut = useCallback(() => {
-        setZoomLevel(prev => Math.max(MIN_ZOOM, prev / ZOOM_FACTOR));
-    }, []);
-
-    const handleResetZoom = useCallback(() => {
-        setZoomLevel(1);
+    // Log Handler for TurtlePreview
+    const handleInterpreterLog = useCallback((newLogs: string[]) => {
+        setLogs(newLogs);
     }, []);
 
     // Determine theme names from imported JSONs
@@ -186,25 +130,42 @@ export default function LogoPage() {
 
                 <div className="w-1/3 h-full flex flex-col">
                     <Card
-                        className="relative flex flex-col flex-grow border bg-card"
+                        className="relative flex flex-col flex-grow border bg-card" // Keep Card structure
                     >
-                        <div className="absolute bottom-2 right-2 z-10 flex gap-2">
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button onClick={handleRunCode} size="icon" aria-label="Run Code" disabled={isRunning} className="h-8 w-8">
-                                        <Play className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Execute Code</p></TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button onClick={handleStopCode} size="icon" variant="destructive" aria-label="Stop Code" disabled={!isRunning} className="h-8 w-8">
-                                        <Square className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Stop Execution</p></TooltipContent>
-                            </Tooltip>
+                        {/* Add Run button */}
+                        <div className="absolute bottom-4 right-4 z-10 flex gap-2">
+                            {isRunning ? (
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button 
+                                            variant="destructive" 
+                                            size="sm" 
+                                            onClick={handleStopCode}
+                                            className="flex items-center gap-2"
+                                        >
+                                            <Square className="h-4 w-4" />
+                                            Stop Execution
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>Stop Logo Execution</TooltipContent>
+                                </Tooltip>
+                            ) : (
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button 
+                                            variant="default" 
+                                            size="sm" 
+                                            onClick={handleRunCode}
+                                            disabled={isRunning}
+                                            className="bg-primary hover:bg-primary/90 text-primary-foreground flex items-center gap-2"
+                                        >
+                                            <Play className="h-4 w-4" />
+                                            Run Code
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>Execute Logo Code</TooltipContent>
+                                </Tooltip>
+                            )}
                         </div>
 
                         <CardContent className="flex flex-col flex-grow p-0 overflow-hidden">
@@ -246,64 +207,55 @@ export default function LogoPage() {
                 </div>
 
                 <div className="w-2/3 h-full flex flex-col gap-4">
+                    {/* Card containing the Turtle Preview */}
                     <Card
-                        className="relative flex flex-col flex-grow overflow-hidden border"
-                        style={{ backgroundColor: canvasBgColor }}
+                        className="relative flex flex-col flex-grow overflow-hidden border py-0"
                     >
-                        {/* Top Right Controls Area */}
-                        <div className="absolute top-2 right-2 z-10">
-                             <TurtleSelector
+                        {/* Top Right Controls Area - Keep TurtleSelector */}
+                        <div className="absolute top-2 right-2 z-10 flex items-center gap-3">
+                            {/* Speed Slider */}
+                            <div className="flex items-center gap-2 bg-card/80 backdrop-blur-sm rounded-md p-2 shadow-sm border">
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <div className="flex items-center gap-2">
+                                            <Gauge className="h-4 w-4 text-muted-foreground" />
+                                            <Label htmlFor="speed-slider" className="text-xs text-muted-foreground whitespace-nowrap">
+                                                Speed: {animationSpeed}
+                                            </Label>
+                                        </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent side="bottom">Adjust Animation Speed</TooltipContent>
+                                </Tooltip>
+                                <Slider
+                                    id="speed-slider"
+                                    className="w-24"
+                                    min={MIN_SPEED}
+                                    max={MAX_SPEED}
+                                    step={1}
+                                    value={[animationSpeed]}
+                                    onValueChange={handleSpeedChange}
+                                />
+                            </div>
+                            <TurtleSelector
                                 currentStyle={currentTurtleStyle}
                                 onStyleSelect={handleStyleChange}
                             />
                         </div>
 
-                        {/* Bottom Right Controls Area */}
-                        <div className="absolute bottom-2 right-2 z-10 flex gap-1">
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button onClick={handleZoomIn} variant="outline" size="icon" className="h-8 w-8 bg-background/50 hover:bg-background/75 backdrop-blur-sm" aria-label="Zoom In">
-                                        <ZoomIn className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Zoom In</p></TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button onClick={handleZoomOut} variant="outline" size="icon" className="h-8 w-8 bg-background/50 hover:bg-background/75 backdrop-blur-sm" aria-label="Zoom Out">
-                                        <ZoomOut className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Zoom Out</p></TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button onClick={handleResetZoom} variant="outline" size="icon" className="h-8 w-8 bg-background/50 hover:bg-background/75 backdrop-blur-sm" aria-label="Reset Zoom">
-                                        <RefreshCw className="h-4 w-4" />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent><p>Reset Zoom (1:1)</p></TooltipContent>
-                            </Tooltip>
-                        </div>
-
+                        {/* Replace Canvas with TurtlePreview */}
                         <CardContent className="flex justify-center items-center p-0 flex-grow overflow-hidden">
-                            <div className="w-full h-full overflow-hidden flex justify-center items-center">
-                                <canvas
-                                    ref={canvasRef}
-                                    className="bg-transparent transition-transform duration-100 ease-linear"
-                                    style={{
-                                        transform: `scale(${zoomLevel})`,
-                                        transformOrigin: 'center center',
-                                    }}
-                                    width={CANVAS_WIDTH}
-                                    height={CANVAS_HEIGHT}
-                                >
-                                    Your browser does not support the canvas element.
-                                </canvas>
-                            </div>
+                           <TurtlePreview
+                                code={code}
+                                style={currentTurtleStyle}
+                                isRunning={isRunning}
+                                requestStop={handleStopCode}
+                                onLog={handleInterpreterLog}
+                                backgroundColor={resolvedTheme === 'dark' ? '#1e1e1e' : '#fafafa'}
+                           />
                         </CardContent>
                     </Card>
 
+                    {/* Log Area Card remains the same */}
                     <Card className="relative flex flex-col border bg-card" style={{ height: LOG_AREA_HEIGHT }}>
                         <CardContent className="flex-grow flex flex-col p-0">
                             <ScrollArea className="w-full h-full rounded-md bg-muted/40 flex-grow">
@@ -314,6 +266,7 @@ export default function LogoPage() {
                         </CardContent>
                     </Card>
                 </div>
+
             </div>
         </TooltipProvider>
     );

@@ -1,0 +1,136 @@
+---
+title: Logo - Simplifiez vos Dessins avec les Procédures (Petit Texte)
+description: Découvrez l'utilité des procédures en Logo à travers un exercice, puis apprenez à les définir, les utiliser et les gérer - version petit texte.
+---
+
+
+
+# Les Procédures en Logo : Enseigner de Nouveaux Ordres à la Tortue
+
+---
+
+## 1. Pourquoi Utiliser des Procédures ? (Le Rappel)
+
+Comme l'exercice précédent l'a montré, écrire et réécrire les mêmes séquences de commandes est :
+
+*   **Long et fastidieux**.
+*   **Source d'erreurs** (une faute de frappe est vite arrivée !).
+*   **Difficile à modifier** (si on veut changer la taille du carré partout, il faut le faire à plusieurs endroits).
+
+C'est là qu'interviennent les **procédures** ! Une procédure vous permet :
+
+*   **D'enseigner une nouvelle commande à Logo** : Vous donnez un nom simple (ex: `CARRE`) à une séquence d'instructions (ex: `REPETE 4 [AV 50 TD 90]`).
+*   **De réutiliser du code facilement** : Une fois définie, vous appelez la procédure par son nom (`CARRE`) autant de fois que nécessaire.
+*   **D'organiser et de simplifier vos programmes** : Votre code devient plus court, plus lisible et plus facile à comprendre et à modifier.
+
+## 2. Définir une Procédure
+
+Une procédure en Logo est comme une recette : vous lui donnez un nom et vous décrivez les étapes (les commandes Logo) à suivre. Logo s'en souviendra et exécutera ces étapes chaque fois que vous utiliserez le nom de la procédure.
+
+La définition d'une procédure commence toujours par le mot-clé `POUR`, suivi du nom que vous choisissez pour votre nouvelle commande, et se termine par le mot-clé `FIN`.
+
+**Syntaxe générale :**
+
+```logo
+POUR <nom_de_la_procedure>
+  ; Commandes à exécuter ici
+  ; ...
+  <liste des commandes à exécuter>
+  ; ...
+FIN ; Fin de la procédure <nom_de_la_procedure>
+```
+
+*   `<nom_de_la_procedure>` : Le nom que vous inventez (évitez les espaces et les caractères spéciaux, et les noms de commandes Logo existantes comme `AV` ou `POUR`). Utilisez un nom descriptif (par exemple, `MAISON`, `ETOILE5`, `CARRE`).
+*   `<liste des commandes à exécuter>` : Une ou plusieurs commandes Logo valides que la tortue doit effectuer lorsque cette procédure est appelée. L'indentation (le petit décalage vers la droite) n'est pas obligatoire pour Logo mais rend le code beaucoup plus facile à lire pour les humains.
+*   `FIN` : Marque la fin de la définition de la procédure.
+*   `;` : Le point-virgule marque le début d'un commentaire. Tout ce qui suit sur la même ligne est ignoré par Logo, mais utile pour expliquer le code.
+
+*Note :* Généralement, vous écrivez cette définition dans **l'éditeur de procédures** de votre environnement Logo (par exemple, l'éditeur intégré dans XLogo en cliquant sur l'icône appropriée ou via le menu "Edite"), pas directement dans la ligne de commande principale. Une fois écrite, vous devez la "valider" ou "définir" pour que Logo l'apprenne.
+
+## 3. Exemple Concret : La Procédure `CARRE50`
+
+Reprenons notre exercice. Créons une procédure nommée `CARRE50` qui demande à la tortue de dessiner un carré de 50 pas de côté.
+
+Dans l'éditeur de procédures, écrivez :
+
+```logo
+POUR CARRE50
+  ; Dessine un carré dont le côté mesure 50 pas
+  REPETE 4 [ AV 50 TD 90 ]
+FIN ; Fin de la procédure CARRE50
+```
+
+**Explication :**
+
+1.  `POUR CARRE50` : Indique le début de la définition de notre nouvelle commande `CARRE50`.
+2.  `REPETE 4 [ AV 50 TD 90 ]` : C'est l'instruction qui dessine le carré de taille 50.
+3.  `FIN` : Marque la fin de la définition de la procédure `CARRE50`.
+
+Validez cette définition dans l'éditeur. Logo connaît maintenant la commande `CARRE50`.
+
+## 4. Utiliser (Appeler) une Procédure
+
+Pour que la tortue exécute les instructions définies dans votre procédure, il vous suffit de taper le nom de la procédure dans la **ligne de commande principale** et d'appuyer sur `Entrée`.
+
+**Relevons le Défi des Carrés (Version Simplifiée) :**
+
+Maintenant, refaisons l'exercice initial en utilisant notre procédure `CARRE50`. Tapez ceci dans la ligne de commande :
+
+```logo
+VE
+
+CARRE50  ; Dessine le premier carré
+
+PU AV 70 PD ; Se déplace pour le suivant
+
+CARRE50  ; Dessine le deuxième carré
+
+PU AV 70 PD ; Se déplace pour le suivant
+
+CARRE50  ; Dessine le troisième carré
+```
+
+**Comparez !**
+
+*   C'est beaucoup plus court et plus clair, non ?
+*   Le code exprime mieux ce que l'on veut faire : "Dessine un carré, déplace-toi, dessine un carré, déplace-toi, dessine un carré".
+*   **Le gros avantage :** Si vous voulez maintenant des carrés de taille 80, il vous suffit de modifier **UNE SEULE FOIS** la procédure `CARRE50` dans l'éditeur (changer `AV 50` en `AV 80`), de la redéfinir, et ensuite, en retapant les mêmes commandes d'appel (`CARRE50`, `PU AV 100 PD` - attention à ajuster le déplacement !), tous les carrés auront la nouvelle taille ! (Nous verrons plus tard comment rendre la taille encore plus flexible avec les *paramètres*).
+
+## 5. Gérer les Procédures Mémorisées
+
+Logo (ou XLogo) mémorise toutes les procédures que vous définissez pendant votre session de travail.
+
+Si vous souhaitez supprimer une procédure dont vous n'avez plus besoin (par exemple, pour la corriger ou la redéfinir proprement), vous pouvez utiliser la commande `EFFACENOM`.
+
+**Syntaxe :**
+
+```logo
+EFFACENOM "<nom_de_la_procedure>"
+```
+
+*Important :* Notez les **guillemets** (`"`) *avant* le nom de la procédure. Ce guillemet indique à Logo que `CARRE50` est un mot (le nom de la procédure) et non une commande à exécuter immédiatement.
+
+**Exemple :**
+
+Pour effacer la procédure `CARRE50` que nous avons créée :
+
+```logo
+EFFACENOM "CARRE50
+```
+
+Après avoir exécuté cette commande, si vous essayez à nouveau de taper `CARRE50` dans la ligne de commande, Logo vous indiquera qu'il ne connaît plus cette commande (par exemple, avec un message comme `"Je ne sais pas comment faire CARRE50"`).
+
+Pour voir la liste des procédures actuellement mémorisées, vous pouvez souvent utiliser la commande `POTS` (POur TouS) ou consulter une section spécifique de l'interface de votre logiciel Logo.
+
+## En Résumé
+
+Les procédures sont un concept fondamental et très puissant en Logo. Elles vous permettent de :
+
+*   **Créer vos propres commandes personnalisées.**
+*   **Rendre votre code plus court, plus clair et plus facile à modifier.**
+*   **Réutiliser des séquences d'instructions sans les retaper.**
+*   **Structurer vos projets de dessin, même les plus complexes, en les décomposant en tâches plus simples.**
+
+Entraînez-vous ! Essayez de créer des procédures pour d'autres formes : un triangle équilatéral (`TRIANGLE`), une maison simple (`MAISON`), une étoile (`ETOILE`), etc. C'est la meilleure façon de maîtriser cet outil essentiel.
+
+

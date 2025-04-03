@@ -11,8 +11,14 @@ interface CurrentMdxData {
     content: string;
 }
 
+// Define the shape of front-matter data
+interface FrontMatter {
+    [key: string]: any;
+}
+
 export default function StudentStreamPage() {
     const [serializedSource, setSerializedSource] = useState<MDXRemoteSerializeResult | null>(null);
+    const [frontMatter, setFrontMatter] = useState<FrontMatter | null>(null);
     const [currentFileName, setCurrentFileName] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -36,6 +42,7 @@ export default function StudentStreamPage() {
 
             const data = await response.json();
             setSerializedSource(data.serializedSource);
+            setFrontMatter(data.frontMatter || null);
             setCurrentFileName(fileName);
         } catch (err) {
             console.error("Failed to compile MDX:", err);
@@ -93,14 +100,35 @@ export default function StudentStreamPage() {
 
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">Student Content Stream</h1>
-            {currentFileName && <p className="text-sm text-muted-foreground mb-4">Displaying: {currentFileName}</p>}
+            {/* <h1 className="text-2xl font-bold mb-4">Student Content Stream</h1>
+            {currentFileName && <p className="text-sm text-muted-foreground mb-4">Displaying: {currentFileName}</p>} */}
 
             {isLoading && <div>Loading content...</div>}
             {error && <div className="text-red-600 border border-red-600 p-3 rounded bg-red-50">Error: {error}</div>}
 
+            {/* Display front-matter metadata if available */}
+            {!isLoading && !error && frontMatter && Object.keys(frontMatter).length > 0 && (
+                <div className="hidden mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
+                    <h2 className="text-lg font-semibold mb-2">Metadata</h2>
+                    <dl className="grid grid-cols-2 gap-x-4 gap-y-2">
+                        {Object.entries(frontMatter).map(([key, value]) => (
+                            <React.Fragment key={key}>
+                                <dt className="font-medium text-gray-600 dark:text-gray-400">{key}:</dt>
+                                <dd className="text-gray-800 dark:text-gray-200">
+                                    {typeof value === 'object' ? JSON.stringify(value) : String(value)}
+                                </dd>
+                            </React.Fragment>
+                        ))}
+                    </dl>
+                </div>
+            )}
+            
             {!isLoading && !error && serializedSource && (
-                <MdxRenderer serializedSource={serializedSource} />
+                                // <div className=" mb-4 pt-20 bg-gray-50 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
+                                <div className=" mb-4 pt-20  rounded border border-gray-200 dark:border-gray-700">
+
+                <MdxRenderer serializedSource={serializedSource} frontMatter={frontMatter || undefined} />
+                </div>
             )}
              {!isLoading && !error && !serializedSource && (
                 <div>No content is currently being streamed or an error occurred.</div>

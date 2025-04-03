@@ -47,6 +47,11 @@ const data = {
       icon: IconDashboard,
     },
     {
+      title: "Teacher Control",
+      url: "/dashboard/teacher-control",
+      icon: IconFileDescription,
+    },
+    {
       title: "Lifecycle",
       url: "#",
       icon: IconListDetails,

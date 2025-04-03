@@ -1,0 +1,87 @@
+---
+title: Logo - Simplifiez vos Dessins avec les Procédures
+description: Découvrez l'utilité des procédures en Logo à travers un exercice, puis apprenez à les définir, les utiliser et les gérer.
+---
+
+# TP
+
+## Exercice d'Introduction : Le Défi des Carrés Répétitifs. 
+
+> ###### Avant de plonger dans la définition formelle des procédures, faisons un petit exercice pour comprendre *pourquoi* elles sont si utiles.  
+
+# 
+
+---
+<ExerciseCard title={'Votre Mission'} className="mission-card">
+  
+ 
+    Dessiner trois carrés identiques, côte à côte, comme ceci (imaginez les carrés) :
+    
+    {/* <svg width="500" height="200" viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" style={{ verticalAlign: 'middle', margin: '0 5px' }}>
+      <rect x="5" y="5" width="200" height="200" stroke="white" strokeWidth="1.5" fill="none" />
+      <rect x="305" y="5" width="200" height="200" stroke="white" strokeWidth="1.5" fill="none" />
+      <rect x="605" y="5" width="200" height="200" stroke="white" strokeWidth="1.5" fill="none" />
+    </svg> */}
+
+
+<figure 
+  className="flex flex-col gap-1 rounded-xl bg-gray-950/5 p-1 inset-ring inset-ring-gray-950/5 dark:bg-white/10 dark:inset-ring-white/10"
+>
+<div className="not-prose overflow-auto rounded-lg bg-white outline outline-white/5 dark:bg-gray-950/50">
+  
+       <svg width="500" height="200" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg" style={{ verticalAlign: 'middle', margin: '0 auto', display: 'block' }}>
+      <rect x="150" y="50" width="100" height="100" stroke="white" strokeWidth="1.5" fill="none" />
+      <rect x="350" y="50" width="100" height="100" stroke="white" strokeWidth="1.5" fill="none" />
+      <rect x="550" y="50" width="100" height="100" stroke="white" strokeWidth="1.5" fill="none" />
+    </svg>
+   
+   
+   
+  </div>
+
+<small className="p-4 ">Chaque carré aura un côté de 100 pas, et il y aura un espace de 100 pas entre chaque carré.</small>
+  
+</figure >   
+</ExerciseCard>   
+
+
+
+**Instructions (La manière "longue") :**
+
+Essayez de réaliser ce dessin en tapant les commandes suivantes directement dans la ligne de commande de Logo. Appuyez sur `Entrée` après chaque ligne.
+
+```logo
+VE  ; Efface l'écran et remet la tortue au centre (juste au cas où)
+
+; Dessiner le premier carré
+REPETE 4 [ AV 50 TD 90 ]
+
+; Se déplacer pour le deuxième carré (sans dessiner)
+PU       ; Lève le crayon
+AV 70    ; Avance (50 pour le côté + 20 pour l'espace)
+PD       ; Pose le crayon
+
+; Dessiner le deuxième carré
+REPETE 4 [ AV 50 TD 90 ]
+
+; Se déplacer pour le troisième carré (sans dessiner)
+PU       ; Lève le crayon
+AV 70    ; Avance (50 pour le côté + 20 pour l'espace)
+PD       ; Pose le crayon
+
+; Dessiner le troisième carré
+REPETE 4 [ AV 50 TD 90 ]
+```
+
+**Réfléchissons un instant :**
+
+1.  Avez-vous trouvé cela un peu **long et répétitif** à taper ?
+2.  Avez-vous remarqué que la commande `REPETE 4 [ AV 50 TD 90 ]` est utilisée **exactement de la même manière** trois fois ?
+3.  Imaginez que vous deviez dessiner **10 carrés** au lieu de 3. Serait-ce pratique de tout retaper ?
+4.  Et si, après avoir tout tapé, vous décidiez que les carrés devraient avoir une taille de **80 pas** au lieu de 50 ? Combien de lignes de code devriez-vous modifier ? (Réponse : 3 lignes !)
+
+Ce genre de répétition est exactement le problème que les **procédures** viennent résoudre ! Elles nous permettent de donner un nom simple (comme `CARRE50`) à une série d'instructions et de réutiliser ce nom autant de fois que nécessaire.
+
+Maintenant que vous avez ressenti le besoin, découvrons comment créer et utiliser ces fameuses procédures.
+
+---

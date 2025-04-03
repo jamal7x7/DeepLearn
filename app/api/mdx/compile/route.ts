@@ -4,6 +4,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import remarkGfm from 'remark-gfm';
 import rehypePrismPlus from 'rehype-prism-plus'; // For syntax highlighting
+import matter from 'gray-matter'; // For parsing front-matter
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +15,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing or invalid mdxContent in request body' }, { status: 400 });
     }
 
-    const serializedSource = await serialize(rawMdx, {
+    // Parse front-matter from MDX content
+    const { content, data: frontMatter } = matter(rawMdx);
+
+    // Serialize the MDX content without front-matter
+    const serializedSource = await serialize(content, {
       mdxOptions: {
         remarkPlugins: [
           remarkGfm, // Tables, footnotes, strikethrough, task lists
@@ -30,7 +35,11 @@ export async function POST(request: Request) {
       // scope: { data: 'someValue' },
     });
 
-    return NextResponse.json({ serializedSource });
+    // Return both serialized content and front-matter metadata
+    return NextResponse.json({ 
+      serializedSource,
+      frontMatter 
+    });
 
   } catch (error) {
     console.error("MDX Serialization Error:", error);
