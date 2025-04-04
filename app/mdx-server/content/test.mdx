@@ -1,8 +1,64 @@
----
-title: test
-description: New MDX document
+### **Exercice : Calcul avec des adresses absolues dans Excel**
+
+{/* #### **Objectif :**
+Apprendre à utiliser les **références absolues** (`$A$1`) dans une formule Excel pour fixer une cellule lors de la recopie.
+
 ---
 
-# test
+### **Énoncé de l’exercice :**
 
-Write your content here...
+Tu veux calculer le **prix TTC** (Toutes Taxes Comprises) d’une liste de produits.  
+La **TVA** (taxe) est de **20 %**, indiquée dans une cellule séparée.
+
+--- */}
+
+#### **Étapes à suivre :**
+
+1. **Ouvre Excel** et remplis les cellules comme ci-dessous :
+
+|     | A        | B          | C         |  
+|-----|----------|------------|-----------|  
+| 1    | Produit  | Prix HT (dhs)| Prix TTC (dhs) |  
+| 2    | Livre    | 10         |           |  
+|  3   | Clé USB  | 15         |           |  
+|  4   | Souris   | 25         |           |  
+|  5   |          |            |           |  
+|  6   | TVA (%)  | 20         |           |  
+
+> La valeur **20** est en cellule **B6** (TVA)
+
+---
+
+2. Dans la cellule **C2**, saisis la formule suivante :  
+```excel
+= B2 * (1 + $B$6 / 100)
+```
+
+3. Recopie la formule de **C2 à C4** (avec le petit carré en bas à droite de la cellule).
+
+---
+
+#### **Résultat attendu :**
+
+| Produit  | Prix HT (€) | Prix TTC (€) |
+|----------|-------------|---------------|
+| Livre    | 10          | 12            |
+| Clé USB  | 15          | 18            |
+| Souris   | 25          | 30            |
+
+---
+
+### **Explication :**
+
+- `$B$6` est une **adresse absolue** : elle **ne change pas** quand on copie la formule.
+- Si tu avais écrit `B6` (adresse relative), Excel aurait modifié la référence lors de la recopie (et les résultats seraient faux).
+
+---
+
+### **Extension possible (facultative)** :
+
+- Modifier la valeur de TVA dans **B6** et observer comment **toutes les valeurs en colonne C se mettent à jour automatiquement**.
+
+---
+
+Souhaites-tu une version PDF imprimable ou intégrée à un fichier Excel exemple ? 

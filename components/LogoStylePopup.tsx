@@ -3,12 +3,18 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'; // Adjust import path if needed
-import { Button } from '@/components/ui/button'; // Adjust import path if needed
-import { Label } from '@/components/ui/label'; // Adjust import path if needed
-import { Slider } from '@/components/ui/slider'; // Adjust import path if needed
-import { TurtleStyle, TURTLE_STYLES } from '@/lib/turtleStyles'; // Adjust import path if needed
-import { Settings } from 'lucide-react'; // Example icon
+} from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { TurtleStyle, TURTLE_STYLES } from '@/lib/turtleStyles';
+import { Settings, ChevronDown } from 'lucide-react';
 
 interface LogoStylePopupProps {
   selectedStyle: TurtleStyle;
@@ -26,13 +32,13 @@ export function LogoStylePopup({
     }
   };
 
-  // TODO: Implement style selection (e.g., dropdown or radio group)
-  // const handleStyleSelect = (styleId: string) => {
-  //   const newStyle = TURTLE_STYLES.find(s => s.id === styleId);
-  //   if (newStyle) {
-  //     onStyleChange({ ...newStyle, speed: selectedStyle.speed }); // Keep current speed when changing style
-  //   }
-  // };
+  const handleStyleSelect = (styleId: string) => {
+    const newStyle = TURTLE_STYLES.find(s => s.id === styleId);
+    if (newStyle) {
+      // Immediately apply the style change while preserving the current speed
+      onStyleChange({ ...newStyle, speed: selectedStyle.speed });
+    }
+  };
 
   return (
     <Popover>
@@ -51,14 +57,29 @@ export function LogoStylePopup({
             </p>
           </div>
           <div className="grid gap-2">
-            {/* Placeholder for Style Selection */}
+            {/* Style Selection Dropdown */}
             <div className="grid grid-cols-3 items-center gap-4">
               <Label htmlFor="turtle-style">Style</Label>
               <div className="col-span-2">
-                {/* Replace with actual style selector */}
-                <span className="text-sm text-muted-foreground">
-                  {selectedStyle.name} (Selector TBD)
-                </span>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="w-full justify-between">
+                      {selectedStyle.name}
+                      <ChevronDown className="h-4 w-4 opacity-50" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-full">
+                    {TURTLE_STYLES.map((style) => (
+                      <DropdownMenuItem
+                        key={style.id}
+                        onClick={() => handleStyleSelect(style.id)}
+                        className={selectedStyle.id === style.id ? "bg-accent" : ""}
+                      >
+                        {style.name}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
 

@@ -45,32 +45,60 @@ description: Découvrez l'utilité des procédures en Logo à travers un exercic
 </ExerciseCard>   
 
 
+<TutorialAccordion items={[
+  {
+    title: "Instructions (La manière 'longue')",
+    content: (
+     <code>
+</code>
+
+    )
+  },
+  {
+    title: "Étape 2: Utiliser l'équation mathématique",
+    content: (
+      <ol>
+        <li>Va dans l'onglet "Insertion"</li>
+        <li>Clique sur "Équation"</li>
+        <li>Choisis une équation prédéfinie ou "Nouvelle équation"</li>
+        <li>Utilise les outils d'équation pour créer des formules</li>
+      </ol>
+    )
+  }
+ 
+]} />
+
+
 
 **Instructions (La manière "longue") :**
 
 Essayez de réaliser ce dessin en tapant les commandes suivantes directement dans la ligne de commande de Logo. Appuyez sur `Entrée` après chaque ligne.
 
 ```logo
-VE  ; Efface l'écran et remet la tortue au centre (juste au cas où)
+VE  
 
-; Dessiner le premier carré
-REPETE 4 [ AV 50 TD 90 ]
 
-; Se déplacer pour le deuxième carré (sans dessiner)
-PU       ; Lève le crayon
-AV 70    ; Avance (50 pour le côté + 20 pour l'espace)
-PD       ; Pose le crayon
+REPETE 4 [ AV 100 TD 90 ]
 
-; Dessiner le deuxième carré
-REPETE 4 [ AV 50 TD 90 ]
 
-; Se déplacer pour le troisième carré (sans dessiner)
-PU       ; Lève le crayon
-AV 70    ; Avance (50 pour le côté + 20 pour l'espace)
-PD       ; Pose le crayon
+LC      
+TD 90
+AV 100    
+TG 90
+BC      
 
-; Dessiner le troisième carré
-REPETE 4 [ AV 50 TD 90 ]
+
+REPETE 4 [ AV 100 TD 90 ]
+
+
+LC       
+TD 90
+AV 200    
+TG 90
+BC       
+
+
+REPETE 4 [ AV 100 TD 90 ]
 ```
 
 **Réfléchissons un instant :**

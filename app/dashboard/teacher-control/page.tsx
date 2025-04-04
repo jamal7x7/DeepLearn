@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import io, { Socket } from 'socket.io-client';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -35,6 +35,47 @@ const [connectedSocketIds, setConnectedSocketIds] = useState<string[]>([]);
 
     // Ref to track if initial load is done to prevent premature actions
     const isInitialLoadDone = useRef(false);
+
+    // Categorize files using useMemo
+    const categorizedFiles = useMemo(() => {
+        const levels: { [key: string]: string[] } = {
+            level1: [],
+            level2: [],
+            level3: [],
+            others: [],
+        };
+        fileList.forEach(file => {
+            if (file.toLowerCase().startsWith('l1')) {
+                levels.level1.push(file);
+            } else if (file.toLowerCase().startsWith('l2')) {
+                levels.level2.push(file);
+            } else if (file.toLowerCase().startsWith('l3')) {
+                levels.level3.push(file);
+            } else {
+                levels.others.push(file);
+            }
+        });
+        // Sort files within each category alphabetically
+        Object.keys(levels).forEach(key => levels[key].sort());
+        return levels;
+    }, [fileList]);
+
+    // Helper function to render radio items (to avoid repetition)
+    const renderRadioItem = (file: string) => (
+        <div key={`stream-${file}`} className={cn(
+            "flex items-center space-x-2 rounded-md border p-3 cursor-pointer transition-all",
+            selectedFileForStream === file ? "border-primary bg-primary/5" : "hover:bg-accent"
+        )}>
+            <RadioGroupItem value={file} id={`radio-${file}`} />
+            <Label
+                htmlFor={`radio-${file}`}
+                className="flex-1 cursor-pointer flex items-center gap-2"
+            >
+                <FileText className="h-4 w-4 text-muted-foreground" />
+                <span className="font-medium">{file}</span>
+            </Label>
+        </div>
+    );
 
     // Initialize Socket.IO connection
     useEffect(() => {
@@ -282,33 +323,47 @@ Write your content here...
                                         <p>Loading files...</p>
                                     </div>
                                 ) : fileList.length > 0 ? (
-                                    <RadioGroup
-                                        value={selectedFileForStream}
-                                        onValueChange={handleStreamFileSelect}
-                                        className="grid grid-cols-1 md:grid-cols-2 gap-3"
-                                        disabled={serverStatus !== 'connected'}
-                                    >
-                                        {fileList.map((file) => (
-                                            <div key={`stream-${file}`} className={cn(
-                                                "flex items-center space-x-2 rounded-md border p-3 cursor-pointer transition-all",
-                                                selectedFileForStream === file ? "border-primary bg-primary/5" : "hover:bg-accent"
-                                            )}>
-                                                <RadioGroupItem value={file} id={`radio-${file}`} />
-                                                <Label
-                                                    htmlFor={`radio-${file}`}
-                                                    className="flex-1 cursor-pointer flex items-center gap-2"
-                                                >
-                                                    <FileText className="h-4 w-4 text-muted-foreground" />
-                                                    <span className="font-medium">{file}</span>
-                                                </Label>
-                                            </div>
-                                        ))}
-                                    </RadioGroup>
-                                ) : (
-                                    <div className="text-center py-4 border rounded-md">
-                                        <p className="text-muted-foreground">No MDX files found</p>
-                                    </div>
-                                )}
+                                   <RadioGroup
+                                       value={selectedFileForStream}
+                                       onValueChange={handleStreamFileSelect}
+                                       className="space-y-4" // Changed class for better spacing with nested tabs
+                                       disabled={serverStatus !== 'connected'}
+                                   >
+                                       <Tabs defaultValue="level1" className="w-full">
+                                           <TabsList className="grid w-full grid-cols-4 mb-4">
+                                               <TabsTrigger value="level1" disabled={categorizedFiles.level1.length === 0}>Level 1 ({categorizedFiles.level1.length})</TabsTrigger>
+                                               <TabsTrigger value="level2" disabled={categorizedFiles.level2.length === 0}>Level 2 ({categorizedFiles.level2.length})</TabsTrigger>
+                                               <TabsTrigger value="level3" disabled={categorizedFiles.level3.length === 0}>Level 3 ({categorizedFiles.level3.length})</TabsTrigger>
+                                               <TabsTrigger value="others" disabled={categorizedFiles.others.length === 0}>Others ({categorizedFiles.others.length})</TabsTrigger>
+                                           </TabsList>
+
+                                           <TabsContent value="level1" className="space-y-3">
+                                               {categorizedFiles.level1.length > 0
+                                                   ? categorizedFiles.level1.map(renderRadioItem)
+                                                   : <p className="text-sm text-muted-foreground text-center py-2">No Level 1 files found.</p>}
+                                           </TabsContent>
+                                           <TabsContent value="level2" className="space-y-3">
+                                               {categorizedFiles.level2.length > 0
+                                                   ? categorizedFiles.level2.map(renderRadioItem)
+                                                   : <p className="text-sm text-muted-foreground text-center py-2">No Level 2 files found.</p>}
+                                           </TabsContent>
+                                           <TabsContent value="level3" className="space-y-3">
+                                               {categorizedFiles.level3.length > 0
+                                                   ? categorizedFiles.level3.map(renderRadioItem)
+                                                   : <p className="text-sm text-muted-foreground text-center py-2">No Level 3 files found.</p>}
+                                           </TabsContent>
+                                           <TabsContent value="others" className="space-y-3">
+                                               {categorizedFiles.others.length > 0
+                                                   ? categorizedFiles.others.map(renderRadioItem)
+                                                   : <p className="text-sm text-muted-foreground text-center py-2">No other files found.</p>}
+                                           </TabsContent>
+                                       </Tabs>
+                                   </RadioGroup>
+                               ) : (
+                                   <div className="text-center py-4 border rounded-md">
+                                       <p className="text-muted-foreground">No MDX files found</p>
+                                   </div>
+                               )}
                             </div>
                         </CardContent>
                     </Card>

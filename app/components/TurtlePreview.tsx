@@ -140,8 +140,17 @@ export const TurtlePreview: React.FC<TurtlePreviewProps> = ({
       newState.penColor = currentTurtleState.penColor;
       newState.isVisible = currentTurtleState.isVisible;
       setCurrentTurtleState(newState);
+      
+      // Immediately redraw the canvas with the new style
+      const canvas = canvasRef.current;
+      const ctx = canvas?.getContext('2d');
+      if (ctx && canvas) {
+        clearCanvas(ctx, canvas, backgroundColor);
+        drawCompletedPath(ctx, canvas, drawnPathSegments);
+        newState.drawTurtle(ctx, canvas.width / 2, canvas.height / 2);
+      }
     }
-  }, [style]);
+  }, [style, backgroundColor]); // Removed drawnPathSegments from dependencies to fix style selection
 
   // Effect to handle canvas resizing - Only run in browser environment
   useEffect(() => {

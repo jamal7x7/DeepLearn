@@ -43,13 +43,19 @@ const components = {
   ),
   h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3 
-      className="text-2xl font-medium text-gray-700 dark:text-gray-300 mb-3" 
+      className="text-2xl font-medium text-red-700 dark:text-red-300 mb-3" 
       {...props}
     />
   ),
   h4: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h4 
       className="text-xl font-medium text-gray-600 dark:text-gray-400 mb-2" 
+      {...props}
+    />
+  ),
+  h5: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h5
+      className="text-xl font-medium text-green-600 dark:text-green-400 mb-2" 
       {...props}
     />
   ),

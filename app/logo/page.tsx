@@ -20,6 +20,9 @@ import { Label } from "@/components/ui/label"; // Import Label component
 // Import the new preview component
 import { TurtlePreview } from '@/app/components/TurtlePreview';
 
+// Import the LogoStylePopup component
+import { LogoStylePopup } from '@/components/LogoStylePopup';
+
 // Import theme hook
 import { useTheme } from 'next-themes';
 
@@ -236,11 +239,16 @@ export default function LogoPage() {
                                     onValueChange={handleSpeedChange}
                                 />
                             </div>
-                            <TurtleSelector
-                                currentStyle={currentTurtleStyle}
-                                onStyleSelect={handleStyleChange}
+                            {/* Add LogoStylePopup component */}
+                            <LogoStylePopup
+                                selectedStyle={currentTurtleStyle}
+                                onStyleChange={handleStyleChange}
                             />
                         </div>
+                        {/* <TurtleSelector
+                                currentStyle={currentTurtleStyle}
+                                onStyleSelect={handleStyleChange}
+                            /> */}
 
                         {/* Replace Canvas with TurtlePreview */}
                         <CardContent className="flex justify-center items-center p-0 flex-grow overflow-hidden">
