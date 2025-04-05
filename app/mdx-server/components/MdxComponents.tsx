@@ -4,10 +4,12 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
+
 // Composants Card pour les exercices
 export function ExerciseCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <Card className="w-full max-w-3xl mx-auto my-6 pb-6">
+      
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
@@ -198,6 +200,23 @@ export function Tip({ children }: { children: React.ReactNode }) {
       <div className="flex items-start">
         <span className="text-2xl mr-2">💡</span>
         <div>{children}</div>
+      </div>
+    </div>
+  );
+}
+
+import { GlowEffect } from '@/components/ui/glow-effect';
+
+export function GlowEffectCardBackground() {
+  return (
+    <div className='relative h-44 w-64'>
+      <GlowEffect
+        colors={['#0894FF', '#C959DD', '#FF2E54', '#FF9004']}
+        mode='static'
+        blur='medium'
+      />
+      <div className='relative h-44 w-64 rounded-lg dark:bg-black p-2 text-white bg-white dark:text-black'>
+       
       </div>
     </div>
   );

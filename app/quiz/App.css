@@ -1,0 +1,19 @@
+ /* Pour le curseur clignotant */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.blinking-cursor {
+  font-weight: normal; /* Ajustez si besoin */
+  color: black;
+  animation: blink 1s step-end infinite;
+  margin-left: -5px; /* Ajustement fin */
+}
+
+/* Assurez-vous que Tailwind et les styles shadcn/ui sont correctement configurés */
+
+
+@tailwind utilities;
+
+

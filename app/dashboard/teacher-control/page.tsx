@@ -17,6 +17,18 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import dynamic from 'next/dynamic';
+
+// Dynamically import the MdxPreview component to avoid SSR issues
+const MdxPreview = dynamic(() => import('@/app/mdx-server/components/MdxPreview'), {
+    ssr: false,
+    loading: () => <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+        <div className="bg-white dark:bg-gray-900 rounded-lg p-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+            <p className="mt-4 text-center">Chargement de la prévisualisation...</p>
+        </div>
+    </div>
+});
 
 export default function TeacherControlPage() {
     const [socket, setSocket] = useState<Socket | null>(null);
@@ -31,7 +43,8 @@ export default function TeacherControlPage() {
     const [newFileName, setNewFileName] = useState<string>('');
     const [connectionCount, setConnectionCount] = useState<number>(0);
     const [connectedSockets, setConnectedSockets] = useState<string[]>([]);
-const [connectedSocketIds, setConnectedSocketIds] = useState<string[]>([]);
+    const [connectedSocketIds, setConnectedSocketIds] = useState<string[]>([]);
+    const [showPreview, setShowPreview] = useState<boolean>(false);
 
     // Ref to track if initial load is done to prevent premature actions
     const isInitialLoadDone = useRef(false);
@@ -63,16 +76,16 @@ const [connectedSocketIds, setConnectedSocketIds] = useState<string[]>([]);
     // Helper function to render radio items (to avoid repetition)
     const renderRadioItem = (file: string) => (
         <div key={`stream-${file}`} className={cn(
-            "flex items-center space-x-2 rounded-md border p-3 cursor-pointer transition-all",
+            "flex items-center space-x-2 rounded-md border p-6 cursor-pointer transition-all",
             selectedFileForStream === file ? "border-primary bg-primary/5" : "hover:bg-accent"
         )}>
             <RadioGroupItem value={file} id={`radio-${file}`} />
             <Label
                 htmlFor={`radio-${file}`}
-                className="flex-1 cursor-pointer flex items-center gap-2"
+                className="flex-1 cursor-pointer flex items-center gap-2 "
             >
                 <FileText className="h-4 w-4 text-muted-foreground" />
-                <span className="font-medium">{file}</span>
+                <span className="font-medium ">{file}</span>
             </Label>
         </div>
     );
@@ -222,7 +235,7 @@ Write your content here...
 
     return (
         <div className="container mx-auto p-6 space-y-6">
-            <h1 className="text-3xl font-bold">Teacher Control</h1>
+            <h1 className="text-3xl font-bold ">Teacher Control</h1>
             <p className="text-muted-foreground">Manage MDX content and streaming for students</p>
 
             {/* Connected Users and Socket IDs cards - above tabs */}
@@ -298,10 +311,26 @@ Write your content here...
             </div>
 
             <Tabs defaultValue="stream" className="w-full flex-col justify-start gap-6">
-                <TabsList className="bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px] mx-4 lg:mx-6">
-                    <TabsTrigger value="stream" className="data-[state=active]:bg-background data-[state=active]:text-foreground">Stream Control</TabsTrigger>
-                    <TabsTrigger value="editor" className="data-[state=active]:bg-background data-[state=active]:text-foreground">MDX Editor</TabsTrigger>
-                </TabsList>
+                <div className="flex items-center justify-between mx-4 lg:mx-6">
+                    <TabsList className="bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]">
+                        <TabsTrigger value="stream" className="data-[state=active]:bg-background data-[state=active]:text-foreground">Stream Control</TabsTrigger>
+                        <TabsTrigger value="editor" className="data-[state=active]:bg-background data-[state=active]:text-foreground">MDX Editor</TabsTrigger>
+                    </TabsList>
+                    
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        className="gap-2"
+                        disabled={!selectedFileForStream || serverStatus !== 'connected'}
+                        onClick={() => setShowPreview(true)}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        Prévisualiser
+                    </Button>
+                </div>
                 
                 <TabsContent value="stream" className="relative flex flex-col gap-4 overflow-auto px-0 lg:px-0">
                     <Card className="@container/card">
@@ -446,6 +475,15 @@ Write your content here...
                     </Card>
                 </TabsContent>
             </Tabs>
+        
+            {/* MDX Preview Modal */}
+            {showPreview && selectedFileForStream && (
+                <MdxPreview 
+                    fileName={selectedFileForStream} 
+                    onClose={() => setShowPreview(false)} 
+                    socket={socket}
+                />
+            )}
         </div>
     );
 }

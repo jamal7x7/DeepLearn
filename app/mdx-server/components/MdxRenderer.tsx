@@ -3,9 +3,10 @@
 import React from 'react';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 // Import custom MDX components
-import { ExerciseCard, TutorialAccordion, CenteredContent, Tip } from './MdxComponents';
+import { ExerciseCard, TutorialAccordion, CenteredContent, Tip, GlowEffectCardBackground } from './MdxComponents';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { GlowEffect } from '@/components/ui/glow-effect'
 
 // Define the shape of front-matter data
 interface FrontMatter {
@@ -28,10 +29,12 @@ const components = {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
+  GlowEffect,
+  GlowEffectCardBackground,
   // Headings
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1 
-      className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-6" 
+      className="text-4xl  font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-6" 
       {...props} 
     />
   ),
