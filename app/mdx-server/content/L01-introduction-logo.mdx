@@ -1,0 +1,177 @@
+---
+title: "Introduction au Langage Logo"
+description: "Découvrir les bases de la programmation avec le langage Logo"
+difficulty: "Débutant"
+---
+
+<CenteredContent>
+
+# Introduction au Langage Logo
+
+<ExerciseCard title="Premiers pas avec la tortue Logo">
+
+Dans cette leçon, tu vas découvrir le langage de programmation Logo et faire tes premiers pas dans le monde de la programmation en dialoguant avec une tortue virtuelle.
+
+Voici ce que tu vas apprendre :
+- Ce qu'est le langage Logo et son histoire
+- Comment donner des instructions à la tortue
+- Comment créer des dessins simples avec des commandes de base
+- Comment effacer l'écran et recommencer
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Découvrir Logo et son histoire",
+    content: (
+      <div>
+        <p>Logo est un langage de programmation créé dans les années 1960 par Seymour Papert et son équipe au MIT (Massachusetts Institute of Technology). Il a été conçu spécialement pour initier les enfants à la programmation de façon ludique et visuelle.</p>
+        <p>Les principes fondamentaux de Logo :</p>
+        <ul>
+          <li>Un langage simple et accessible aux débutants</li>
+          <li>Une approche visuelle grâce à la "tortue graphique"</li>
+          <li>Un apprentissage par l'expérimentation et l'erreur</li>
+          <li>Une introduction aux concepts fondamentaux de la programmation</li>
+        </ul>
+        <p>Logo tire son nom du mot grec "logos" qui signifie "mot" ou "pensée". L'idée était de créer un langage qui permettrait aux enfants de "penser sur leur propre pensée" en programmant.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Comprendre l'interface Logo",
+    content: (
+      <div>
+        <p>L'interface de Logo comporte généralement deux zones principales :</p>
+        <ol>
+          <li><strong>La zone de dessin</strong> : C'est ici que la tortue se déplace et dessine. Au départ, la tortue est généralement au centre de l'écran, représentée par un petit triangle pointant vers le haut.</li>
+          <li><strong>La zone de commande</strong> : C'est ici que tu tapes les instructions que la tortue doit exécuter.</li>
+        </ol>
+        <p>Dans notre environnement, tu peux voir la tortue au centre de l'écran. Elle est prête à recevoir tes instructions !</p>
+        <p>Pour interagir avec Logo :</p>
+        <ol>
+          <li>Tape une commande dans la zone de commande</li>
+          <li>Appuie sur la touche Entrée pour l'exécuter</li>
+          <li>Observe le résultat dans la zone de dessin</li>
+        </ol>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Les commandes de base pour déplacer la tortue",
+    content: (
+      <div>
+        <p>Voici les commandes fondamentales pour contrôler la tortue :</p>
+        <ul>
+          <li><code>AV n</code> : Avancer (Forward) de n pas</li>
+          <li><code>RE n</code> : Reculer (Backward) de n pas</li>
+          <li><code>TD n</code> : Tourner à Droite de n degrés</li>
+          <li><code>TG n</code> : Tourner à Gauche de n degrés</li>
+        </ul>
+        <p>Exemples :</p>
+        <ul>
+          <li><code>AV 100</code> : La tortue avance de 100 pas en ligne droite</li>
+          <li><code>TD 90</code> : La tortue pivote de 90 degrés vers la droite (sans se déplacer)</li>
+          <li><code>RE 50</code> : La tortue recule de 50 pas</li>
+          <li><code>TG 45</code> : La tortue pivote de 45 degrés vers la gauche</li>
+        </ul>
+        <p>Essaie ces commandes une par une pour voir ce qui se passe !</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Dessiner des formes simples",
+    content: (
+      <div>
+        <p>En combinant les commandes de déplacement, tu peux dessiner des formes géométriques simples.</p>
+        <p><strong>Pour dessiner un carré</strong> :</p>
+        <ol>
+          <li>Tape <code>AV 100</code> et appuie sur Entrée</li>
+          <li>Tape <code>TD 90</code> et appuie sur Entrée</li>
+          <li>Tape <code>AV 100</code> et appuie sur Entrée</li>
+          <li>Tape <code>TD 90</code> et appuie sur Entrée</li>
+          <li>Tape <code>AV 100</code> et appuie sur Entrée</li>
+          <li>Tape <code>TD 90</code> et appuie sur Entrée</li>
+          <li>Tape <code>AV 100</code> et appuie sur Entrée</li>
+        </ol>
+        <p>Tu viens de dessiner un carré ! La tortue a tracé quatre segments de 100 pas chacun, en tournant de 90 degrés à chaque coin.</p>
+        <p><strong>Pour dessiner un triangle équilatéral</strong> :</p>
+        <ol>
+          <li>Tape <code>AV 100</code> et appuie sur Entrée</li>
+          <li>Tape <code>TD 120</code> et appuie sur Entrée</li>
+          <li>Tape <code>AV 100</code> et appuie sur Entrée</li>
+          <li>Tape <code>TD 120</code> et appuie sur Entrée</li>
+          <li>Tape <code>AV 100</code> et appuie sur Entrée</li>
+        </ol>
+        <p>Tu as maintenant dessiné un triangle équilatéral ! Note que l'angle de rotation est de 120 degrés (et non 60) car on mesure l'angle externe à chaque sommet.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Contrôler le crayon et effacer l'écran",
+    content: (
+      <div>
+        <p>Parfois, tu voudras déplacer la tortue sans qu'elle ne dessine, ou effacer tout ce que tu as fait pour recommencer.</p>
+        <p><strong>Commandes pour contrôler le crayon</strong> :</p>
+        <ul>
+          <li><code>LC</code> : Lever le Crayon (la tortue se déplace sans dessiner)</li>
+          <li><code>BC</code> : Baisser le Crayon (la tortue dessine en se déplaçant)</li>
+        </ul>
+        <p>Exemple d'utilisation :</p>
+        <ol>
+          <li>Tape <code>AV 50</code> (la tortue dessine une ligne)</li>
+          <li>Tape <code>LC</code> (le crayon est maintenant levé)</li>
+          <li>Tape <code>AV 50</code> (la tortue avance sans dessiner)</li>
+          <li>Tape <code>BC</code> (le crayon est à nouveau baissé)</li>
+          <li>Tape <code>AV 50</code> (la tortue dessine à nouveau)</li>
+        </ol>
+        <p><strong>Pour effacer l'écran et recommencer</strong> :</p>
+        <ul>
+          <li><code>VE</code> : Vide Écran (efface tout le dessin et replace la tortue au centre)</li>
+          <li><code>NETTOIE</code> : Efface tout le dessin mais garde la tortue à sa position actuelle</li>
+        </ul>
+        <p>Ces commandes sont très utiles quand tu veux faire plusieurs essais ou quand tu as fait une erreur.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 6: Utiliser la commande REPETE pour simplifier le code",
+    content: (
+      <div>
+        <p>Tu as peut-être remarqué que pour dessiner un carré, tu as dû répéter 4 fois la séquence <code>AV 100 TD 90</code>. Logo offre une commande pour éviter cette répétition : <code>REPETE</code>.</p>
+        <p><strong>Syntaxe</strong> : <code>REPETE nombre [commandes]</code></p>
+        <p>Exemples :</p>
+        <ul>
+          <li><code>REPETE 4 [AV 100 TD 90]</code> : Dessine un carré de 100 pas de côté</li>
+          <li><code>REPETE 3 [AV 100 TD 120]</code> : Dessine un triangle équilatéral de 100 pas de côté</li>
+          <li><code>REPETE 360 [AV 1 TD 1]</code> : Dessine un cercle approximatif</li>
+        </ul>
+        <p>La commande <code>REPETE</code> est très puissante car elle permet de simplifier ton code et de créer facilement des formes régulières.</p>
+        <p>Essaie de dessiner un hexagone (6 côtés) en utilisant <code>REPETE</code>. Quelle valeur d'angle dois-tu utiliser ?</p>
+      </div>
+    )
+  }
+]} />
+
+<Tip>
+Lorsque tu dessines des polygones réguliers avec la commande REPETE, tu peux calculer l'angle de rotation avec la formule : 360 ÷ nombre de côtés. Par exemple, pour un hexagone (6 côtés), l'angle est de 360 ÷ 6 = 60 degrés.
+</Tip>
+
+<ExerciseCard title="Exercice pratique: Créer des dessins simples avec Logo">
+
+Maintenant que tu connais les commandes de base de Logo, essaie de réaliser ces défis :
+
+1. Dessine un carré de 80 pas de côté en utilisant la commande REPETE.
+
+2. Dessine un triangle équilatéral de 120 pas de côté.
+
+3. Dessine un cercle approximatif en utilisant REPETE avec de petits déplacements et rotations.
+
+4. Crée un dessin original en combinant plusieurs formes. Par exemple, dessine une maison (un carré avec un triangle au-dessus).
+
+5. Défi bonus : Dessine une étoile à 5 branches. Indice : tu devras utiliser des angles de 144 degrés.
+
+N'hésite pas à expérimenter et à faire des erreurs ! C'est en essayant que tu apprendras le mieux. Si tu te trompes, utilise simplement la commande VE pour effacer l'écran et recommencer.
+
+</ExerciseCard>
+
+</CenteredContent>

@@ -1,0 +1,259 @@
+---
+title: "Boucles et Conditions en Logo"
+description: "Contrôler le flux d'exécution de vos programmes Logo"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Boucles et Conditions en Logo
+
+<ExerciseCard title="Contrôler le flux d'exécution de vos programmes">
+
+Dans cette leçon, tu vas apprendre à utiliser les boucles et les conditions en Logo pour créer des programmes plus intelligents et plus complexes. Ces structures te permettront de contrôler précisément quand et comment les instructions sont exécutées.
+
+Voici ce que tu vas apprendre :
+- Comment utiliser la commande REPETE pour créer des boucles
+- Comment utiliser les structures conditionnelles SI et SIFAUX
+- Comment combiner les boucles et les conditions
+- Comment utiliser la récursivité pour créer des motifs avancés
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Les boucles avec REPETE",
+    content: (
+      <div>
+        <p>Tu connais déjà la commande <code>REPETE</code>, qui est la forme de boucle la plus simple en Logo. Elle te permet de répéter un bloc d'instructions un nombre défini de fois.</p>
+        <p><strong>Syntaxe</strong> : <code>REPETE nombre [instructions]</code></p>
+        <p>Exemples :</p>
+        <pre>
+          REPETE 4 [AV 50 TD 90]  ; Dessine un carré
+          REPETE 360 [AV 1 TD 1]  ; Dessine un cercle approximatif
+        </pre>
+        <p>Tu peux aussi utiliser des variables avec <code>REPETE</code> :</p>
+        <pre>
+          DONNE "nb_cotes 6
+          DONNE "longueur 50
+          REPETE :nb_cotes [AV :longueur TD 360 / :nb_cotes]  ; Dessine un hexagone
+        </pre>
+        <p>La commande <code>REPETE</code> est très utile pour dessiner des formes régulières ou pour exécuter une séquence d'instructions plusieurs fois. Cependant, elle a une limitation : le nombre de répétitions doit être connu à l'avance.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Les conditions avec SI",
+    content: (
+      <div>
+        <p>Les conditions te permettent d'exécuter des instructions uniquement si certaines conditions sont remplies. En Logo, la commande de base pour les conditions est <code>SI</code>.</p>
+        <p><strong>Syntaxe</strong> : <code>SI condition [instructions]</code></p>
+        <p>La condition est une expression qui est évaluée comme vraie ou fausse. Si elle est vraie, les instructions entre crochets sont exécutées. Si elle est fausse, rien ne se passe.</p>
+        <p>Exemples de conditions :</p>
+        <ul>
+          <li><code>:x > 10</code> : Vrai si la valeur de x est supérieure à 10</li>
+          <li><code>:x < 5</code> : Vrai si la valeur de x est inférieure à 5</li>
+          <li><code>:x = 7</code> : Vrai si la valeur de x est égale à 7</li>
+          <li><code>:x <> 3</code> : Vrai si la valeur de x est différente de 3</li>
+        </ul>
+        <p>Exemple d'utilisation de <code>SI</code> :</p>
+        <pre>
+          DONNE "taille 50
+          SI :taille > 30 [AV :taille]  ; Avance seulement si taille > 30
+        </pre>
+        <p>Tu peux aussi utiliser <code>SI</code> dans des procédures :</p>
+        <pre>
+          POUR CARRE_CONDITIONNEL :taille
+            SI :taille > 20 [REPETE 4 [AV :taille TD 90]]
+          FIN
+          
+          CARRE_CONDITIONNEL 10  ; Ne dessine rien (taille <= 20)
+          CARRE_CONDITIONNEL 30  ; Dessine un carré (taille > 20)
+        </pre>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Les conditions avec SIFAUX",
+    content: (
+      <div>
+        <p>La commande <code>SIFAUX</code> (ou <code>SISINON</code> dans certaines versions de Logo) est une extension de <code>SI</code> qui te permet de spécifier des instructions à exécuter si la condition est fausse.</p>
+        <p><strong>Syntaxe</strong> : <code>SIFAUX condition [instructions_si_vrai] [instructions_si_faux]</code></p>
+        <p>Exemple :</p>
+        <pre>
+          DONNE "taille 15
+          SIFAUX :taille > 20 [
+            REPETE 4 [AV :taille TD 90]  ; Si taille > 20, dessine un carré
+          ] [
+            REPETE 3 [AV :taille TD 120]  ; Sinon, dessine un triangle
+          ]
+        </pre>
+        <p>Dans cet exemple, comme la valeur de <code>taille</code> (15) n'est pas supérieure à 20, c'est le triangle qui sera dessiné.</p>
+        <p>Tu peux utiliser <code>SIFAUX</code> pour créer des procédures qui se comportent différemment selon les paramètres :</p>
+        <pre>
+          POUR DESSINE_FORME :nb_cotes :taille
+            SIFAUX :nb_cotes < 3 [
+              ; Si nb_cotes >= 3, dessine un polygone
+              REPETE :nb_cotes [AV :taille TD 360 / :nb_cotes]
+            ] [
+              ; Sinon, affiche un message d'erreur
+              EC [Erreur : le nombre de côtés doit être au moins 3]
+            ]
+          FIN
+        </pre>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Combiner boucles et conditions",
+    content: (
+      <div>
+        <p>La vraie puissance de la programmation vient de la combinaison des différentes structures. Tu peux imbriquer des boucles et des conditions pour créer des programmes plus complexes.</p>
+        <p>Exemple : dessiner une ligne pointillée (alternance de traits et d'espaces) :</p>
+        <pre>
+          POUR LIGNE_POINTILLEE :longueur :segment
+            REPETE :longueur / :segment [
+              AV :segment / 2  ; Dessine un petit trait
+              LC AV :segment / 2 BC  ; Avance sans dessiner
+            ]
+          FIN
+        </pre>
+        <p>Exemple plus complexe : dessiner un damier (alternance de carrés dessinés et non dessinés) :</p>
+        <pre>
+          POUR DAMIER :taille :nb
+            REPETE :nb [
+              LIGNE_DAMIER :taille :nb
+              RETOURNE_DEBUT :taille
+              AV :taille / :nb
+            ]
+          FIN
+          
+          POUR LIGNE_DAMIER :taille :nb
+            DONNE "dessine VRAI
+            REPETE :nb [
+              SIFAUX :dessine [
+                CARRE :taille / :nb
+              ] [
+                LC AV :taille / :nb TD 90 AV :taille / :nb TG 90 BC
+              ]
+              DONNE "dessine NON :dessine  ; Inverse la valeur
+              AV :taille / :nb
+            ]
+          FIN
+          
+          POUR RETOURNE_DEBUT :taille
+            TD 180
+            AV :taille
+            TD 180
+          FIN
+          
+          POUR CARRE :cote
+            REPETE 4 [AV :cote TD 90]
+          FIN
+        </pre>
+        <p>Ce programme dessine un damier de taille <code>:taille</code> avec <code>:nb</code> cases par côté. Il utilise des boucles imbriquées et des conditions pour alterner entre dessiner un carré et se déplacer sans dessiner.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Introduction à la récursivité",
+    content: (
+      <div>
+        <p>La <strong>récursivité</strong> est une technique puissante où une procédure s'appelle elle-même. C'est une forme de boucle, mais plus flexible que <code>REPETE</code>.</p>
+        <p>Pour créer une procédure récursive, tu dois :</p>
+        <ol>
+          <li>Définir une <strong>condition d'arrêt</strong> (sinon la procédure s'appellerait indéfiniment)</li>
+          <li>Faire un <strong>appel récursif</strong> (la procédure s'appelle elle-même) avec des paramètres modifiés</li>
+        </ol>
+        <p>Exemple simple : une procédure qui compte à rebours :</p>
+        <pre>
+          POUR COMPTE_A_REBOURS :n
+            EC :n  ; Affiche la valeur actuelle
+            SI :n > 0 [COMPTE_A_REBOURS :n - 1]  ; Appel récursif si n > 0
+          FIN
+          
+          COMPTE_A_REBOURS 5  ; Affiche 5, 4, 3, 2, 1, 0
+        </pre>
+        <p>Dans cet exemple :</p>
+        <ul>
+          <li>La condition d'arrêt est implicite : quand <code>:n</code> n'est plus > 0, il n'y a plus d'appel récursif</li>
+          <li>À chaque appel récursif, la valeur de <code>:n</code> diminue de 1</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 6: Créer des motifs récursifs",
+    content: (
+      <div>
+        <p>La récursivité est particulièrement utile pour créer des motifs complexes en Logo. Voici quelques exemples :</p>
+        <p><strong>Spirale carrée</strong> :</p>
+        <pre>
+          POUR SPIRALE :taille
+            SI :taille > 100 [STOP]  ; Condition d'arrêt
+            AV :taille
+            TD 90
+            SPIRALE :taille + 5  ; Appel récursif avec taille augmentée
+          FIN
+        </pre>
+        <p>Cette procédure dessine une spirale carrée qui s'agrandit jusqu'à ce que la taille dépasse 100.</p>
+        <p><strong>Carrés imbriqués</strong> :</p>
+        <pre>
+          POUR CARRES_IMBRIQUES :taille
+            SI :taille < 5 [STOP]  ; Condition d'arrêt
+            REPETE 4 [AV :taille TD 90]  ; Dessine un carré
+            AV 5 TD 5  ; Déplace légèrement et tourne un peu
+            CARRES_IMBRIQUES :taille - 10  ; Appel récursif avec taille réduite
+          FIN
+        </pre>
+        <p>Cette procédure dessine une série de carrés imbriqués qui tournent légèrement.</p>
+        <p><strong>Arbre fractal</strong> :</p>
+        <pre>
+          POUR ARBRE :taille :niveau
+            SI :niveau = 0 [STOP]  ; Condition d'arrêt
+            AV :taille
+            TD 30
+            ARBRE :taille * 0.7 :niveau - 1  ; Branche droite
+            TG 60
+            ARBRE :taille * 0.7 :niveau - 1  ; Branche gauche
+            TD 30
+            RE :taille  ; Retourne au point de départ
+          FIN
+        </pre>
+        <p>Cette procédure dessine un arbre fractal. Le paramètre <code>:niveau</code> contrôle la profondeur de la récursivité (combien de fois l'arbre se ramifie).</p>
+        <p>Pour dessiner un arbre, tu pourrais appeler :</p>
+        <pre>
+          VE
+          LC ORIGINE BC  ; Place la tortue au bas de l'écran
+          TG 90  ; Oriente la tortue vers le haut
+          ARBRE 50 5  ; Dessine un arbre de taille 50 avec 5 niveaux
+        </pre>
+        <p>La récursivité te permet de créer des motifs très complexes avec relativement peu de code. C'est un outil puissant pour explorer la géométrie et les mathématiques à travers la programmation Logo.</p>
+      </div>
+    )
+  }
+]} />
+
+<Tip>
+Lorsque tu crées des procédures récursives, assure-toi toujours d'avoir une condition d'arrêt claire. Sans cela, ta procédure continuera à s'appeler indéfiniment, ce qui peut faire planter ton programme Logo. Une bonne pratique est de toujours tester ta condition d'arrêt au début de la procédure.
+</Tip>
+
+<ExerciseCard title="Exercice pratique: Boucles, conditions et récursivité">
+
+Mets en pratique ce que tu as appris en réalisant ces défis :
+
+1. Crée une procédure `CARRE_SI_GRAND` qui prend un paramètre `:taille` et dessine un carré seulement si la taille est supérieure à 30. Sinon, elle dessine un triangle.
+
+2. Crée une procédure `ESCALIER` qui utilise une boucle pour dessiner un escalier avec 5 marches. Chaque marche doit faire 20 pas de large et 20 pas de haut.
+
+3. Crée une procédure récursive `CERCLES_CONCENTRIQUES` qui dessine une série de cercles concentriques. La procédure doit prendre deux paramètres : `:rayon` (le rayon du premier cercle) et `:nb` (le nombre de cercles à dessiner). À chaque appel récursif, le rayon doit diminuer de 10.
+
+4. Crée une procédure récursive `SPIRALE_COLOREE` qui dessine une spirale avec des couleurs changeantes. La procédure doit prendre un paramètre `:taille` et changer de couleur à chaque segment de la spirale.
+
+5. Défi bonus : Crée une procédure récursive `FLOCON_KOCH` qui dessine un flocon de Koch (une fractale). La procédure doit prendre deux paramètres : `:taille` (la longueur du segment initial) et `:niveau` (le niveau de récursivité). Indice : pour le niveau 0, dessine simplement un segment ; pour les niveaux supérieurs, remplace chaque segment par quatre segments plus petits formant une pointe.
+
+N'oublie pas d'utiliser la commande VE entre chaque exercice pour repartir d'un écran vide. Si tu rencontres des difficultés avec la récursivité, commence par des exemples simples et augmente progressivement la complexité.
+
+</ExerciseCard>
+
+</CenteredContent>

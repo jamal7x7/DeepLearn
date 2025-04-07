@@ -1,0 +1,146 @@
+---
+title: FT-L10-projets-avances-logo
+description: Réaliser des projets avancés en Logo
+difficulty: "Avancé"
+---
+
+# FT-L10-projets-avances-logo
+Voici une fiche technique sous forme de tableau, conçue pour des élèves de niveau avancé, qui présente des projets avancés à réaliser en Logo :
+
+| **Rubrique**                                  | **Contenu**                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Titre du thème**                            | Projets avancés en Logo                                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Niveau concerné**                           | Avancé                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| **Objectif pédagogique**                      | À la fin de cette leçon, l'élève saura : <br/>• Concevoir et planifier un projet de programmation complet <br/>• Combiner différentes techniques Logo (procédures, variables, boucles, récursion) <br/>• Créer des animations et des simulations <br/>• Documenter et présenter son code                                                                                                                                                                                                                |
+| **Définitions clés**                          | **Projet** : Ensemble cohérent de procédures visant à créer une application complète. <br/>**Animation** : Série d'images qui, affichées rapidement, donnent l'illusion du mouvement. <br/>**Simulation** : Programme qui modélise un phénomène réel. <br/>**Documentation** : Ensemble des commentaires et explications qui accompagnent le code.                                                                                                                                                                                          |
+| **Explication de la notion avec exemples**    | Un projet avancé en Logo combine plusieurs concepts et techniques pour créer une application complète et fonctionnelle. Par exemple, un jeu simple peut utiliser des variables pour stocker le score, des procédures pour gérer les différentes actions, des boucles pour répéter certaines opérations et des conditions pour vérifier les règles du jeu. Une simulation de système solaire pourrait utiliser la récursion pour représenter les orbites des planètes, tandis qu'une animation artistique pourrait exploiter les couleurs et les styles graphiques. La clé d'un projet réussi est une bonne planification, une structure de code claire et une documentation adéquate.                                                                                                                       |
+| **Méthodologie ou étapes à suivre**           | 1. **Planification** : Définir clairement l'objectif du projet et esquisser son fonctionnement.<br/>2. **Conception** : Identifier les principales procédures nécessaires et leurs interactions.<br/>3. **Implémentation** : Coder les procédures en commençant par les plus fondamentales.<br/>4. **Test** : Vérifier régulièrement que chaque partie fonctionne comme prévu.<br/>5. **Intégration** : Assembler les différentes parties du projet.<br/>6. **Documentation** : Ajouter des commentaires et créer un guide d'utilisation.<br/>7. **Présentation** : Préparer une démonstration du projet. |
+| **Illustration ou schéma explicatif**         | **Exemple de projet : Simulateur de système solaire** : <br/>```logo
+; Variables globales
+DONNE "vitesse_rotation 1
+DONNE "echelle 5
+
+; Procédure principale
+POUR SYSTEME_SOLAIRE
+  VE
+  ORIGINE
+  SOLEIL
+  PLANETES
+FIN
+
+; Dessine le soleil au centre
+POUR SOLEIL
+  FIXECOULEUR 6 ; Jaune
+  REPETE 36 [AV 10 TD 10]
+  REMPLIS
+FIN
+
+; Dessine les planètes en orbite
+POUR PLANETES
+  MERCURE
+  VENUS
+  TERRE
+  MARS
+FIN
+
+; Dessine Mercure et son orbite
+POUR MERCURE
+  ORIGINE
+  FIXECOULEUR 7 ; Gris
+  CERCLE 30 * :echelle
+  ORBITE 30 * :echelle 3 * :echelle 4 * :vitesse_rotation
+FIN
+
+; Procédure générique pour dessiner une orbite et une planète
+POUR ORBITE :rayon :taille_planete :vitesse
+  LC
+  AV :rayon
+  BC
+  REPETE 36 [
+    FIXEPOS POSITIONX POSITIONY
+    REPETE 36 [AV :taille_planete / 10 TD 10]
+    REMPLIS
+    ORIGINE
+    LC
+    TD :vitesse
+    AV :rayon
+    BC
+  ]
+FIN
+``` <br/><br/>**Exemple de projet : Animation d'un paysage** : <br/>```logo
+POUR ANIMATION_PAYSAGE
+  VE
+  CIEL
+  SOLEIL 0
+  MONTAGNES
+  MAISON
+  ARBRE 100 50
+  ARBRE 200 70
+FIN
+
+; Animation du soleil qui se lève
+POUR SOLEIL :position
+  SI :position > 150 [STOP]
+  VE
+  CIEL
+  FIXECOULEUR 6 ; Jaune
+  LC
+  ORIGINE
+  TG 90
+  AV :position
+  TD 90
+  AV 250
+  BC
+  REPETE 36 [AV 15 TD 10]
+  REMPLIS
+  MONTAGNES
+  MAISON
+  ARBRE 100 50
+  ARBRE 200 70
+  ATTENDS 10
+  SOLEIL :position + 5
+FIN
+```                                                                                   |
+| **Exercice d'application ou question**        | **Exercice 1** : Créer un jeu simple où la tortue doit attraper des objets qui apparaissent aléatoirement à l'écran. <br/>Solution (esquisse) : <br/>```logo
+POUR JEU_ATTRAPE
+  VE
+  DONNE "score 0
+  DONNE "temps 0
+  DONNE "jeu_actif VRAI
+  INITIALISER_TORTUE
+  CREER_OBJET
+  BOUCLE_JEU
+FIN
+
+POUR BOUCLE_JEU
+  SI NON :jeu_actif [STOP]
+  DONNE "temps :temps + 1
+  SI :temps > 1000 [DONNE "jeu_actif FAUX]
+  DEPLACER_TORTUE
+  VERIFIER_COLLISION
+  AFFICHER_SCORE
+  ATTENDS 1
+  BOUCLE_JEU
+FIN
+```<br/><br/>**Exercice 2** : Créer une simulation de l'évolution d'une population selon un modèle simple (par exemple, le modèle de croissance logistique). <br/>Solution (esquisse) : <br/>```logo
+POUR SIMULATION_POPULATION
+  VE
+  DONNE "population_initiale 10
+  DONNE "taux_croissance 0.1
+  DONNE "capacite_maximale 1000
+  DONNE "annees 100
+  GRAPHIQUE_POPULATION :population_initiale :taux_croissance :capacite_maximale :annees
+FIN
+
+POUR GRAPHIQUE_POPULATION :pop :taux :max :ans
+  VE
+  ORIGINE
+  AXES :ans :max
+  DONNE "population :pop
+  POUR.CHAQUE "annee SUITE 1 :ans [
+    DONNE "population :population + :taux * :population * (1 - :population / :max)
+    POINT :annee :population
+  ]
+FIN
+```                                                                                                                    |
+| **Mot-clé ou astuce mnémotechnique**          | **PPIRT** : <br/>**P**lanification (définir l'objectif) <br/>**P**rocédures (décomposer en sous-problèmes) <br/>**I**ntégration (assembler les parties) <br/>**R**évision (tester et améliorer) <br/>**T**ransmission (documenter et présenter)                                                                                                                                                                                                                                                                                                                           |

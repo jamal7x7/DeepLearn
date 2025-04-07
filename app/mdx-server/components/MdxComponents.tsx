@@ -171,15 +171,23 @@ export function FigureCard({ title, children }: { title: string; children: React
 }
 
 // Composants Accordion pour les tutoriels
-export function TutorialAccordion({ items }: { items: { title: string; content: React.ReactNode }[] }) {
+export function TutorialAccordion({
+  items,
+  children,
+}: {
+  items?: { title: string; content: React.ReactNode }[];
+  children?: React.ReactNode;
+}) {
   return (
-    <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto my-6">
-      {items.map((item, index) => (
-        <AccordionItem key={index} value={`item-${index}`}>
-          <AccordionTrigger>{item.title}</AccordionTrigger>
-          <AccordionContent>{item.content}</AccordionContent>
-        </AccordionItem>
-      ))}
+    <Accordion  type="single" collapsible className="w-full max-w-3xl mx-auto my-6">
+      {items
+        ? items.map((item, index) => (
+            <AccordionItem key={index} value={`item-${index}`}>
+              <AccordionTrigger  className="text-lg hover:bg-accent px-4 hover:no-underline cursor-pointer">{item.title}</AccordionTrigger>
+              <AccordionContent>{item.content}</AccordionContent>
+            </AccordionItem>
+          ))
+        : children}
     </Accordion>
   );
 }
@@ -196,9 +204,9 @@ export function CenteredContent({ children }: { children: React.ReactNode }) {
 // Astuce avec icône
 export function Tip({ children }: { children: React.ReactNode }) {
   return (
-    <div className="bg-amber-50 dark:bg-amber-950/30 border-l-4 border-amber-500 p-4 my-4 rounded-r-md w-full max-w-3xl mx-auto">
+    <div className="bg-amber-50 dark:bg-primary/20 border-l-4 border-primary p-6 my-4 rounded-r-xl w-full max-w-3xl mx-auto">
       <div className="flex items-start">
-        <span className="text-2xl mr-2">💡</span>
+        <span className="text-2xl mr-4 "><IconBulbFilled className="fill-primary" color=''/></span>
         <div>{children}</div>
       </div>
     </div>
@@ -206,6 +214,7 @@ export function Tip({ children }: { children: React.ReactNode }) {
 }
 
 import { GlowEffect } from '@/components/ui/glow-effect';
+import { IconBulb, IconBulbFilled, IconBulbOff, IconCircuitBulb } from '@tabler/icons-react';
 
 export function GlowEffectCardBackground() {
   return (

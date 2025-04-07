@@ -1,0 +1,176 @@
+---
+title: "Macros et VBA"
+description: "Apprendre à automatiser des tâches avec les macros et VBA dans Excel 2021"
+difficulty: "Avancé"
+---
+
+<CenteredContent>
+
+# Macros et VBA dans Excel 2021
+
+<ExerciseCard title="Automatiser vos tâches répétitives">
+
+Dans cette leçon, tu vas découvrir comment automatiser des tâches répétitives dans Excel grâce aux macros et au langage VBA (Visual Basic for Applications).
+
+Voici ce que tu vas apprendre :
+- Ce qu'est une macro et à quoi elle sert
+- Comment enregistrer une macro simple
+- Comment exécuter une macro
+- Les bases du langage VBA
+- Comment modifier une macro existante
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Comprendre les macros",
+    content: (
+      <div>
+        <p>Une <strong>macro</strong> est une séquence d'actions que tu peux enregistrer puis exécuter automatiquement :</p>
+        <ul>
+          <li>Elle permet d'automatiser des tâches répétitives</li>
+          <li>Elle garantit que les actions sont toujours exécutées de la même façon</li>
+          <li>Elle fait gagner du temps sur des opérations fréquentes</li>
+        </ul>
+        <p>Les macros sont écrites en VBA (Visual Basic for Applications), un langage de programmation intégré à Excel.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Activer l'onglet Développeur",
+    content: (
+      <div>
+        <p>Pour travailler avec les macros, tu dois d'abord activer l'onglet Développeur :</p>
+        <ol>
+          <li>Clique avec le bouton droit sur le ruban et sélectionne "Personnaliser le ruban"</li>
+          <li>Dans la liste des onglets principaux (à droite), coche la case "Développeur"</li>
+          <li>Clique sur "OK"</li>
+        </ol>
+        <p>L'onglet Développeur apparaît maintenant dans ton ruban, avec des outils pour travailler avec les macros et VBA.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Enregistrer une macro simple",
+    content: (
+      <div>
+        <p>Pour enregistrer une macro :</p>
+        <ol>
+          <li>Va dans l'onglet "Développeur"</li>
+          <li>Clique sur "Enregistrer une macro"</li>
+          <li>Dans la boîte de dialogue qui s'affiche :</li>
+          <ul>
+            <li>Donne un nom à ta macro (sans espaces)</li>
+            <li>Attribue éventuellement un raccourci clavier</li>
+            <li>Choisis où stocker la macro (ce classeur, nouveau classeur, ou classeur de macros personnel)</li>
+            <li>Ajoute une description</li>
+          </ul>
+          <li>Clique sur "OK" pour commencer l'enregistrement</li>
+          <li>Effectue les actions que tu souhaites automatiser</li>
+          <li>Clique sur "Arrêter l'enregistrement" (dans l'onglet Développeur) quand tu as terminé</li>
+        </ol>
+        <p>Excel a maintenant enregistré toutes tes actions sous forme de code VBA.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Exécuter une macro",
+    content: (
+      <div>
+        <p>Pour exécuter une macro que tu as enregistrée :</p>
+        <ol>
+          <li>Va dans l'onglet "Développeur"</li>
+          <li>Clique sur "Macros"</li>
+          <li>Sélectionne la macro que tu souhaites exécuter dans la liste</li>
+          <li>Clique sur "Exécuter"</li>
+        </ol>
+        <p>Tu peux aussi exécuter une macro :</p>
+        <ul>
+          <li>En utilisant le raccourci clavier que tu lui as attribué</li>
+          <li>En ajoutant un bouton dans le ruban ou la barre d'outils Accès rapide</li>
+          <li>En créant un bouton directement dans ta feuille de calcul</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Découvrir le langage VBA",
+    content: (
+      <div>
+        <p>Le VBA est le langage de programmation utilisé pour les macros. Pour voir et modifier le code :</p>
+        <ol>
+          <li>Va dans l'onglet "Développeur"</li>
+          <li>Clique sur "Visual Basic" (ou utilise le raccourci Alt+F11)</li>
+          <li>L'éditeur VBA s'ouvre, montrant la structure de ton projet</li>
+          <li>Double-clique sur un module pour voir le code de tes macros</li>
+        </ol>
+        <p>Quelques concepts de base du VBA :</p>
+        <ul>
+          <li><code>Sub NomDeMaMacro()</code> et <code>End Sub</code> : Délimitent le début et la fin d'une macro</li>
+          <li><code>Range("A1").Value = 10</code> : Assigne la valeur 10 à la cellule A1</li>
+          <li><code>Selection.Bold = True</code> : Met en gras la sélection actuelle</li>
+          <li><code>MsgBox "Terminé!"</code> : Affiche une boîte de message</li>
+          <li><code>If...Then...Else...End If</code> : Structure conditionnelle</li>
+          <li><code>For...Next</code> : Boucle pour répéter des actions</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 6: Modifier une macro existante",
+    content: (
+      <div>
+        <p>Pour modifier une macro que tu as enregistrée :</p>
+        <ol>
+          <li>Ouvre l'éditeur VBA (Alt+F11)</li>
+          <li>Localise ta macro dans l'arborescence (généralement dans "Modules")</li>
+          <li>Double-clique sur le module contenant ta macro</li>
+          <li>Modifie le code selon tes besoins</li>
+          <li>Enregistre les modifications (Ctrl+S)</li>
+          <li>Ferme l'éditeur VBA pour revenir à Excel</li>
+        </ol>
+        <p>Conseils pour modifier des macros :</p>
+        <ul>
+          <li>Ajoute des commentaires en commençant la ligne par une apostrophe (<code>'</code>)</li>
+          <li>Teste régulièrement tes modifications</li>
+          <li>Fais une copie de sauvegarde avant de faire des changements importants</li>
+        </ul>
+      </div>
+    )
+  }
+]} />
+
+<Tip>
+Pour des raisons de sécurité, Excel désactive par défaut les macros. Pour exécuter des macros, tu devras peut-être ajuster les paramètres de sécurité dans "Fichier" > "Options" > "Centre de gestion de la confidentialité" > "Paramètres du Centre de gestion de la confidentialité" > "Paramètres des macros".
+</Tip>
+
+<ExerciseCard title="Exercice pratique: Créer une macro de mise en forme">
+
+Crée une macro qui applique automatiquement une mise en forme à un tableau de données :
+
+1. Prépare un tableau simple avec des en-têtes et quelques lignes de données
+
+2. Active l'onglet Développeur si ce n'est pas déjà fait
+
+3. Commence l'enregistrement d'une macro nommée "MiseEnFormeTableau"
+
+4. Effectue les actions suivantes :
+   - Sélectionne la ligne d'en-tête et applique une couleur de fond
+   - Mets le texte en gras
+   - Ajoute des bordures au tableau entier
+   - Ajuste automatiquement la largeur des colonnes
+   - Centre certaines colonnes
+
+5. Arrête l'enregistrement
+
+6. Crée un nouveau tableau similaire, puis exécute ta macro pour voir si la mise en forme s'applique correctement
+
+7. Ouvre l'éditeur VBA et examine le code généré
+
+8. Essaie de modifier le code pour changer une couleur ou ajouter une action supplémentaire
+
+Bonus : Crée un bouton dans ta feuille de calcul qui exécute ta macro lorsqu'on clique dessus.
+
+</ExerciseCard>
+
+</CenteredContent>

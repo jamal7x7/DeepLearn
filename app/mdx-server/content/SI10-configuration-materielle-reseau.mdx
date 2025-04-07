@@ -1,0 +1,415 @@
+---
+title: "Configuration Matérielle d'un Réseau"
+description: "Comprendre les composants matériels nécessaires à la mise en place d'un réseau informatique"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Configuration Matérielle d'un Réseau
+
+<ExerciseCard title="Découvrir les composants matériels d'un réseau">
+
+Dans cette leçon, tu vas découvrir les différents équipements qui composent un réseau informatique, leur rôle et comment ils s'interconnectent pour permettre la communication entre les appareils.
+
+Voici ce que tu vas apprendre :
+- Les différents types d'équipements réseau et leur fonction
+- Les topologies de réseau courantes
+- Les types de câblage et de connexions sans fil
+- Comment ces composants s'assemblent pour former un réseau fonctionnel
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Les équipements réseau fondamentaux",
+    content: (
+      <div>
+        <p>Pour qu'un réseau informatique fonctionne, plusieurs équipements matériels sont nécessaires. Voici les principaux :</p>
+        
+        <h4>1. Le routeur</h4>
+        <p>Le <strong>routeur</strong> est l'équipement central qui permet :</p>
+        <ul>
+          <li>De connecter plusieurs réseaux entre eux (par exemple, ton réseau domestique à Internet)</li>
+          <li>D'acheminer les données vers la bonne destination</li>
+          <li>De filtrer le trafic pour assurer la sécurité</li>
+        </ul>
+        <p>C'est comme un agent de circulation qui dirige les paquets de données vers leur destination.</p>
+        
+        <h4>2. Le switch (commutateur)</h4>
+        <p>Le <strong>switch</strong> permet de connecter plusieurs appareils au sein d'un même réseau local :</p>
+        <ul>
+          <li>Il dispose de plusieurs ports où brancher des câbles Ethernet</li>
+          <li>Il transmet les données uniquement à l'appareil destinataire (contrairement à un hub qui envoie à tous)</li>
+          <li>Il améliore les performances et la sécurité du réseau</li>
+        </ul>
+        
+        <h4>3. Le modem</h4>
+        <p>Le <strong>modem</strong> (modulateur-démodulateur) :</p>
+        <ul>
+          <li>Convertit les signaux numériques de ton réseau en signaux adaptés à la ligne de ton fournisseur d'accès</li>
+          <li>Est souvent intégré au routeur dans les box Internet domestiques</li>
+        </ul>
+        
+        <h4>4. Le point d'accès Wi-Fi</h4>
+        <p>Le <strong>point d'accès Wi-Fi</strong> :</p>
+        <ul>
+          <li>Permet aux appareils de se connecter au réseau sans fil</li>
+          <li>Diffuse un signal radio sur une zone donnée</li>
+          <li>Est souvent intégré au routeur dans un environnement domestique</li>
+        </ul>
+        
+        <h4>5. La carte réseau</h4>
+        <p>Chaque appareil connecté au réseau possède une <strong>carte réseau</strong> (ou interface réseau) :</p>
+        <ul>
+          <li>Elle peut être filaire (port Ethernet) ou sans fil (Wi-Fi)</li>
+          <li>Elle possède une adresse MAC unique qui l'identifie</li>
+          <li>Elle gère l'envoi et la réception des données</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Les topologies de réseau",
+    content: (
+      <div>
+        <p>La <strong>topologie</strong> d'un réseau désigne la façon dont les équipements sont organisés et connectés entre eux. Il existe plusieurs topologies principales :</p>
+        
+        <h4>1. Topologie en étoile</h4>
+        <p>C'est la plus courante aujourd'hui :</p>
+        <ul>
+          <li>Tous les appareils sont connectés à un point central (switch ou routeur)</li>
+          <li>Si un appareil tombe en panne, les autres peuvent continuer à communiquer</li>
+          <li>Facile à installer et à dépanner</li>
+        </ul>
+        
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <pre style={{ display: 'inline-block', textAlign: 'left' }}>
+{`         *
+        /|\
+       * * *
+      /|\|/|\
+     * * * * *`}
+          </pre>
+        </div>
+        
+        <h4>2. Topologie en bus</h4>
+        <p>Plus ancienne et moins utilisée aujourd'hui :</p>
+        <ul>
+          <li>Tous les appareils sont connectés à un câble principal (le "bus")</li>
+          <li>Si le câble principal est coupé, tout le réseau est affecté</li>
+          <li>Simple à mettre en place mais moins fiable</li>
+        </ul>
+        
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <pre style={{ display: 'inline-block', textAlign: 'left' }}>
+{`  ---*---*---*---*---`}
+          </pre>
+        </div>
+        
+        <h4>3. Topologie en anneau</h4>
+        <p>Moins courante dans les réseaux modernes :</p>
+        <ul>
+          <li>Les appareils sont connectés en boucle fermée</li>
+          <li>Les données circulent dans une direction</li>
+          <li>Une rupture dans l'anneau peut affecter tout le réseau</li>
+        </ul>
+        
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <pre style={{ display: 'inline-block', textAlign: 'left' }}>
+{`      *---*
+     /     \
+    *       *
+     \     /
+      *---*`}
+          </pre>
+        </div>
+        
+        <h4>4. Topologie maillée</h4>
+        <p>Utilisée dans les réseaux nécessitant une haute disponibilité :</p>
+        <ul>
+          <li>Chaque appareil est connecté à plusieurs autres appareils</li>
+          <li>Offre plusieurs chemins pour les données</li>
+          <li>Très résistante aux pannes mais complexe et coûteuse</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Les types de câblage réseau",
+    content: (
+      <div>
+        <p>Les réseaux utilisent différents types de câbles pour connecter les équipements :</p>
+        
+        <h4>1. Câble Ethernet (paire torsadée)</h4>
+        <p>C'est le plus courant dans les réseaux locaux :</p>
+        <ul>
+          <li><strong>Cat5e</strong> : Supporte jusqu'à 1 Gbps sur 100 mètres</li>
+          <li><strong>Cat6</strong> : Supporte jusqu'à 10 Gbps sur des distances courtes</li>
+          <li><strong>Cat6a</strong> : Supporte 10 Gbps sur 100 mètres</li>
+          <li><strong>Cat7</strong> et <strong>Cat8</strong> : Pour les applications très haut débit</li>
+        </ul>
+        <p>Ces câbles se terminent généralement par des connecteurs RJ45.</p>
+        
+        <h4>2. Câble coaxial</h4>
+        <p>Moins utilisé dans les réseaux modernes, mais encore présent pour certaines applications :</p>
+        <ul>
+          <li>Utilisé principalement pour les connexions Internet par câble</li>
+          <li>Offre une bonne résistance aux interférences</li>
+          <li>Utilise des connecteurs de type F</li>
+        </ul>
+        
+        <h4>3. Fibre optique</h4>
+        <p>Pour les connexions à très haut débit et longue distance :</p>
+        <ul>
+          <li>Transmet les données sous forme de lumière</li>
+          <li>Permet des débits extrêmement élevés (plusieurs Tbps)</li>
+          <li>Insensible aux interférences électromagnétiques</li>
+          <li>Existe en version monomode (longue distance) et multimode (courte distance)</li>
+        </ul>
+        
+        <h4>4. Connexions sans fil</h4>
+        <p>Pour les réseaux Wi-Fi :</p>
+        <ul>
+          <li><strong>Wi-Fi 4 (802.11n)</strong> : Jusqu'à 600 Mbps</li>
+          <li><strong>Wi-Fi 5 (802.11ac)</strong> : Jusqu'à 3,5 Gbps</li>
+          <li><strong>Wi-Fi 6 (802.11ax)</strong> : Jusqu'à 9,6 Gbps</li>
+          <li><strong>Wi-Fi 6E</strong> : Utilise la bande 6 GHz pour moins d'interférences</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Architecture d'un réseau domestique",
+    content: (
+      <div>
+        <p>Voici comment les différents équipements s'organisent dans un réseau domestique typique :</p>
+        
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <pre style={{ display: 'inline-block', textAlign: 'left' }}>
+{`+-------------+     +-------------+     +-------------+
+|   Internet  |---->|    Modem    |---->|   Routeur   |
++-------------+     +-------------+     +-------------+
+                                              |
+                     +---------------------------------------------+
+                     |                        |                    |
+               +-------------+          +-------------+     +-------------+
+               |   Switch    |          | Point d'accès|     |  Ordinateur |
+               +-------------+          |    Wi-Fi     |     |  portable   |
+                     |                  +-------------+     +-------------+
+          +---------------------+              |
+          |          |          |              |
+    +-------------+  |    +-------------+    +-------------+
+    | Ordinateur  |  |    | Imprimante  |    |  Smartphone  |
+    |  fixe       |  |    | réseau      |    |              |
+    +-------------+  |    +-------------+    +-------------+
+                     |
+               +-------------+
+               |   Serveur   |
+               |   NAS       |
+               +-------------+`}
+          </pre>
+        </div>
+        
+        <p>Dans cette configuration :</p>
+        <ol>
+          <li>Le <strong>modem</strong> se connecte à Internet via la ligne fournie par ton fournisseur d'accès</li>
+          <li>Le <strong>routeur</strong> distribue la connexion Internet à tous les appareils et gère le trafic</li>
+          <li>Le <strong>switch</strong> permet de connecter plusieurs appareils filaires</li>
+          <li>Le <strong>point d'accès Wi-Fi</strong> permet aux appareils mobiles de se connecter sans fil</li>
+          <li>Les <strong>ordinateurs, smartphones, imprimantes</strong> et autres appareils se connectent au réseau</li>
+          <li>Un <strong>NAS</strong> (Network Attached Storage) peut servir de stockage partagé sur le réseau</li>
+        </ol>
+        
+        <p>Dans de nombreux foyers, le modem, le routeur et le point d'accès Wi-Fi sont intégrés dans un seul appareil : la <strong>box Internet</strong>.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Architecture d'un réseau d'entreprise",
+    content: (
+      <div>
+        <p>Les réseaux d'entreprise sont plus complexes et comportent des équipements supplémentaires :</p>
+        
+        <h4>1. Équipements supplémentaires</h4>
+        <ul>
+          <li><strong>Pare-feu matériel</strong> : Dispositif dédié à la sécurité du réseau</li>
+          <li><strong>Serveurs</strong> : Machines puissantes hébergeant des applications et services</li>
+          <li><strong>Switches managés</strong> : Permettent la création de VLAN et la gestion avancée du trafic</li>
+          <li><strong>Contrôleurs Wi-Fi</strong> : Gèrent plusieurs points d'accès de façon centralisée</li>
+          <li><strong>Systèmes d'alimentation secourue (UPS)</strong> : Maintiennent les équipements en cas de coupure électrique</li>
+        </ul>
+        
+        <h4>2. Organisation en zones</h4>
+        <p>Un réseau d'entreprise est généralement divisé en zones :</p>
+        <ul>
+          <li><strong>DMZ</strong> (Zone démilitarisée) : Contient les serveurs accessibles depuis l'extérieur</li>
+          <li><strong>LAN</strong> (Réseau local) : Réseau interne de l'entreprise</li>
+          <li><strong>VLAN</strong> (Réseaux locaux virtuels) : Subdivisions logiques du réseau physique</li>
+        </ul>
+        
+        <h4>3. Redondance</h4>
+        <p>Pour assurer la continuité du service, les réseaux professionnels intègrent de la redondance :</p>
+        <ul>
+          <li>Plusieurs routeurs et switches</li>
+          <li>Connexions Internet de secours</li>
+          <li>Chemins alternatifs pour les données</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 6: Bonnes pratiques pour la configuration matérielle d'un réseau",
+    content: (
+      <div>
+        <p>Voici quelques conseils pour mettre en place un réseau efficace et fiable :</p>
+        
+        <h4>1. Planification</h4>
+        <ul>
+          <li>Évaluer les besoins actuels et futurs (nombre d'appareils, types d'usage)</li>
+          <li>Dessiner un plan du réseau avant l'installation</li>
+          <li>Prévoir des emplacements accessibles pour les équipements</li>
+        </ul>
+        
+        <h4>2. Installation</h4>
+        <ul>
+          <li>Placer le routeur/point d'accès Wi-Fi dans un endroit central</li>
+          <li>Éviter les sources d'interférence (micro-ondes, téléphones sans fil)</li>
+          <li>Utiliser des câbles de qualité et de la bonne catégorie</li>
+          <li>Étiqueter tous les câbles pour faciliter la maintenance</li>
+        </ul>
+        
+        <h4>3. Sécurité</h4>
+        <ul>
+          <li>Changer les mots de passe par défaut des équipements</li>
+          <li>Utiliser le chiffrement WPA3 pour le Wi-Fi</li>
+          <li>Mettre régulièrement à jour le firmware des équipements</li>
+          <li>Sécuriser physiquement les équipements critiques</li>
+        </ul>
+        
+        <h4>4. Maintenance</h4>
+        <ul>
+          <li>Documenter la configuration du réseau</li>
+          <li>Surveiller régulièrement les performances</li>
+          <li>Prévoir un plan de secours en cas de panne</li>
+        </ul>
+      </div>
+    )
+  }
+]} />
+
+<ExerciseCard title="Exercice pratique : Analyser un réseau">
+
+Maintenant que tu comprends mieux les composants matériels d'un réseau, il est temps de mettre en pratique tes connaissances !
+
+### Exercice 1 : Identifier les équipements
+
+1. Observe le réseau de ton domicile ou de ton école.
+2. Identifie les différents équipements présents (routeur, switch, modem, etc.).
+3. Note leur marque, modèle et principales caractéristiques si possible.
+
+### Exercice 2 : Dessiner un schéma réseau
+
+1. Sur une feuille de papier, dessine un schéma représentant le réseau que tu as observé.
+2. Indique les connexions entre les différents équipements.
+3. Précise le type de connexion (filaire ou sans fil).
+
+### Exercice 3 : Analyser une topologie
+
+1. Détermine quelle topologie est utilisée dans le réseau observé.
+2. Réfléchis aux avantages et inconvénients de cette topologie.
+3. Propose des améliorations possibles pour ce réseau.
+
+### Exercice 4 : Planifier un réseau
+
+Imagine que tu dois mettre en place un réseau pour une petite entreprise de 10 personnes :
+1. Liste les équipements nécessaires.
+2. Dessine un schéma de l'organisation du réseau.
+3. Justifie tes choix d'équipements et de topologie.
+
+</ExerciseCard>
+
+<QuizCard title="Quiz : Configuration matérielle d'un réseau">
+
+<Quiz
+  questions={[
+    {
+      question: "Quel équipement permet de connecter plusieurs réseaux entre eux ?",
+      options: [
+        "Switch",
+        "Routeur",
+        "Modem",
+        "Carte réseau"
+      ],
+      correctIndex: 1
+    },
+    {
+      question: "Dans quelle topologie tous les appareils sont-ils connectés à un point central ?",
+      options: [
+        "Topologie en bus",
+        "Topologie en anneau",
+        "Topologie en étoile",
+        "Topologie maillée"
+      ],
+      correctIndex: 2
+    },
+    {
+      question: "Quel type de câble est le plus couramment utilisé dans les réseaux locaux modernes ?",
+      options: [
+        "Câble coaxial",
+        "Câble Ethernet (paire torsadée)",
+        "Fibre optique",
+        "Câble série"
+      ],
+      correctIndex: 1
+    },
+    {
+      question: "Quel équipement convertit les signaux numériques en signaux adaptés à la ligne du fournisseur d'accès ?",
+      options: [
+        "Routeur",
+        "Switch",
+        "Modem",
+        "Répéteur"
+      ],
+      correctIndex: 2
+    },
+    {
+      question: "Quelle catégorie de câble Ethernet supporte 10 Gbps sur 100 mètres ?",
+      options: [
+        "Cat5e",
+        "Cat6",
+        "Cat6a",
+        "Cat3"
+      ],
+      correctIndex: 2
+    }
+  ]}
+/>
+
+</QuizCard>
+
+<ResourcesCard title="Ressources complémentaires">
+
+### Pour approfondir tes connaissances sur la configuration matérielle des réseaux
+
+#### Sites web
+- [Cisco Networking Academy](https://www.netacad.com/) - Cours en ligne sur les réseaux
+- [NetworkLessons.com](https://networklessons.com/) - Tutoriels sur les réseaux informatiques
+- [GNS3 Academy](https://academy.gns3.com/) - Simulateur de réseau et tutoriels
+
+#### Vidéos
+- Chaînes YouTube spécialisées en réseaux informatiques
+- Tutoriels vidéo sur la configuration des équipements réseau
+
+#### Livres
+- "Computer Networking: A Top-Down Approach" par James Kurose et Keith Ross
+- "Réseaux informatiques - Notions fondamentales" par Guy Pujolle
+
+#### Outils
+- Wireshark - Analyseur de protocoles réseau
+- Ping et Traceroute - Outils de diagnostic réseau
+- Simulateurs de réseau (Packet Tracer, GNS3)
+
+</ResourcesCard>
+
+</CenteredContent>

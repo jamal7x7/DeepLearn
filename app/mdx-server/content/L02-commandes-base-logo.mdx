@@ -1,0 +1,210 @@
+---
+title: "Les Commandes Fondamentales de Logo"
+description: "Maîtriser les instructions de base pour contrôler la tortue Logo"
+difficulty: "Débutant"
+---
+
+<CenteredContent>
+
+# Les Commandes Fondamentales de Logo
+
+<ExerciseCard title="Contrôler la tortue avec précision">
+
+Dans cette leçon, tu vas apprendre à maîtriser les commandes fondamentales du langage Logo pour contrôler la tortue avec précision et créer des dessins plus complexes.
+
+Voici ce que tu vas apprendre :
+- Comment utiliser toutes les commandes de déplacement
+- Comment contrôler le crayon pour dessiner ou se déplacer sans tracer
+- Comment effacer l'écran et réinitialiser la tortue
+- Comment utiliser la commande REPETE pour créer des motifs répétitifs
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Les commandes de déplacement",
+    content: (
+      <div>
+        <p>Pour contrôler la tortue avec précision, tu dois maîtriser les quatre commandes de déplacement fondamentales :</p>
+        <ul>
+          <li><code>AV n</code> : Avancer de n pas dans la direction actuelle</li>
+          <li><code>RE n</code> : Reculer de n pas (dans la direction opposée à la direction actuelle)</li>
+          <li><code>TD n</code> : Tourner à Droite de n degrés (sans se déplacer)</li>
+          <li><code>TG n</code> : Tourner à Gauche de n degrés (sans se déplacer)</li>
+        </ul>
+        <p>Quelques points importants à comprendre :</p>
+        <ul>
+          <li>Le paramètre <code>n</code> peut être n'importe quel nombre (entier ou décimal)</li>
+          <li>Les rotations se mesurent en degrés (un cercle complet = 360 degrés)</li>
+          <li>La tortue se déplace dans la direction vers laquelle elle "regarde"</li>
+        </ul>
+        <p>Exemples d'utilisation :</p>
+        <ul>
+          <li><code>AV 75.5</code> : Avance de 75,5 pas</li>
+          <li><code>RE 25</code> : Recule de 25 pas</li>
+          <li><code>TD 45</code> : Tourne de 45 degrés vers la droite</li>
+          <li><code>TG 180</code> : Fait demi-tour (tourne de 180 degrés vers la gauche)</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Contrôler le crayon",
+    content: (
+      <div>
+        <p>Par défaut, la tortue dessine lorsqu'elle se déplace. Mais parfois, tu voudras la déplacer sans qu'elle ne laisse de trace. C'est là qu'interviennent les commandes de contrôle du crayon :</p>
+        <ul>
+          <li><code>LC</code> : Lever le Crayon (la tortue se déplace sans dessiner)</li>
+          <li><code>BC</code> : Baisser le Crayon (la tortue dessine en se déplaçant)</li>
+        </ul>
+        <p>Ces commandes sont particulièrement utiles pour :</p>
+        <ul>
+          <li>Dessiner des formes séparées sans les relier</li>
+          <li>Positionner la tortue à un endroit précis sans laisser de trace</li>
+          <li>Créer des dessins plus complexes avec des parties distinctes</li>
+        </ul>
+        <p>Exemple d'utilisation :</p>
+        <pre>
+          VE           ; Efface l'écran
+          REPETE 4 [AV 50 TD 90]  ; Dessine un carré
+          LC           ; Lève le crayon
+          AV 100       ; Déplace la tortue sans dessiner
+          BC           ; Baisse le crayon
+          REPETE 4 [AV 50 TD 90]  ; Dessine un autre carré
+        </pre>
+        <p>Ce code dessine deux carrés séparés par un espace, sans ligne les reliant.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Effacer l'écran et réinitialiser la tortue",
+    content: (
+      <div>
+        <p>Lorsque tu expérimentes ou que tu veux recommencer ton dessin, tu peux utiliser ces commandes :</p>
+        <ul>
+          <li><code>VE</code> : Vide Écran - efface tout le dessin et replace la tortue au centre, orientée vers le haut</li>
+          <li><code>NETTOIE</code> : Efface tout le dessin mais garde la tortue à sa position et orientation actuelles</li>
+          <li><code>ORIGINE</code> : Replace la tortue au centre de l'écran sans effacer le dessin</li>
+          <li><code>FIXECAP 0</code> : Oriente la tortue vers le haut (0 degré) sans la déplacer</li>
+        </ul>
+        <p>Ces commandes sont essentielles pour :</p>
+        <ul>
+          <li>Recommencer un dessin après une erreur</li>
+          <li>Créer plusieurs dessins successifs</li>
+          <li>Repositionner la tortue sans perdre ton travail</li>
+        </ul>
+        <p>Par exemple, si tu as fait une erreur dans ton dessin, tape simplement <code>VE</code> et recommence. Si tu veux juste repositionner la tortue au centre sans perdre ton dessin, utilise <code>ORIGINE</code>.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: La commande REPETE",
+    content: (
+      <div>
+        <p>La commande <code>REPETE</code> est l'une des plus puissantes en Logo. Elle te permet d'exécuter plusieurs fois une séquence d'instructions, ce qui est parfait pour dessiner des formes régulières.</p>
+        <p><strong>Syntaxe</strong> : <code>REPETE nombre [commandes]</code></p>
+        <p>Où :</p>
+        <ul>
+          <li><code>nombre</code> est le nombre de répétitions</li>
+          <li><code>commandes</code> est la séquence d'instructions à répéter, entourée de crochets [ ]</li>
+        </ul>
+        <p>Exemples de formes régulières :</p>
+        <ul>
+          <li>Carré : <code>REPETE 4 [AV 50 TD 90]</code></li>
+          <li>Triangle équilatéral : <code>REPETE 3 [AV 50 TD 120]</code></li>
+          <li>Hexagone : <code>REPETE 6 [AV 50 TD 60]</code></li>
+          <li>Octogone : <code>REPETE 8 [AV 50 TD 45]</code></li>
+          <li>Cercle approximatif : <code>REPETE 360 [AV 1 TD 1]</code></li>
+        </ul>
+        <p>Pour dessiner un polygone régulier à n côtés, la formule est :</p>
+        <pre>REPETE n [AV longueur TD (360/n)]</pre>
+        <p>Où <code>n</code> est le nombre de côtés et <code>longueur</code> est la longueur de chaque côté.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Combiner les commandes",
+    content: (
+      <div>
+        <p>La vraie puissance de Logo vient de la combinaison de ces commandes fondamentales pour créer des dessins plus complexes.</p>
+        <p>Voici un exemple pour dessiner une maison simple :</p>
+        <pre>
+          VE                    ; Efface l'écran
+          ; Dessine le carré (corps de la maison)
+          REPETE 4 [AV 100 TD 90]
+          ; Dessine le triangle (toit)
+          TD 90 AV 100 TG 90    ; Positionne la tortue pour le toit
+          TD 30                 ; Incline pour le premier côté du toit
+          AV 100                ; Premier côté du toit
+          TD 120                ; Angle pour le deuxième côté
+          AV 100                ; Deuxième côté du toit
+        </pre>
+        <p>Autre exemple : dessiner une fleur simple avec des cercles :</p>
+        <pre>
+          VE                    ; Efface l'écran
+          ; Dessine 6 cercles autour d'un point central
+          REPETE 6 [
+            REPETE 360 [AV 0.3 TD 1]  ; Dessine un petit cercle
+            TD 60                      ; Tourne pour le prochain pétale
+          ]
+        </pre>
+        <p>N'hésite pas à expérimenter en combinant ces commandes de différentes façons !</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 6: Personnaliser l'apparence du trait",
+    content: (
+      <div>
+        <p>Tu peux également personnaliser l'apparence du trait que dessine la tortue avec ces commandes :</p>
+        <ul>
+          <li><code>FIXECOULEUR n</code> : Change la couleur du crayon (n est un numéro de couleur)</li>
+          <li><code>FIXETAILLE n</code> : Change l'épaisseur du trait (n est un nombre positif)</li>
+        </ul>
+        <p>Les numéros de couleur dépendent de l'environnement Logo que tu utilises, mais voici quelques valeurs courantes :</p>
+        <ul>
+          <li>0 : noir</li>
+          <li>1 : bleu</li>
+          <li>2 : vert</li>
+          <li>3 : cyan</li>
+          <li>4 : rouge</li>
+          <li>5 : magenta</li>
+          <li>6 : jaune</li>
+          <li>7 : blanc</li>
+        </ul>
+        <p>Exemple d'utilisation :</p>
+        <pre>
+          VE                    ; Efface l'écran
+          FIXECOULEUR 4         ; Fixe la couleur à rouge
+          FIXETAILLE 3          ; Épaissit le trait
+          REPETE 4 [AV 100 TD 90]  ; Dessine un carré rouge avec un trait épais
+        </pre>
+        <p>Ces commandes te permettent de créer des dessins plus colorés et expressifs !</p>
+      </div>
+    )
+  }
+]} />
+
+<Tip>
+Pour dessiner des formes régulières efficacement, utilise cette formule simple : pour un polygone à N côtés, l'angle de rotation est de 360 ÷ N degrés. Par exemple, pour un pentagone (5 côtés), tu dois tourner de 360 ÷ 5 = 72 degrés après chaque côté.
+</Tip>
+
+<ExerciseCard title="Exercice pratique: Créer des motifs géométriques">
+
+Mets en pratique ce que tu as appris en réalisant ces défis :
+
+1. Dessine un escalier à 5 marches. Chaque marche doit faire 20 pas de large et 20 pas de haut.
+
+2. Dessine une étoile à 5 branches. Indice : utilise la commande REPETE avec un angle de 144 degrés.
+
+3. Dessine un "soleil" : un cercle avec 8 rayons qui partent du centre. Utilise LC et BC pour te déplacer entre le centre et le bord sans dessiner.
+
+4. Crée un motif de ton choix en utilisant au moins trois couleurs différentes.
+
+5. Défi bonus : Dessine une spirale carrée. Commence par un petit carré, puis augmente progressivement la taille des côtés à chaque itération. Indice : tu ne pourras pas utiliser REPETE directement pour cela.
+
+N'oublie pas d'utiliser VE entre chaque exercice pour repartir d'un écran vide. Si tu es bloqué, essaie de décomposer le problème en étapes plus simples !
+
+</ExerciseCard>
+
+</CenteredContent>

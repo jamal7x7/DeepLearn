@@ -1,0 +1,221 @@
+---
+title: "L'Informatique"
+description: "Comprendre les principes fondamentaux de l'informatique et son fonctionnement"
+difficulty: "Débutant"
+---
+import { accordionItems } from './SI02-informatique-data';
+
+<CenteredContent>
+
+# L'Informatique
+
+<ExerciseCard title="Découvrir les fondements de l'informatique">
+
+Dans cette leçon, tu vas découvrir ce qu'est l'informatique, comment fonctionne un ordinateur et quels sont les principes fondamentaux qui régissent cette science fascinante.
+
+Voici ce que tu vas apprendre :
+- Les concepts de base de l'informatique
+- Les composants matériels et logiciels d'un système informatique
+- Les principes algorithmiques fondamentaux
+- L'évolution et les applications de l'informatique dans notre société
+
+</ExerciseCard>
+
+    title: "Étape 1: Qu'est-ce que l'informatique ?",
+    content: (
+      <div>
+        <p>L'<strong>informatique</strong> est la science du traitement automatique de l'information à l'aide de machines. Le mot "informatique" est d'ailleurs formé à partir des mots "information" et "automatique".</p>
+        <p>L'informatique englobe plusieurs domaines :</p>
+        <ul>
+          <li><strong>Théorie de l'information</strong> : Comment représenter et mesurer l'information</li>
+          <li><strong>Algorithmique</strong> : Comment résoudre des problèmes étape par étape</li>
+          <li><strong>Programmation</strong> : Comment traduire des algorithmes en instructions pour l'ordinateur</li>
+          <li><strong>Architecture des ordinateurs</strong> : Comment concevoir et construire des machines de traitement</li>
+          <li><strong>Réseaux</strong> : Comment connecter des systèmes informatiques entre eux</li>
+          <li><strong>Intelligence artificielle</strong> : Comment créer des systèmes capables d'apprendre et de s'adapter</li>
+        </ul>
+        <p>L'informatique est à la fois une science théorique (avec des fondements mathématiques) et une discipline pratique (avec des applications concrètes).</p>
+      </div>
+    )
+    title: "Étape 2: Les composants d'un système informatique",
+    content: (
+      <div>
+        <p>Un système informatique est composé de deux grandes parties :</p>
+        <h3>Le matériel (Hardware)</h3>
+        <p>Ce sont tous les composants physiques :</p>
+        <ul>
+          <li><strong>Processeur (CPU)</strong> : Le "cerveau" de l'ordinateur qui exécute les instructions</li>
+          <li><strong>Mémoire vive (RAM)</strong> : Stockage temporaire des données en cours d'utilisation</li>
+          <li><strong>Mémoire de masse</strong> : Disques durs, SSD, clés USB pour le stockage permanent</li>
+          <li><strong>Carte mère</strong> : Circuit principal qui relie tous les composants</li>
+          <li><strong>Périphériques d'entrée</strong> : Clavier, souris, scanner, microphone, etc.</li>
+          <li><strong>Périphériques de sortie</strong> : Écran, imprimante, haut-parleurs, etc.</li>
+        </ul>
+        <h3>Le logiciel (Software)</h3>
+        <p>Ce sont les programmes qui font fonctionner le matériel :</p>
+        <ul>
+          <li><strong>Système d'exploitation</strong> : Windows, macOS, Linux, Android, iOS</li>
+          <li><strong>Applications</strong> : Traitements de texte, navigateurs web, jeux, etc.</li>
+          <li><strong>Pilotes</strong> : Logiciels qui permettent au système d'exploitation de communiquer avec le matériel</li>
+          <li><strong>Utilitaires</strong> : Antivirus, gestionnaires de fichiers, etc.</li>
+        </ul>
+        <p>Ces deux parties sont complémentaires : le matériel est inutile sans logiciel pour le faire fonctionner, et les logiciels ne peuvent pas s'exécuter sans matériel.</p>
+      </div>
+    )
+    title: "Étape 3: Comment fonctionne un ordinateur",
+    content: (
+      <div>
+        <p>Le fonctionnement de base d'un ordinateur peut être résumé par le cycle suivant :</p>
+        <ol>
+          <li><strong>Entrée</strong> : L'ordinateur reçoit des données via ses périphériques d'entrée</li>
+          <li><strong>Traitement</strong> : Le processeur manipule ces données selon les instructions des programmes</li>
+          <li><strong>Sortie</strong> : Les résultats sont présentés via les périphériques de sortie</li>
+          <li><strong>Stockage</strong> : Les données peuvent être sauvegardées pour une utilisation ultérieure</li>
+        </ol>
+        <p>Ce cycle est connu sous le nom de modèle ETOS (Entrée-Traitement-Output-Stockage).</p>
+        <p>À un niveau plus fondamental, l'ordinateur fonctionne selon l'<strong>architecture de von Neumann</strong>, qui comprend :</p>
+        <ul>
+          <li>Une unité de traitement (CPU) avec une unité arithmétique et logique (ALU) et des registres</li>
+          <li>Une unité de contrôle qui coordonne les opérations</li>
+          <li>Une mémoire qui stocke à la fois les données et les programmes</li>
+          <li>Des dispositifs d'entrée/sortie</li>
+        </ul>
+        <p>Toutes les opérations sont effectuées en binaire (0 et 1), car les circuits électroniques ne peuvent être que dans deux états : allumé ou éteint.</p>
+      </div>
+<TutorialAccordion>
+  <details>
+    <summary>Étape 4: Les algorithmes, base de la programmation</summary>
+    <div>
+      <p>Un <strong>algorithme</strong> est une suite d'instructions précises qui permettent de résoudre un problème. C'est comme une recette de cuisine : une série d'étapes à suivre dans un ordre précis pour obtenir un résultat.</p>
+      <p>Les caractéristiques d'un bon algorithme sont :</p>
+      <ul>
+        <li><strong>Finitude</strong> : Il doit se terminer après un nombre fini d'étapes</li>
+        <li><strong>Précision</strong> : Chaque instruction doit être non ambiguë</li>
+        <li><strong>Entrées/Sorties</strong> : Il doit avoir des données d'entrée et produire des résultats</li>
+        <li><strong>Efficacité</strong> : Il doit utiliser les ressources (temps, mémoire) de manière optimale</li>
+      </ul>
+      <p>Voici un exemple simple d'algorithme pour calculer la moyenne de trois nombres :</p>
+      ```text
+1. Demander les trois nombres a, b et c
+2. Calculer somme = a + b + c
+3. Calculer moyenne = somme / 3
+4. Afficher moyenne
+      ```
+      <p>Pour qu'un ordinateur puisse exécuter un algorithme, il faut le traduire en un <strong>programme</strong> écrit dans un langage de programmation (Python, Java, C++, etc.).</p>
+    </div>
+  </details>
+  <details>
+    <summary>Étape 5: L'évolution et les applications de l'informatique</summary>
+    <div>
+      <p>L'informatique a connu une évolution fulgurante depuis ses débuts :</p>
+      <ul>
+        <li><strong>Années 1940-50</strong> : Premiers ordinateurs électroniques (ENIAC, UNIVAC)</li>
+        <li><strong>Années 1960-70</strong> : Miniaturisation, premiers langages de programmation modernes</li>
+        <li><strong>Années 1980-90</strong> : Ordinateurs personnels, interfaces graphiques</li>
+        <li><strong>Années 2000-10</strong> : Internet, mobilité, cloud computing</li>
+        <li><strong>Années 2010-20</strong> : Big data, intelligence artificielle, objets connectés</li>
+      </ul>
+      <p>Aujourd'hui, l'informatique est présente dans presque tous les domaines :</p>
+      <ul>
+        <li><strong>Communication</strong> : Smartphones, réseaux sociaux, messageries</li>
+        <li><strong>Santé</strong> : Imagerie médicale, séquençage génétique, télémédecine</li>
+        <li><strong>Éducation</strong> : E-learning, simulations, réalité virtuelle</li>
+        <li><strong>Transport</strong> : GPS, voitures autonomes, optimisation de trafic</li>
+        <li><strong>Divertissement</strong> : Jeux vidéo, streaming, effets spéciaux</li>
+        <li><strong>Sciences</strong> : Modélisation, calcul scientifique, analyse de données</li>
+      </ul>
+      <p>L'informatique continue d'évoluer avec des technologies émergentes comme l'informatique quantique, la blockchain, ou les interfaces cerveau-machine.</p>
+    </div>
+  </details>
+</TutorialAccordion>
+
+<ExerciseCard title="Exercices pratiques">
+
+## Exercice 1: Identification des composants
+
+Pour chaque élément ci-dessous, indique s'il s'agit de matériel (hardware) ou de logiciel (software) :
+1. Processeur Intel Core i7
+2. Microsoft Word
+3. Disque SSD
+4. Système d'exploitation Linux
+5. Carte graphique NVIDIA
+6. Navigateur Chrome
+
+<details>
+  <summary>Solution</summary>
+  <p>1. Matériel (hardware)</p>
+  <p>2. Logiciel (software)</p>
+  <p>3. Matériel (hardware)</p>
+  <p>4. Logiciel (software)</p>
+  <p>5. Matériel (hardware)</p>
+  <p>6. Logiciel (software)</p>
+</details>
+
+## Exercice 2: Création d'un algorithme
+
+Écris un algorithme simple pour résoudre les problèmes suivants :
+1. Déterminer si un nombre est pair ou impair
+2. Calculer le périmètre et l'aire d'un rectangle
+
+<details>
+  <summary>Solution</summary>
+  <p>1. Algorithme pour déterminer si un nombre est pair ou impair :</p>
+  <pre>
+    <code>
+        1. Demander un nombre n
+        2. Calculer reste = n modulo 2 (reste de la division par 2)
+        3. Si reste = 0, alors
+        4. Afficher "Le nombre est pair"
+        5. Sinon
+        6. Afficher "Le nombre est impair"
+    </code>
+  </pre>
+  <p>2. Algorithme pour calculer le périmètre et l'aire d'un rectangle :</p>
+  <pre>
+    <code>
+        1. Demander la longueur L et la largeur l du rectangle
+        2. Calculer périmètre = 2 × (L + l)
+        3. Calculer aire = L × l
+        4. Afficher périmètre et aire
+    </code>
+  </pre>
+</details>
+
+## Exercice 3: Conversion binaire
+
+Convertis les nombres décimaux suivants en binaire :
+1. 13
+2. 25
+3. 42
+
+<details>
+  <summary>Solution</summary>
+  <p>1. 13 en binaire = 1101</p>
+  <p>2. 25 en binaire = 11001</p>
+  <p>3. 42 en binaire = 101010</p>
+</details>
+
+</ExerciseCard>
+
+<ExerciseCard title="Pour aller plus loin">
+
+## Défis créatifs
+
+1. **Créer un organigramme** : Dessine un organigramme représentant un algorithme pour trier trois nombres dans l'ordre croissant.
+
+2. **Analyser un appareil** : Choisis un appareil électronique de ton quotidien (smartphone, console de jeux, etc.) et identifie ses composants matériels et logiciels.
+
+3. **Programmer un algorithme simple** : Si tu as accès à un environnement de programmation (comme Scratch, Python, etc.), essaie d'implémenter l'un des algorithmes que tu as créés dans les exercices.
+
+## Réflexion
+
+L'informatique a profondément transformé notre société. Réfléchis aux questions suivantes :
+
+- Comment l'informatique a-t-elle changé notre façon de communiquer, de travailler et d'apprendre ?
+- Quels sont les métiers de l'informatique qui t'intéressent le plus et pourquoi ?
+- Quels sont les défis éthiques posés par l'évolution de l'informatique (vie privée, automatisation, etc.) ?
+- Comment imagines-tu l'évolution de l'informatique dans les 20 prochaines années ?
+
+</ExerciseCard>
+
+</CenteredContent>

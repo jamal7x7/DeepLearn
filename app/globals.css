@@ -586,13 +586,13 @@ pre .line::before {
 
  /* Pour le curseur clignotant */
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  /* 0%, 100% { opacity: 1; } */
+  /* 50% { opacity: 0; } */
 }
 
 .blinking-cursor {
-  font-weight: normal; /* Ajustez si besoin */
-  color: black;
-  animation: blink 1s step-end infinite;
-  margin-left: -1px; /* Ajustement fin */
+  /* font-weight: normal; Ajustez si besoin */
+  /* color: black; */
+  /* animation: blink 1s step-end infinite; */
+  /* margin-left: -1px; Ajustement fin */
 }

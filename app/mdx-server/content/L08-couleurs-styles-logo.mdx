@@ -1,0 +1,314 @@
+---
+title: "Couleurs et Styles Graphiques en Logo"
+description: "Créer des dessins colorés et artistiques"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Couleurs et Styles Graphiques en Logo
+
+<ExerciseCard title="Donner vie à vos dessins avec les couleurs et les styles">
+
+Dans cette leçon, tu vas apprendre à embellir tes dessins Logo en utilisant les couleurs et les styles graphiques. Ces techniques te permettront de créer des dessins plus expressifs, plus esthétiques et plus artistiques.
+
+Voici ce que tu vas apprendre :
+- Comment changer la couleur du trait de la tortue
+- Comment modifier l'épaisseur du trait
+- Comment remplir des formes fermées avec des couleurs
+- Comment créer des dessins multicolores et artistiques
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Changer la couleur du trait",
+    content: (
+      <div>
+        <p>Pour changer la couleur du trait que dessine la tortue, tu utilises la commande <code>FIXECOULEUR</code> (ou <code>SETPENCOLOR</code> dans certaines versions de Logo).</p>
+        <p><strong>Syntaxe</strong> : <code>FIXECOULEUR numéro_couleur</code></p>
+        <p>Les numéros de couleur dépendent de l'environnement Logo que tu utilises, mais voici les couleurs standard dans la plupart des versions :</p>
+        <ul>
+          <li><code>0</code> : Noir</li>
+          <li><code>1</code> : Bleu</li>
+          <li><code>2</code> : Vert</li>
+          <li><code>3</code> : Cyan (bleu-vert)</li>
+          <li><code>4</code> : Rouge</li>
+          <li><code>5</code> : Magenta (rose-violet)</li>
+          <li><code>6</code> : Jaune</li>
+          <li><code>7</code> : Blanc</li>
+          <li><code>8</code> à <code>15</code> : Autres couleurs (variables selon les versions)</li>
+        </ul>
+        <p>Exemples d'utilisation :</p>
+        <pre>
+          VE
+          FIXECOULEUR 4  ; Change la couleur en rouge
+          REPETE 4 [AV 100 TD 90]  ; Dessine un carré rouge
+          
+          FIXECOULEUR 2  ; Change la couleur en vert
+          REPETE 3 [AV 100 TD 120]  ; Dessine un triangle vert
+        </pre>
+        <p>Certaines versions de Logo permettent aussi de définir des couleurs personnalisées avec les composantes RVB (Rouge, Vert, Bleu) :</p>
+        <pre>
+          FIXECOULEUR [128 64 255]  ; Couleur personnalisée (violet clair)
+        </pre>
+        <p>Expérimente avec différentes couleurs pour voir lesquelles sont disponibles dans ton environnement Logo !</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Modifier l'épaisseur du trait",
+    content: (
+      <div>
+        <p>Pour modifier l'épaisseur du trait que dessine la tortue, tu utilises la commande <code>FIXETAILLE</code> (ou <code>SETPENSIZE</code> dans certaines versions).</p>
+        <p><strong>Syntaxe</strong> : <code>FIXETAILLE épaisseur</code></p>
+        <p>L'épaisseur est un nombre positif qui représente la largeur du trait en pixels. Par défaut, l'épaisseur est généralement de 1.</p>
+        <p>Exemples d'utilisation :</p>
+        <pre>
+          VE
+          FIXETAILLE 1  ; Trait fin (par défaut)
+          REPETE 4 [AV 100 TD 90]  ; Dessine un carré avec un trait fin
+          
+          FIXETAILLE 5  ; Trait épais
+          REPETE 3 [AV 100 TD 120]  ; Dessine un triangle avec un trait épais
+        </pre>
+        <p>Tu peux combiner <code>FIXECOULEUR</code> et <code>FIXETAILLE</code> pour des effets plus intéressants :</p>
+        <pre>
+          VE
+          FIXECOULEUR 4  ; Rouge
+          FIXETAILLE 3   ; Trait moyennement épais
+          REPETE 4 [AV 100 TD 90]  ; Dessine un carré rouge avec un trait épais
+        </pre>
+        <p>L'épaisseur du trait est particulièrement utile pour mettre en évidence certaines parties de ton dessin ou pour créer des effets visuels intéressants.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Remplir des formes fermées",
+    content: (
+      <div>
+        <p>Une fois que tu as dessiné une forme fermée (comme un carré, un triangle ou un cercle), tu peux la remplir avec la couleur actuelle en utilisant la commande <code>REMPLIS</code> (ou <code>FILL</code> dans certaines versions).</p>
+        <p><strong>Syntaxe</strong> : <code>REMPLIS</code></p>
+        <p>Pour que le remplissage fonctionne correctement, il faut que :</p>
+        <ul>
+          <li>La forme soit complètement fermée (le début et la fin du tracé se rejoignent)</li>
+          <li>La tortue soit à l'intérieur de la forme à remplir</li>
+        </ul>
+        <p>Exemple de remplissage d'un carré :</p>
+        <pre>
+          VE
+          FIXECOULEUR 4  ; Rouge
+          REPETE 4 [AV 100 TD 90]  ; Dessine un carré
+          REMPLIS  ; Remplit le carré en rouge
+        </pre>
+        <p>Tu peux aussi changer la couleur de remplissage indépendamment de la couleur du trait :</p>
+        <pre>
+          VE
+          FIXECOULEUR 0  ; Noir pour le contour
+          REPETE 4 [AV 100 TD 90]  ; Dessine un carré noir
+          FIXECOULEUR 6  ; Jaune pour le remplissage
+          REMPLIS  ; Remplit le carré en jaune
+        </pre>
+        <p>Pour dessiner plusieurs formes remplies de couleurs différentes :</p>
+        <pre>
+          POUR CARRE_REMPLI :taille :couleur
+            FIXECOULEUR :couleur
+            REPETE 4 [AV :taille TD 90]
+            REMPLIS
+          FIN
+          
+          VE
+          CARRE_REMPLI 100 4  ; Carré rouge
+          AV 150
+          CARRE_REMPLI 100 2  ; Carré vert
+          AV 150
+          CARRE_REMPLI 100 1  ; Carré bleu
+        </pre>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Créer des dégradés de couleurs",
+    content: (
+      <div>
+        <p>Tu peux créer des effets de dégradé en changeant progressivement la couleur pendant que tu dessines. Voici un exemple qui crée un cercle avec un dégradé de couleurs :</p>
+        <pre>
+          POUR CERCLE_DEGRADE :rayon
+            VE
+            REPETE 360 [
+              FIXECOULEUR 1 + RESTE QUOTIENT :boucle 360 7
+              AV :rayon / 60
+              TD 1
+            ]
+          FIN
+          
+          CERCLE_DEGRADE 120  ; Dessine un cercle avec un dégradé de couleurs
+        </pre>
+        <p>Dans cet exemple, la couleur change tous les 60 degrés environ, créant un effet d'arc-en-ciel.</p>
+        <p>Voici un autre exemple qui crée une spirale colorée :</p>
+        <pre>
+          POUR SPIRALE_COLOREE :tours :pas
+            VE
+            DONNE "angle 0
+            REPETE :tours * 36 [
+              FIXECOULEUR 1 + RESTE QUOTIENT :boucle 36 7
+              AV :pas * :angle / 180
+              TD 10
+              DONNE "angle :angle + 1
+            ]
+          FIN
+          
+          SPIRALE_COLOREE 10 1  ; Dessine une spirale colorée
+        </pre>
+        <p>Ces techniques te permettent de créer des dessins beaucoup plus dynamiques et intéressants visuellement.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Dessiner des formes artistiques",
+    content: (
+      <div>
+        <p>Combinons maintenant tout ce que nous avons appris pour créer des dessins plus artistiques. Voici quelques exemples :</p>
+        <p><strong>Fleur colorée</strong> :</p>
+        <pre>
+          POUR FLEUR :taille :petales
+            VE
+            REPETE :petales [
+              FIXECOULEUR 1 + RESTE :boucle 7
+              REPETE 36 [AV :taille / 10 TD 10]
+              TD 360 / :petales
+            ]
+          FIN
+          
+          FLEUR 100 8  ; Dessine une fleur à 8 pétales
+        </pre>
+        <p><strong>Étoile multicolore</strong> :</p>
+        <pre>
+          POUR ETOILE :taille :branches
+            VE
+            DONNE "angle 180 - (180 / :branches)
+            REPETE :branches [
+              FIXECOULEUR 1 + RESTE :boucle 7
+              FIXETAILLE 2
+              AV :taille
+              RE :taille
+              TD 360 / :branches
+            ]
+          FIN
+          
+          ETOILE 150 5  ; Dessine une étoile à 5 branches
+        </pre>
+        <p><strong>Mandala</strong> :</p>
+        <pre>
+          POUR MANDALA :taille :elements
+            VE
+            REPETE :elements [
+              FIXECOULEUR 1 + RESTE :boucle 7
+              REPETE 4 [AV :taille TD 90]
+              TD 360 / :elements
+            ]
+          FIN
+          
+          MANDALA 100 12  ; Dessine un mandala à 12 éléments
+        </pre>
+        <p>Ces exemples montrent comment les couleurs et les styles peuvent transformer des formes géométriques simples en dessins artistiques complexes.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 6: Techniques avancées de dessin",
+    content: (
+      <div>
+        <p>Voici quelques techniques avancées pour créer des effets visuels encore plus impressionnants :</p>
+        <p><strong>1. Ombrage</strong> :</p>
+        <pre>
+          POUR CARRE_OMBRE :taille
+            VE
+            ; Dessine l'ombre
+            FIXECOULEUR 8  ; Gris
+            FPOS [20 -20]  ; Décalage pour l'ombre
+            REPETE 4 [AV :taille TD 90]
+            REMPLIS
+            
+            ; Dessine le carré principal
+            ORIGINE
+            FIXECOULEUR 4  ; Rouge
+            REPETE 4 [AV :taille TD 90]
+            REMPLIS
+          FIN
+          
+          CARRE_OMBRE 100
+        </pre>
+        <p><strong>2. Effet 3D</strong> :</p>
+        <pre>
+          POUR CUBE :taille
+            VE
+            ; Face arrière
+            FIXECOULEUR 8  ; Gris foncé
+            FPOS [30 30]
+            REPETE 4 [AV :taille TD 90]
+            REMPLIS
+            
+            ; Face latérale
+            ORIGINE
+            FIXECOULEUR 7  ; Gris moyen
+            REPETE 4 [
+              AV :taille
+              SI RESTE :boucle 2 = 0 [FPOS SOMME POS [30 30]] [TD 90]
+            ]
+            REMPLIS
+            
+            ; Face avant
+            ORIGINE
+            FIXECOULEUR 15  ; Blanc
+            REPETE 4 [AV :taille TD 90]
+            REMPLIS
+          FIN
+          
+          CUBE 100
+        </pre>
+        <p><strong>3. Animation simple</strong> :</p>
+        <pre>
+          POUR ANIMATION :frames
+            REPETE :frames [
+              VE
+              FIXECOULEUR 1 + RESTE :boucle 7
+              REPETE 8 [
+                REPETE 36 [AV 2 TD 10]
+                TD 45
+              ]
+              ATTENDS 200  ; Pause de 200 millisecondes
+            ]
+          FIN
+          
+          ANIMATION 10  ; Animation de 10 images
+        </pre>
+        <p>Ces techniques plus avancées te permettent de créer des dessins qui semblent plus professionnels et plus dynamiques. N'hésite pas à les adapter et à les combiner pour créer tes propres œuvres d'art Logo !</p>
+      </div>
+    )
+  }
+]} />
+
+<Tip>
+Pour créer des dessins vraiment impressionnants, essaie de combiner différentes formes géométriques avec des couleurs contrastées. Par exemple, un cercle jaune sur un fond bleu, ou des triangles rouges sur un fond vert. Les contrastes de couleurs attirent l'œil et rendent tes dessins plus dynamiques !
+</Tip>
+
+<ExerciseCard title="Exercice pratique: Créer des dessins artistiques">
+
+Mets en pratique ce que tu as appris en réalisant ces défis artistiques :
+
+1. Crée une procédure `DRAPEAU` qui dessine un drapeau tricolore de ton choix. Utilise les commandes de couleur et de remplissage pour créer les différentes bandes de couleur.
+
+2. Crée une procédure `CIBLE` qui dessine une cible avec au moins trois cercles concentriques de couleurs différentes.
+
+3. Crée une procédure `MAISON_COLOREE` qui dessine une maison avec un toit d'une couleur, des murs d'une autre couleur, et une porte et des fenêtres d'une troisième couleur.
+
+4. Crée une procédure `ROSACE` qui dessine une rosace colorée (un motif circulaire composé de plusieurs cercles ou ellipses qui se chevauchent). Utilise au moins 4 couleurs différentes.
+
+5. Défi bonus : Crée une procédure `PAYSAGE` qui dessine un paysage simple avec un soleil, des montagnes, et un arbre. Utilise différentes couleurs et épaisseurs de trait pour rendre ton dessin plus expressif.
+
+N'oublie pas d'utiliser la commande VE entre chaque exercice pour repartir d'un écran vide. Expérimente avec différentes combinaisons de couleurs pour trouver celles qui te plaisent le plus !
+
+</ExerciseCard>
+
+</CenteredContent>

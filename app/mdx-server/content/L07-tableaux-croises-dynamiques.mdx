@@ -1,0 +1,181 @@
+---
+title: "Tableaux Croisés Dynamiques"
+description: "Apprendre à créer et utiliser des tableaux croisés dynamiques dans Excel 2021"
+difficulty: "Avancé"
+---
+
+<CenteredContent>
+
+# Tableaux Croisés Dynamiques dans Excel 2021
+
+<ExerciseCard title="Synthétiser et analyser vos données">
+
+Dans cette leçon, tu vas découvrir l'un des outils les plus puissants d'Excel : les tableaux croisés dynamiques. Ils te permettront de synthétiser, d'explorer et d'analyser rapidement de grandes quantités de données.
+
+Voici ce que tu vas apprendre :
+- Ce qu'est un tableau croisé dynamique et à quoi il sert
+- Comment créer un tableau croisé dynamique simple
+- Comment organiser les données en lignes, colonnes, valeurs et filtres
+- Comment modifier la présentation et les calculs d'un tableau croisé dynamique
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Comprendre les tableaux croisés dynamiques",
+    content: (
+      <div>
+        <p>Un <strong>tableau croisé dynamique</strong> est un outil qui permet de :</p>
+        <ul>
+          <li>Résumer rapidement de grandes quantités de données</li>
+          <li>Analyser les relations entre différentes données</li>
+          <li>Réorganiser les informations selon différentes perspectives</li>
+          <li>Effectuer des calculs automatiques (sommes, moyennes, etc.)</li>
+          <li>Créer des rapports interactifs que tu peux modifier facilement</li>
+        </ul>
+        <p>Imagine que tu as un tableau contenant des centaines de ventes avec des informations sur les produits, les régions, les dates et les montants. Un tableau croisé dynamique peut te montrer instantanément les ventes totales par région, par produit, par mois, ou toute autre combinaison que tu souhaites explorer.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Préparer les données et créer un tableau croisé",
+    content: (
+      <div>
+        <p>Avant de créer un tableau croisé dynamique, assure-toi que tes données sont bien organisées :</p>
+        <ul>
+          <li>Chaque colonne doit avoir un en-tête clair</li>
+          <li>Pas de lignes ou colonnes vides dans le tableau</li>
+          <li>Données cohérentes (même format dans chaque colonne)</li>
+        </ul>
+        <p>Pour créer un tableau croisé dynamique :</p>
+        <ol>
+          <li>Clique sur n'importe quelle cellule de ton tableau de données</li>
+          <li>Va dans l'onglet "Insertion" du ruban</li>
+          <li>Clique sur "Tableau croisé dynamique"</li>
+          <li>Dans la boîte de dialogue qui s'ouvre :</li>
+          <ul>
+            <li>Vérifie que la plage de données est correcte</li>
+            <li>Choisis où placer le tableau croisé (nouvelle feuille ou feuille existante)</li>
+            <li>Clique sur OK</li>
+          </ul>
+        </ol>
+        <p>Excel crée un tableau croisé vide et affiche le volet "Champs de tableau croisé dynamique" à droite.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Construire le tableau croisé dynamique",
+    content: (
+      <div>
+        <p>Pour construire ton tableau croisé, utilise le volet "Champs de tableau croisé dynamique" :</p>
+        <ol>
+          <li>En haut du volet, tu vois la liste de tous les champs (colonnes) de ton tableau source</li>
+          <li>Coche les champs que tu veux inclure dans ton analyse</li>
+          <li>Fais glisser les champs vers les quatre zones en bas du volet :</li>
+          <ul>
+            <li><strong>Filtres</strong> : Champs pour filtrer l'ensemble du tableau (ex: Année)</li>
+            <li><strong>Colonnes</strong> : Champs à afficher horizontalement (ex: Mois)</li>
+            <li><strong>Lignes</strong> : Champs à afficher verticalement (ex: Produit)</li>
+            <li><strong>Valeurs</strong> : Données à calculer à l'intersection des lignes et colonnes (ex: Ventes)</li>
+          </ul>
+        </ol>
+        <p>Exemple : Pour analyser les ventes par produit et par mois :</p>
+        <ul>
+          <li>Place "Produit" dans la zone Lignes</li>
+          <li>Place "Mois" dans la zone Colonnes</li>
+          <li>Place "Montant" dans la zone Valeurs (par défaut, Excel calcule la somme)</li>
+        </ul>
+        <p>Le tableau se met à jour automatiquement à chaque modification!</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Modifier les calculs et le format",
+    content: (
+      <div>
+        <p>Tu peux changer le type de calcul effectué sur tes données :</p>
+        <ol>
+          <li>Clique sur la flèche à côté du champ dans la zone Valeurs</li>
+          <li>Sélectionne "Paramètres des champs de valeurs"</li>
+          <li>Dans l'onglet "Résumer les valeurs par", choisis :</li>
+          <ul>
+            <li><strong>Somme</strong> : Total des valeurs</li>
+            <li><strong>Nombre</strong> : Compte le nombre d'occurrences</li>
+            <li><strong>Moyenne</strong> : Calcule la moyenne</li>
+            <li><strong>Max/Min</strong> : Trouve la valeur maximale ou minimale</li>
+            <li>Et d'autres options selon tes besoins</li>
+          </ul>
+        </ol>
+        <p>Pour modifier la présentation du tableau :</p>
+        <ul>
+          <li>Dans l'onglet "Création" (qui apparaît quand le tableau est sélectionné), explore les options de style et de mise en forme</li>
+          <li>Utilise "Disposition du rapport" pour choisir entre différentes présentations (compacte, en plan, tabulaire)</li>
+          <li>Active ou désactive les sous-totaux et les totaux généraux selon tes besoins</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Explorer et analyser les données",
+    content: (
+      <div>
+        <p>Les tableaux croisés dynamiques offrent plusieurs façons d'explorer tes données :</p>
+        <ul>
+          <li><strong>Développer/Réduire</strong> : Clique sur les boutons +/- pour afficher ou masquer les détails</li>
+          <li><strong>Filtrer</strong> : Utilise les filtres dans les en-têtes de lignes et de colonnes</li>
+          <li><strong>Trier</strong> : Clique droit sur un champ et choisis les options de tri</li>
+          <li><strong>Grouper</strong> : Sélectionne plusieurs éléments, clique droit et choisis "Grouper"</li>
+        </ul>
+        <p>Pour actualiser ton tableau croisé après modification des données source :</p>
+        <ol>
+          <li>Clique n'importe où dans le tableau croisé</li>
+          <li>Dans l'onglet "Analyser", clique sur "Actualiser"</li>
+        </ol>
+        <p>Tu peux aussi créer un graphique croisé dynamique pour visualiser tes données :</p>
+        <ol>
+          <li>Sélectionne ton tableau croisé</li>
+          <li>Dans l'onglet "Analyser", clique sur "Graphique croisé dynamique"</li>
+          <li>Choisis le type de graphique qui convient le mieux à tes données</li>
+        </ol>
+      </div>
+    )
+  }
+]} />
+
+<Tip>
+Si tu modifies la structure de ton tableau source (ajout de colonnes, changement de noms), n'oublie pas de mettre à jour la source de données du tableau croisé. Clique sur le tableau croisé, puis dans l'onglet "Analyser", clique sur "Modifier la source de données".
+</Tip>
+
+<ExerciseCard title="Exercice pratique: Analyse d'une enquête">
+
+Crée un tableau croisé dynamique pour analyser les résultats d'une enquête auprès des élèves de ton école :
+
+1. Crée un tableau de données avec les colonnes suivantes :
+   - Classe (6e, 7e, 8e)
+   - Genre (Fille, Garçon)
+   - Sport préféré (Football, Basketball, Natation, Athlétisme, Autre)
+   - Temps hebdomadaire consacré au sport (en heures)
+
+2. Saisis au moins 20 enregistrements avec des données variées
+
+3. Crée un tableau croisé dynamique sur une nouvelle feuille :
+   - Place "Sport préféré" dans les Lignes
+   - Place "Classe" dans les Colonnes
+   - Place "Temps hebdomadaire" dans les Valeurs (en tant que Somme)
+
+4. Modifie le calcul pour afficher la moyenne du temps hebdomadaire au lieu de la somme
+
+5. Ajoute "Genre" comme filtre du rapport
+
+6. Crée un second tableau croisé dynamique montrant :
+   - "Genre" dans les Lignes
+   - "Sport préféré" dans les Colonnes
+   - Le nombre d'élèves dans les Valeurs
+
+7. Crée un graphique croisé dynamique basé sur ton second tableau
+
+Bonus : Groupe les classes 6e et 7e ensemble pour comparer avec la 8e.
+
+</ExerciseCard>
+
+</CenteredContent>

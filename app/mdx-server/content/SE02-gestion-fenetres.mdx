@@ -1,0 +1,375 @@
+---
+title: "Gestion des Fenêtres"
+description: "Comprendre et maîtriser la gestion des fenêtres dans un système d'exploitation graphique"
+difficulty: "Débutant"
+---
+
+<CenteredContent>
+
+# Gestion des Fenêtres
+
+<ExerciseCard title="Maîtriser la gestion des fenêtres">
+
+Dans cette leçon, tu vas apprendre à manipuler efficacement les fenêtres dans un système d'exploitation graphique, ce qui te permettra de travailler plus rapidement et d'organiser ton espace de travail numérique.
+
+Voici ce que tu vas apprendre :
+- Ce qu'est une fenêtre et ses composants
+- Comment manipuler les fenêtres (ouvrir, fermer, déplacer, redimensionner)
+- Comment organiser plusieurs fenêtres à l'écran
+- Les raccourcis clavier pour une gestion efficace des fenêtres
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Comprendre les fenêtres et leurs composants",
+    content: (
+      <div>
+        <p>Une <strong>fenêtre</strong> est une zone rectangulaire à l'écran qui contient une application ou un document. C'est l'élément fondamental des interfaces graphiques modernes.</p>
+        
+        <p>Les principales parties d'une fenêtre sont :</p>
+        
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <pre style={{ display: 'inline-block', textAlign: 'left' }}>
+{`+----------------------------------+
+| Titre de la fenêtre    [_][□][X] |
++----------------------------------+
+|                                  |
+|                                  |
+|       Contenu de la fenêtre      |
+|                                  |
+|                                  |
++----------------------------------+
+|          Barre d'état            |
++----------------------------------+`}
+          </pre>
+        </div>
+        
+        <ul>
+          <li><strong>Barre de titre</strong> : Partie supérieure qui affiche le nom de l'application ou du document</li>
+          <li><strong>Boutons de contrôle</strong> : 
+            <ul>
+              <li>Minimiser [_] : Réduit la fenêtre dans la barre des tâches</li>
+              <li>Maximiser/Restaurer [□] : Agrandit la fenêtre pour occuper tout l'écran ou la restaure à sa taille précédente</li>
+              <li>Fermer [X] : Ferme la fenêtre et quitte l'application</li>
+            </ul>
+          </li>
+          <li><strong>Bordures et coins</strong> : Permettent de redimensionner la fenêtre</li>
+          <li><strong>Zone de contenu</strong> : Affiche le contenu de l'application ou du document</li>
+          <li><strong>Barre d'état</strong> : Affiche des informations sur l'état actuel de l'application (optionnelle)</li>
+          <li><strong>Barres de défilement</strong> : Permettent de faire défiler le contenu qui ne tient pas entièrement dans la fenêtre</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Manipuler les fenêtres",
+    content: (
+      <div>
+        <h4>Ouvrir une fenêtre</h4>
+        <p>Pour ouvrir une fenêtre, tu peux :</p>
+        <ul>
+          <li>Cliquer sur une icône d'application dans le menu Démarrer, le Dock ou le Launchpad</li>
+          <li>Double-cliquer sur une icône de document ou d'application sur le bureau</li>
+          <li>Utiliser un raccourci clavier associé à une application</li>
+        </ul>
+        
+        <h4>Déplacer une fenêtre</h4>
+        <p>Pour déplacer une fenêtre :</p>
+        <ol>
+          <li>Place le curseur sur la barre de titre</li>
+          <li>Clique et maintiens le bouton gauche de la souris enfoncé</li>
+          <li>Fais glisser la fenêtre vers l'emplacement souhaité</li>
+          <li>Relâche le bouton de la souris</li>
+        </ol>
+        
+        <h4>Redimensionner une fenêtre</h4>
+        <p>Pour redimensionner une fenêtre :</p>
+        <ol>
+          <li>Place le curseur sur un bord ou un coin de la fenêtre (le curseur change de forme)</li>
+          <li>Clique et maintiens le bouton gauche de la souris enfoncé</li>
+          <li>Fais glisser pour agrandir ou réduire la fenêtre</li>
+          <li>Relâche le bouton de la souris</li>
+        </ol>
+        
+        <h4>Maximiser une fenêtre</h4>
+        <p>Pour maximiser une fenêtre (l'agrandir pour qu'elle occupe tout l'écran) :</p>
+        <ul>
+          <li>Clique sur le bouton de maximisation [□] dans la barre de titre</li>
+          <li>Double-clique sur la barre de titre</li>
+          <li>Utilise le raccourci clavier (Win+Flèche haut sur Windows, Ctrl+Flèche verte sur macOS)</li>
+        </ul>
+        
+        <h4>Minimiser une fenêtre</h4>
+        <p>Pour minimiser une fenêtre (la réduire dans la barre des tâches ou le Dock) :</p>
+        <ul>
+          <li>Clique sur le bouton de minimisation [_] dans la barre de titre</li>
+          <li>Utilise le raccourci clavier (Win+Flèche bas sur Windows, Cmd+M sur macOS)</li>
+        </ul>
+        
+        <h4>Fermer une fenêtre</h4>
+        <p>Pour fermer une fenêtre :</p>
+        <ul>
+          <li>Clique sur le bouton de fermeture [X] dans la barre de titre</li>
+          <li>Utilise le raccourci clavier (Alt+F4 sur Windows, Cmd+W sur macOS)</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Organiser plusieurs fenêtres",
+    content: (
+      <div>
+        <p>Travailler avec plusieurs fenêtres ouvertes simultanément est courant. Voici comment les organiser efficacement :</p>
+        
+        <h4>Basculer entre les fenêtres</h4>
+        <ul>
+          <li><strong>Alt+Tab</strong> (Windows/Linux) ou <strong>Cmd+Tab</strong> (macOS) : Permet de basculer entre les applications ouvertes</li>
+          <li><strong>Alt+Échap</strong> (Windows) : Bascule entre les fenêtres dans l'ordre d'ouverture</li>
+          <li><strong>Ctrl+Tab</strong> : Dans de nombreuses applications, permet de basculer entre les onglets ou documents ouverts</li>
+        </ul>
+        
+        <h4>Affichage côte à côte (Snap)</h4>
+        <p>Sur Windows :</p>
+        <ul>
+          <li>Fais glisser une fenêtre vers le bord gauche ou droit de l'écran pour qu'elle occupe la moitié de l'écran</li>
+          <li>Utilise Win+Flèche gauche ou Win+Flèche droite pour le même résultat</li>
+          <li>Fais glisser une fenêtre vers un coin pour qu'elle occupe un quart de l'écran</li>
+        </ul>
+        
+        <p>Sur macOS :</p>
+        <ul>
+          <li>Maintiens le bouton vert de la fenêtre pour voir les options de positionnement</li>
+          <li>Utilise des applications tierces comme Magnet ou Rectangle pour des fonctionnalités similaires à Windows</li>
+        </ul>
+        
+        <h4>Vue d'ensemble des fenêtres</h4>
+        <ul>
+          <li><strong>Win+Tab</strong> (Windows) : Ouvre la Timeline/Task View</li>
+          <li><strong>Mission Control</strong> (macOS) : Appuie sur F3 ou fais un balayage vers le haut avec trois doigts sur le trackpad</li>
+          <li><strong>Alt+Tab</strong> (maintenu) : Affiche toutes les fenêtres ouvertes</li>
+        </ul>
+        
+        <h4>Bureaux virtuels</h4>
+        <p>Les bureaux virtuels permettent de créer plusieurs espaces de travail :</p>
+        <ul>
+          <li>Sur Windows : Win+Tab puis "+ Nouveau bureau" en haut</li>
+          <li>Sur macOS : Mission Control puis "+ Nouveau bureau" en haut</li>
+          <li>Sur Linux : Dépend de l'environnement de bureau, souvent Ctrl+Alt+Flèches</li>
+        </ul>
+        
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <pre style={{ display: 'inline-block', textAlign: 'left' }}>
+{`+---------------+----------------+
+|               |                |
+|   Fenêtre 1   |   Fenêtre 2    |
+|               |                |
++---------------+----------------+
+|                                |
+|           Fenêtre 3            |
+|                                |
++--------------------------------+`}
+          </pre>
+        </div>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Raccourcis clavier essentiels",
+    content: (
+      <div>
+        <p>Les raccourcis clavier permettent de manipuler les fenêtres beaucoup plus rapidement qu'avec la souris. Voici les plus utiles :</p>
+        
+        <h4>Raccourcis Windows</h4>
+        <ul>
+          <li><strong>Alt+Tab</strong> : Basculer entre les applications ouvertes</li>
+          <li><strong>Alt+F4</strong> : Fermer la fenêtre active</li>
+          <li><strong>Win+D</strong> : Afficher le bureau (minimiser toutes les fenêtres)</li>
+          <li><strong>Win+Flèche haut</strong> : Maximiser la fenêtre active</li>
+          <li><strong>Win+Flèche bas</strong> : Restaurer/minimiser la fenêtre active</li>
+          <li><strong>Win+Flèche gauche/droite</strong> : Ancrer la fenêtre à gauche/droite de l'écran</li>
+          <li><strong>Win+Tab</strong> : Ouvrir la vue des tâches (avec bureaux virtuels)</li>
+          <li><strong>Win+Ctrl+D</strong> : Créer un nouveau bureau virtuel</li>
+          <li><strong>Win+Ctrl+Flèche gauche/droite</strong> : Basculer entre les bureaux virtuels</li>
+        </ul>
+        
+        <h4>Raccourcis macOS</h4>
+        <ul>
+          <li><strong>Cmd+Tab</strong> : Basculer entre les applications</li>
+          <li><strong>Cmd+W</strong> : Fermer la fenêtre active</li>
+          <li><strong>Cmd+M</strong> : Minimiser la fenêtre active</li>
+          <li><strong>Cmd+H</strong> : Masquer l'application active</li>
+          <li><strong>Cmd+Option+H</strong> : Masquer toutes les autres applications</li>
+          <li><strong>Ctrl+Flèche haut</strong> : Mission Control (voir toutes les fenêtres)</li>
+          <li><strong>Ctrl+Flèche bas</strong> : Voir toutes les fenêtres de l'application active</li>
+          <li><strong>Ctrl+Flèche gauche/droite</strong> : Naviguer entre les bureaux virtuels</li>
+        </ul>
+        
+        <h4>Raccourcis Linux (environnement GNOME)</h4>
+        <ul>
+          <li><strong>Alt+Tab</strong> : Basculer entre les fenêtres</li>
+          <li><strong>Alt+F4</strong> : Fermer la fenêtre active</li>
+          <li><strong>Super (Win)</strong> : Ouvrir la vue d'ensemble</li>
+          <li><strong>Ctrl+Alt+Flèche haut/bas</strong> : Basculer entre les espaces de travail</li>
+          <li><strong>Ctrl+Alt+Shift+Flèche</strong> : Déplacer la fenêtre active vers un autre espace de travail</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Fonctionnalités avancées de gestion des fenêtres",
+    content: (
+      <div>
+        <p>Les systèmes d'exploitation modernes offrent des fonctionnalités avancées pour la gestion des fenêtres :</p>
+        
+        <h4>Fenêtres transparentes et effets visuels</h4>
+        <p>Certains systèmes permettent de rendre les fenêtres partiellement transparentes ou d'ajouter des effets visuels lors des transitions :</p>
+        <ul>
+          <li>Sur Windows : Paramètres → Personnalisation → Couleurs → Effets de transparence</li>
+          <li>Sur macOS : Ces effets sont intégrés par défaut</li>
+        </ul>
+        
+        <h4>Fenêtres toujours au premier plan</h4>
+        <p>Pour garder une fenêtre toujours visible au-dessus des autres :</p>
+        <ul>
+          <li>Sur Windows : Utiliser des applications tierces comme "Always On Top"</li>
+          <li>Sur macOS : Utiliser des applications comme "Afloat"</li>
+        </ul>
+        
+        <h4>Gestionnaires de fenêtres tiers</h4>
+        <p>Des applications tierces peuvent améliorer la gestion des fenêtres :</p>
+        <ul>
+          <li><strong>Windows</strong> : PowerToys (FancyZones), AquaSnap, DisplayFusion</li>
+          <li><strong>macOS</strong> : Magnet, Rectangle, BetterSnapTool, Divvy</li>
+          <li><strong>Linux</strong> : De nombreux gestionnaires de fenêtres alternatifs comme i3, Awesome, Xmonad</li>
+        </ul>
+        
+        <h4>Gestion multi-écrans</h4>
+        <p>Si tu utilises plusieurs écrans :</p>
+        <ul>
+          <li>Win+Shift+Flèche (Windows) : Déplacer une fenêtre vers un autre écran</li>
+          <li>Sur macOS : Fais glisser la fenêtre vers le bord de l'écran dans la direction de l'autre écran</li>
+          <li>Utilise les paramètres d'affichage pour configurer la disposition des écrans</li>
+        </ul>
+      </div>
+    )
+  }
+]} />
+
+<ExerciseCard title="Exercice pratique : Maîtriser les fenêtres">
+
+Mets en pratique ce que tu as appris avec ces exercices :
+
+### Exercice 1 : Manipulation de base
+
+1. Ouvre trois applications différentes (par exemple, un navigateur web, un traitement de texte et une calculatrice).
+2. Pratique le déplacement de chaque fenêtre à différents endroits de l'écran.
+3. Redimensionne chaque fenêtre pour qu'elle occupe environ un quart de l'écran.
+4. Maximise puis restaure chaque fenêtre.
+5. Minimise puis restaure chaque fenêtre.
+
+### Exercice 2 : Organisation des fenêtres
+
+1. Organise les trois fenêtres ouvertes pour qu'elles soient toutes visibles simultanément à l'écran.
+2. Utilise la fonction d'ancrage (snap) pour placer deux fenêtres côte à côte.
+3. Pratique le basculement entre les fenêtres en utilisant Alt+Tab (ou Cmd+Tab).
+4. Si ton système le permet, crée un nouveau bureau virtuel et déplace une des applications vers ce bureau.
+
+### Exercice 3 : Raccourcis clavier
+
+1. Ferme et rouvre une application en utilisant uniquement le clavier.
+2. Maximise et restaure une fenêtre en utilisant uniquement le clavier.
+3. Bascule entre toutes tes applications ouvertes en utilisant uniquement le clavier.
+4. Affiche le bureau (minimise toutes les fenêtres) puis restaure-les, toujours avec le clavier.
+
+### Exercice 4 : Défi avancé
+
+1. Chronomètre-toi pour voir combien de temps il te faut pour ouvrir trois applications et les organiser en mosaïque à l'écran en utilisant la souris.
+2. Refais le même exercice en utilisant uniquement les raccourcis clavier.
+3. Compare les deux temps pour voir à quel point les raccourcis peuvent te faire gagner du temps !
+
+</ExerciseCard>
+
+<QuizCard title="Quiz : Gestion des fenêtres">
+
+<Quiz
+  questions={[
+    {
+      question: "Quel élément d'une fenêtre permet principalement de la déplacer ?",
+      options: [
+        "La barre de défilement",
+        "La barre de titre",
+        "La barre d'état",
+        "Les bordures"
+      ],
+      correctIndex: 1
+    },
+    {
+      question: "Quel raccourci clavier permet généralement de basculer entre les applications ouvertes sous Windows ?",
+      options: [
+        "Ctrl+Tab",
+        "Alt+Tab",
+        "Win+Tab",
+        "Shift+Tab"
+      ],
+      correctIndex: 1
+    },
+    {
+      question: "Comment appelle-t-on la fonctionnalité qui permet d'ancrer automatiquement une fenêtre à un côté de l'écran ?",
+      options: [
+        "Snap",
+        "Dock",
+        "Pin",
+        "Lock"
+      ],
+      correctIndex: 0
+    },
+    {
+      question: "Quelle action effectue généralement le bouton [□] dans la barre de titre d'une fenêtre ?",
+      options: [
+        "Fermer la fenêtre",
+        "Minimiser la fenêtre",
+        "Maximiser ou restaurer la fenêtre",
+        "Verrouiller la fenêtre"
+      ],
+      correctIndex: 2
+    },
+    {
+      question: "Quelle fonctionnalité permet de créer plusieurs espaces de travail distincts avec différents ensembles de fenêtres ?",
+      options: [
+        "Multi-fenêtrage",
+        "Bureaux virtuels",
+        "Écrans partagés",
+        "Zones d'ancrage"
+      ],
+      correctIndex: 1
+    }
+  ]}
+/>
+
+</QuizCard>
+
+<ResourcesCard title="Ressources complémentaires">
+
+### Pour approfondir tes connaissances sur la gestion des fenêtres
+
+#### Guides officiels
+- [Centre d'aide Windows](https://support.microsoft.com/fr-fr/windows) - Section sur la gestion des fenêtres et des applications
+- [Support Apple](https://support.apple.com/fr-fr/mac) - Guides sur l'utilisation des fenêtres dans macOS
+
+#### Applications utiles
+- **Windows** : PowerToys (Microsoft), AquaSnap, DisplayFusion
+- **macOS** : Magnet, Rectangle, BetterSnapTool
+- **Linux** : Différents selon l'environnement de bureau utilisé
+
+#### Tutoriels vidéo
+- Recherche sur YouTube : "Astuces gestion fenêtres Windows/macOS/Linux"
+- Chaînes spécialisées en productivité informatique
+
+#### Raccourcis clavier
+- Imprime une fiche des raccourcis les plus utiles pour ton système d'exploitation
+- Crée des post-it avec les raccourcis que tu utilises le plus souvent jusqu'à ce qu'ils deviennent automatiques
+
+</ResourcesCard>
+
+</CenteredContent>

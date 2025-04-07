@@ -1,0 +1,42 @@
+---
+title: FT-L04-variables-logo
+description: Utiliser des variables en Logo pour des programmes plus flexibles
+difficulty: "Intermédiaire"
+---
+
+# FT-L04-variables-logo
+Voici une fiche technique sous forme de tableau, conçue pour des élèves de niveau intermédiaire, qui présente le concept des variables en Logo :
+
+| **Rubrique**                                  | **Contenu**                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Titre du thème**                            | Les variables en Logo : rendre vos programmes flexibles                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Niveau concerné**                           | Intermédiaire                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| **Objectif pédagogique**                      | À la fin de cette leçon, l'élève saura : <br/>• Comprendre le concept de variable en programmation <br/>• Créer et utiliser des variables en Logo <br/>• Modifier la valeur d'une variable <br/>• Utiliser des variables dans des procédures pour les rendre plus flexibles                                                                                                                                                                                                                |
+| **Définitions clés**                          | **Variable** : Espace de stockage nommé qui peut contenir une valeur modifiable pendant l'exécution du programme. <br/>**DONNE** : Commande Logo qui attribue une valeur à une variable. <br/>**:nom_variable** : Syntaxe pour accéder à la valeur d'une variable (avec deux-points devant le nom).                                                                                                                                                                                          |
+| **Explication de la notion avec exemples**    | Une variable en Logo est comme une boîte étiquetée qui peut contenir une valeur. On peut changer cette valeur au cours du programme. Par exemple, on peut créer une variable "taille" avec la commande `DONNE "taille 50`, puis l'utiliser dans une instruction comme `AV :taille`. Si plus tard on change la valeur avec `DONNE "taille 100`, toutes les instructions utilisant `:taille` utiliseront la nouvelle valeur. Les variables permettent de créer des programmes plus flexibles et réutilisables.                                                                                                                       |
+| **Méthodologie ou étapes à suivre**           | 1. **Créer une variable** : Utiliser la commande `DONNE "nom_variable valeur`.<br/>2. **Accéder à la valeur** : Utiliser `:nom_variable` dans les instructions.<br/>3. **Modifier la valeur** : Utiliser à nouveau `DONNE` avec la même variable mais une valeur différente.<br/>4. **Utiliser dans des procédures** : Créer des procédures qui utilisent des variables pour les rendre plus flexibles. |
+| **Illustration ou schéma explicatif**         | **Exemple de création et utilisation d'une variable** : <br/>```logo
+DONNE "cote 50
+REPETE 4 [AV :cote TD 90]  ; Dessine un carré de 50 pas
+DONNE "cote 100
+REPETE 4 [AV :cote TD 90]  ; Dessine un carré de 100 pas
+``` <br/><br/>**Exemple de procédure avec variable** : <br/>```logo
+POUR CARRE :taille
+  REPETE 4 [AV :taille TD 90]
+FIN
+
+CARRE 50  ; Dessine un carré de 50 pas
+CARRE 100  ; Dessine un carré de 100 pas
+```                                                                                   |
+| **Exercice d'application ou question**        | **Exercice 1** : Créer une variable "rayon" avec la valeur 30, puis l'utiliser pour dessiner un cercle approximatif. <br/>Solution : <br/>```logo
+DONNE "rayon 30
+REPETE 360 [AV :rayon / 10 TD 1]
+```<br/><br/>**Exercice 2** : Créer une procédure `POLYGONE` qui prend deux paramètres : le nombre de côtés et la longueur de chaque côté. <br/>Solution : <br/>```logo
+POUR POLYGONE :nb_cotes :longueur
+  REPETE :nb_cotes [AV :longueur TD 360 / :nb_cotes]
+FIN
+
+POLYGONE 5 50  ; Dessine un pentagone
+POLYGONE 8 30  ; Dessine un octogone
+```                                                                                                                    |
+| **Mot-clé ou astuce mnémotechnique**          | **VAPE** : <br/>**V**ariable (DONNE) <br/>**A**ccès (avec :) <br/>**P**aramètres de procédure <br/>**E**volution du programme                                                                                                                                                                                                                                                                                                                           |

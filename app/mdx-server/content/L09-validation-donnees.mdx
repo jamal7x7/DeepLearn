@@ -1,0 +1,190 @@
+---
+title: "Validation des Données"
+description: "Apprendre à contrôler et limiter les données saisies dans Excel 2021"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Validation des Données dans Excel 2021
+
+<ExerciseCard title="Garantir la qualité de vos données">
+
+Dans cette leçon, tu vas découvrir comment contrôler les données saisies dans tes feuilles de calcul pour éviter les erreurs et garantir la cohérence de tes informations.
+
+Voici ce que tu vas apprendre :
+- Comment définir des règles de validation pour différents types de données
+- Comment créer des listes déroulantes pour limiter les choix possibles
+- Comment ajouter des messages d'aide et d'erreur
+- Comment identifier et corriger les données non valides
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Comprendre la validation des données",
+    content: (
+      <div>
+        <p>La <strong>validation des données</strong> permet de :</p>
+        <ul>
+          <li>Limiter le type de données qu'un utilisateur peut saisir dans une cellule</li>
+          <li>Définir des plages de valeurs acceptables (min/max)</li>
+          <li>Créer des listes déroulantes pour standardiser les entrées</li>
+          <li>Fournir des instructions aux utilisateurs</li>
+          <li>Afficher des messages d'erreur en cas de saisie incorrecte</li>
+        </ul>
+        <p>Cela permet d'éviter les erreurs de saisie et d'assurer la cohérence des données dans ton tableau.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Créer une règle de validation simple",
+    content: (
+      <div>
+        <p>Pour définir une règle de validation :</p>
+        <ol>
+          <li>Sélectionne la ou les cellules à valider</li>
+          <li>Dans l'onglet "Données", clique sur "Validation des données"</li>
+          <li>Dans l'onglet "Paramètres" de la boîte de dialogue :</li>
+          <ul>
+            <li>Choisis le type de données autorisées (Nombre entier, Décimal, Liste, Date, etc.)</li>
+            <li>Définis les critères (entre, supérieur à, égal à, etc.)</li>
+            <li>Spécifie les valeurs limites</li>
+          </ul>
+          <li>Clique sur OK pour appliquer la validation</li>
+        </ol>
+        <p>Exemples de règles simples :</p>
+        <ul>
+          <li><strong>Nombre entre 1 et 100</strong> : Type = Nombre entier, Données = entre, Minimum = 1, Maximum = 100</li>
+          <li><strong>Date après aujourd'hui</strong> : Type = Date, Données = supérieure à, Date = AUJOURD'HUI()</li>
+          <li><strong>Texte d'une longueur maximale</strong> : Type = Longueur du texte, Données = inférieure ou égale à, Maximum = 50</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Créer une liste déroulante",
+    content: (
+      <div>
+        <p>Les listes déroulantes sont très utiles pour limiter les choix possibles :</p>
+        <ol>
+          <li>Sélectionne la ou les cellules où tu veux créer une liste déroulante</li>
+          <li>Dans l'onglet "Données", clique sur "Validation des données"</li>
+          <li>Dans l'onglet "Paramètres" :</li>
+          <ul>
+            <li>Pour "Autoriser", sélectionne "Liste"</li>
+            <li>Tu as deux options pour définir les éléments de la liste :</li>
+            <ul>
+              <li><strong>Option 1</strong> : Dans "Source", tape directement les valeurs séparées par des points-virgules (ex: Rouge;Vert;Bleu)</li>
+              <li><strong>Option 2</strong> : Dans "Source", fais référence à une plage de cellules contenant les options (ex: =$G$1:$G$5)</li>
+            </ul>
+            <li>Coche "Liste déroulante dans la cellule" pour afficher une flèche</li>
+          </ul>
+          <li>Clique sur OK</li>
+        </ol>
+        <p>Maintenant, quand tu cliques sur la cellule, une flèche apparaît et tu peux choisir parmi les options prédéfinies.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Ajouter des messages d'aide et d'erreur",
+    content: (
+      <div>
+        <p>Pour guider les utilisateurs et les avertir en cas d'erreur :</p>
+        <ol>
+          <li>Dans la boîte de dialogue "Validation des données", après avoir défini tes critères :</li>
+          <li>Va dans l'onglet "Message d'entrée" :</li>
+          <ul>
+            <li>Saisis un titre court</li>
+            <li>Écris un message explicatif qui s'affichera quand la cellule sera sélectionnée</li>
+            <li>Ce message aide l'utilisateur à comprendre ce qu'il doit saisir</li>
+          </ul>
+          <li>Va dans l'onglet "Alerte d'erreur" :</li>
+          <ul>
+            <li>Choisis le style d'alerte :</li>
+            <ul>
+              <li><strong>Arrêt</strong> : Empêche la saisie de données non valides (le plus strict)</li>
+              <li><strong>Avertissement</strong> : Permet à l'utilisateur de continuer malgré l'avertissement</li>
+              <li><strong>Information</strong> : Simple notification que la donnée ne correspond pas aux critères</li>
+            </ul>
+            <li>Saisis un titre pour l'alerte</li>
+            <li>Écris un message d'erreur clair expliquant ce qui ne va pas</li>
+          </ul>
+        </ol>
+        <p>Ces messages rendent ton tableau plus convivial et réduisent les erreurs de saisie.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Identifier et corriger les données non valides",
+    content: (
+      <div>
+        <p>Pour trouver les cellules contenant des données qui ne respectent pas les règles de validation :</p>
+        <ol>
+          <li>Sélectionne une plage de cellules ou la feuille entière</li>
+          <li>Dans l'onglet "Données", clique sur "Validation des données"</li>
+          <li>Clique sur "Cercler les données non valides"</li>
+          <li>Excel entoure d'un cercle rouge toutes les cellules contenant des données non conformes</li>
+        </ol>
+        <p>Pour supprimer ces cercles :</p>
+        <ul>
+          <li>Dans l'onglet "Données", clique sur "Validation des données" → "Effacer les cercles de validation"</li>
+        </ul>
+        <p>Pour modifier ou supprimer une règle de validation :</p>
+        <ol>
+          <li>Sélectionne les cellules concernées</li>
+          <li>Dans l'onglet "Données", clique sur "Validation des données"</li>
+          <li>Modifie les paramètres ou clique sur "Effacer tout" pour supprimer la validation</li>
+        </ol>
+      </div>
+    )
+  }
+]} />
+
+<Tip>
+Tu peux combiner la validation des données avec la mise en forme conditionnelle pour mettre en évidence visuellement les cellules contenant des valeurs particulières, comme celles qui sont proches des limites définies dans tes règles de validation.
+</Tip>
+
+<ExerciseCard title="Exercice pratique: Formulaire d'inscription">
+
+Crée un formulaire d'inscription à une sortie scolaire en suivant ces étapes :
+
+1. Crée un tableau avec les en-têtes suivants :
+   - Nom et prénom
+   - Classe
+   - Âge
+   - Date de naissance
+   - Activité choisie
+   - Autorisation parentale
+
+2. Applique les règles de validation suivantes :
+
+   - Pour la colonne "Classe" :
+     - Crée une liste déroulante avec les options : 6e, 7e, 8e
+     - Ajoute un message d'entrée : "Sélectionne ta classe dans la liste"
+
+   - Pour la colonne "Âge" :
+     - Limite les valeurs aux nombres entiers entre 11 et 15
+     - Ajoute un message d'erreur de style "Arrêt" : "L'âge doit être compris entre 11 et 15 ans"
+
+   - Pour la colonne "Date de naissance" :
+     - Vérifie que la date est antérieure au 01/01/2013
+     - Ajoute un message d'entrée approprié
+
+   - Pour la colonne "Activité choisie" :
+     - Crée une liste déroulante avec : Musée, Cinéma, Parc d'attractions
+     - Ajoute un message d'entrée explicatif
+
+   - Pour la colonne "Autorisation parentale" :
+     - Crée une liste déroulante avec : Oui, Non
+     - Ajoute un message d'erreur indiquant que l'autorisation est obligatoire
+
+3. Teste ton formulaire en saisissant des données valides et non valides
+
+4. Utilise la fonction "Cercler les données non valides" pour vérifier ton travail
+
+Bonus : Ajoute une mise en forme conditionnelle pour colorer en vert les cellules "Autorisation parentale" contenant "Oui" et en rouge celles contenant "Non".
+
+</ExerciseCard>
+
+</CenteredContent>

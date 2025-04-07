@@ -1,0 +1,68 @@
+---
+title: FT-L09-recursion-logo
+description: Comprendre et utiliser la récursion en Logo
+difficulty: "Avancé"
+---
+
+# FT-L09-recursion-logo
+Voici une fiche technique sous forme de tableau, conçue pour des élèves de niveau avancé, qui présente la récursion en Logo :
+
+| **Rubrique**                                  | **Contenu**                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Titre du thème**                            | La récursion en Logo                                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Niveau concerné**                           | Avancé                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| **Objectif pédagogique**                      | À la fin de cette leçon, l'élève saura : <br/>• Comprendre le concept de récursion <br/>• Identifier les cas de base et les cas récursifs <br/>• Créer des procédures récursives en Logo <br/>• Dessiner des fractales et des motifs complexes grâce à la récursion                                                                                                                                                                                                                |
+| **Définitions clés**                          | **Récursion** : Technique de programmation où une procédure s'appelle elle-même. <br/>**Cas de base** : Condition qui arrête la récursion pour éviter une boucle infinie. <br/>**Cas récursif** : Partie de la procédure qui contient l'appel récursif. <br/>**Fractale** : Figure géométrique qui présente une structure similaire à différentes échelles.                                                                                                                                                                                          |
+| **Explication de la notion avec exemples**    | La récursion est une technique puissante qui permet de résoudre des problèmes complexes en les décomposant en problèmes plus simples. En Logo, une procédure récursive est une procédure qui s'appelle elle-même. Par exemple, pour dessiner un arbre fractal, on peut créer une procédure `ARBRE` qui dessine un tronc, puis s'appelle elle-même pour dessiner des branches plus petites. Chaque appel récursif doit avoir un paramètre qui change (comme la taille) et un cas de base qui arrête la récursion (comme une taille minimale). La récursion permet de créer des dessins complexes et fascinants avec un code relativement simple.                                                                                                                       |
+| **Méthodologie ou étapes à suivre**           | 1. **Identifier le problème récursif** : Déterminer si le problème peut être décomposé en sous-problèmes similaires.<br/>2. **Définir le cas de base** : Établir la condition qui arrêtera la récursion.<br/>3. **Définir le cas récursif** : Écrire la partie de la procédure qui s'appelle elle-même.<br/>4. **Paramétrer la récursion** : Utiliser des paramètres qui changent à chaque appel récursif.<br/>5. **Tester et ajuster** : Vérifier que la récursion s'arrête correctement et ajuster les paramètres pour obtenir le résultat souhaité. |
+| **Illustration ou schéma explicatif**         | **Exemple de procédure récursive pour dessiner un arbre fractal** : <br/>```logo
+POUR ARBRE :taille
+  SI :taille < 5 [STOP]  ; Cas de base: arrêter si la taille est trop petite
+  AV :taille            ; Dessiner le tronc
+  TD 30                ; Tourner à droite
+  ARBRE :taille / 1.5  ; Dessiner une branche plus petite (appel récursif)
+  TG 60                ; Tourner à gauche
+  ARBRE :taille / 1.5  ; Dessiner une autre branche (appel récursif)
+  TD 30                ; Revenir à l'orientation initiale
+  RE :taille           ; Revenir au point de départ
+FIN
+``` <br/><br/>**Exemple de procédure récursive pour dessiner une spirale** : <br/>```logo
+POUR SPIRALE :taille :angle
+  SI :taille > 100 [STOP]  ; Cas de base: arrêter si la taille est trop grande
+  AV :taille               ; Avancer
+  TD :angle                ; Tourner
+  SPIRALE :taille + 2 :angle  ; Appel récursif avec une taille légèrement plus grande
+FIN
+```                                                                                   |
+| **Exercice d'application ou question**        | **Exercice 1** : Créer une procédure récursive qui dessine un flocon de Koch (une fractale classique). <br/>Solution : <br/>```logo
+POUR KOCH :taille :niveau
+  SI :niveau = 0 [
+    AV :taille
+  ] [
+    KOCH :taille / 3 :niveau - 1
+    TG 60
+    KOCH :taille / 3 :niveau - 1
+    TD 120
+    KOCH :taille / 3 :niveau - 1
+    TG 60
+    KOCH :taille / 3 :niveau - 1
+  ]
+FIN
+
+POUR FLOCON :taille :niveau
+  REPETE 3 [
+    KOCH :taille :niveau
+    TD 120
+  ]
+FIN
+```<br/><br/>**Exercice 2** : Créer une procédure récursive qui dessine un cercle approximatif en utilisant des segments de plus en plus petits. <br/>Solution : <br/>```logo
+POUR CERCLE_RECURSIF :rayon :segments
+  SI :segments < 1 [STOP]
+  REPETE 360 / :segments [
+    AV :rayon * 2 * 3.14159 / 360 * :segments
+    TD 360 / :segments
+  ]
+  CERCLE_RECURSIF :rayon :segments / 2
+FIN
+```                                                                                                                    |
+| **Mot-clé ou astuce mnémotechnique**          | **CRAB** : <br/>**C**as de base (condition d'arrêt) <br/>**R**écursion (appel de la procédure par elle-même) <br/>**A**justement des paramètres <br/>**B**oucle évitée (grâce au cas de base)                                                                                                                                                                                                                                                                                                                           |

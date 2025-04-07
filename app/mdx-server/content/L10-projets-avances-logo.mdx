@@ -1,0 +1,626 @@
+---
+title: "Projets Avancés en Logo"
+description: "Concevoir et réaliser des projets complets en Logo"
+difficulty: "Avancé"
+---
+
+<CenteredContent>
+
+# Projets Avancés en Logo
+
+<ExerciseCard title="Mettre en pratique toutes vos compétences Logo">
+
+Dans cette leçon, tu vas apprendre à concevoir et réaliser des projets complets en Logo, en combinant toutes les techniques que tu as apprises jusqu'à présent. Tu passeras du stade d'apprenant à celui de créateur de programmes.
+
+Voici ce que tu vas apprendre :
+- Comment planifier et structurer un projet de programmation
+- Comment combiner différentes techniques Logo dans un même projet
+- Comment créer des animations et des simulations
+- Comment documenter ton code pour le rendre compréhensible
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Planifier un projet Logo",
+    content: (
+      <div>
+        <p>Avant de commencer à coder, il est important de bien planifier ton projet. Voici les étapes à suivre :</p>
+        <ol>
+          <li><strong>Définir l'objectif</strong> : Que veux-tu créer exactement ? Un jeu, une animation, une simulation, une œuvre d'art interactive ?</li>
+          <li><strong>Esquisser le résultat final</strong> : Dessine sur papier ou décris ce que tu veux obtenir.</li>
+          <li><strong>Identifier les composants principaux</strong> : Quelles sont les différentes parties de ton projet ?</li>
+          <li><strong>Lister les fonctionnalités</strong> : Quelles actions ton programme doit-il pouvoir effectuer ?</li>
+          <li><strong>Prévoir les défis</strong> : Quelles difficultés pourrais-tu rencontrer ?</li>
+        </ol>
+        <p>Exemple de planification pour un jeu simple :</p>
+        <ul>
+          <li><strong>Objectif</strong> : Créer un jeu où la tortue doit attraper des étoiles qui apparaissent aléatoirement.</li>
+          <li><strong>Composants</strong> : La tortue (joueur), les étoiles (objets à collecter), le score, le temps.</li>
+          <li><strong>Fonctionnalités</strong> : Déplacer la tortue avec les touches, générer des étoiles aléatoirement, détecter les collisions, compter le score.</li>
+          <li><strong>Défis potentiels</strong> : Gestion des entrées utilisateur, détection des collisions, maintien de la fluidité du jeu.</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Structurer ton code avec des procédures",
+    content: (
+      <div>
+        <p>Un bon projet Logo est organisé en procédures bien définies, chacune ayant une responsabilité spécifique. Voici comment structurer ton code :</p>
+        <ul>
+          <li><strong>Procédure principale</strong> : Elle initialise et lance le projet.</li>
+          <li><strong>Procédures d'initialisation</strong> : Elles préparent l'environnement et les variables.</li>
+          <li><strong>Procédures de dessin</strong> : Elles créent les éléments visuels.</li>
+          <li><strong>Procédures d'animation</strong> : Elles gèrent les mouvements et les changements d'état.</li>
+          <li><strong>Procédures d'interaction</strong> : Elles répondent aux actions de l'utilisateur.</li>
+          <li><strong>Procédures utilitaires</strong> : Elles effectuent des calculs ou des opérations communes.</li>
+        </ul>
+        <p>Exemple de structure pour notre jeu d'étoiles :</p>
+        <pre>
+          <code>
+{`; Procédure principale
+POUR JEU_ETOILES
+  INITIALISER_JEU
+  BOUCLE_JEU
+FIN
+
+; Initialisation
+POUR INITIALISER_JEU
+  VE
+  DONNE "score 0
+  DONNE "temps 0
+  DONNE "jeu_actif VRAI
+  INITIALISER_TORTUE
+  CREER_ETOILE
+FIN
+
+; Boucle principale du jeu
+POUR BOUCLE_JEU
+  SI NON :jeu_actif [STOP]
+  DONNE "temps :temps + 1
+  VERIFIER_TEMPS
+  DEPLACER_TORTUE
+  VERIFIER_COLLISION
+  AFFICHER_SCORE
+  ATTENDS 1
+  BOUCLE_JEU
+FIN`}
+          </code>
+        </pre>
+        <p>Cette structure rend le code plus lisible, plus facile à déboguer et à modifier.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Créer une animation interactive",
+    content: (
+      <div>
+        <p>Les animations sont un excellent moyen de rendre tes projets Logo plus dynamiques et engageants. Voici comment créer une animation simple :</p>
+        <ol>
+          <li><strong>Définir les états successifs</strong> : Quelles sont les différentes étapes de ton animation ?</li>
+          <li><strong>Créer une boucle d'animation</strong> : Utiliser une procédure récursive ou une boucle pour passer d'un état à l'autre.</li>
+          <li><strong>Ajouter des pauses</strong> : Utiliser la commande ATTENDS pour contrôler la vitesse de l'animation.</li>
+          <li><strong>Effacer et redessiner</strong> : Utiliser VE pour effacer l'écran entre chaque image.</li>
+        </ol>
+        <p>Exemple d'animation d'un soleil qui se lève :</p>
+        <pre>
+          <code>
+{`POUR ANIMATION_LEVER_SOLEIL
+  DONNE "position 0
+  ANIMATION_FRAME :position
+FIN
+
+POUR ANIMATION_FRAME :position
+  SI :position > 150 [STOP]  ; Arrêter quand le soleil est assez haut
+  VE
+  DESSINER_CIEL
+  DESSINER_SOLEIL :position
+  DESSINER_PAYSAGE
+  ATTENDS 10  ; Pause entre les images
+  ANIMATION_FRAME :position + 5  ; Passer à l'image suivante
+FIN
+
+POUR DESSINER_SOLEIL :hauteur
+  FIXECOULEUR 6  ; Jaune
+  LC
+  ORIGINE
+  TG 90
+  AV :hauteur
+  TD 90
+  AV 250
+  BC
+  REPETE 36 [AV 15 TD 10]
+  REMPLIS
+FIN`}
+          </code>
+        </pre>
+        <p>Pour rendre ton animation interactive, tu peux ajouter des conditions qui dépendent des entrées de l'utilisateur :</p>
+        <pre>
+          <code>
+{`POUR ANIMATION_INTERACTIVE
+  DONNE "position 0
+  DONNE "direction 1  ; 1 pour monter, -1 pour descendre
+  ANIMATION_FRAME_INTERACTIVE :position :direction
+FIN
+
+POUR ANIMATION_FRAME_INTERACTIVE :position :direction
+  VE
+  DESSINER_CIEL
+  DESSINER_SOLEIL :position
+  DESSINER_PAYSAGE
+  AFFICHER_INSTRUCTIONS
+  ATTENDS 10
+  
+  ; Vérifier les entrées utilisateur
+  SI TOUCHEP [
+    SI ASCII TOUCHE = 38 [DONNE "direction 1]    ; Flèche haut
+    SI ASCII TOUCHE = 40 [DONNE "direction -1]   ; Flèche bas
+  ]
+  
+  ; Calculer la nouvelle position
+  DONNE "nouvelle_position :position + (5 * :direction)
+  
+  ; Vérifier les limites
+  SI :nouvelle_position < 0 [DONNE "nouvelle_position 0]
+  SI :nouvelle_position > 150 [DONNE "nouvelle_position 150]
+  
+  ANIMATION_FRAME_INTERACTIVE :nouvelle_position :direction
+FIN`}
+          </code>
+        </pre>
+        <TurtlePreview code={`VE
+POUR DESSINER_SOLEIL :hauteur
+  FIXECOULEUR 6
+  LC
+  ORIGINE
+  TG 90
+  AV :hauteur
+  TD 90
+  AV 100
+  BC
+  REPETE 36 [AV 5 TD 10]
+  REMPLIS
+FIN
+
+POUR DESSINER_PAYSAGE
+  FIXECOULEUR 2
+  LC
+  ORIGINE
+  TG 90
+  AV 10
+  TD 90
+  RE 200
+  BC
+  AV 400
+  TD 90
+  AV 10
+  TD 90
+  AV 400
+  REMPLIS
+FIN
+
+DESSINER_PAYSAGE
+DESSINER_SOLEIL 50`} />
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Créer une simulation scientifique",
+    content: (
+      <div>
+        <p>Logo peut être utilisé pour créer des simulations de phénomènes scientifiques ou naturels. Ces projets combinent souvent des mathématiques, de la physique et de la programmation.</p>
+        <p>Exemple de simulation : un système solaire simplifié</p>
+        <pre>
+          <code>
+{`POUR SYSTEME_SOLAIRE
+  VE
+  ORIGINE
+  DONNE "echelle 3
+  DONNE "vitesse 1
+  DESSINER_SOLEIL
+  DESSINER_ORBITES
+  ANIMATION_PLANETES 0
+FIN
+
+POUR DESSINER_SOLEIL
+  FIXECOULEUR 6  ; Jaune
+  REPETE 36 [AV 10 TD 10]
+  REMPLIS
+FIN
+
+POUR DESSINER_ORBITES
+  FIXECOULEUR 7  ; Gris clair
+  FIXETAILLE 1
+  
+  ; Orbite de Mercure
+  LC
+  CERCLE 30 * :echelle
+  
+  ; Orbite de Vénus
+  CERCLE 50 * :echelle
+  
+  ; Orbite de la Terre
+  CERCLE 70 * :echelle
+  
+  ; Orbite de Mars
+  CERCLE 90 * :echelle
+  BC
+FIN
+
+POUR CERCLE :rayon
+  LC
+  ORIGINE
+  AV :rayon
+  TD 90
+  BC
+  REPETE 36 [AV 2 * 3.14159 * :rayon / 36 TD 10]
+  LC
+  ORIGINE
+  BC
+FIN
+
+POUR ANIMATION_PLANETES :angle
+  ; Effacer les anciennes positions des planètes
+  VE
+  DESSINER_SOLEIL
+  DESSINER_ORBITES
+  
+  ; Dessiner les planètes à leur nouvelle position
+  DESSINER_PLANETE 30 * :echelle :angle * 4.1 2 * :echelle 4  ; Mercure
+  DESSINER_PLANETE 50 * :echelle :angle * 1.6 3 * :echelle 6  ; Vénus
+  DESSINER_PLANETE 70 * :echelle :angle 4 * :echelle 3        ; Terre
+  DESSINER_PLANETE 90 * :echelle :angle * 0.5 3 * :echelle 2  ; Mars
+  
+  ATTENDS 10
+  ANIMATION_PLANETES :angle + :vitesse
+FIN
+
+POUR DESSINER_PLANETE :rayon :angle :taille :couleur
+  LC
+  ORIGINE
+  TD :angle
+  AV :rayon
+  BC
+  FIXECOULEUR :couleur
+  REPETE 36 [AV :taille / 10 TD 10]
+  REMPLIS
+  LC
+  ORIGINE
+  BC
+FIN`}
+          </code>
+        </pre>
+        <p>Cette simulation montre les planètes tournant autour du soleil à différentes vitesses, selon leur distance.</p>
+        <p>D'autres idées de simulations :</p>
+        <ul>
+          <li>Croissance d'une population selon un modèle mathématique</li>
+          <li>Mouvement d'un pendule ou d'un système masse-ressort</li>
+          <li>Diffusion d'un gaz ou d'un liquide</li>
+          <li>Croissance d'une plante (système L)</li>
+        </ul>
+        <TurtlePreview code={`VE
+POUR DESSINER_SOLEIL
+  FIXECOULEUR 6
+  REPETE 36 [AV 10 TD 10]
+  REMPLIS
+FIN
+
+POUR DESSINER_PLANETE :rayon :angle :taille :couleur
+  LC
+  ORIGINE
+  TD :angle
+  AV :rayon
+  BC
+  FIXECOULEUR :couleur
+  REPETE 36 [AV :taille / 10 TD 10]
+  REMPLIS
+  LC
+  ORIGINE
+  BC
+FIN
+
+DESSINER_SOLEIL
+DESSINER_PLANETE 50 45 4 3
+DESSINER_PLANETE 80 120 5 2
+DESSINER_PLANETE 110 200 3 4`} />
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Créer un jeu interactif",
+    content: (
+      <div>
+        <p>Les jeux sont des projets particulièrement motivants qui combinent de nombreux aspects de la programmation. Voici les éléments clés d'un jeu Logo :</p>
+        <ul>
+          <li><strong>Boucle de jeu</strong> : Une procédure récursive qui gère le déroulement du jeu</li>
+          <li><strong>Entrées utilisateur</strong> : Détection des touches pour contrôler le jeu</li>
+          <li><strong>Détection de collisions</strong> : Vérifier si des objets se touchent</li>
+          <li><strong>Score et feedback</strong> : Informer le joueur de sa progression</li>
+          <li><strong>Conditions de victoire/défaite</strong> : Déterminer quand le jeu se termine</li>
+        </ul>
+        <p>Exemple de structure pour un jeu de labyrinthe :</p>
+        <pre>
+          <code>
+{`POUR JEU_LABYRINTHE
+  INITIALISER_JEU
+  DESSINER_LABYRINTHE
+  PLACER_JOUEUR
+  PLACER_SORTIE
+  BOUCLE_JEU
+FIN
+
+POUR BOUCLE_JEU
+  SI :jeu_termine [AFFICHER_RESULTAT STOP]
+  AFFICHER_JOUEUR
+  LIRE_COMMANDES
+  DEPLACER_JOUEUR
+  VERIFIER_COLLISION_MUR
+  VERIFIER_SORTIE
+  ATTENDS 10
+  BOUCLE_JEU
+FIN
+
+POUR LIRE_COMMANDES
+  SI TOUCHEP [
+    DONNE "touche ASCII TOUCHE
+    SI :touche = 38 [DONNE "direction "haut]    ; Flèche haut
+    SI :touche = 40 [DONNE "direction "bas]     ; Flèche bas
+    SI :touche = 37 [DONNE "direction "gauche]  ; Flèche gauche
+    SI :touche = 39 [DONNE "direction "droite]  ; Flèche droite
+  ]
+FIN
+
+POUR DEPLACER_JOUEUR
+  SI :direction = "haut [DONNE "joueur_y :joueur_y + 5]
+  SI :direction = "bas [DONNE "joueur_y :joueur_y - 5]
+  SI :direction = "gauche [DONNE "joueur_x :joueur_x - 5]
+  SI :direction = "droite [DONNE "joueur_x :joueur_x + 5]
+FIN
+
+POUR VERIFIER_COLLISION_MUR
+  ; Code pour vérifier si le joueur touche un mur
+  ; Si oui, annuler le déplacement
+FIN
+
+POUR VERIFIER_SORTIE
+  ; Vérifier si le joueur a atteint la sortie
+  SI (DISTANCE :joueur_x :joueur_y :sortie_x :sortie_y) < 10 [
+    DONNE "jeu_termine VRAI
+    DONNE "victoire VRAI
+  ]
+FIN`}
+          </code>
+        </pre>
+        <p>Idées de jeux simples à créer en Logo :</p>
+        <ul>
+          <li>Jeu de serpent (Snake)</li>
+          <li>Jeu de labyrinthe</li>
+          <li>Jeu de type Pong</li>
+          <li>Jeu de collecte d'objets</li>
+          <li>Quiz graphique</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 6: Documenter et présenter ton projet",
+    content: (
+      <div>
+        <p>La documentation est une partie essentielle de tout projet de programmation. Elle aide les autres (et toi-même plus tard) à comprendre comment fonctionne ton code.</p>
+        <p>Comment bien documenter ton projet Logo :</p>
+        <ol>
+          <li><strong>Ajouter des commentaires</strong> : Utiliser le point-virgule (;) pour ajouter des explications dans ton code.</li>
+          <li><strong>Créer un en-tête</strong> : Au début de ton programme, expliquer son objectif, son fonctionnement et comment l'utiliser.</li>
+          <li><strong>Documenter chaque procédure</strong> : Expliquer ce que fait chaque procédure, ses paramètres et ce qu'elle renvoie.</li>
+          <li><strong>Expliquer les variables</strong> : Décrire à quoi servent les principales variables.</li>
+          <li><strong>Créer un guide d'utilisation</strong> : Expliquer comment utiliser ton programme (touches, commandes, etc.).</li>
+        </ol>
+        <p>Exemple de documentation pour une procédure :</p>
+        <pre>
+          <code>
+{`; ===================================================
+; DESSINER_PLANETE
+; ---------------------------------------------------
+; Dessine une planète à une position spécifique
+; Paramètres:
+;   :rayon - Distance du soleil
+;   :angle - Position angulaire (en degrés)
+;   :taille - Taille de la planète
+;   :couleur - Numéro de couleur pour la planète
+; ===================================================
+POUR DESSINER_PLANETE :rayon :angle :taille :couleur
+  LC
+  ORIGINE
+  TD :angle
+  AV :rayon
+  BC
+  FIXECOULEUR :couleur
+  REPETE 36 [AV :taille / 10 TD 10]
+  REMPLIS
+  LC
+  ORIGINE
+  BC
+FIN`}
+          </code>
+        </pre>
+        <p>Pour présenter ton projet :</p>
+        <ol>
+          <li>Prépare une démonstration qui montre les fonctionnalités principales</li>
+          <li>Explique les défis que tu as rencontrés et comment tu les as surmontés</li>
+          <li>Montre les parties du code dont tu es particulièrement fier</li>
+          <li>Discute des améliorations possibles</li>
+        </ol>
+      </div>
+    )
+  }
+]}>
+</TutorialAccordion>
+
+<ExerciseCard title="Exercices pratiques">
+
+## Exercice 1: Mini-projet d'animation
+
+Crée une animation d'un paysage qui change au fil du temps (jour/nuit, saisons, météo, etc.).
+
+<details>
+  <summary>Indice</summary>
+  <p>Utilise une variable pour représenter le temps qui passe, et fais varier les éléments du paysage en fonction de cette variable.</p>
+</details>
+
+<details>
+  <summary>Solution partielle</summary>
+  <pre>
+    <code>
+{`POUR ANIMATION_JOUR_NUIT
+  DONNE "heure 0
+  CYCLE_JOUR_NUIT :heure
+FIN
+
+POUR CYCLE_JOUR_NUIT :heure
+  SI :heure > 24 [DONNE "heure 0]
+  VE
+  DESSINER_CIEL :heure
+  DESSINER_SOLEIL_OU_LUNE :heure
+  DESSINER_PAYSAGE
+  ATTENDS 20
+  CYCLE_JOUR_NUIT :heure + 1
+FIN
+
+POUR DESSINER_CIEL :heure
+  ; Couleur du ciel selon l'heure
+  SI :heure < 6 [FIXECOULEUR 0]  ; Nuit
+  SI ET :heure >= 6 :heure < 8 [FIXECOULEUR 5]  ; Aube
+  SI ET :heure >= 8 :heure < 18 [FIXECOULEUR 1]  ; Jour
+  SI ET :heure >= 18 :heure < 20 [FIXECOULEUR 5]  ; Crépuscule
+  SI :heure >= 20 [FIXECOULEUR 0]  ; Nuit
+  
+  ; Remplir le ciel
+  LC
+  ORIGINE
+  TG 90
+  AV 100
+  TD 90
+  RE 200
+  BC
+  AV 400
+  TD 90
+  AV 200
+  TD 90
+  AV 400
+  REMPLIS
+FIN`}
+    </code>
+  </pre>
+</details>
+
+## Exercice 2: Mini-jeu interactif
+
+Crée un jeu simple où la tortue doit éviter des obstacles qui se déplacent à l'écran.
+
+<details>
+  <summary>Indice</summary>
+  <p>Utilise des variables pour stocker la position de la tortue et des obstacles. À chaque itération de la boucle de jeu, déplace les obstacles et vérifie s'il y a collision.</p>
+</details>
+
+<details>
+  <summary>Solution partielle</summary>
+  <pre>
+    <code>
+{`POUR JEU_OBSTACLES
+  VE
+  DONNE "tortue_x 0
+  DONNE "tortue_y 0
+  DONNE "obstacle_x 100
+  DONNE "obstacle_y 0
+  DONNE "direction_obstacle -1
+  DONNE "score 0
+  DONNE "jeu_actif VRAI
+  BOUCLE_JEU
+FIN
+
+POUR BOUCLE_JEU
+  SI NON :jeu_actif [AFFICHER_GAME_OVER STOP]
+  VE
+  DESSINER_TORTUE :tortue_x :tortue_y
+  DESSINER_OBSTACLE :obstacle_x :obstacle_y
+  AFFICHER_SCORE
+  LIRE_COMMANDES
+  DEPLACER_OBSTACLE
+  VERIFIER_COLLISION
+  DONNE "score :score + 1
+  ATTENDS 10
+  BOUCLE_JEU
+FIN`}
+    </code>
+  </pre>
+</details>
+
+</ExerciseCard>
+
+<ExerciseCard title="Projet final">
+
+## Projet final: Création d'un projet personnel
+
+Maintenant que tu as appris toutes les techniques nécessaires, il est temps de créer ton propre projet Logo ! Choisis l'un des types de projets suivants ou invente le tien :
+
+1. **Jeu interactif** : Un jeu où l'utilisateur contrôle un personnage ou résout des énigmes.
+
+2. **Simulation scientifique** : Une simulation d'un phénomène naturel ou scientifique.
+
+3. **Animation artistique** : Une animation qui raconte une histoire ou crée une œuvre d'art dynamique.
+
+4. **Outil éducatif** : Un programme qui aide à comprendre un concept mathématique ou scientifique.
+
+5. **Générateur de fractales** : Un programme qui crée différentes fractales selon des paramètres ajustables.
+
+Suis ces étapes pour réaliser ton projet :
+
+1. **Planification** : Définis clairement l'objectif de ton projet et esquisse son fonctionnement.
+
+2. **Conception** : Identifie les principales procédures nécessaires et leurs interactions.
+
+3. **Implémentation** : Code les procédures en commençant par les plus fondamentales.
+
+4. **Test** : Vérifie régulièrement que chaque partie fonctionne comme prévu.
+
+5. **Documentation** : Ajoute des commentaires et crée un guide d'utilisation.
+
+6. **Présentation** : Prépare une démonstration de ton projet.
+
+N'hésite pas à être créatif et à combiner différentes techniques que tu as apprises tout au long de ce cours !
+
+</ExerciseCard>
+
+<ExerciseCard title="Pour aller plus loin">
+
+## Ressources supplémentaires
+
+Si tu souhaites approfondir tes connaissances en Logo et en programmation, voici quelques ressources :
+
+1. **Livres sur Logo** :
+   - "Mindstorms: Children, Computers, and Powerful Ideas" par Seymour Papert
+   - "Turtle Geometry: The Computer as a Medium for Exploring Mathematics" par Harold Abelson et Andrea diSessa
+
+2. **Sites web** :
+   - Berkeley Logo (UCBLogo) : une implémentation gratuite de Logo
+   - Logo Foundation : ressources et informations sur Logo
+
+3. **Concepts avancés à explorer** :
+   - Programmation orientée objet en Logo
+   - Création d'interfaces utilisateur graphiques
+   - Connexion de Logo avec d'autres langages ou systèmes
+
+## Transition vers d'autres langages
+
+Les concepts que tu as appris en Logo sont transférables à d'autres langages de programmation :
+
+- **Python** : Un langage simple et puissant, idéal après Logo
+- **JavaScript** : Pour la programmation web interactive
+- **Processing** : Pour les arts visuels et les animations
+
+Chacun de ces langages utilise les mêmes concepts fondamentaux que tu as appris : variables, procédures, boucles, conditions et récursion.
+
+</ExerciseCard>
+
+</CenteredContent>

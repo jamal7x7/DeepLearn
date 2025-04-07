@@ -1,0 +1,370 @@
+---
+title: "La Connectivité"
+description: "Comprendre les principes et technologies de connexion entre systèmes informatiques"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# La Connectivité
+
+<ExerciseCard title="Découvrir les technologies de connexion">
+
+Dans cette leçon, tu vas découvrir comment les systèmes informatiques communiquent entre eux grâce à différentes technologies de connectivité.
+
+Voici ce que tu vas apprendre :
+- Les différents types de connexions (filaires et sans fil)
+- Les réseaux informatiques et leur fonctionnement
+- Les protocoles qui permettent la communication
+- Les enjeux de sécurité liés à la connectivité
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Les bases de la connectivité",
+    content: (
+      <div>
+        <p>La <strong>connectivité</strong> désigne la capacité des systèmes informatiques à se connecter entre eux pour échanger des informations. C'est grâce à elle que :</p>
+        <ul>
+          <li>Tu peux naviguer sur Internet</li>
+          <li>Ton smartphone peut se connecter à tes écouteurs sans fil</li>
+          <li>Une imprimante réseau peut être utilisée par plusieurs ordinateurs</li>
+          <li>Les applications peuvent synchroniser tes données entre différents appareils</li>
+        </ul>
+        <p>La connectivité repose sur deux éléments fondamentaux :</p>
+        <ul>
+          <li><strong>Le matériel</strong> : câbles, antennes, routeurs, cartes réseau, etc.</li>
+          <li><strong>Les logiciels</strong> : protocoles, pilotes, applications réseau, etc.</li>
+        </ul>
+        <p>On distingue deux grandes catégories de connexions :</p>
+        <ul>
+          <li><strong>Connexions filaires</strong> : utilisant des câbles physiques</li>
+          <li><strong>Connexions sans fil</strong> : utilisant des ondes électromagnétiques</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Les connexions filaires",
+    content: (
+      <div>
+        <p>Les connexions filaires utilisent des câbles pour transmettre les données. Elles offrent généralement une meilleure stabilité et des débits plus élevés que les connexions sans fil.</p>
+        <h3>Principaux types de connexions filaires :</h3>
+        <ul>
+          <li><strong>Ethernet</strong> : La norme la plus répandue pour les réseaux locaux
+            <ul>
+              <li>Utilise des câbles RJ45</li>
+              <li>Débits : de 10 Mbps à 10 Gbps selon la catégorie du câble</li>
+              <li>Portée : jusqu'à 100m sans répéteur</li>
+            </ul>
+          </li>
+          <li><strong>Fibre optique</strong> : Utilise la lumière pour transmettre les données
+            <ul>
+              <li>Très haut débit (jusqu'à plusieurs Tbps)</li>
+              <li>Longue portée (plusieurs kilomètres)</li>
+              <li>Immunité aux interférences électromagnétiques</li>
+            </ul>
+          </li>
+          <li><strong>USB (Universal Serial Bus)</strong> : Pour connecter des périphériques
+            <ul>
+              <li>USB 2.0 : 480 Mbps</li>
+              <li>USB 3.0 : 5 Gbps</li>
+              <li>USB 3.1/3.2 : jusqu'à 20 Gbps</li>
+              <li>USB 4 : jusqu'à 40 Gbps</li>
+            </ul>
+          </li>
+          <li><strong>HDMI</strong> : Pour transmettre l'audio et la vidéo en haute définition</li>
+        </ul>
+        <p>Les connexions filaires sont idéales pour :</p>
+        <ul>
+          <li>Les équipements fixes (ordinateurs de bureau, serveurs)</li>
+          <li>Les applications nécessitant une connexion stable et rapide (jeux en ligne, streaming 4K)</li>
+          <li>Les environnements avec beaucoup d'interférences électromagnétiques</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Les connexions sans fil",
+    content: (
+      <div>
+        <p>Les connexions sans fil utilisent des ondes radio pour transmettre les données. Elles offrent plus de mobilité mais peuvent être moins stables et plus sensibles aux interférences.</p>
+        <h3>Principaux types de connexions sans fil :</h3>
+        <ul>
+          <li><strong>Wi-Fi</strong> : Pour les réseaux locaux sans fil
+            <ul>
+              <li>Normes : 802.11a/b/g/n/ac/ax (Wi-Fi 6)</li>
+              <li>Fréquences : 2,4 GHz et 5 GHz</li>
+              <li>Débits : de 11 Mbps (802.11b) à plusieurs Gbps (Wi-Fi 6)</li>
+              <li>Portée : environ 30-100m en intérieur selon les obstacles</li>
+            </ul>
+          </li>
+          <li><strong>Bluetooth</strong> : Pour les connexions à courte distance
+            <ul>
+              <li>Idéal pour les périphériques (écouteurs, claviers, souris)</li>
+              <li>Faible consommation d'énergie</li>
+              <li>Portée : environ 10m (classe 2) à 100m (classe 1)</li>
+              <li>Débits : de 1 Mbps (Bluetooth 1.0) à 50 Mbps (Bluetooth 5.0)</li>
+            </ul>
+          </li>
+          <li><strong>Réseaux mobiles</strong> : Pour la connectivité en déplacement
+            <ul>
+              <li>3G, 4G, 5G</li>
+              <li>Couverture étendue (nationale/internationale)</li>
+              <li>Débits : de quelques Mbps (3G) à plusieurs Gbps (5G)</li>
+            </ul>
+          </li>
+          <li><strong>NFC (Near Field Communication)</strong> : Pour les communications à très courte distance
+            <ul>
+              <li>Portée : quelques centimètres</li>
+              <li>Utilisé pour les paiements sans contact, badges d'accès, etc.</li>
+            </ul>
+          </li>
+        </ul>
+        <p>Les connexions sans fil sont idéales pour :</p>
+        <ul>
+          <li>Les appareils mobiles (smartphones, tablettes, ordinateurs portables)</li>
+          <li>Les environnements où le câblage est difficile ou impossible</li>
+          <li>Les usages nécessitant de la mobilité</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Les réseaux informatiques",
+    content: (
+      <div>
+        <p>Un <strong>réseau informatique</strong> est un ensemble d'équipements reliés entre eux pour échanger des données. On distingue plusieurs types de réseaux selon leur étendue :</p>
+        <pre>
+          <code>
+{`+----------------+----------------+----------------+
+|      LAN       |      MAN       |      WAN       |
+| (Local Area    | (Metropolitan  | (Wide Area     |
+|  Network)      |  Area Network) |  Network)      |
++----------------+----------------+----------------+
+| - Réseau local | - Réseau urbain| - Réseau étendu|
+| - Maison,      | - Ville,       | - Pays, monde  |
+|   bureau       |   campus       |                |
+| - Ethernet,    | - Fibre        | - Internet,    |
+|   Wi-Fi        |   optique      |   lignes louées|
++----------------+----------------+----------------+`}
+          </code>
+        </pre>
+        <p>Les réseaux peuvent également être classés selon leur topologie (organisation physique) :</p>
+        <ul>
+          <li><strong>Topologie en étoile</strong> : Tous les équipements sont connectés à un point central (switch ou routeur)</li>
+          <li><strong>Topologie en bus</strong> : Tous les équipements sont connectés à un câble principal</li>
+          <li><strong>Topologie en anneau</strong> : Les équipements forment une boucle fermée</li>
+          <li><strong>Topologie maillée</strong> : Chaque équipement est connecté à plusieurs autres</li>
+        </ul>
+        <p>Les principaux équipements réseau sont :</p>
+        <ul>
+          <li><strong>Routeur</strong> : Relie différents réseaux et achemine les données entre eux</li>
+          <li><strong>Switch (commutateur)</strong> : Relie plusieurs équipements au sein d'un même réseau</li>
+          <li><strong>Modem</strong> : Convertit les signaux entre le réseau de l'opérateur et ton réseau local</li>
+          <li><strong>Point d'accès Wi-Fi</strong> : Permet aux appareils de se connecter sans fil au réseau</li>
+          <li><strong>Répéteur/Amplificateur</strong> : Étend la portée d'un réseau</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Les protocoles de communication",
+    content: (
+      <div>
+        <p>Les <strong>protocoles</strong> sont des ensembles de règles qui définissent comment les données sont formatées, adressées, transmises, reçues et accusées de réception. Ils sont essentiels pour que des appareils différents puissent communiquer entre eux.</p>
+        <p>Le modèle <strong>OSI</strong> (Open Systems Interconnection) divise la communication réseau en 7 couches :</p>
+        <pre>
+          <code>
+{`7. Couche Application : Interface avec les applications
+6. Couche Présentation : Format des données, chiffrement
+5. Couche Session : Gestion des sessions de communication
+4. Couche Transport : Fiabilité de la transmission (TCP, UDP)
+3. Couche Réseau : Routage des paquets (IP)
+2. Couche Liaison : Transfert entre nœuds adjacents (Ethernet)
+1. Couche Physique : Transmission des bits (câbles, ondes)`}
+          </code>
+        </pre>
+        <p>Les protocoles les plus importants sont :</p>
+        <ul>
+          <li><strong>TCP/IP</strong> (Transmission Control Protocol/Internet Protocol) : La base d'Internet
+            <ul>
+              <li><strong>IP</strong> : Adressage et routage des paquets</li>
+              <li><strong>TCP</strong> : Transmission fiable avec contrôle d'erreur</li>
+              <li><strong>UDP</strong> : Transmission rapide sans garantie de livraison</li>
+            </ul>
+          </li>
+          <li><strong>HTTP/HTTPS</strong> (HyperText Transfer Protocol) : Pour le web
+            <ul>
+              <li>HTTPS ajoute une couche de sécurité (chiffrement)</li>
+            </ul>
+          </li>
+          <li><strong>DNS</strong> (Domain Name System) : Traduit les noms de domaine en adresses IP</li>
+          <li><strong>DHCP</strong> (Dynamic Host Configuration Protocol) : Attribution automatique d'adresses IP</li>
+          <li><strong>FTP</strong> (File Transfer Protocol) : Transfert de fichiers</li>
+          <li><strong>SMTP/POP3/IMAP</strong> : Pour les emails</li>
+        </ul>
+        <p>Chaque appareil sur un réseau IP possède une <strong>adresse IP</strong> unique qui permet de l'identifier et de lui envoyer des données. Il existe deux versions principales :</p>
+        <ul>
+          <li><strong>IPv4</strong> : Format xxx.xxx.xxx.xxx (ex: 192.168.1.1)</li>
+          <li><strong>IPv6</strong> : Format xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx (pour pallier l'épuisement des adresses IPv4)</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 6: Sécurité et connectivité",
+    content: (
+      <div>
+        <p>La connectivité ouvre des portes à la communication, mais aussi potentiellement aux menaces. La sécurité est donc un aspect crucial.</p>
+        <h3>Principales menaces :</h3>
+        <ul>
+          <li><strong>Interception de données</strong> (écoute passive)</li>
+          <li><strong>Usurpation d'identité</strong> (spoofing)</li>
+          <li><strong>Attaques par déni de service</strong> (DoS/DDoS)</li>
+          <li><strong>Intrusion</strong> dans les systèmes</li>
+          <li><strong>Malwares</strong> (virus, ransomware, etc.)</li>
+        </ul>
+        <h3>Mesures de protection :</h3>
+        <ul>
+          <li><strong>Pare-feu</strong> (firewall) : Filtre le trafic réseau</li>
+          <li><strong>Chiffrement</strong> : Rend les données illisibles sans la clé de déchiffrement
+            <ul>
+              <li>WPA2/WPA3 pour le Wi-Fi</li>
+              <li>SSL/TLS pour les connexions web (HTTPS)</li>
+              <li>VPN pour sécuriser les connexions sur réseaux non sûrs</li>
+            </ul>
+          </li>
+          <li><strong>Authentification</strong> : Vérifie l'identité des utilisateurs
+            <ul>
+              <li>Mots de passe</li>
+              <li>Authentification à deux facteurs (2FA)</li>
+              <li>Biométrie (empreinte digitale, reconnaissance faciale)</li>
+            </ul>
+          </li>
+          <li><strong>Mises à jour</strong> : Corrigent les vulnérabilités connues</li>
+          <li><strong>Segmentation réseau</strong> : Isole les parties sensibles du réseau</li>
+        </ul>
+        <p>Bonnes pratiques pour une connectivité sécurisée :</p>
+        <ul>
+          <li>Utiliser des mots de passe forts et uniques</li>
+          <li>Activer le chiffrement sur tous les réseaux sans fil</li>
+          <li>Mettre à jour régulièrement tous les équipements et logiciels</li>
+          <li>Utiliser un VPN sur les réseaux publics</li>
+          <li>Être vigilant face aux tentatives de phishing</li>
+        </ul>
+      </div>
+    )
+  }
+]}>
+</TutorialAccordion>
+
+<ExerciseCard title="Exercices pratiques">
+
+## Exercice 1: Identification des technologies
+
+Pour chaque situation ci-dessous, indique quelle technologie de connectivité serait la plus appropriée et pourquoi :
+1. Connecter un ordinateur fixe à Internet avec une connexion stable et rapide
+2. Relier un smartphone à des écouteurs sans fil
+3. Connecter un ordinateur portable à Internet dans un café
+4. Transférer de grandes quantités de données entre deux serveurs dans un centre de données
+
+<details>
+  <summary>Solution</summary>
+  <p>1. Ethernet : offre une connexion stable, rapide et fiable pour un équipement fixe</p>
+  <p>2. Bluetooth : idéal pour les périphériques audio, faible consommation d'énergie, portée suffisante</p>
+  <p>3. Wi-Fi : disponible dans les lieux publics, permet la mobilité, débit suffisant pour la navigation</p>
+  <p>4. Fibre optique : permet des débits très élevés nécessaires pour transférer de grandes quantités de données</p>
+</details>
+
+## Exercice 2: Adressage IP
+
+1. Identifie si les adresses IP suivantes sont valides en IPv4 :
+   - 192.168.1.256
+   - 10.0.0.1
+   - 172.16.254.1
+   - 256.0.0.1
+
+2. Détermine si les adresses suivantes sont des adresses IP privées ou publiques :
+   - 192.168.0.1
+   - 8.8.8.8
+   - 10.0.0.1
+   - 172.16.0.1
+
+<details>
+  <summary>Solution</summary>
+  <p>1. Validité des adresses IPv4 :</p>
+  <ul>
+    <li>192.168.1.256 : Non valide (les nombres doivent être entre 0 et 255)</li>
+    <li>10.0.0.1 : Valide</li>
+    <li>172.16.254.1 : Valide</li>
+    <li>256.0.0.1 : Non valide (les nombres doivent être entre 0 et 255)</li>
+  </ul>
+  <p>2. Adresses privées vs publiques :</p>
+  <ul>
+    <li>192.168.0.1 : Privée (plage 192.168.0.0 - 192.168.255.255)</li>
+    <li>8.8.8.8 : Publique (serveur DNS de Google)</li>
+    <li>10.0.0.1 : Privée (plage 10.0.0.0 - 10.255.255.255)</li>
+    <li>172.16.0.1 : Privée (plage 172.16.0.0 - 172.31.255.255)</li>
+  </ul>
+</details>
+
+## Exercice 3: Diagnostic réseau
+
+Pour chacun des problèmes suivants, propose une solution :
+1. Tu ne peux pas accéder à Internet, mais ton ordinateur est bien connecté au réseau Wi-Fi
+2. La connexion Wi-Fi est très lente dans certaines pièces de la maison
+3. Tu ne peux pas te connecter à un site web spécifique, mais les autres sites fonctionnent
+
+<details>
+  <summary>Solution</summary>
+  <p>1. Problème d'accès à Internet malgré connexion Wi-Fi :</p>
+  <ul>
+    <li>Vérifier si le routeur est connecté à Internet (voyants)</li>
+    <li>Redémarrer le modem et le routeur</li>
+    <li>Vérifier si l'ordinateur a bien obtenu une adresse IP (ipconfig/ifconfig)</li>
+    <li>Tester la connexion avec la commande ping (ping 8.8.8.8)</li>
+    <li>Vérifier si le DNS fonctionne (ping www.google.com)</li>
+  </ul>
+  <p>2. Connexion Wi-Fi lente dans certaines pièces :</p>
+  <ul>
+    <li>Repositionner le routeur dans un emplacement plus central</li>
+    <li>Installer un répéteur Wi-Fi ou un système mesh</li>
+    <li>Vérifier les interférences potentielles (autres réseaux, appareils électroniques)</li>
+    <li>Changer de canal Wi-Fi ou passer à la bande 5 GHz si disponible</li>
+  </ul>
+  <p>3. Accès impossible à un site spécifique :</p>
+  <ul>
+    <li>Vider le cache du navigateur</li>
+    <li>Vérifier si le site est accessible depuis un autre appareil ou réseau</li>
+    <li>Essayer un autre navigateur</li>
+    <li>Vérifier si le site n'est pas bloqué par un pare-feu ou un contrôle parental</li>
+    <li>Utiliser un service comme Down Detector pour vérifier si le site est en panne</li>
+  </ul>
+</details>
+
+</ExerciseCard>
+
+<ExerciseCard title="Pour aller plus loin">
+
+## Défis créatifs
+
+1. **Cartographie réseau** : Dessine un schéma du réseau de ton domicile ou de ton école, en identifiant tous les appareils connectés et les technologies de connexion utilisées.
+
+2. **Analyse de performances** : Mesure et compare les performances (débit, latence) de différentes connexions auxquelles tu as accès (Wi-Fi, 4G, Ethernet, etc.) à l'aide d'outils comme Speedtest.net.
+
+3. **Configuration réseau** : Si tu as accès à un routeur, explore son interface d'administration et identifie les différents paramètres de configuration (SSID, canal Wi-Fi, contrôle parental, redirection de ports, etc.).
+
+## Réflexion
+
+La connectivité est devenue essentielle dans notre société moderne. Réfléchis aux questions suivantes :
+
+- Comment la connectivité a-t-elle changé notre façon de communiquer, de travailler et d'apprendre ?
+- Quels sont les avantages et les inconvénients d'être constamment connecté ?
+- Comment la connectivité va-t-elle évoluer dans le futur ? Quelles nouvelles technologies pourraient émerger ?
+- Quels défis pose la fracture numérique (inégalités d'accès à la connectivité) et comment pourrait-on la réduire ?
+
+</ExerciseCard>
+
+</CenteredContent>

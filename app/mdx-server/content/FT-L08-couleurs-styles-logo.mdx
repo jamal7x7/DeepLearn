@@ -1,0 +1,57 @@
+---
+title: FT-L08-couleurs-styles-logo
+description: Utiliser les couleurs et les styles graphiques en Logo
+difficulty: "Intermédiaire"
+---
+
+# FT-L08-couleurs-styles-logo
+Voici une fiche technique sous forme de tableau, conçue pour des élèves de niveau intermédiaire, qui présente les couleurs et les styles graphiques en Logo :
+
+| **Rubrique**                                  | **Contenu**                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Titre du thème**                            | Les couleurs et les styles graphiques en Logo                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Niveau concerné**                           | Intermédiaire                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| **Objectif pédagogique**                      | À la fin de cette leçon, l'élève saura : <br/>• Changer la couleur du trait de la tortue <br/>• Modifier l'épaisseur du trait <br/>• Remplir des formes fermées avec des couleurs <br/>• Créer des dessins multicolores et artistiques                                                                                                                                                                                                                |
+| **Définitions clés**                          | **FIXECOULEUR** : Commande pour définir la couleur du trait. <br/>**FIXETAILLE** : Commande pour définir l'épaisseur du trait. <br/>**REMPLIS** : Commande pour remplir une forme fermée avec la couleur actuelle. <br/>**FCAP** : Commande pour définir l'orientation de la tortue (FixeCAPtion).                                                                                                                                                                                          |
+| **Explication de la notion avec exemples**    | Les commandes graphiques avancées de Logo permettent de créer des dessins plus élaborés et plus esthétiques. La commande `FIXECOULEUR` change la couleur du trait que dessine la tortue, par exemple `FIXECOULEUR 4` pour dessiner en rouge. La commande `FIXETAILLE` modifie l'épaisseur du trait, comme `FIXETAILLE 3` pour un trait plus épais. Pour remplir une forme fermée, on utilise `REMPLIS` après avoir dessiné le contour. Ces commandes, combinées avec les mouvements de base de la tortue, permettent de créer des dessins colorés et artistiques.                                                                                                                       |
+| **Méthodologie ou étapes à suivre**           | 1. **Choisir une couleur** : Utiliser `FIXECOULEUR n` où n est un numéro de couleur (dépend de l'environnement Logo).<br/>2. **Définir l'épaisseur** : Utiliser `FIXETAILLE n` où n est un nombre positif.<br/>3. **Dessiner le contour** : Utiliser les commandes de déplacement pour créer une forme fermée.<br/>4. **Remplir la forme** : Utiliser `REMPLIS` pour colorer l'intérieur de la forme.<br/>5. **Combiner les styles** : Créer des dessins complexes en changeant les couleurs et les styles. |
+| **Illustration ou schéma explicatif**         | **Exemple de dessin coloré** : <br/>```logo
+VE
+FIXECOULEUR 4  ; Rouge
+FIXETAILLE 2   ; Trait épais
+REPETE 4 [AV 100 TD 90]  ; Dessine un carré
+REMPLIS  ; Remplit le carré en rouge
+``` <br/><br/>**Exemple de dessin multicolore** : <br/>```logo
+POUR FLEUR_COLOREE
+  VE
+  REPETE 8 [
+    FIXECOULEUR 1 + HASARD 6  ; Couleur aléatoire
+    REPETE 36 [AV 2 TD 10]    ; Dessine un pétale
+    TD 45                     ; Tourne pour le prochain pétale
+  ]
+FIN
+```                                                                                   |
+| **Exercice d'application ou question**        | **Exercice 1** : Créer une procédure qui dessine un carré coloré dont la couleur et la taille sont spécifiées par l'utilisateur. <br/>Solution : <br/>```logo
+POUR CARRE_COLORE :taille :couleur
+  FIXECOULEUR :couleur
+  REPETE 4 [AV :taille TD 90]
+  REMPLIS
+FIN
+
+CARRE_COLORE 50 2  ; Carré vert de 50 pas
+```<br/><br/>**Exercice 2** : Créer une procédure qui dessine un arc-en-ciel (demi-cercle avec des bandes de couleurs différentes). <br/>Solution : <br/>```logo
+POUR ARC_EN_CIEL :rayon
+  VE
+  ORIGINE
+  TG 90  ; Oriente la tortue vers le haut
+  POUR.CHAQUE "couleur [1 2 3 4 5 6] [
+    FIXECOULEUR :couleur
+    FIXETAILLE 5
+    REPETE 180 [AV :rayon / 180 TD 1]
+    ORIGINE
+    TG 90
+    DONNE "rayon :rayon - 10  ; Réduit le rayon pour la prochaine bande
+  ]
+FIN
+```                                                                                                                    |
+| **Mot-clé ou astuce mnémotechnique**          | **CERT** : <br/>**C**ouleur (FIXECOULEUR) <br/>**E**paisseur (FIXETAILLE) <br/>**R**emplissage (REMPLIS) <br/>**T**raits artistiques                                                                                                                                                                                                                                                                                                                           |

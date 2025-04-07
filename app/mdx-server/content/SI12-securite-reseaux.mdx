@@ -1,0 +1,496 @@
+---
+title: "Sécurité des Réseaux Informatiques"
+description: "Comprendre les principes et mécanismes de sécurité des réseaux informatiques"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Sécurité des Réseaux Informatiques
+
+<ExerciseCard title="Découvrir la sécurité des réseaux">
+
+Dans cette leçon, tu vas découvrir comment protéger les réseaux informatiques contre les menaces et les attaques, et comprendre les principes fondamentaux de la cybersécurité.
+
+Voici ce que tu vas apprendre :
+- Les principales menaces qui pèsent sur les réseaux informatiques
+- Les différents mécanismes de protection
+- Les bonnes pratiques pour sécuriser un réseau
+- Comment réagir face à un incident de sécurité
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Les menaces qui pèsent sur les réseaux",
+    content: (
+      <div>
+        <p>Les réseaux informatiques sont exposés à de nombreuses menaces. Comprendre ces menaces est la première étape pour s'en protéger :</p>
+        
+        <h4>1. Accès non autorisé</h4>
+        <p>Des personnes malveillantes peuvent tenter d'accéder à ton réseau sans permission :</p>
+        <ul>
+          <li>En devinant ou en piratant les mots de passe</li>
+          <li>En exploitant des failles de sécurité dans les logiciels</li>
+          <li>En utilisant des techniques d'ingénierie sociale (manipulation psychologique)</li>
+        </ul>
+        
+        <h4>2. Logiciels malveillants (malwares)</h4>
+        <p>Ces programmes sont conçus pour s'infiltrer dans les systèmes et causer des dommages :</p>
+        <ul>
+          <li><strong>Virus</strong> : Se propagent en s'attachant à d'autres programmes</li>
+          <li><strong>Vers</strong> : Se propagent automatiquement sans intervention humaine</li>
+          <li><strong>Chevaux de Troie</strong> : Se présentent comme des logiciels légitimes</li>
+          <li><strong>Ransomwares</strong> : Chiffrent tes données et demandent une rançon</li>
+          <li><strong>Spywares</strong> : Espionnent tes activités</li>
+        </ul>
+        
+        <h4>3. Attaques par déni de service (DoS/DDoS)</h4>
+        <p>Ces attaques visent à rendre un service indisponible :</p>
+        <ul>
+          <li>En surchargeant le réseau de requêtes</li>
+          <li>En épuisant les ressources des serveurs</li>
+          <li>Souvent menées depuis plusieurs sources simultanément (DDoS)</li>
+        </ul>
+        
+        <h4>4. Hameçonnage (phishing)</h4>
+        <p>Technique qui consiste à tromper l'utilisateur pour obtenir des informations sensibles :</p>
+        <ul>
+          <li>Emails imitant des organisations légitimes</li>
+          <li>Sites web contrefaits</li>
+          <li>Messages incitant à une action urgente</li>
+        </ul>
+        
+        <h4>5. Interception de données (sniffing)</h4>
+        <p>Capture des données qui transitent sur le réseau :</p>
+        <ul>
+          <li>Particulièrement risqué sur les réseaux Wi-Fi non sécurisés</li>
+          <li>Peut révéler des mots de passe et informations confidentielles</li>
+        </ul>
+        
+        <h4>6. Attaques de l'homme du milieu (Man-in-the-Middle)</h4>
+        <p>L'attaquant s'intercale entre deux parties qui communiquent :</p>
+        <ul>
+          <li>Il peut lire, modifier ou injecter des messages</li>
+          <li>Les parties légitimes pensent communiquer directement entre elles</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Les mécanismes de protection",
+    content: (
+      <div>
+        <p>Pour contrer ces menaces, plusieurs mécanismes de protection peuvent être mis en place :</p>
+        
+        <h4>1. Pare-feu (Firewall)</h4>
+        <p>Le <strong>pare-feu</strong> est la première ligne de défense d'un réseau :</p>
+        <ul>
+          <li>Il filtre le trafic entrant et sortant selon des règles définies</li>
+          <li>Il bloque les connexions non autorisées</li>
+          <li>Il peut être matériel (boîtier dédié) ou logiciel (installé sur un ordinateur)</li>
+        </ul>
+        
+        <div style={{ backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '5px', marginBottom: '20px' }}>
+          <p style={{ fontWeight: 'bold' }}>Exemple de règle de pare-feu :</p>
+          <p>Autoriser le trafic HTTP (port 80) et HTTPS (port 443) entrant vers le serveur web, mais bloquer tout autre trafic entrant vers ce serveur.</p>
+        </div>
+        
+        <h4>2. Systèmes de détection et de prévention d'intrusion (IDS/IPS)</h4>
+        <p>Ces systèmes surveillent le réseau pour détecter les activités suspectes :</p>
+        <ul>
+          <li><strong>IDS</strong> (Intrusion Detection System) : Détecte et alerte</li>
+          <li><strong>IPS</strong> (Intrusion Prevention System) : Détecte et bloque automatiquement</li>
+        </ul>
+        
+        <h4>3. Réseaux privés virtuels (VPN)</h4>
+        <p>Les <strong>VPN</strong> créent un tunnel sécurisé pour les communications :</p>
+        <ul>
+          <li>Ils chiffrent les données qui transitent sur le réseau</li>
+          <li>Ils masquent l'adresse IP réelle</li>
+          <li>Particulièrement utiles pour se connecter à distance de manière sécurisée</li>
+        </ul>
+        
+        <h4>4. Chiffrement des données</h4>
+        <p>Le <strong>chiffrement</strong> rend les données illisibles sans la clé appropriée :</p>
+        <ul>
+          <li><strong>HTTPS</strong> : Sécurise les connexions web</li>
+          <li><strong>TLS/SSL</strong> : Protocoles de sécurisation des communications</li>
+          <li><strong>Chiffrement de bout en bout</strong> : Seuls l'expéditeur et le destinataire peuvent lire les messages</li>
+        </ul>
+        
+        <h4>5. Authentification et contrôle d'accès</h4>
+        <p>Ces mécanismes vérifient l'identité des utilisateurs et limitent leurs droits :</p>
+        <ul>
+          <li><strong>Mots de passe</strong> : Première ligne de défense</li>
+          <li><strong>Authentification à deux facteurs (2FA)</strong> : Combine deux éléments (mot de passe + code temporaire)</li>
+          <li><strong>Biométrie</strong> : Utilise des caractéristiques physiques (empreinte digitale, reconnaissance faciale)</li>
+          <li><strong>Contrôle d'accès basé sur les rôles</strong> : Attribue des droits selon la fonction de l'utilisateur</li>
+        </ul>
+        
+        <h4>6. Segmentation du réseau</h4>
+        <p>Diviser le réseau en zones distinctes pour limiter la propagation des menaces :</p>
+        <ul>
+          <li><strong>VLAN</strong> (Virtual Local Area Network) : Sépare logiquement le réseau</li>
+          <li><strong>DMZ</strong> (Zone démilitarisée) : Zone tampon pour les serveurs accessibles depuis l'extérieur</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Sécurisation des réseaux sans fil",
+    content: (
+      <div>
+        <p>Les réseaux sans fil (Wi-Fi) sont particulièrement vulnérables et nécessitent des mesures de sécurité spécifiques :</p>
+        
+        <h4>1. Protocoles de sécurité Wi-Fi</h4>
+        <p>Plusieurs protocoles ont été développés, avec une sécurité croissante :</p>
+        <ul>
+          <li><strong>WEP</strong> (Wired Equivalent Privacy) : Ancien et très vulnérable, à éviter absolument</li>
+          <li><strong>WPA</strong> (Wi-Fi Protected Access) : Meilleur que WEP mais désormais obsolète</li>
+          <li><strong>WPA2</strong> : Standard répandu, encore acceptable</li>
+          <li><strong>WPA3</strong> : Le plus récent et le plus sécurisé, à privilégier si disponible</li>
+        </ul>
+        
+        <h4>2. Configuration sécurisée du routeur Wi-Fi</h4>
+        <p>Plusieurs paramètres doivent être ajustés pour renforcer la sécurité :</p>
+        <ul>
+          <li>Changer le nom d'utilisateur et mot de passe administrateur par défaut</li>
+          <li>Utiliser un mot de passe Wi-Fi fort (au moins 12 caractères, mélange de types de caractères)</li>
+          <li>Désactiver WPS (Wi-Fi Protected Setup) qui peut présenter des vulnérabilités</li>
+          <li>Mettre à jour régulièrement le firmware du routeur</li>
+        </ul>
+        
+        <h4>3. Réseau invité</h4>
+        <p>Créer un réseau séparé pour les visiteurs :</p>
+        <ul>
+          <li>Isole les appareils des visiteurs du réseau principal</li>
+          <li>Limite l'accès aux ressources internes</li>
+          <li>Peut être désactivé quand il n'est pas utilisé</li>
+        </ul>
+        
+        <h4>4. Filtrage MAC</h4>
+        <p>Restreindre l'accès au réseau aux appareils autorisés :</p>
+        <ul>
+          <li>Chaque appareil réseau possède une adresse MAC unique</li>
+          <li>Le routeur peut être configuré pour n'accepter que certaines adresses MAC</li>
+          <li>Protection limitée (les adresses MAC peuvent être usurpées) mais utile en complément</li>
+        </ul>
+        
+        <div style={{ backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '5px', marginBottom: '20px' }}>
+          <p style={{ fontWeight: 'bold' }}>Configuration Wi-Fi sécurisée :</p>
+          <ul>
+            <li>Protocole : WPA3-Personal</li>
+            <li>Mot de passe : Complexe et unique (ex: "j7K!9pR@2xZ#5mB&")</li>
+            <li>SSID : Ne pas révéler d'informations personnelles</li>
+            <li>Diffusion SSID : Peut être désactivée (protection limitée)</li>
+            <li>Mise à jour du firmware : Activée</li>
+          </ul>
+        </div>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Protection des données et des systèmes",
+    content: (
+      <div>
+        <p>Au-delà de la sécurité du réseau lui-même, il est essentiel de protéger les données et les systèmes qui y sont connectés :</p>
+        
+        <h4>1. Logiciels de sécurité</h4>
+        <p>Plusieurs types de logiciels contribuent à la protection :</p>
+        <ul>
+          <li><strong>Antivirus/Antimalware</strong> : Détecte et élimine les logiciels malveillants</li>
+          <li><strong>Anti-ransomware</strong> : Protection spécifique contre les rançongiciels</li>
+          <li><strong>Pare-feu personnel</strong> : Contrôle les connexions au niveau de chaque appareil</li>
+        </ul>
+        
+        <h4>2. Mises à jour et correctifs</h4>
+        <p>Maintenir les systèmes à jour est crucial :</p>
+        <ul>
+          <li>Les mises à jour corrigent souvent des failles de sécurité</li>
+          <li>Concerne le système d'exploitation, les applications et les pilotes</li>
+          <li>Idéalement, activer les mises à jour automatiques</li>
+        </ul>
+        
+        <h4>3. Sauvegardes</h4>
+        <p>Les sauvegardes sont essentielles en cas d'incident :</p>
+        <ul>
+          <li>Règle 3-2-1 : 3 copies des données, sur 2 supports différents, dont 1 hors site</li>
+          <li>Sauvegardes régulières et automatisées</li>
+          <li>Tests de restauration pour vérifier l'intégrité des sauvegardes</li>
+        </ul>
+        
+        <h4>4. Chiffrement des données sensibles</h4>
+        <p>Protéger les données même en cas d'accès physique non autorisé :</p>
+        <ul>
+          <li><strong>Chiffrement de disque</strong> : BitLocker (Windows), FileVault (macOS)</li>
+          <li><strong>Chiffrement de fichiers</strong> : Pour les documents sensibles</li>
+          <li><strong>Chiffrement des communications</strong> : Emails, messagerie instantanée</li>
+        </ul>
+        
+        <h4>5. Gestion des mots de passe</h4>
+        <p>Les mots de passe restent une protection essentielle :</p>
+        <ul>
+          <li>Utiliser des mots de passe forts et uniques pour chaque service</li>
+          <li>Employer un gestionnaire de mots de passe (LastPass, Bitwarden, 1Password)</li>
+          <li>Changer régulièrement les mots de passe critiques</li>
+          <li>Activer l'authentification à deux facteurs quand c'est possible</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Bonnes pratiques de sécurité réseau",
+    content: (
+      <div>
+        <p>Voici quelques bonnes pratiques pour maintenir un réseau sécurisé :</p>
+        
+        <h4>1. Principe du moindre privilège</h4>
+        <p>Accorder uniquement les droits nécessaires :</p>
+        <ul>
+          <li>Limiter les droits administrateur aux personnes qui en ont réellement besoin</li>
+          <li>Créer des comptes avec des permissions spécifiques à chaque rôle</li>
+          <li>Revoir régulièrement les droits d'accès</li>
+        </ul>
+        
+        <h4>2. Surveillance et journalisation</h4>
+        <p>Garder un œil sur ce qui se passe sur le réseau :</p>
+        <ul>
+          <li>Activer la journalisation des événements importants</li>
+          <li>Surveiller le trafic réseau pour détecter les anomalies</li>
+          <li>Analyser régulièrement les journaux de sécurité</li>
+        </ul>
+        
+        <h4>3. Formation et sensibilisation</h4>
+        <p>L'humain est souvent le maillon faible de la sécurité :</p>
+        <ul>
+          <li>Former les utilisateurs aux bonnes pratiques</li>
+          <li>Sensibiliser aux techniques d'ingénierie sociale</li>
+          <li>Encourager le signalement des incidents suspects</li>
+        </ul>
+        
+        <h4>4. Tests de sécurité</h4>
+        <p>Vérifier régulièrement la robustesse des défenses :</p>
+        <ul>
+          <li><strong>Scan de vulnérabilités</strong> : Identifier les failles potentielles</li>
+          <li><strong>Tests d'intrusion</strong> : Simuler des attaques pour tester les défenses</li>
+          <li><strong>Audit de sécurité</strong> : Évaluation complète du dispositif de sécurité</li>
+        </ul>
+        
+        <h4>5. Plan de réponse aux incidents</h4>
+        <p>Être préparé en cas de problème :</p>
+        <ul>
+          <li>Définir les procédures à suivre en cas d'incident</li>
+          <li>Identifier les responsabilités de chacun</li>
+          <li>Prévoir des moyens de communication alternatifs</li>
+          <li>Documenter les incidents et les mesures prises</li>
+        </ul>
+        
+        <div style={{ backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '5px', marginBottom: '20px' }}>
+          <p style={{ fontWeight: 'bold' }}>Checklist de sécurité réseau :</p>
+          <ol>
+            <li>Pare-feu activé et correctement configuré</li>
+            <li>Mots de passe forts et uniques</li>
+            <li>Authentification à deux facteurs activée</li>
+            <li>Systèmes et logiciels à jour</li>
+            <li>Sauvegardes régulières et testées</li>
+            <li>Chiffrement des données sensibles</li>
+            <li>Surveillance du réseau en place</li>
+            <li>Formation des utilisateurs</li>
+            <li>Plan de réponse aux incidents</li>
+          </ol>
+        </div>
+      </div>
+    )
+  },
+  {
+    title: "Étape 6: Tendances et évolutions en sécurité réseau",
+    content: (
+      <div>
+        <p>La sécurité des réseaux est un domaine en constante évolution. Voici les tendances actuelles et futures :</p>
+        
+        <h4>1. Sécurité Zero Trust</h4>
+        <p>Une approche qui ne fait confiance à personne par défaut :</p>
+        <ul>
+          <li>Principe : "Ne jamais faire confiance, toujours vérifier"</li>
+          <li>Vérification continue de l'identité et des droits</li>
+          <li>Accès limité au strict nécessaire</li>
+          <li>Contrôle granulaire des accès</li>
+        </ul>
+        
+        <h4>2. Sécurité basée sur l'intelligence artificielle</h4>
+        <p>L'IA révolutionne la détection des menaces :</p>
+        <ul>
+          <li>Analyse comportementale pour détecter les anomalies</li>
+          <li>Apprentissage automatique pour identifier les nouvelles menaces</li>
+          <li>Réponse automatisée aux incidents</li>
+        </ul>
+        
+        <h4>3. Sécurité du cloud</h4>
+        <p>Avec la migration vers le cloud, de nouveaux défis émergent :</p>
+        <ul>
+          <li>Responsabilité partagée entre le fournisseur et le client</li>
+          <li>Sécurisation des données dans des environnements multi-cloud</li>
+          <li>Contrôle des accès aux ressources cloud</li>
+        </ul>
+        
+        <h4>4. Sécurité des objets connectés (IoT)</h4>
+        <p>La multiplication des objets connectés crée de nouveaux risques :</p>
+        <ul>
+          <li>Appareils souvent peu sécurisés par défaut</li>
+          <li>Nécessité de segmenter le réseau pour isoler ces appareils</li>
+          <li>Mises à jour de sécurité parfois inexistantes</li>
+        </ul>
+        
+        <h4>5. Conformité et réglementation</h4>
+        <p>Les exigences légales en matière de sécurité se renforcent :</p>
+        <ul>
+          <li>RGPD en Europe (protection des données personnelles)</li>
+          <li>Obligations de notification en cas de violation de données</li>
+          <li>Normes sectorielles (santé, finance, etc.)</li>
+        </ul>
+      </div>
+    )
+  }
+]} />
+
+<ExerciseCard title="Exercice pratique : Évaluer et renforcer la sécurité d'un réseau">
+
+Maintenant que tu comprends mieux la sécurité des réseaux, il est temps de mettre en pratique tes connaissances !
+
+### Exercice 1 : Audit de sécurité basique
+
+Réalise un mini-audit de sécurité sur ton réseau domestique ou celui de ton école (avec autorisation) :
+
+1. Identifie les équipements connectés au réseau.
+2. Vérifie les paramètres de sécurité du routeur/point d'accès Wi-Fi.
+3. Note les vulnérabilités potentielles que tu observes.
+4. Propose des améliorations pour renforcer la sécurité.
+
+### Exercice 2 : Création d'une politique de mots de passe
+
+Élabore une politique de mots de passe pour un petit réseau (famille ou petite entreprise) :
+
+1. Définis les critères de complexité des mots de passe.
+2. Établis des règles pour le renouvellement des mots de passe.
+3. Propose une stratégie pour la gestion des mots de passe (gestionnaire de mots de passe, etc.).
+4. Explique comment mettre en place l'authentification à deux facteurs.
+
+### Exercice 3 : Plan de réponse aux incidents
+
+Crée un plan de réponse simple pour les incidents de sécurité suivants :
+
+1. Infection par un malware
+2. Perte ou vol d'un appareil contenant des données sensibles
+3. Suspicion d'accès non autorisé au réseau
+4. Attaque par hameçonnage (phishing)
+
+Pour chaque scénario, indique :
+- Les actions immédiates à entreprendre
+- Les personnes à contacter
+- Les étapes pour revenir à la normale
+- Les mesures pour éviter que cela ne se reproduise
+
+### Exercice 4 : Segmentation de réseau
+
+Imagine que tu dois concevoir un réseau sécurisé pour une petite entreprise avec :
+- Des postes de travail pour les employés
+- Des serveurs internes contenant des données sensibles
+- Des appareils IoT (caméras, thermostats intelligents)
+- Un réseau Wi-Fi pour les visiteurs
+
+Propose un schéma de segmentation du réseau en expliquant :
+1. Comment tu séparerais les différents types d'appareils
+2. Quelles règles de pare-feu tu mettrais en place
+3. Comment tu gérerais les accès entre les segments
+
+</ExerciseCard>
+
+<QuizCard title="Quiz : Sécurité des réseaux informatiques">
+
+<Quiz
+  questions={[
+    {
+      question: "Quel équipement filtre le trafic réseau selon des règles définies ?",
+      options: [
+        "Switch",
+        "Routeur",
+        "Pare-feu",
+        "Modem"
+      ],
+      correctIndex: 2
+    },
+    {
+      question: "Quel protocole de sécurité Wi-Fi est considéré comme le plus sécurisé actuellement ?",
+      options: [
+        "WEP",
+        "WPA",
+        "WPA2",
+        "WPA3"
+      ],
+      correctIndex: 3
+    },
+    {
+      question: "Quelle technique consiste à tromper l'utilisateur pour obtenir des informations sensibles ?",
+      options: [
+        "Hameçonnage (phishing)",
+        "Déni de service",
+        "Sniffing",
+        "Brute force"
+      ],
+      correctIndex: 0
+    },
+    {
+      question: "Qu'est-ce qu'un VPN ?",
+      options: [
+        "Un virus particulièrement nocif",
+        "Un réseau privé virtuel qui sécurise les communications",
+        "Un système de détection d'intrusion",
+        "Un type de pare-feu avancé"
+      ],
+      correctIndex: 1
+    },
+    {
+      question: "Quelle mesure n'améliore PAS la sécurité d'un réseau ?",
+      options: [
+        "Activer l'authentification à deux facteurs",
+        "Utiliser le protocole WPA3 pour le Wi-Fi",
+        "Laisser les mots de passe par défaut sur les équipements",
+        "Segmenter le réseau en zones distinctes"
+      ],
+      correctIndex: 2
+    }
+  ]}
+/>
+
+</QuizCard>
+
+<ResourcesCard title="Ressources complémentaires">
+
+### Pour approfondir tes connaissances sur la sécurité des réseaux
+
+#### Sites web
+- [ANSSI](https://www.ssi.gouv.fr/) - Agence Nationale de la Sécurité des Systèmes d'Information
+- [CNIL](https://www.cnil.fr/) - Commission Nationale de l'Informatique et des Libertés
+- [Cert-FR](https://www.cert.ssi.gouv.fr/) - Centre gouvernemental de veille, d'alerte et de réponse aux attaques informatiques
+- [Cybermalveillance.gouv.fr](https://www.cybermalveillance.gouv.fr/) - Assistance et prévention du risque numérique
+
+#### Outils
+- Wireshark - Analyseur de protocoles réseau
+- Nmap - Scanner de ports et d'audit de sécurité
+- OpenVAS - Scanner de vulnérabilités
+- KeePass/Bitwarden - Gestionnaires de mots de passe
+
+#### Livres
+- "Réseaux informatiques et sécurité" (Éditions ENI)
+- "Cybersecurity Essentials" (Cisco Press)
+- "Social Engineering: The Science of Human Hacking" par Christopher Hadnagy
+
+#### MOOC et formations en ligne
+- FUN-MOOC - Cours en ligne sur la cybersécurité
+- Coursera - Spécialisation Cybersecurity
+- OpenClassrooms - Cours sur la sécurité informatique
+
+</ResourcesCard>
+
+</CenteredContent>

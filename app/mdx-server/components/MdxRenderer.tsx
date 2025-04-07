@@ -4,9 +4,12 @@ import React from 'react';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 // Import custom MDX components
 import { ExerciseCard, TutorialAccordion, CenteredContent, Tip, GlowEffectCardBackground } from './MdxComponents';
+import { QuizCard } from './QuizCard';
+import { ResourcesCard } from './ResourcesCard'; // Import the ResourcesCard component
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { GlowEffect } from '@/components/ui/glow-effect'
+import { Quiz } from './Quiz'; // Import the Quiz component
 
 // Define the shape of front-matter data
 interface FrontMatter {
@@ -31,6 +34,9 @@ const components = {
   AccordionTrigger,
   GlowEffect,
   GlowEffectCardBackground,
+  Quiz, // Added Quiz component
+  QuizCard, // Added QuizCard component
+  ResourcesCard, // Added ResourcesCard component
   // Headings
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1 

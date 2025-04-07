@@ -1,0 +1,47 @@
+---
+title: FT-L06-listes-logo
+description: Manipuler des listes en Logo
+difficulty: "Intermédiaire"
+---
+
+# FT-L06-listes-logo
+Voici une fiche technique sous forme de tableau, conçue pour des élèves de niveau intermédiaire, qui présente le concept des listes en Logo :
+
+| **Rubrique**                                  | **Contenu**                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Titre du thème**                            | Les listes en Logo : stocker et manipuler des données                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Niveau concerné**                           | Intermédiaire                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| **Objectif pédagogique**                      | À la fin de cette leçon, l'élève saura : <br/>• Comprendre ce qu'est une liste en programmation <br/>• Créer et manipuler des listes en Logo <br/>• Accéder aux éléments d'une liste <br/>• Utiliser les principales opérations sur les listes                                                                                                                                                                                                                |
+| **Définitions clés**                          | **Liste** : Collection ordonnée d'éléments (nombres, mots ou autres listes) entourée de crochets. <br/>**PREMIER** : Commande qui renvoie le premier élément d'une liste. <br/>**DERNIER** : Commande qui renvoie le dernier élément d'une liste. <br/>**SAUF.PREMIER** : Commande qui renvoie tous les éléments d'une liste sauf le premier.                                                                                                                                                                                          |
+| **Explication de la notion avec exemples**    | Une liste en Logo est une collection ordonnée d'éléments entourée de crochets. Par exemple, `[1 2 3 4]` est une liste de nombres, et `[rouge bleu vert]` est une liste de mots. Les listes peuvent contenir différents types d'éléments, y compris d'autres listes, comme dans `[1 [2 3] 4]`. Logo offre plusieurs commandes pour manipuler les listes : `PREMIER [a b c]` renvoie `a`, `DERNIER [a b c]` renvoie `c`, et `SAUF.PREMIER [a b c]` renvoie `[b c]`. Les listes sont très utiles pour stocker et traiter des données, comme des coordonnées, des couleurs, ou des séquences d'instructions.                                                                                                                       |
+| **Méthodologie ou étapes à suivre**           | 1. **Créer une liste** : Utiliser des crochets pour définir une liste, par exemple `[1 2 3]`.<br/>2. **Stocker une liste dans une variable** : Utiliser `DONNE "nom_variable [éléments]`.<br/>3. **Accéder aux éléments** : Utiliser `PREMIER`, `DERNIER`, `ITEM`, etc.<br/>4. **Modifier des listes** : Utiliser `AJOUTE`, `INSERE`, `REMPLACE`, etc.<br/>5. **Parcourir une liste** : Utiliser des boucles ou la récursivité pour traiter chaque élément. |
+| **Illustration ou schéma explicatif**         | **Exemple de création et manipulation de liste** : <br/>```logo
+DONNE "couleurs [rouge vert bleu jaune]
+EC PREMIER :couleurs  ; Affiche "rouge"
+EC ITEM 3 :couleurs   ; Affiche "bleu" (le 3ème élément)
+EC COMPTE :couleurs   ; Affiche 4 (le nombre d'éléments)
+``` <br/><br/>**Exemple de parcours de liste** : <br/>```logo
+POUR AFFICHE_LISTE :liste
+  SI VIDE? :liste [STOP]  ; Condition d'arrêt
+  EC PREMIER :liste       ; Affiche le premier élément
+  AFFICHE_LISTE SAUF.PREMIER :liste  ; Appel récursif avec le reste de la liste
+FIN
+```                                                                                   |
+| **Exercice d'application ou question**        | **Exercice 1** : Créer une liste de coordonnées et l'utiliser pour dessiner une forme. <br/>Solution : <br/>```logo
+DONNE "points [[0 0] [100 0] [100 100] [0 100]]
+POUR DESSINE_FORME :liste_points
+  VE
+  FPOS PREMIER :liste_points  ; Va au premier point
+  BC
+  POUR.CHAQUE "point SAUF.PREMIER :liste_points [FPOS :point]
+FIN
+DESSINE_FORME :points  ; Dessine un carré
+```<br/><br/>**Exercice 2** : Créer une procédure qui calcule la somme des éléments d'une liste de nombres. <br/>Solution : <br/>```logo
+POUR SOMME :liste
+  SI VIDE? :liste [RETOURNE 0]
+  RETOURNE (PREMIER :liste) + SOMME SAUF.PREMIER :liste
+FIN
+
+EC SOMME [1 2 3 4 5]  ; Affiche 15
+```                                                                                                                    |
+| **Mot-clé ou astuce mnémotechnique**          | **LACE** : <br/>**L**iste (création avec crochets) <br/>**A**ccès aux éléments (PREMIER, DERNIER, ITEM) <br/>**C**onstruction et modification (AJOUTE, INSERE) <br/>**E**xploration (parcours avec POUR.CHAQUE ou récursivité)                                                                                                                                                                                                                                                                                                                           |

@@ -1,0 +1,204 @@
+---
+title: "L'Information"
+description: "Comprendre le concept d'information et son rôle dans les systèmes informatiques"
+difficulty: "Débutant"
+---
+
+<CenteredContent>
+
+# L'Information
+
+<ExerciseCard title="Découvrir le concept d'information">
+
+Dans cette leçon, tu vas découvrir ce qu'est l'information, comment elle est représentée dans un système informatique et pourquoi elle est si importante dans notre monde numérique.
+
+Voici ce que tu vas apprendre :
+- Ce qu'est l'information et comment elle diffère des données
+- Comment l'information est codée et stockée numériquement
+- Les différentes unités de mesure de l'information
+- Comment gérer efficacement l'information
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Qu'est-ce que l'information ?",
+    content: (
+      <div>
+        <p>L'<strong>information</strong> est un ensemble de données qui ont un sens et une utilité. Elle peut prendre de nombreuses formes :</p>
+        <ul>
+          <li>Du texte (comme ce que tu lis actuellement)</li>
+          <li>Des images (photos, dessins, graphiques)</li>
+          <li>Des sons (musique, voix, bruits)</li>
+          <li>Des vidéos (combinaison d'images et de sons)</li>
+          <li>Des données structurées (tableaux, bases de données)</li>
+        </ul>
+        <p>Une <strong>donnée</strong> est la représentation élémentaire d'une information. Par exemple, le chiffre "7" seul est une donnée, mais "7 degrés Celsius" est une information car elle a un sens (une température).</p>
+        <p>Dans notre vie quotidienne, nous sommes constamment entourés d'informations : panneaux routiers, livres, conversations, émissions de télévision, sites web, etc.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Comment l'information est-elle représentée numériquement ?",
+    content: (
+      <div>
+        <p>Dans un système informatique, toute information est convertie en <strong>langage binaire</strong>, c'est-à-dire en séquences de 0 et de 1. Ces chiffres binaires sont appelés <strong>bits</strong> (binary digits).</p>
+        <p>Voici comment différents types d'information sont représentés :</p>
+        <ul>
+          <li><strong>Texte</strong> : Chaque caractère est converti en un code numérique selon une table (comme ASCII ou Unicode). Par exemple, la lettre "A" est représentée par le code 65 en ASCII, soit 01000001 en binaire.</li>
+          <li><strong>Images</strong> : Une image est divisée en points (pixels), et chaque pixel est codé par une valeur numérique représentant sa couleur.</li>
+          <li><strong>Sons</strong> : Un son est échantillonné à intervalles réguliers, et chaque échantillon est converti en valeur numérique.</li>
+        </ul>
+        <p>L'unité de base pour mesurer l'information est le <strong>bit</strong>, qui peut avoir la valeur 0 ou 1. Huit bits forment un <strong>octet</strong> (ou byte en anglais), qui peut représenter 256 valeurs différentes (2^8).</p>
+        <pre>
+          <code>
+{`Exemple de codage de texte en binaire :
+
+Mot "INFO" en ASCII :
+I = 73 = 01001001
+N = 78 = 01001110
+F = 70 = 01000110
+O = 79 = 01001111`}
+          </code>
+        </pre>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Les unités de mesure de l'information",
+    content: (
+      <div>
+        <p>Pour mesurer la quantité d'information, on utilise différentes unités :</p>
+        <ul>
+          <li><strong>Bit (b)</strong> : L'unité la plus élémentaire (0 ou 1)</li>
+          <li><strong>Octet (o) ou Byte (B)</strong> : 8 bits</li>
+          <li><strong>Kilooctet (Ko) ou Kilobyte (KB)</strong> : 1 024 octets</li>
+          <li><strong>Mégaoctet (Mo) ou Megabyte (MB)</strong> : 1 024 Ko</li>
+          <li><strong>Gigaoctet (Go) ou Gigabyte (GB)</strong> : 1 024 Mo</li>
+          <li><strong>Téraoctet (To) ou Terabyte (TB)</strong> : 1 024 Go</li>
+        </ul>
+        <p>Attention à ne pas confondre les bits (b) et les octets (B) ! Par exemple, une vitesse de connexion Internet de 8 Mbps (mégabits par seconde) correspond à 1 Mo/s (mégaoctet par seconde).</p>
+        <p>Voici quelques exemples pour te donner une idée :</p>
+        <ul>
+          <li>Un document texte simple : quelques Ko</li>
+          <li>Une photo de smartphone : 2-5 Mo</li>
+          <li>Une chanson MP3 : 3-10 Mo</li>
+          <li>Un film HD : 4-8 Go</li>
+          <li>Un jeu vidéo moderne : 50-100 Go</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Les formats de fichiers",
+    content: (
+      <div>
+        <p>L'information numérique est généralement stockée dans des fichiers. Chaque type d'information a ses propres formats de fichiers :</p>
+        <ul>
+          <li><strong>Texte</strong> : .txt, .doc, .pdf, .html</li>
+          <li><strong>Images</strong> : .jpg, .png, .gif, .svg</li>
+          <li><strong>Audio</strong> : .mp3, .wav, .flac, .ogg</li>
+          <li><strong>Vidéo</strong> : .mp4, .avi, .mkv, .mov</li>
+        </ul>
+        <p>Certains formats utilisent la <strong>compression</strong> pour réduire la taille des fichiers :</p>
+        <ul>
+          <li><strong>Compression sans perte</strong> : Réduit la taille sans perdre d'information (ex: ZIP, PNG)</li>
+          <li><strong>Compression avec perte</strong> : Réduit davantage la taille mais sacrifie certains détails (ex: JPEG, MP3)</li>
+        </ul>
+        <p>Le choix du format dépend de l'usage prévu : qualité nécessaire, espace disponible, compatibilité, etc.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Gestion et sécurité de l'information",
+    content: (
+      <div>
+        <p>Bien gérer l'information est essentiel dans notre monde numérique :</p>
+        <ul>
+          <li><strong>Organisation</strong> : Classer l'information de manière logique (dossiers, étiquettes, etc.)</li>
+          <li><strong>Stockage</strong> : Choisir des supports adaptés (disque dur, clé USB, cloud, etc.)</li>
+          <li><strong>Sauvegarde</strong> : Faire des copies de sécurité régulières</li>
+          <li><strong>Protection</strong> : Sécuriser les informations sensibles (mots de passe, chiffrement)</li>
+          <li><strong>Vérification</strong> : S'assurer de la fiabilité des sources d'information</li>
+        </ul>
+        <p>La <strong>qualité</strong> de l'information est déterminée par plusieurs critères :</p>
+        <ul>
+          <li><strong>Exactitude</strong> : L'information est-elle correcte ?</li>
+          <li><strong>Actualité</strong> : L'information est-elle à jour ?</li>
+          <li><strong>Pertinence</strong> : L'information répond-elle à nos besoins ?</li>
+          <li><strong>Complétude</strong> : L'information est-elle suffisamment détaillée ?</li>
+        </ul>
+      </div>
+    )
+  }
+]}>
+</TutorialAccordion>
+
+<ExerciseCard title="Exercices pratiques">
+
+## Exercice 1: Conversion en binaire
+
+Convertis les caractères suivants en code binaire (utilise la table ASCII) :
+1. La lettre "M"
+2. Le chiffre "5"
+3. Le symbole "&"
+
+<details>
+  <summary>Solution</summary>
+  <p>1. M = ASCII 77 = 01001101</p>
+  <p>2. 5 = ASCII 53 = 00110101</p>
+  <p>3. & = ASCII 38 = 00100110</p>
+</details>
+
+## Exercice 2: Calcul de taille de fichiers
+
+Calcule la taille approximative des fichiers suivants :
+1. Un document texte de 2000 caractères (1 caractère = 1 octet)
+2. Une image de 1920×1080 pixels où chaque pixel est codé sur 3 octets (RGB)
+3. Un enregistrement audio de 3 minutes échantillonné à 44,1 kHz en stéréo, avec 16 bits par échantillon
+
+<details>
+  <summary>Solution</summary>
+  <p>1. Document texte : 2000 caractères × 1 octet = 2000 octets = 2 Ko</p>
+  <p>2. Image : 1920 × 1080 pixels × 3 octets = 6 220 800 octets ≈ 6 Mo</p>
+  <p>3. Audio : 3 minutes × 60 secondes × 44100 échantillons/seconde × 2 canaux × 2 octets = 31 752 000 octets ≈ 30 Mo</p>
+</details>
+
+## Exercice 3: Identification des formats
+
+Pour chaque type d'information, indique le format de fichier le plus approprié :
+1. Un document texte avec mise en forme complexe destiné à être imprimé
+2. Une photo de haute qualité pour un site web (doit être légère)
+3. Un logo d'entreprise avec des formes géométriques qui doit pouvoir être redimensionné sans perte de qualité
+
+<details>
+  <summary>Solution</summary>
+  <p>1. Format PDF (.pdf) - préserve la mise en forme exacte pour l'impression</p>
+  <p>2. Format JPEG (.jpg) - bon compromis entre qualité et taille pour les photos sur le web</p>
+  <p>3. Format SVG (.svg) - format vectoriel qui permet un redimensionnement sans perte de qualité</p>
+</details>
+
+</ExerciseCard>
+
+<ExerciseCard title="Pour aller plus loin">
+
+## Défis créatifs
+
+1. **Créer une infographie** : Réalise une infographie qui explique les différentes unités de mesure de l'information et donne des exemples concrets pour chacune.
+
+2. **Analyser ton usage numérique** : Pendant une journée, note tous les types d'informations numériques que tu utilises (textes, images, vidéos, etc.) et estime la quantité totale d'information traitée.
+
+3. **Comparer des formats** : Prends une même photo et enregistre-la dans différents formats (PNG, JPEG avec différents niveaux de compression, etc.). Compare les tailles de fichiers et la qualité visuelle.
+
+## Réflexion
+
+L'information est devenue une ressource essentielle dans notre société. Réfléchis aux questions suivantes :
+
+- Comment la façon dont nous stockons et partageons l'information a-t-elle évolué au cours des dernières décennies ?
+- Quels sont les avantages et les inconvénients de la numérisation de l'information ?
+- Comment peut-on s'assurer de la fiabilité de l'information trouvée sur internet ?
+- Quels défis pose la croissance exponentielle de la quantité d'information disponible ?
+
+</ExerciseCard>
+
+</CenteredContent>

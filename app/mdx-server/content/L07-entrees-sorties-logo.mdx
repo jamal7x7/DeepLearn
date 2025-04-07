@@ -1,0 +1,326 @@
+---
+title: "Entrées-Sorties en Logo"
+description: "Créer des programmes interactifs avec l'utilisateur"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Entrées-Sorties en Logo
+
+<ExerciseCard title="Interagir avec l'utilisateur">
+
+Dans cette leçon, tu vas apprendre à créer des programmes Logo interactifs qui communiquent avec l'utilisateur. Tu pourras afficher des messages, poser des questions et adapter le comportement de tes programmes en fonction des réponses reçues.
+
+Voici ce que tu vas apprendre :
+- Comment afficher des messages à l'utilisateur
+- Comment demander et récupérer des informations saisies
+- Comment créer des menus interactifs
+- Comment valider les entrées de l'utilisateur
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Afficher des informations",
+    content: (
+      <div>
+        <p>Pour communiquer avec l'utilisateur, Logo offre plusieurs commandes d'affichage :</p>
+        <ul>
+          <li><code>EC</code> (ÉCris) : Affiche du texte ou des valeurs, suivi d'un retour à la ligne</li>
+          <li><code>ECRIS</code> : Affiche du texte ou des valeurs sans retour à la ligne</li>
+        </ul>
+        <p>Ces commandes peuvent afficher :</p>
+        <ul>
+          <li>Des mots ou des listes de mots (entre crochets)</li>
+          <li>Des nombres</li>
+          <li>Le contenu de variables</li>
+          <li>Le résultat d'expressions</li>
+        </ul>
+        <p>Exemples :</p>
+        <pre>
+          EC [Bonjour tout le monde]  ; Affiche "Bonjour tout le monde"
+          
+          DONNE "nom "Alice
+          EC (PHRASE [Bonjour] :nom)  ; Affiche "Bonjour Alice"
+          
+          EC 2 + 3  ; Affiche 5
+          
+          ECRIS [Entrez votre âge : ]  ; Pas de retour à la ligne
+        </pre>
+        <p>La commande <code>PHRASE</code> est très utile pour combiner du texte et des variables dans un message.</p>
+        <p>Pour afficher plusieurs lignes, tu peux utiliser plusieurs commandes <code>EC</code> :</p>
+        <pre>
+          EC [Programme de dessin de polygones]
+          EC [---------------------------]
+          EC [Ce programme vous permet de dessiner]
+          EC [différents polygones réguliers.]
+        </pre>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Demander des informations",
+    content: (
+      <div>
+        <p>Pour récupérer des informations saisies par l'utilisateur, Logo offre la commande <code>QUESTION</code> :</p>
+        <p><strong>Syntaxe</strong> : <code>QUESTION [texte de la question]</code></p>
+        <p>Cette commande :</p>
+        <ul>
+          <li>Affiche le texte de la question</li>
+          <li>Attend que l'utilisateur tape une réponse et appuie sur Entrée</li>
+          <li>Renvoie la réponse (généralement sous forme de mot ou de liste)</li>
+        </ul>
+        <p>Comme <code>QUESTION</code> renvoie une valeur, on l'utilise souvent avec <code>DONNE</code> pour stocker la réponse dans une variable :</p>
+        <pre>
+          DONNE "prenom QUESTION [Comment t'appelles-tu? ]
+          EC (PHRASE [Bonjour] :prenom [!])
+        </pre>
+        <p>Par défaut, <code>QUESTION</code> renvoie la réponse sous forme de mot ou de liste. Si tu attends un nombre, tu dois convertir la réponse avec la commande <code>NOMBRE</code> :</p>
+        <pre>
+          DONNE "age QUESTION [Quel âge as-tu? ]
+          DONNE "age NOMBRE :age  ; Convertit la réponse en nombre
+          EC (PHRASE [Dans 10 ans, tu auras] :age + 10 [ans])
+        </pre>
+        <p>Il existe aussi la commande <code>LISCAR</code> qui lit un seul caractère sans attendre que l'utilisateur appuie sur Entrée :</p>
+        <pre>
+          DONNE "touche LISCAR
+          EC (PHRASE [Tu as appuyé sur la touche] :touche)
+        </pre>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Valider les entrées",
+    content: (
+      <div>
+        <p>Lorsque tu demandes des informations à l'utilisateur, il est important de vérifier que les réponses sont valides. Par exemple, si tu attends un nombre entre 1 et 10, tu dois vérifier que l'utilisateur a bien entré un nombre dans cet intervalle.</p>
+        <p>Voici un exemple de validation d'entrée :</p>
+        <pre>
+          POUR DEMANDE_NOMBRE :min :max
+            DONNE "valide FAUX
+            TANTQUE [NON :valide] [
+              DONNE "reponse QUESTION (PHRASE [Entrez un nombre entre] :min [et] :max [: ])
+              DONNE "nombre NOMBRE :reponse
+              SI ET (:nombre >= :min) (:nombre <= :max) [
+                DONNE "valide VRAI
+              ] [
+                EC [Valeur hors limites, veuillez réessayer.]
+              ]
+            ]
+            RETOURNE :nombre
+          FIN
+          
+          DONNE "n DEMANDE_NOMBRE 1 10
+          EC (PHRASE [Vous avez choisi le nombre] :n)
+        </pre>
+        <p>Cette procédure :</p>
+        <ul>
+          <li>Demande à l'utilisateur d'entrer un nombre entre <code>:min</code> et <code>:max</code></li>
+          <li>Vérifie que le nombre est bien dans l'intervalle</li>
+          <li>Si ce n'est pas le cas, affiche un message d'erreur et redemande</li>
+          <li>Continue jusqu'à obtenir une réponse valide</li>
+          <li>Renvoie le nombre valide</li>
+        </ul>
+        <p>Tu peux adapter cette approche pour d'autres types de validation, comme vérifier que l'utilisateur a entré un mot spécifique ou une réponse parmi plusieurs choix possibles.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Créer un menu interactif",
+    content: (
+      <div>
+        <p>Une application courante des entrées-sorties est la création de menus interactifs, qui permettent à l'utilisateur de choisir parmi plusieurs options.</p>
+        <p>Voici un exemple de menu simple pour un programme de dessin :</p>
+        <pre>
+          POUR MENU
+            VE  ; Efface l'écran
+            EC [Programme de dessin - Menu principal]
+            EC [---------------------------------------]
+            EC [1. Dessiner un carré]
+            EC [2. Dessiner un triangle]
+            EC [3. Dessiner un cercle]
+            EC [4. Quitter]
+            EC []
+            DONNE "choix DEMANDE_NOMBRE 1 4
+            
+            SI :choix = 1 [DESSINE_CARRE STOP]
+            SI :choix = 2 [DESSINE_TRIANGLE STOP]
+            SI :choix = 3 [DESSINE_CERCLE STOP]
+            SI :choix = 4 [EC [Au revoir!] STOP]
+          FIN
+          
+          POUR DESSINE_CARRE
+            VE
+            DONNE "taille DEMANDE_NOMBRE 10 200
+            REPETE 4 [AV :taille TD 90]
+            ATTENDS 3000  ; Attend 3 secondes
+            MENU  ; Retourne au menu
+          FIN
+          
+          ; Procédures similaires pour DESSINE_TRIANGLE et DESSINE_CERCLE
+        </pre>
+        <p>Ce programme :</p>
+        <ul>
+          <li>Affiche un menu avec plusieurs options</li>
+          <li>Demande à l'utilisateur de choisir une option</li>
+          <li>Exécute l'action correspondante</li>
+          <li>Revient au menu principal après chaque action</li>
+        </ul>
+        <p>La commande <code>ATTENDS</code> fait une pause (en millisecondes) avant de continuer, ce qui permet à l'utilisateur de voir le résultat avant de revenir au menu.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Créer un programme de dessin interactif",
+    content: (
+      <div>
+        <p>Combinons tout ce que nous avons appris pour créer un programme de dessin interactif qui permet à l'utilisateur de dessiner un polygone régulier de son choix :</p>
+        <pre>
+          POUR DESSIN_INTERACTIF
+            VE
+            EC [Programme de dessin de polygones réguliers]
+            EC [----------------------------------------]
+            
+            ; Demande le nombre de côtés
+            DONNE "nb_cotes DEMANDE_NOMBRE 3 20
+            
+            ; Demande la longueur des côtés
+            DONNE "longueur DEMANDE_NOMBRE 10 200
+            
+            ; Demande la couleur
+            EC [Couleurs disponibles :]
+            EC [1: Noir, 2: Bleu, 3: Vert, 4: Rouge, 5: Jaune]
+            DONNE "couleur DEMANDE_NOMBRE 1 5
+            FIXECOULEUR :couleur
+            
+            ; Calcule l'angle de rotation
+            DONNE "angle 360 / :nb_cotes
+            
+            ; Affiche un résumé
+            EC []
+            EC (PHRASE [Je vais dessiner un polygone à] :nb_cotes [côtés])
+            EC (PHRASE [de] :longueur [pas de longueur])
+            EC [Appuyez sur une touche pour commencer...]
+            LISCAR
+            
+            ; Dessine le polygone
+            VE
+            REPETE :nb_cotes [AV :longueur TD :angle]
+            
+            ; Demande si l'utilisateur veut recommencer
+            EC []
+            DONNE "reponse QUESTION [Voulez-vous dessiner un autre polygone? (O/N) ]
+            SI OU (:reponse = "O) (:reponse = "o) [DESSIN_INTERACTIF]
+          FIN
+        </pre>
+        <p>Ce programme :</p>
+        <ul>
+          <li>Demande à l'utilisateur les caractéristiques du polygone (nombre de côtés, longueur, couleur)</li>
+          <li>Affiche un résumé et attend une confirmation</li>
+          <li>Dessine le polygone demandé</li>
+          <li>Propose de recommencer</li>
+        </ul>
+        <p>C'est un exemple simple mais complet d'interaction avec l'utilisateur, qui combine affichage, saisie, validation et traitement des entrées.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 6: Créer un jeu interactif",
+    content: (
+      <div>
+        <p>Les entrées-sorties sont essentielles pour créer des jeux en Logo. Voici un exemple de jeu simple où l'utilisateur doit deviner un nombre :</p>
+        <pre>
+          POUR DEVINE_NOMBRE
+            VE
+            EC [Jeu : Devinez le nombre]
+            EC [---------------------]
+            EC [Je pense à un nombre entre 1 et 100.]
+            EC [À vous de le deviner en un minimum d'essais!]
+            EC []
+            
+            ; Génère un nombre aléatoire entre 1 et 100
+            DONNE "secret 1 + HASARD 100
+            DONNE "essais 0
+            DONNE "trouve FAUX
+            
+            TANTQUE [NON :trouve] [
+              ; Incrémente le compteur d'essais
+              DONNE "essais :essais + 1
+              
+              ; Demande une proposition
+              DONNE "proposition DEMANDE_NOMBRE 1 100
+              
+              ; Vérifie la proposition
+              SI :proposition = :secret [
+                EC []
+                EC (PHRASE [Bravo! Vous avez trouvé en] :essais [essais.])
+                DONNE "trouve VRAI
+              ]
+              SI :proposition < :secret [EC [C'est plus!]]
+              SI :proposition > :secret [EC [C'est moins!]]
+            ]
+            
+            ; Propose de rejouer
+            EC []
+            DONNE "reponse QUESTION [Voulez-vous rejouer? (O/N) ]
+            SI OU (:reponse = "O) (:reponse = "o) [DEVINE_NOMBRE]
+          FIN
+          
+          ; Procédure auxiliaire pour demander un nombre
+          POUR DEMANDE_NOMBRE :min :max
+            DONNE "valide FAUX
+            TANTQUE [NON :valide] [
+              DONNE "reponse QUESTION (PHRASE [Entrez un nombre entre] :min [et] :max [: ])
+              ATTRAPE "erreur [
+                DONNE "nombre NOMBRE :reponse
+                SI ET (:nombre >= :min) (:nombre <= :max) [
+                  DONNE "valide VRAI
+                ] [
+                  EC [Valeur hors limites, veuillez réessayer.]
+                ]
+              ]
+              SI :erreur [EC [Veuillez entrer un nombre valide.]]
+            ]
+            RETOURNE :nombre
+          FIN
+        </pre>
+        <p>Ce jeu :</p>
+        <ul>
+          <li>Génère un nombre aléatoire entre 1 et 100</li>
+          <li>Demande à l'utilisateur de deviner ce nombre</li>
+          <li>Indique si la proposition est trop grande ou trop petite</li>
+          <li>Compte le nombre d'essais</li>
+          <li>Félicite l'utilisateur quand il trouve le nombre</li>
+          <li>Propose de rejouer</li>
+        </ul>
+        <p>La commande <code>HASARD</code> génère un nombre aléatoire entre 0 et n-1, c'est pourquoi on ajoute 1 pour obtenir un nombre entre 1 et 100.</p>
+        <p>La commande <code>ATTRAPE</code> permet de gérer les erreurs, par exemple si l'utilisateur entre du texte au lieu d'un nombre.</p>
+      </div>
+    )
+  }
+]} />
+
+<Tip>
+Lorsque tu demandes des informations à l'utilisateur, pense toujours à valider les entrées pour éviter les erreurs. Par exemple, si tu attends un nombre, vérifie que l'utilisateur a bien entré un nombre et qu'il est dans l'intervalle attendu. Cela rendra tes programmes plus robustes et plus agréables à utiliser.
+</Tip>
+
+<ExerciseCard title="Exercice pratique: Créer des programmes interactifs">
+
+Mets en pratique ce que tu as appris en réalisant ces défis :
+
+1. Crée un programme qui demande à l'utilisateur son nom et son âge, puis affiche un message personnalisé comme "Bonjour [nom], tu as [âge] ans et tu es né(e) en [année de naissance]".
+
+2. Crée une calculatrice simple qui demande à l'utilisateur deux nombres et une opération (+, -, *, /), puis affiche le résultat. Gère le cas où l'utilisateur essaie de diviser par zéro.
+
+3. Crée un programme de dessin qui demande à l'utilisateur de choisir une forme (carré, triangle, étoile) et une taille, puis dessine la forme choisie. Ajoute une option pour choisir la couleur.
+
+4. Crée un jeu de devinette où l'ordinateur choisit un animal et l'utilisateur doit le deviner en posant des questions auxquelles l'ordinateur répond par oui ou non. Limite le nombre de questions à 10.
+
+5. Défi bonus : Crée un programme qui permet à l'utilisateur de dessiner en contrôlant la tortue avec des commandes simples. Par exemple, l'utilisateur peut taper "A" pour avancer, "D" pour tourner à droite, "G" pour tourner à gauche, etc. Ajoute des options pour changer la couleur et lever/baisser le crayon.
+
+N'oublie pas d'utiliser la commande VE entre chaque exercice pour repartir d'un écran vide. Pense à valider les entrées de l'utilisateur pour éviter les erreurs.
+
+</ExerciseCard>
+
+</CenteredContent>

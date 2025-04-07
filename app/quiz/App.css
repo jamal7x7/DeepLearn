@@ -6,9 +6,11 @@
 
 .blinking-cursor {
   font-weight: normal; /* Ajustez si besoin */
-  color: black;
+  font-family:'Times New Roman', Times, serif;
+  color: rgb(242, 169, 0);
   animation: blink 1s step-end infinite;
-  margin-left: -5px; /* Ajustement fin */
+  margin-right: -4px; /* Ajustement fin */
+  font-size: xx-large
 }
 
 /* Assurez-vous que Tailwind et les styles shadcn/ui sont correctement configurés */
@@ -17,3 +19,6 @@
 @tailwind utilities;
 
 
+/* body {
+  @apply bg-background text-foreground;
+} */

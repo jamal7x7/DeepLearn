@@ -1,0 +1,308 @@
+---
+title: "La Récursion en Logo"
+description: "Comprendre et utiliser la récursion pour créer des dessins complexes"
+difficulty: "Avancé"
+---
+
+<CenteredContent>
+
+# La Récursion en Logo
+
+<ExerciseCard title="Créer des dessins complexes avec la récursion">
+
+Dans cette leçon, tu vas découvrir un concept puissant en programmation : la récursion. Tu apprendras comment une procédure peut s'appeler elle-même pour créer des motifs fascinants comme des fractales.
+
+Voici ce que tu vas apprendre :
+- Ce qu'est la récursion et comment elle fonctionne
+- Comment créer des procédures récursives en Logo
+- Comment dessiner des fractales et autres motifs complexes
+- Comment éviter les pièges courants de la récursion
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Comprendre le concept de récursion",
+    content: (
+      <div>
+        <p>La <strong>récursion</strong> est une technique de programmation où une procédure s'appelle elle-même. C'est comme une mise en abyme, ou comme si tu te regardais dans un miroir qui reflète un autre miroir.</p>
+        <p>Pour qu'une procédure récursive fonctionne correctement, elle doit avoir :</p>
+        <ul>
+          <li><strong>Un cas de base</strong> : une condition qui arrête la récursion pour éviter une boucle infinie</li>
+          <li><strong>Un cas récursif</strong> : la partie où la procédure s'appelle elle-même, mais avec des paramètres différents</li>
+        </ul>
+        <p>Voici un exemple simple de récursion en Logo :</p>
+        <pre>
+          <code>
+{`POUR COMPTE_A_REBOURS :n
+  SI :n = 0 [ECRIS "Décollage !" STOP]  ; Cas de base
+  ECRIS :n
+  COMPTE_A_REBOURS :n - 1  ; Cas récursif
+FIN`}
+          </code>
+        </pre>
+        <p>Cette procédure affiche un compte à rebours de n jusqu'à 0, puis affiche "Décollage !".</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Dessiner une spirale récursive",
+    content: (
+      <div>
+        <p>Commençons par un exemple graphique simple : une spirale. Nous allons créer une procédure qui dessine une spirale en augmentant progressivement la longueur des segments.</p>
+        <pre>
+          <code>
+{`POUR SPIRALE :longueur :angle :increment
+  SI :longueur > 200 [STOP]  ; Cas de base: s'arrêter quand la longueur dépasse 200
+  AV :longueur  ; Avancer
+  TD :angle     ; Tourner
+  SPIRALE :longueur + :increment :angle :increment  ; Appel récursif
+FIN`}
+          </code>
+        </pre>
+        <p>Essaie d'exécuter cette procédure avec différentes valeurs :</p>
+        <ul>
+          <li><code>SPIRALE 5 90 5</code> - Une spirale carrée</li>
+          <li><code>SPIRALE 5 120 3</code> - Une spirale triangulaire</li>
+          <li><code>SPIRALE 1 91 1</code> - Une spirale presque circulaire</li>
+        </ul>
+        <TurtlePreview code={`VE
+POUR SPIRALE :longueur :angle :increment
+  SI :longueur > 100 [STOP]
+  AV :longueur
+  TD :angle
+  SPIRALE :longueur + :increment :angle :increment
+FIN
+SPIRALE 5 90 5`} />
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Créer un arbre fractal",
+    content: (
+      <div>
+        <p>Les fractales sont des figures géométriques qui présentent une structure similaire à différentes échelles. Elles sont parfaites pour la récursion !</p>
+        <p>Voici comment dessiner un arbre fractal en Logo :</p>
+        <pre>
+          <code>
+{`POUR ARBRE :taille :niveau
+  SI :niveau = 0 [STOP]  ; Cas de base: s'arrêter quand le niveau atteint 0
+  
+  ; Dessiner le tronc
+  FIXECOULEUR 4 + :niveau  ; Couleur qui varie selon le niveau
+  AV :taille
+  
+  ; Dessiner les branches de gauche
+  TG 30
+  ARBRE :taille * 0.7 :niveau - 1  ; Branches plus petites, niveau réduit
+  
+  ; Dessiner les branches de droite
+  TD 60
+  ARBRE :taille * 0.7 :niveau - 1
+  
+  ; Revenir à la position et orientation initiales
+  TG 30
+  RE :taille
+FIN`}
+          </code>
+        </pre>
+        <p>Essaie d'exécuter cette procédure avec :</p>
+        <code>VE BC ORIGINE TG 90 ARBRE 50 6</code>
+        <p>Observe comment chaque branche se divise en deux branches plus petites, créant un motif qui se répète à différentes échelles.</p>
+        <TurtlePreview code={`VE
+BC
+ORIGINE
+TG 90
+POUR ARBRE :taille :niveau
+  SI :niveau = 0 [STOP]
+  FIXECOULEUR 4 + :niveau
+  AV :taille
+  TG 30
+  ARBRE :taille * 0.7 :niveau - 1
+  TD 60
+  ARBRE :taille * 0.7 :niveau - 1
+  TG 30
+  RE :taille
+FIN
+ARBRE 50 6`} />
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Le flocon de Koch",
+    content: (
+      <div>
+        <p>Le flocon de Koch est une fractale classique qui commence par un triangle équilatéral, puis remplace chaque segment par quatre segments plus petits.</p>
+        <pre>
+          <code>
+{`POUR SEGMENT_KOCH :taille :niveau
+  SI :niveau = 0 [
+    AV :taille  ; Cas de base: dessiner un simple segment
+  ] [
+    ; Cas récursif: remplacer un segment par quatre segments
+    SEGMENT_KOCH :taille / 3 :niveau - 1
+    TG 60
+    SEGMENT_KOCH :taille / 3 :niveau - 1
+    TD 120
+    SEGMENT_KOCH :taille / 3 :niveau - 1
+    TG 60
+    SEGMENT_KOCH :taille / 3 :niveau - 1
+  ]
+FIN
+
+POUR FLOCON_KOCH :taille :niveau
+  ; Dessine un flocon complet (triangle modifié)
+  REPETE 3 [
+    SEGMENT_KOCH :taille :niveau
+    TD 120
+  ]
+FIN`}
+          </code>
+        </pre>
+        <p>Essaie d'exécuter cette procédure avec différents niveaux :</p>
+        <ul>
+          <li><code>VE ORIGINE FLOCON_KOCH 100 0</code> - Un simple triangle</li>
+          <li><code>VE ORIGINE FLOCON_KOCH 100 1</code> - Premier niveau de récursion</li>
+          <li><code>VE ORIGINE FLOCON_KOCH 100 3</code> - Troisième niveau (déjà très détaillé)</li>
+        </ul>
+        <p>Observe comment la complexité augmente à chaque niveau de récursion.</p>
+        <TurtlePreview code={`VE
+ORIGINE
+POUR SEGMENT_KOCH :taille :niveau
+  SI :niveau = 0 [
+    AV :taille
+  ] [
+    SEGMENT_KOCH :taille / 3 :niveau - 1
+    TG 60
+    SEGMENT_KOCH :taille / 3 :niveau - 1
+    TD 120
+    SEGMENT_KOCH :taille / 3 :niveau - 1
+    TG 60
+    SEGMENT_KOCH :taille / 3 :niveau - 1
+  ]
+FIN
+
+POUR FLOCON_KOCH :taille :niveau
+  REPETE 3 [
+    SEGMENT_KOCH :taille :niveau
+    TD 120
+  ]
+FIN
+FLOCON_KOCH 100 2`} />
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Éviter les pièges de la récursion",
+    content: (
+      <div>
+        <p>La récursion est puissante, mais elle peut aussi causer des problèmes si elle n'est pas bien utilisée :</p>
+        <ul>
+          <li><strong>Récursion infinie</strong> : Si tu oublies le cas de base ou si la condition n'est jamais atteinte, la procédure s'appellera indéfiniment jusqu'à ce que l'ordinateur manque de mémoire.</li>
+          <li><strong>Récursion trop profonde</strong> : Même avec un cas de base, si tu as trop d'appels récursifs imbriqués, tu peux dépasser les limites de l'ordinateur.</li>
+          <li><strong>Inefficacité</strong> : Parfois, une solution itérative (avec des boucles) peut être plus efficace qu'une solution récursive.</li>
+        </ul>
+        <p>Conseils pour éviter ces problèmes :</p>
+        <ul>
+          <li>Toujours définir un cas de base clair</li>
+          <li>S'assurer que chaque appel récursif se rapproche du cas de base</li>
+          <li>Tester avec des valeurs simples avant de passer à des valeurs plus complexes</li>
+          <li>Limiter la profondeur de récursion à un niveau raisonnable</li>
+        </ul>
+      </div>
+    )
+  }
+]}>
+</TutorialAccordion>
+
+<ExerciseCard title="Exercices pratiques">
+
+## Exercice 1: Cercles concentriques
+
+Crée une procédure récursive qui dessine des cercles concentriques de tailles décroissantes.
+
+<details>
+  <summary>Indice</summary>
+  <p>Utilise la procédure CERCLE pour dessiner un cercle, puis appelle récursivement la même procédure avec un rayon plus petit.</p>
+</details>
+
+<details>
+  <summary>Solution</summary>
+  <pre>
+    <code>
+{`POUR CERCLE :rayon
+  REPETE 36 [AV :rayon * 0.175 TD 10]
+FIN
+
+POUR CERCLES_CONCENTRIQUES :rayon :diminution :min
+  SI :rayon < :min [STOP]  ; Cas de base
+  CERCLE :rayon
+  CERCLES_CONCENTRIQUES :rayon - :diminution :diminution :min
+FIN
+
+VE
+CERCLES_CONCENTRIQUES 100 10 10`}
+    </code>
+  </pre>
+</details>
+
+## Exercice 2: Triangle de Sierpinski
+
+Le triangle de Sierpinski est une autre fractale célèbre. Crée une procédure qui dessine cette fractale.
+
+<details>
+  <summary>Indice</summary>
+  <p>Dessine trois triangles plus petits aux sommets d'un triangle plus grand, puis répète le processus pour chacun des triangles plus petits.</p>
+</details>
+
+<details>
+  <summary>Solution</summary>
+  <pre>
+    <code>
+{`POUR TRIANGLE :taille
+  REPETE 3 [AV :taille TD 120]
+FIN
+
+POUR SIERPINSKI :taille :niveau
+  SI :niveau = 0 [
+    TRIANGLE :taille
+  ] [
+    SIERPINSKI :taille / 2 :niveau - 1
+    AV :taille / 2
+    SIERPINSKI :taille / 2 :niveau - 1
+    RE :taille / 2
+    TD 120
+    AV :taille / 2
+    SIERPINSKI :taille / 2 :niveau - 1
+    RE :taille / 2
+    TG 120
+  ]
+FIN
+
+VE
+SIERPINSKI 100 3`}
+    </code>
+  </pre>
+</details>
+
+</ExerciseCard>
+
+<ExerciseCard title="Pour aller plus loin">
+
+## Défis créatifs
+
+1. **Courbe du dragon** : Recherche et implémente la courbe du dragon, une fractale qui ressemble à un dragon chinois.
+
+2. **Système L** : Les systèmes de Lindenmayer (ou systèmes L) sont un formalisme mathématique qui peut être utilisé pour modéliser la croissance des plantes. Essaie d'implémenter un interpréteur de système L simple en Logo.
+
+3. **Récursion mutuelle** : Crée deux procédures qui s'appellent mutuellement pour créer un motif intéressant.
+
+## Réflexion
+
+La récursion est un concept fondamental en informatique qui va bien au-delà de Logo. Elle est utilisée dans de nombreux algorithmes importants comme le tri rapide, la recherche dans des arbres, ou la résolution de problèmes comme les tours de Hanoï.
+
+Prends le temps de réfléchir à la façon dont la récursion te permet de résoudre des problèmes complexes avec un code relativement simple, et comment elle peut être appliquée à d'autres domaines de la programmation.
+
+</ExerciseCard>
+
+</CenteredContent>

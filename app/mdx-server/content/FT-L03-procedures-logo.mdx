@@ -1,0 +1,40 @@
+---
+title: FT-L03-procedures-logo
+description: Créer et utiliser des procédures en Logo
+difficulty: "Intermédiaire"
+---
+
+# FT-L03-procedures-logo
+Voici une fiche technique sous forme de tableau, conçue pour des élèves de niveau intermédiaire, qui présente le concept des procédures en Logo :
+
+| **Rubrique**                                  | **Contenu**                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Titre du thème**                            | Les procédures en Logo : enseigner de nouveaux ordres à la tortue                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Niveau concerné**                           | Intermédiaire                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| **Objectif pédagogique**                      | À la fin de cette leçon, l'élève saura : <br/>• Comprendre le concept de procédure en programmation <br/>• Créer et définir ses propres procédures en Logo <br/>• Utiliser des procédures pour simplifier et organiser son code <br/>• Gérer les procédures (afficher, supprimer)                                                                                                                                                                                                                |
+| **Définitions clés**                          | **Procédure** : Ensemble d'instructions regroupées sous un nom unique, qui peut être appelé comme une nouvelle commande. <br/>**POUR/FIN** : Mots-clés qui marquent le début et la fin de la définition d'une procédure. <br/>**Appel de procédure** : Action d'exécuter une procédure en tapant son nom.                                                                                                                                                                                          |
+| **Explication de la notion avec exemples**    | Une procédure en Logo est comme une recette : on lui donne un nom et on décrit les étapes à suivre. Logo s'en souviendra et exécutera ces étapes chaque fois qu'on utilisera le nom de la procédure. Par exemple, au lieu d'écrire `REPETE 4 [AV 50 TD 90]` chaque fois qu'on veut dessiner un carré, on peut définir une procédure `CARRE` avec ces instructions. Ensuite, il suffit de taper `CARRE` pour dessiner un carré. Les procédures permettent de simplifier le code, de le rendre plus lisible et plus facile à modifier.                                                                                                                       |
+| **Méthodologie ou étapes à suivre**           | 1. **Définir une procédure** : Utiliser la syntaxe `POUR nom_procedure` suivi des instructions, puis `FIN`.<br/>2. **Valider la définition** : S'assurer que Logo a bien enregistré la procédure.<br/>3. **Utiliser la procédure** : Taper simplement son nom dans la ligne de commande.<br/>4. **Gérer les procédures** : Utiliser `POTS` pour voir toutes les procédures définies et `EFFACENOM "nom_procedure` pour en supprimer une. |
+| **Illustration ou schéma explicatif**         | **Exemple de définition d'une procédure** : <br/>```logo
+POUR CARRE
+  REPETE 4 [AV 50 TD 90]
+FIN
+``` <br/><br/>**Utilisation de la procédure** : <br/>```logo
+CARRE  ; Dessine un carré
+AV 100
+CARRE  ; Dessine un autre carré
+```                                                                                   |
+| **Exercice d'application ou question**        | **Exercice 1** : Définir une procédure `TRIANGLE` qui dessine un triangle équilatéral de 100 pas de côté. <br/>Solution : <br/>```logo
+POUR TRIANGLE
+  REPETE 3 [AV 100 TD 120]
+FIN
+```<br/><br/>**Exercice 2** : Définir une procédure `MAISON` qui dessine une maison (un carré avec un triangle au-dessus). <br/>Solution : <br/>```logo
+POUR MAISON
+  ; Dessine le carré (corps de la maison)
+  REPETE 4 [AV 100 TD 90]
+  ; Dessine le triangle (toit)
+  TD 90 AV 100 TG 90
+  TD 30 AV 100 TD 120 AV 100
+FIN
+```                                                                                                                    |
+| **Mot-clé ou astuce mnémotechnique**          | **PREF** : <br/>**P**rocédure (POUR/FIN) <br/>**R**éutilisation du code <br/>**E**fficacité et organisation <br/>**F**acilité de modification                                                                                                                                                                                                                                                                                                                           |

@@ -1,0 +1,59 @@
+---
+title: "Sécurité des Réseaux Informatiques"
+description: "Comprendre les principes et mécanismes de sécurité des réseaux informatiques"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Fiche Technique : Sécurité des Réseaux Informatiques
+
+| **Titre du thème**                            | Sécurité des Réseaux Informatiques                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Niveau concerné**                           | Intermédiaire                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| **Objectif pédagogique**                      | À la fin de cette leçon, l'élève saura : <br/>• Identifier les principales menaces pour la sécurité des réseaux <br/>• Comprendre les mécanismes de protection des réseaux <br/>• Reconnaître les bonnes pratiques en matière de sécurité réseau <br/>• Appliquer des mesures de base pour sécuriser un réseau                                                                                                                                                                                                                |
+| **Définitions clés**                          | **Pare-feu (Firewall)** : Dispositif qui filtre le trafic réseau selon des règles définies. <br/>**VPN** (Virtual Private Network) : Réseau privé virtuel permettant des connexions sécurisées via Internet. <br/>**Chiffrement** : Processus qui rend les données illisibles sans la clé de déchiffrement. <br/>**Authentification** : Processus de vérification de l'identité d'un utilisateur. <br/>**Malware** : Logiciel malveillant conçu pour s'infiltrer dans un système informatique.                                                                                                          |
+| **Explication de la notion avec exemples**    | La sécurité des réseaux informatiques englobe l'ensemble des mesures mises en place pour protéger l'intégrité, la confidentialité et la disponibilité des données et des systèmes connectés. Dans un monde de plus en plus interconnecté, cette sécurité est devenue cruciale. Par exemple, une entreprise utilise généralement plusieurs couches de protection : un pare-feu matériel à la frontière de son réseau pour filtrer le trafic entrant et sortant, des logiciels antivirus sur chaque poste de travail, un système de détection d'intrusion pour repérer les comportements suspects, et des VPN pour permettre aux employés de se connecter à distance de manière sécurisée. Les réseaux domestiques, bien que plus simples, nécessitent également des mesures de sécurité comme un mot de passe Wi-Fi robuste (WPA3), un pare-feu activé sur la box Internet, et des mises à jour régulières des appareils connectés. Les attaques contre les réseaux peuvent prendre diverses formes : tentatives d'accès non autorisé, déni de service (DoS) qui rend un service indisponible, hameçonnage (phishing) pour voler des identifiants, ou encore logiciels malveillants qui s'infiltrent via des pièces jointes ou des sites web compromis.                                                                                                                       |
+| **Méthodologie ou étapes à suivre**           | 1. **Analyse des risques** : Identifier les menaces potentielles et les vulnérabilités du réseau.<br/>2. **Mise en place d'un pare-feu** : Configurer les règles pour filtrer le trafic indésirable.<br/>3. **Sécurisation des points d'accès** : Protéger les connexions sans fil et les accès distants.<br/>4. **Gestion des utilisateurs** : Mettre en place des politiques d'authentification forte.<br/>5. **Protection des données** : Implémenter le chiffrement pour les données sensibles.<br/>6. **Surveillance du réseau** : Mettre en place des outils de détection d'intrusion.<br/>7. **Mise à jour régulière** : Maintenir tous les systèmes et logiciels à jour.<br/>8. **Plan de réponse aux incidents** : Préparer des procédures en cas de violation de sécurité. |
+| **Illustration ou schéma explicatif**         | **Architecture de sécurité réseau** : <br/>```
++----------------+
+|    INTERNET    |
++-------+--------+
+        |
++-------v--------+
+|    PARE-FEU    |  Première ligne de défense
++-------+--------+
+        |
++-------v--------+
+|     DMZ        |  Zone démilitarisée pour les serveurs accessibles depuis l'extérieur
++-------+--------+
+        |
++-------v--------+
+| PARE-FEU INTERNE|  Seconde ligne de défense
++-------+--------+
+        |
+        +----------------+----------------+
+        |                |                |
++-------v--------+ +-----v------+ +-------v--------+
+|  RÉSEAU LOCAL  | |  SERVEURS  | |  RÉSEAU Wi-Fi  |
+|  SÉCURISÉ     | |  INTERNES  | |  SÉCURISÉ      |
++----------------+ +------------+ +----------------+
+``` <br/><br/>**Mécanismes de protection des données** : <br/>```
++---------------+----------------+----------------+----------------+
+| Mécanisme     | Protection     | Exemple        | Niveau         |
++---------------+----------------+----------------+----------------+
+| Chiffrement   | Confidentialité| HTTPS, VPN     | Données        |
++---------------+----------------+----------------+----------------+
+| Pare-feu      | Filtrage       | Règles d'accès | Réseau         |
++---------------+----------------+----------------+----------------+
+| Antivirus     | Anti-malware   | Détection      | Système        |
++---------------+----------------+----------------+----------------+
+| Authentification| Contrôle d'accès| Mot de passe | Utilisateur    |
++---------------+----------------+----------------+----------------+
+| Sauvegarde    | Disponibilité  | Backup cloud   | Données        |
++---------------+----------------+----------------+----------------+
+``` |
+| **Conseils pratiques ou astuces**             | • Utilisez des mots de passe forts et uniques pour chaque service, idéalement avec un gestionnaire de mots de passe.<br/>• Activez l'authentification à deux facteurs (2FA) quand elle est disponible.<br/>• Segmentez votre réseau pour isoler les appareils sensibles des autres dispositifs.<br/>• Désactivez les services et ports réseau inutilisés sur vos équipements.<br/>• Créez un réseau invité séparé pour les visiteurs et les objets connectés.<br/>• Effectuez des sauvegardes régulières de vos données importantes.<br/>• Méfiez-vous des emails et messages suspects demandant des informations personnelles.<br/>• Utilisez un VPN lorsque vous vous connectez à des réseaux Wi-Fi publics. |
+| **Erreurs courantes à éviter**                | • Négliger les mises à jour de sécurité des équipements réseau et des logiciels.<br/>• Utiliser des mots de passe faibles ou les réutiliser sur plusieurs services.<br/>• Laisser les paramètres par défaut sur les équipements réseau (identifiants administrateur, SSID, etc.).<br/>• Ouvrir des pièces jointes ou cliquer sur des liens provenant d'expéditeurs inconnus.<br/>• Connecter des appareils non sécurisés au réseau principal.<br/>• Partager trop d'informations personnelles en ligne qui pourraient être utilisées pour des attaques ciblées.<br/>• Ignorer les alertes de sécurité ou les comportements inhabituels du réseau. |
+| **Ressources complémentaires**                | • Sites web : ANSSI (Agence Nationale de la Sécurité des Systèmes d'Information), CNIL, Cert-FR<br/>• Outils : Wireshark (analyse de trafic), Nmap (scanner de ports), OpenVAS (scanner de vulnérabilités)<br/>• Forums d'entraide : Reddit (r/netsec, r/cybersecurity), Stack Exchange Information Security<br/>• Livres : "Réseaux informatiques et sécurité" (ENI), "Cybersecurity Essentials" (Cisco)<br/>• MOOC : Cours en ligne sur la cybersécurité (FUN-MOOC, Coursera, edX) |
+
+</CenteredContent>

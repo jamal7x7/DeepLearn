@@ -1,0 +1,513 @@
+---
+title: "Réseaux Sans Fil"
+description: "Comprendre les technologies et composants des réseaux sans fil"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Réseaux Sans Fil
+
+<ExerciseCard title="Découvrir les réseaux sans fil">
+
+Dans cette leçon, tu vas découvrir comment fonctionnent les réseaux sans fil, en particulier le Wi-Fi, et comment ils permettent à nos appareils de communiquer sans être reliés par des câbles.
+
+Voici ce que tu vas apprendre :
+- Les principes de base des réseaux sans fil
+- Les différentes normes et technologies Wi-Fi
+- Comment configurer et sécuriser un réseau sans fil
+- Les bonnes pratiques pour optimiser les performances
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Principes de base des réseaux sans fil",
+    content: (
+      <div>
+        <p>Un <strong>réseau sans fil</strong> permet aux appareils de communiquer sans utiliser de connexions physiques comme des câbles. Voici les principes fondamentaux :</p>
+        
+        <h4>Comment fonctionne un réseau sans fil ?</h4>
+        <p>Les réseaux sans fil utilisent des <strong>ondes radio</strong> pour transmettre les données :</p>
+        <ul>
+          <li>Un <strong>émetteur</strong> (comme un routeur Wi-Fi) convertit les données numériques en ondes radio</li>
+          <li>Ces ondes se propagent dans l'air</li>
+          <li>Un <strong>récepteur</strong> (comme la carte Wi-Fi de ton ordinateur) capte ces ondes et les reconvertit en données numériques</li>
+        </ul>
+        
+        <p>C'est un peu comme la radio ou la télévision, mais bidirectionnelle : les appareils peuvent à la fois envoyer et recevoir des données.</p>
+        
+        <h4>Les composants principaux</h4>
+        <p>Un réseau sans fil typique comprend :</p>
+        <ul>
+          <li>Un <strong>point d'accès</strong> (souvent intégré au routeur Wi-Fi) qui diffuse le signal</li>
+          <li>Des <strong>clients</strong> (ordinateurs, smartphones, tablettes) qui se connectent au réseau</li>
+          <li>Un <strong>SSID</strong> (Service Set Identifier) qui est le nom du réseau</li>
+          <li>Un <strong>mot de passe</strong> qui protège l'accès au réseau</li>
+        </ul>
+        
+        <h4>Les avantages des réseaux sans fil</h4>
+        <ul>
+          <li><strong>Mobilité</strong> : Tu peux te déplacer tout en restant connecté</li>
+          <li><strong>Flexibilité</strong> : Pas besoin de câbles traversant les murs ou les plafonds</li>
+          <li><strong>Facilité d'installation</strong> : Moins complexe que le câblage d'un bâtiment entier</li>
+          <li><strong>Évolutivité</strong> : Facile d'ajouter de nouveaux appareils au réseau</li>
+        </ul>
+        
+        <h4>Les limites</h4>
+        <ul>
+          <li><strong>Portée limitée</strong> : Le signal s'affaiblit avec la distance et les obstacles</li>
+          <li><strong>Interférences</strong> : D'autres appareils peuvent perturber le signal</li>
+          <li><strong>Sécurité</strong> : Les ondes radio peuvent être interceptées si le réseau n'est pas bien sécurisé</li>
+          <li><strong>Débit</strong> : Généralement moins rapide qu'une connexion filaire</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Les technologies Wi-Fi et leurs normes",
+    content: (
+      <div>
+        <p>Le <strong>Wi-Fi</strong> (Wireless Fidelity) est la technologie de réseau sans fil la plus répandue. Elle est basée sur un ensemble de normes définies par l'IEEE (Institute of Electrical and Electronics Engineers) sous l'appellation 802.11.</p>
+        
+        <h4>Évolution des normes Wi-Fi</h4>
+        <p>Les normes Wi-Fi ont évolué au fil du temps pour offrir de meilleures performances :</p>
+        
+        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px' }}>
+          <thead>
+            <tr style={{ backgroundColor: '#f2f2f2' }}>
+              <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Norme</th>
+              <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Nom commercial</th>
+              <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Année</th>
+              <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Fréquences</th>
+              <th style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'left' }}>Débit max</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>802.11b</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>Wi-Fi 1</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>1999</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>2,4 GHz</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>11 Mbps</td>
+            </tr>
+            <tr style={{ backgroundColor: '#f2f2f2' }}>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>802.11g</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>Wi-Fi 3</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>2003</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>2,4 GHz</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>54 Mbps</td>
+            </tr>
+            <tr>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>802.11n</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>Wi-Fi 4</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>2009</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>2,4/5 GHz</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>600 Mbps</td>
+            </tr>
+            <tr style={{ backgroundColor: '#f2f2f2' }}>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>802.11ac</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>Wi-Fi 5</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>2014</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>5 GHz</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>3,5 Gbps</td>
+            </tr>
+            <tr>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>802.11ax</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>Wi-Fi 6</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>2019</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>2,4/5 GHz</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>9,6 Gbps</td>
+            </tr>
+            <tr style={{ backgroundColor: '#f2f2f2' }}>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>802.11ax</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>Wi-Fi 6E</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>2021</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>2,4/5/6 GHz</td>
+              <td style={{ border: '1px solid #ddd', padding: '8px' }}>9,6 Gbps</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <h4>Les bandes de fréquences</h4>
+        <p>Le Wi-Fi utilise principalement trois bandes de fréquences :</p>
+        
+        <ul>
+          <li><strong>2,4 GHz</strong> :
+            <ul>
+              <li>Plus grande portée (traverse mieux les murs)</li>
+              <li>Plus d'interférences (utilisée par beaucoup d'appareils comme les micro-ondes, téléphones sans fil)</li>
+              <li>Moins de canaux disponibles</li>
+            </ul>
+          </li>
+          <li><strong>5 GHz</strong> :
+            <ul>
+              <li>Portée plus limitée</li>
+              <li>Moins d'interférences</li>
+              <li>Plus de canaux disponibles</li>
+              <li>Débits plus élevés</li>
+            </ul>
+          </li>
+          <li><strong>6 GHz</strong> (Wi-Fi 6E uniquement) :
+            <ul>
+              <li>Très peu d'interférences (bande nouvellement allouée)</li>
+              <li>Nombreux canaux larges</li>
+              <li>Excellentes performances</li>
+              <li>Portée similaire à 5 GHz</li>
+            </ul>
+          </li>
+        </ul>
+        
+        <h4>Autres technologies sans fil</h4>
+        <p>En plus du Wi-Fi, il existe d'autres technologies sans fil :</p>
+        <ul>
+          <li><strong>Bluetooth</strong> : Pour les connexions à courte distance entre appareils</li>
+          <li><strong>Zigbee/Z-Wave</strong> : Pour les objets connectés et la domotique</li>
+          <li><strong>4G/5G</strong> : Pour la connexion Internet mobile</li>
+          <li><strong>LoRa/SigFox</strong> : Pour l'Internet des objets à longue portée et faible consommation</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Configuration d'un réseau Wi-Fi",
+    content: (
+      <div>
+        <p>Configurer un réseau Wi-Fi implique plusieurs étapes importantes :</p>
+        
+        <h4>1. Choix et placement du routeur</h4>
+        <ul>
+          <li>Sélectionner un routeur compatible avec les normes récentes (Wi-Fi 5 ou 6)</li>
+          <li>Le placer dans un endroit central et en hauteur</li>
+          <li>Éviter les obstacles comme les murs épais, les miroirs ou les objets métalliques</li>
+          <li>L'éloigner des sources d'interférences (micro-ondes, téléphones sans fil)</li>
+        </ul>
+        
+        <h4>2. Configuration de base</h4>
+        <p>Pour configurer ton routeur, tu dois généralement :</p>
+        <ol>
+          <li>Te connecter à l'interface d'administration (souvent via un navigateur web)</li>
+          <li>Définir un nom d'utilisateur et mot de passe administrateur</li>
+          <li>Configurer la connexion Internet (selon les paramètres fournis par ton FAI)</li>
+          <li>Configurer le réseau Wi-Fi :</li>
+        </ol>
+        
+        <h4>3. Paramètres Wi-Fi essentiels</h4>
+        <ul>
+          <li><strong>SSID</strong> (nom du réseau) : Choisir un nom unique mais qui ne révèle pas d'informations personnelles</li>
+          <li><strong>Mot de passe</strong> : Utiliser un mot de passe fort (au moins 12 caractères, mélange de lettres, chiffres et symboles)</li>
+          <li><strong>Sécurité</strong> : Sélectionner WPA3 si disponible, ou au minimum WPA2</li>
+          <li><strong>Canal</strong> : Automatique ou choisir un canal peu utilisé par les réseaux voisins</li>
+          <li><strong>Bande</strong> : Activer les deux bandes (2,4 GHz et 5 GHz) si possible</li>
+        </ul>
+        
+        <div style={{ backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '5px', marginBottom: '20px' }}>
+          <p style={{ fontWeight: 'bold' }}>Exemple de configuration Wi-Fi sécurisée :</p>
+          <ul>
+            <li>SSID : MonReseau-2023</li>
+            <li>Sécurité : WPA3-Personal</li>
+            <li>Mot de passe : P@$$w0rd-C0mpl3x!</li>
+            <li>Mode : 802.11ax (Wi-Fi 6) si disponible</li>
+            <li>Canaux : Auto</li>
+            <li>Bandes : 2,4 GHz et 5 GHz activées</li>
+          </ul>
+        </div>
+        
+        <h4>4. Fonctionnalités avancées</h4>
+        <p>Les routeurs modernes offrent des fonctionnalités supplémentaires :</p>
+        <ul>
+          <li><strong>Réseau invité</strong> : Un réseau séparé pour les visiteurs</li>
+          <li><strong>Contrôle parental</strong> : Limiter l'accès à certains sites ou horaires</li>
+          <li><strong>QoS</strong> (Quality of Service) : Prioriser certains types de trafic</li>
+          <li><strong>Band steering</strong> : Diriger automatiquement les appareils vers la bande optimale</li>
+          <li><strong>Beamforming</strong> : Concentrer le signal vers les appareils connectés</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Sécurité des réseaux sans fil",
+    content: (
+      <div>
+        <p>La sécurité est cruciale pour les réseaux sans fil car les signaux se propagent au-delà des murs de ton domicile ou de ton entreprise.</p>
+        
+        <h4>Risques de sécurité</h4>
+        <p>Un réseau Wi-Fi mal sécurisé peut exposer à plusieurs risques :</p>
+        <ul>
+          <li><strong>Accès non autorisé</strong> : Des personnes peuvent utiliser ta connexion Internet</li>
+          <li><strong>Interception de données</strong> : Des attaquants peuvent capturer les informations transmises</li>
+          <li><strong>Attaques sur le réseau</strong> : Tentatives d'accès aux appareils connectés</li>
+          <li><strong>Usurpation d'identité</strong> : Création de faux points d'accès pour piéger les utilisateurs</li>
+        </ul>
+        
+        <h4>Protocoles de sécurité</h4>
+        <p>Plusieurs protocoles ont été développés pour sécuriser les réseaux Wi-Fi :</p>
+        <ul>
+          <li><strong>WEP</strong> (Wired Equivalent Privacy) : Ancien et très vulnérable, à éviter absolument</li>
+          <li><strong>WPA</strong> (Wi-Fi Protected Access) : Meilleur que WEP mais désormais obsolète</li>
+          <li><strong>WPA2</strong> : Standard de sécurité répandu, encore acceptable</li>
+          <li><strong>WPA3</strong> : Le plus récent et le plus sécurisé, à privilégier si disponible</li>
+        </ul>
+        
+        <h4>Bonnes pratiques de sécurité</h4>
+        <p>Pour protéger ton réseau sans fil :</p>
+        <ol>
+          <li><strong>Changer les identifiants par défaut</strong> du routeur (nom d'utilisateur et mot de passe administrateur)</li>
+          <li><strong>Utiliser un mot de passe Wi-Fi fort</strong> et le changer périodiquement</li>
+          <li><strong>Activer le pare-feu</strong> intégré au routeur</li>
+          <li><strong>Mettre à jour régulièrement</strong> le firmware du routeur</li>
+          <li><strong>Désactiver WPS</strong> (Wi-Fi Protected Setup) qui peut présenter des vulnérabilités</li>
+          <li><strong>Créer un réseau invité</strong> séparé pour les visiteurs</li>
+          <li><strong>Filtrer les adresses MAC</strong> pour n'autoriser que certains appareils (protection limitée mais utile en complément)</li>
+          <li><strong>Désactiver l'accès à distance</strong> à l'interface d'administration</li>
+        </ol>
+        
+        <div style={{ backgroundColor: '#f8f9fa', padding: '15px', borderRadius: '5px', marginBottom: '20px' }}>
+          <p style={{ fontWeight: 'bold' }}>Conseil de sécurité :</p>
+          <p>Pour les opérations sensibles (banque en ligne, achats), privilégie une connexion filaire ou utilise un VPN (Virtual Private Network) sur ta connexion Wi-Fi pour chiffrer davantage tes données.</p>
+        </div>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Optimisation des performances Wi-Fi",
+    content: (
+      <div>
+        <p>Plusieurs facteurs peuvent affecter les performances de ton réseau Wi-Fi. Voici comment les optimiser :</p>
+        
+        <h4>Facteurs influençant les performances</h4>
+        <ul>
+          <li><strong>Distance</strong> entre l'appareil et le point d'accès</li>
+          <li><strong>Obstacles</strong> (murs, plafonds, grandes surfaces métalliques)</li>
+          <li><strong>Interférences</strong> d'autres appareils électroniques</li>
+          <li><strong>Congestion</strong> des canaux Wi-Fi</li>
+          <li><strong>Nombre d'appareils</strong> connectés simultanément</li>
+          <li><strong>Limitations</strong> du matériel (routeur, cartes réseau des appareils)</li>
+        </ul>
+        
+        <h4>Solutions pour améliorer la couverture</h4>
+        <p>Pour étendre la portée de ton réseau Wi-Fi :</p>
+        <ul>
+          <li><strong>Répéteurs Wi-Fi</strong> : Amplifient le signal existant</li>
+          <li><strong>Points d'accès supplémentaires</strong> : Créent de nouvelles zones de couverture</li>
+          <li><strong>Systèmes Wi-Fi maillés (mesh)</strong> : Plusieurs points d'accès qui forment un réseau unifié</li>
+          <li><strong>Adaptateurs CPL</strong> (Courant Porteur en Ligne) : Utilisent le réseau électrique pour étendre le réseau</li>
+          <li><strong>Antennes directionnelles</strong> : Concentrent le signal dans une direction spécifique</li>
+        </ul>
+        
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <pre style={{ display: 'inline-block', textAlign: 'left' }}>
+{`  Réseau Wi-Fi maillé (mesh)
+
+     +-------+
+     |Routeur|
+     +---+---+
+         |
+    +----+----+
+    |         |
++---+---+ +---+---+
+|Point A | |Point B |
++---+---+ +---+---+
+    |         |
++---+---+ +---+---+
+|Point C | |Point D |
++-------+ +-------+`}
+          </pre>
+        </div>
+        
+        <h4>Optimisation des paramètres</h4>
+        <p>Pour améliorer les performances :</p>
+        <ul>
+          <li><strong>Sélectionner le canal optimal</strong> : Utiliser des applications d'analyse Wi-Fi pour identifier les canaux les moins encombrés</li>
+          <li><strong>Ajuster la largeur de canal</strong> : 20 MHz pour 2,4 GHz (moins d'interférences), 40 ou 80 MHz pour 5 GHz (plus de débit)</li>
+          <li><strong>Activer MU-MIMO</strong> (Multi-User Multiple Input Multiple Output) si disponible</li>
+          <li><strong>Mettre à jour le firmware</strong> du routeur et les pilotes des cartes réseau</li>
+          <li><strong>Positionner correctement les antennes</strong> du routeur (généralement verticalement)</li>
+        </ul>
+        
+        <h4>Diagnostic des problèmes</h4>
+        <p>Si tu rencontres des problèmes de Wi-Fi :</p>
+        <ol>
+          <li>Mesure la vitesse avec un outil comme <strong>speedtest.net</strong></li>
+          <li>Vérifie la <strong>puissance du signal</strong> sur tes appareils</li>
+          <li>Utilise des applications d'<strong>analyse Wi-Fi</strong> pour identifier les interférences</li>
+          <li>Teste la connexion à <strong>différents endroits</strong> pour identifier les zones problématiques</li>
+          <li>Essaie de <strong>redémarrer</strong> le routeur si les performances se dégradent</li>
+        </ol>
+      </div>
+    )
+  },
+  {
+    title: "Étape 6: Tendances et évolutions des réseaux sans fil",
+    content: (
+      <div>
+        <p>Les technologies sans fil évoluent constamment. Voici les tendances actuelles et futures :</p>
+        
+        <h4>Wi-Fi 7 (802.11be)</h4>
+        <p>La prochaine génération de Wi-Fi, attendue vers 2024 :</p>
+        <ul>
+          <li>Débits théoriques jusqu'à 30 Gbps</li>
+          <li>Latence ultra-faible</li>
+          <li>Utilisation simultanée des bandes 2,4 GHz, 5 GHz et 6 GHz</li>
+          <li>Canaux ultra-larges (320 MHz)</li>
+          <li>Idéal pour la réalité virtuelle/augmentée, le streaming 8K, le cloud gaming</li>
+        </ul>
+        
+        <h4>Réseaux privés 5G</h4>
+        <p>Alternative au Wi-Fi pour certains environnements professionnels :</p>
+        <ul>
+          <li>Réseaux cellulaires dédiés à une entreprise ou un site</li>
+          <li>Meilleure fiabilité et sécurité</li>
+          <li>Couverture plus large</li>
+          <li>Idéal pour l'industrie 4.0, les campus, les grands sites</li>
+        </ul>
+        
+        <h4>IoT et réseaux spécialisés</h4>
+        <p>Pour connecter les milliards d'objets de l'Internet des Objets (IoT) :</p>
+        <ul>
+          <li><strong>LoRaWAN</strong> : Longue portée, faible consommation</li>
+          <li><strong>Zigbee/Z-Wave</strong> : Pour la domotique</li>
+          <li><strong>NB-IoT/LTE-M</strong> : Réseaux cellulaires pour objets connectés</li>
+          <li><strong>Matter</strong> : Nouveau standard unifié pour la maison connectée</li>
+        </ul>
+        
+        <h4>Wi-Fi 6 GHz et Wi-Fi 7</h4>
+        <p>L'ouverture de la bande 6 GHz représente une évolution majeure :</p>
+        <ul>
+          <li>Espace spectral vierge avec peu d'interférences</li>
+          <li>Jusqu'à 1200 MHz de spectre supplémentaire (contre 500 MHz pour 5 GHz)</li>
+          <li>Permet des canaux plus larges pour des débits plus élevés</li>
+          <li>Déjà disponible avec Wi-Fi 6E, sera pleinement exploitée avec Wi-Fi 7</li>
+        </ul>
+        
+        <h4>Intelligence artificielle et réseaux auto-optimisés</h4>
+        <p>Les réseaux deviennent plus intelligents :</p>
+        <ul>
+          <li>Optimisation automatique des paramètres</li>
+          <li>Détection et résolution proactive des problèmes</li>
+          <li>Adaptation dynamique aux conditions changeantes</li>
+          <li>Meilleure gestion de la congestion et des interférences</li>
+        </ul>
+      </div>
+    )
+  }
+]} />
+
+<ExerciseCard title="Exercice pratique : Analyser et optimiser un réseau sans fil">
+
+Maintenant que tu comprends mieux les réseaux sans fil, il est temps de mettre en pratique tes connaissances !
+
+### Exercice 1 : Analyser ton réseau Wi-Fi
+
+1. Identifie le nom (SSID) et la norme Wi-Fi de ton réseau domestique ou scolaire.
+2. Détermine sur quelle(s) bande(s) de fréquence il fonctionne (2,4 GHz, 5 GHz).
+3. Vérifie quel protocole de sécurité est utilisé (WEP, WPA, WPA2, WPA3).
+
+### Exercice 2 : Cartographier la couverture Wi-Fi
+
+1. Avec un smartphone ou une tablette, installe une application d'analyse Wi-Fi (comme "WiFi Analyzer" sur Android).
+2. Déplace-toi dans différentes pièces et note la puissance du signal (en dBm).
+3. Identifie les zones où le signal est faible et réfléchis aux causes possibles.
+
+### Exercice 3 : Optimiser un réseau
+
+Imagine que tu dois améliorer un réseau Wi-Fi qui présente les problèmes suivants :
+- Signal faible dans certaines pièces
+- Connexion lente aux heures de pointe
+- Déconnexions fréquentes
+
+Propose des solutions pour chacun de ces problèmes en justifiant tes choix.
+
+### Exercice 4 : Sécuriser un réseau
+
+Établis une liste de vérification pour sécuriser un réseau Wi-Fi domestique, incluant :
+1. Les paramètres à configurer sur le routeur
+2. Les bonnes pratiques à adopter
+3. Les erreurs à éviter
+
+</ExerciseCard>
+
+<QuizCard title="Quiz : Réseaux sans fil">
+
+<Quiz
+  questions={[
+    {
+      question: "Quelle bande de fréquence Wi-Fi offre généralement la meilleure portée à travers les murs ?",
+      options: [
+        "2,4 GHz",
+        "5 GHz",
+        "6 GHz",
+        "60 GHz"
+      ],
+      correctIndex: 0
+    },
+    {
+      question: "Quel protocole de sécurité Wi-Fi est considéré comme obsolète et vulnérable ?",
+      options: [
+        "WPA3",
+        "WPA2",
+        "WPA",
+        "WEP"
+      ],
+      correctIndex: 3
+    },
+    {
+      question: "Quelle norme Wi-Fi a introduit l'utilisation de la bande 6 GHz ?",
+      options: [
+        "Wi-Fi 5 (802.11ac)",
+        "Wi-Fi 6 (802.11ax)",
+        "Wi-Fi 6E (802.11ax étendu)",
+        "Wi-Fi 4 (802.11n)"
+      ],
+      correctIndex: 2
+    },
+    {
+      question: "Quel système permet d'étendre la couverture Wi-Fi avec plusieurs points d'accès formant un réseau unifié ?",
+      options: [
+        "Répéteur Wi-Fi",
+        "Système Wi-Fi maillé (mesh)",
+        "Adaptateur CPL",
+        "Routeur double bande"
+      ],
+      correctIndex: 1
+    },
+    {
+      question: "Quelle action n'améliore PAS la sécurité d'un réseau Wi-Fi ?",
+      options: [
+        "Changer le mot de passe par défaut du routeur",
+        "Utiliser le protocole WPA3",
+        "Diffuser le SSID avec votre nom complet",
+        "Activer le pare-feu du routeur"
+      ],
+      correctIndex: 2
+    }
+  ]}
+/>
+
+</QuizCard>
+
+<ResourcesCard title="Ressources complémentaires">
+
+### Pour approfondir tes connaissances sur les réseaux sans fil
+
+#### Sites web
+- [Wi-Fi Alliance](https://www.wi-fi.org/) - Organisation officielle qui certifie les produits Wi-Fi
+- [Comment Ça Marche](https://www.commentcamarche.net/) - Tutoriels sur les réseaux sans fil
+- [01net](https://www.01net.com/) - Actualités et tests sur les équipements réseau
+
+#### Applications
+- WiFi Analyzer - Pour analyser les réseaux Wi-Fi environnants
+- NetSpot - Pour cartographier la couverture Wi-Fi
+- Speedtest - Pour mesurer la vitesse de connexion
+
+#### Livres
+- "Les réseaux sans fil" par Guy Pujolle
+- "Wi-Fi : Déploiement et sécurité" par Aurélien Géron
+
+#### Vidéos
+- Chaînes YouTube spécialisées en réseaux et technologies
+- Tutoriels vidéo sur la configuration des routeurs Wi-Fi
+
+</ResourcesCard>
+
+</CenteredContent>

@@ -1,0 +1,213 @@
+---
+title: "Les Procédures en Logo"
+description: "Simplifier vos dessins en créant vos propres commandes"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Les Procédures en Logo
+
+<ExerciseCard title="Créer vos propres commandes Logo">
+
+Dans cette leçon, tu vas apprendre à créer tes propres commandes en Logo grâce aux procédures. Cette technique te permettra de simplifier ton code, de le rendre plus lisible et plus facile à modifier.
+
+Voici ce que tu vas apprendre :
+- Ce qu'est une procédure et pourquoi l'utiliser
+- Comment définir tes propres procédures
+- Comment utiliser tes procédures dans tes programmes
+- Comment gérer les procédures que tu as créées
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Comprendre les procédures",
+    content: (
+      <div>
+        <p>Imagine que tu veuilles dessiner plusieurs maisons dans ton programme Logo. Sans procédures, tu devrais réécrire le même code encore et encore :</p>
+        <pre>
+          ; Dessine une maison
+          REPETE 4 [AV 50 TD 90]  ; Le carré (corps de la maison)
+          TD 90 AV 50 TG 90       ; Positionne pour le toit
+          TD 30 AV 50 TD 120 AV 50 ; Le toit (triangle)
+          
+          ; Pour dessiner une autre maison, il faudrait tout réécrire...
+        </pre>
+        <p>C'est là qu'interviennent les <strong>procédures</strong> ! Une procédure est comme une nouvelle commande que tu enseignes à Logo.</p>
+        <p>Les avantages des procédures sont nombreux :</p>
+        <ul>
+          <li><strong>Simplification</strong> : Tu écris le code une seule fois, puis tu l'utilises autant de fois que nécessaire</li>
+          <li><strong>Lisibilité</strong> : Ton code devient plus clair et plus facile à comprendre</li>
+          <li><strong>Maintenance</strong> : Si tu veux modifier la façon dont tu dessines une maison, tu n'as qu'à changer la procédure à un seul endroit</li>
+          <li><strong>Organisation</strong> : Tu peux décomposer un dessin complexe en plusieurs procédures plus simples</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Définir une procédure",
+    content: (
+      <div>
+        <p>Pour définir une procédure en Logo, tu utilises les mots-clés <code>POUR</code> et <code>FIN</code> :</p>
+        <pre>
+          POUR nom_de_ta_procedure
+            ; Instructions Logo ici
+            ; ...
+          FIN
+        </pre>
+        <p>Voici un exemple concret pour définir une procédure <code>CARRE</code> qui dessine un carré de 50 pas de côté :</p>
+        <pre>
+          POUR CARRE
+            REPETE 4 [AV 50 TD 90]
+          FIN
+        </pre>
+        <p>Quelques règles importantes pour les noms de procédures :</p>
+        <ul>
+          <li>Choisis un nom descriptif qui indique ce que fait la procédure</li>
+          <li>Évite les espaces et les caractères spéciaux</li>
+          <li>N'utilise pas des noms de commandes Logo existantes (comme AV, TD, REPETE)</li>
+          <li>Les noms sont généralement en majuscules (bien que ce ne soit pas obligatoire dans tous les environnements Logo)</li>
+        </ul>
+        <p>Dans la plupart des environnements Logo, tu dois écrire tes procédures dans un éditeur spécial (souvent accessible via un bouton "Éditer" ou un menu), puis les valider pour que Logo les mémorise.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Utiliser une procédure",
+    content: (
+      <div>
+        <p>Une fois que tu as défini une procédure, l'utiliser est très simple : il suffit de taper son nom dans la ligne de commande, comme s'il s'agissait d'une commande Logo standard.</p>
+        <p>Par exemple, après avoir défini la procédure <code>CARRE</code>, tu peux l'utiliser ainsi :</p>
+        <pre>
+          VE           ; Efface l'écran
+          CARRE        ; Dessine un carré
+          AV 100       ; Avance de 100 pas
+          CARRE        ; Dessine un autre carré
+          TD 45        ; Tourne de 45 degrés
+          CARRE        ; Dessine un carré incliné
+        </pre>
+        <p>Tu peux aussi utiliser tes procédures à l'intérieur d'autres procédures. Par exemple, tu pourrais créer une procédure <code>TROIS_CARRES</code> qui utilise la procédure <code>CARRE</code> :</p>
+        <pre>
+          POUR TROIS_CARRES
+            CARRE
+            AV 100
+            CARRE
+            AV 100
+            CARRE
+          FIN
+        </pre>
+        <p>Cette capacité à combiner des procédures est très puissante et te permet de construire des dessins complexes à partir d'éléments simples.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Créer une procédure pour dessiner une maison",
+    content: (
+      <div>
+        <p>Voyons maintenant comment créer une procédure plus complexe qui dessine une maison (un carré avec un triangle au-dessus) :</p>
+        <pre>
+          POUR MAISON
+            ; Dessine le carré (corps de la maison)
+            REPETE 4 [AV 50 TD 90]
+            
+            ; Positionne la tortue pour dessiner le toit
+            TD 90 AV 50 TG 90
+            
+            ; Dessine le triangle (toit)
+            TD 30 AV 50 TD 120 AV 50 TD 120 AV 50
+          FIN
+        </pre>
+        <p>Une fois cette procédure définie, tu peux dessiner une maison simplement en tapant <code>MAISON</code>.</p>
+        <p>Tu pourrais même créer un petit village en combinant plusieurs appels à <code>MAISON</code> :</p>
+        <pre>
+          POUR VILLAGE
+            MAISON
+            LC AV 100 BC  ; Se déplace sans dessiner
+            MAISON
+            LC AV 100 BC
+            MAISON
+          FIN
+        </pre>
+        <p>C'est là que réside la puissance des procédures : elles te permettent de construire des dessins complexes à partir d'éléments plus simples, comme des briques de construction.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Décomposer un problème en procédures",
+    content: (
+      <div>
+        <p>Une bonne pratique en programmation est de décomposer un problème complexe en sous-problèmes plus simples. Avec Logo, cela signifie créer plusieurs petites procédures plutôt qu'une seule grande.</p>
+        <p>Par exemple, au lieu de créer directement une procédure <code>MAISON</code>, tu pourrais d'abord créer des procédures <code>CARRE</code> et <code>TRIANGLE</code>, puis les combiner :</p>
+        <pre>
+          POUR CARRE
+            REPETE 4 [AV 50 TD 90]
+          FIN
+          
+          POUR TRIANGLE
+            REPETE 3 [AV 50 TD 120]
+          FIN
+          
+          POUR MAISON
+            CARRE
+            ; Positionne pour le toit
+            TD 90 AV 50 TG 90
+            TRIANGLE
+          FIN
+        </pre>
+        <p>Cette approche présente plusieurs avantages :</p>
+        <ul>
+          <li>Ton code est plus modulaire et plus facile à comprendre</li>
+          <li>Tu peux réutiliser <code>CARRE</code> et <code>TRIANGLE</code> dans d'autres dessins</li>
+          <li>Si tu veux modifier la façon de dessiner un carré, tu n'as qu'à changer la procédure <code>CARRE</code></li>
+        </ul>
+        <p>C'est une compétence fondamentale en programmation : apprendre à décomposer un problème en parties plus petites et plus gérables.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 6: Gérer tes procédures",
+    content: (
+      <div>
+        <p>Au fur et à mesure que tu crées des procédures, tu auras besoin de les gérer. Voici quelques commandes utiles :</p>
+        <ul>
+          <li><code>POTS</code> : Affiche la liste de toutes les procédures définies (POur TouS)</li>
+          <li><code>EFFACENOM "nom_procedure</code> : Supprime une procédure (note le guillemet avant le nom)</li>
+          <li><code>EDITE "nom_procedure</code> : Ouvre l'éditeur pour modifier une procédure existante</li>
+        </ul>
+        <p>Par exemple, si tu veux supprimer la procédure <code>CARRE</code>, tu taperas :</p>
+        <pre>EFFACENOM "CARRE</pre>
+        <p>Le guillemet est important ! Il indique à Logo que <code>CARRE</code> est un mot (le nom de la procédure) et non une commande à exécuter.</p>
+        <p>Si tu veux voir toutes les procédures que tu as définies, tape simplement :</p>
+        <pre>POTS</pre>
+        <p>Dans certains environnements Logo, tu peux aussi sauvegarder tes procédures dans un fichier pour les réutiliser plus tard. Consulte la documentation de ton environnement Logo pour savoir comment faire.</p>
+      </div>
+    )
+  }
+]} />
+
+<Tip>
+Lorsque tu crées des procédures, donne-leur des noms clairs et descriptifs qui indiquent ce qu'elles font. Par exemple, utilise CARRE plutôt que C, ou MAISON plutôt que M. Cela rendra ton code beaucoup plus facile à comprendre, surtout quand tu le reliras plus tard !
+</Tip>
+
+<ExerciseCard title="Exercice pratique: Créer et utiliser des procédures">
+
+Mets en pratique ce que tu as appris en réalisant ces défis :
+
+1. Crée une procédure nommée TRIANGLE qui dessine un triangle équilatéral de 100 pas de côté.
+
+2. Crée une procédure nommée CARRE qui dessine un carré de 80 pas de côté.
+
+3. Crée une procédure nommée FLEUR qui dessine une fleur simple (un cercle entouré de plusieurs pétales). Indice : utilise REPETE avec une procédure qui dessine un cercle approximatif.
+
+4. Crée une procédure nommée MAISON qui utilise tes procédures CARRE et TRIANGLE pour dessiner une maison.
+
+5. Crée une procédure nommée VILLAGE qui dessine trois maisons côte à côte.
+
+6. Défi bonus : Crée une procédure ETOILE5 qui dessine une étoile à 5 branches.
+
+N'oublie pas d'utiliser la commande POTS pour vérifier les procédures que tu as définies, et VE entre chaque exercice pour repartir d'un écran vide.
+
+</ExerciseCard>
+
+</CenteredContent>

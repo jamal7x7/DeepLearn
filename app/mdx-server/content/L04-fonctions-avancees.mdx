@@ -1,0 +1,157 @@
+---
+title: "Fonctions Avancées"
+description: "Maîtriser les fonctions conditionnelles et de recherche dans Excel 2021"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Fonctions Avancées dans Excel 2021
+
+<ExerciseCard title="Aller plus loin avec les fonctions">
+
+Dans cette leçon, tu vas découvrir des fonctions plus avancées qui te permettront de créer des formules intelligentes capables de prendre des décisions et d'analyser tes données de façon plus approfondie.
+
+Voici ce que tu vas apprendre :
+- Comment utiliser la fonction SI pour créer des conditions
+- Comment compter des données selon des critères avec NB.SI
+- Comment rechercher des informations avec RECHERCHEV
+- Comment combiner plusieurs fonctions pour des résultats plus complexes
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: La fonction SI - Prendre des décisions",
+    content: (
+      <div>
+        <p>La fonction SI permet à Excel de prendre des décisions basées sur une condition :</p>
+        <p><strong>Syntaxe</strong> : =SI(test_logique;valeur_si_vrai;valeur_si_faux)</p>
+        <ul>
+          <li><strong>test_logique</strong> : une condition qui peut être vraie ou fausse</li>
+          <li><strong>valeur_si_vrai</strong> : ce qui sera affiché si la condition est vraie</li>
+          <li><strong>valeur_si_faux</strong> : ce qui sera affiché si la condition est fausse</li>
+        </ul>
+        <p>Exemples :</p>
+        <ul>
+          <li><strong>=SI(A1>10;"Supérieur à 10";"Inférieur ou égal à 10")</strong></li>
+          <li><strong>=SI(B1="Oui";1;0)</strong></li>
+          <li><strong>=SI(C1>=10;"Admis";"Recalé")</strong></li>
+        </ul>
+        <p>Les opérateurs de comparaison utilisables sont : = (égal), > (supérieur), < (inférieur), >= (supérieur ou égal), <= (inférieur ou égal), <> (différent)</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Les fonctions SI imbriquées",
+    content: (
+      <div>
+        <p>Tu peux imbriquer plusieurs fonctions SI pour gérer plus de deux possibilités :</p>
+        <p><strong>=SI(test1;valeur1;SI(test2;valeur2;valeur3))</strong></p>
+        <p>Exemple pour attribuer une mention selon une note :</p>
+        <pre>
+=SI(A1>=16;"Très bien";
+  SI(A1>=14;"Bien";
+    SI(A1>=12;"Assez bien";
+      SI(A1>=10;"Passable";"Insuffisant")
+    )
+  )
+)</pre>
+        <p>Cette formule vérifie d'abord si la note est ≥ 16, puis ≥ 14, puis ≥ 12, puis ≥ 10, et attribue la mention correspondante.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Les fonctions de comptage (NB.SI)",
+    content: (
+      <div>
+        <p>La fonction NB.SI compte le nombre de cellules qui répondent à un critère spécifique :</p>
+        <p><strong>Syntaxe</strong> : =NB.SI(plage;critère)</p>
+        <ul>
+          <li><strong>plage</strong> : l'ensemble des cellules à analyser</li>
+          <li><strong>critère</strong> : la condition que les cellules doivent remplir</li>
+        </ul>
+        <p>Exemples :</p>
+        <ul>
+          <li><strong>=NB.SI(A1:A20;"Oui")</strong> - Compte combien de cellules contiennent "Oui"</li>
+          <li><strong>=NB.SI(B1:B20;">10")</strong> - Compte combien de cellules ont une valeur supérieure à 10</li>
+          <li><strong>=NB.SI(C1:C20;"*math*")</strong> - Compte combien de cellules contiennent le mot "math" (les astérisques sont des jokers)</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: La fonction RECHERCHEV",
+    content: (
+      <div>
+        <p>RECHERCHEV permet de rechercher une valeur dans la première colonne d'un tableau et de renvoyer une valeur située dans la même ligne mais dans une autre colonne :</p>
+        <p><strong>Syntaxe</strong> : =RECHERCHEV(valeur_cherchée;table_matrice;no_index_col;valeur_proche)</p>
+        <ul>
+          <li><strong>valeur_cherchée</strong> : la valeur à rechercher dans la première colonne du tableau</li>
+          <li><strong>table_matrice</strong> : le tableau dans lequel effectuer la recherche</li>
+          <li><strong>no_index_col</strong> : le numéro de la colonne dans le tableau qui contient la valeur à renvoyer</li>
+          <li><strong>valeur_proche</strong> : FAUX pour une correspondance exacte, VRAI pour une correspondance approximative</li>
+        </ul>
+        <p>Exemple : Imaginons un tableau de correspondance entre notes numériques et lettres :</p>
+        <table>
+          <tr><td>Note min</td><td>Note max</td><td>Lettre</td></tr>
+          <tr><td>0</td><td>9</td><td>E</td></tr>
+          <tr><td>10</td><td>11</td><td>D</td></tr>
+          <tr><td>12</td><td>13</td><td>C</td></tr>
+          <tr><td>14</td><td>15</td><td>B</td></tr>
+          <tr><td>16</td><td>20</td><td>A</td></tr>
+        </table>
+        <p>Pour trouver la lettre correspondant à une note de 14 :</p>
+        <p><strong>=RECHERCHEV(14;A1:C6;3;VRAI)</strong></p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Combiner des fonctions",
+    content: (
+      <div>
+        <p>Tu peux combiner plusieurs fonctions pour créer des formules plus puissantes :</p>
+        <p>Exemple 1 : Compter le nombre d'élèves admis (note ≥ 10) :</p>
+        <p><strong>=NB.SI(C1:C20;">="&10)</strong></p>
+        <p>Exemple 2 : Calculer la moyenne des valeurs supérieures à 50 :</p>
+        <p><strong>=MOYENNE(SI(A1:A20>50;A1:A20))</strong> (formule matricielle, à valider avec Ctrl+Maj+Entrée)</p>
+        <p>Exemple 3 : Utiliser RECHERCHEV avec SI pour afficher un message personnalisé :</p>
+        <p><strong>=SI(B1>=10;RECHERCHEV(B1;$G$1:$H$5;2;VRAI);"Non admis")</strong></p>
+      </div>
+    )
+  }
+]} />
+
+<Tip>
+Lorsque tu utilises RECHERCHEV, assure-toi que la première colonne du tableau de recherche est triée par ordre croissant si tu utilises VRAI comme dernier argument. Cela permet à Excel de trouver la correspondance approximative la plus proche!
+</Tip>
+
+<ExerciseCard title="Exercice pratique: Tableau de suivi des notes">
+
+Crée un tableau de suivi des notes d'une classe en suivant ces étapes :
+
+1. Dans la colonne A, liste 10 noms d'élèves
+2. Dans la colonne B, saisis des notes sur 20 pour chaque élève
+3. Dans la colonne C, utilise la fonction SI pour afficher "Admis" si la note est ≥ 10, sinon "Recalé"
+4. Dans la colonne D, utilise des fonctions SI imbriquées pour attribuer une mention :
+   - Si note ≥ 16 : "Très bien"
+   - Si note ≥ 14 : "Bien"
+   - Si note ≥ 12 : "Assez bien"
+   - Si note ≥ 10 : "Passable"
+   - Sinon : "Insuffisant"
+5. Crée un petit tableau de correspondance dans les cellules F1:G6 :
+   - F1:G1 : "Note" et "Lettre"
+   - F2:G2 : 0 et "E"
+   - F3:G3 : 10 et "D"
+   - F4:G4 : 12 et "C"
+   - F5:G5 : 14 et "B"
+   - F6:G6 : 16 et "A"
+6. Dans la colonne E, utilise RECHERCHEV pour attribuer automatiquement une lettre à chaque note
+7. En dessous du tableau, utilise NB.SI pour compter :
+   - Le nombre d'élèves admis
+   - Le nombre d'élèves ayant obtenu la mention "Bien" ou "Très bien"
+   - Le nombre d'élèves ayant une note supérieure à la moyenne de la classe (indice : utilise la fonction MOYENNE)
+
+</ExerciseCard>
+
+</CenteredContent>

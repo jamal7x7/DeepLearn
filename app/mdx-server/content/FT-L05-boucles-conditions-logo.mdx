@@ -1,0 +1,42 @@
+---
+title: FT-L05-boucles-conditions-logo
+description: Utiliser les boucles et les conditions en Logo
+difficulty: "Intermédiaire"
+---
+
+# FT-L05-boucles-conditions-logo
+Voici une fiche technique sous forme de tableau, conçue pour des élèves de niveau intermédiaire, qui présente les boucles et les conditions en Logo :
+
+| **Rubrique**                                  | **Contenu**                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Titre du thème**                            | Les boucles et les conditions en Logo : contrôler le flux d'exécution                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Niveau concerné**                           | Intermédiaire                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| **Objectif pédagogique**                      | À la fin de cette leçon, l'élève saura : <br/>• Comprendre et utiliser la commande REPETE pour créer des boucles <br/>• Utiliser les structures conditionnelles SI et SIFAUX <br/>• Combiner les boucles et les conditions pour créer des programmes plus complexes <br/>• Utiliser la récursivité pour créer des motifs avancés                                                                                                                                                                                                                |
+| **Définitions clés**                          | **Boucle** : Structure qui permet de répéter un bloc d'instructions plusieurs fois. <br/>**Condition** : Structure qui permet d'exécuter des instructions uniquement si une certaine condition est remplie. <br/>**Récursivité** : Technique où une procédure s'appelle elle-même, créant ainsi une forme de boucle.                                                                                                                                                                                          |
+| **Explication de la notion avec exemples**    | Les boucles et les conditions sont des structures fondamentales en programmation qui permettent de contrôler le flux d'exécution d'un programme. En Logo, la commande `REPETE` est la boucle la plus simple, permettant de répéter un bloc d'instructions un nombre défini de fois. Les conditions, avec les commandes `SI` et `SIFAUX`, permettent d'exécuter des instructions uniquement si certaines conditions sont remplies. Par exemple, `SI :x > 10 [AV 50]` fera avancer la tortue de 50 pas seulement si la valeur de la variable x est supérieure à 10. La récursivité, quant à elle, permet de créer des motifs complexes en faisant appel à une procédure depuis elle-même.                                                                                                                       |
+| **Méthodologie ou étapes à suivre**           | 1. **Utiliser REPETE** : Syntaxe `REPETE nombre [instructions]` pour répéter un bloc d'instructions.<br/>2. **Utiliser SI** : Syntaxe `SI condition [instructions]` pour exécuter des instructions conditionnellement.<br/>3. **Utiliser SIFAUX** : Syntaxe `SIFAUX condition [instructions_si_vrai] [instructions_si_faux]` pour exécuter différentes instructions selon une condition.<br/>4. **Créer des procédures récursives** : Définir une procédure qui s'appelle elle-même, avec une condition d'arrêt pour éviter les boucles infinies. |
+| **Illustration ou schéma explicatif**         | **Exemple de boucle REPETE** : <br/>```logo
+REPETE 4 [AV 50 TD 90]  ; Dessine un carré
+``` <br/><br/>**Exemple de condition SI** : <br/>```logo
+DONNE "taille 50
+SI :taille > 30 [AV :taille]  ; Avance seulement si taille > 30
+```<br/><br/>**Exemple de procédure récursive** : <br/>```logo
+POUR SPIRALE :taille
+  SI :taille > 100 [STOP]  ; Condition d'arrêt
+  AV :taille
+  TD 90
+  SPIRALE :taille + 5  ; Appel récursif
+FIN
+```                                                                                   |
+| **Exercice d'application ou question**        | **Exercice 1** : Créer une procédure qui dessine un carré seulement si la taille spécifiée est supérieure à 20. <br/>Solution : <br/>```logo
+POUR CARRE_CONDITIONNEL :taille
+  SI :taille > 20 [REPETE 4 [AV :taille TD 90]]
+FIN
+```<br/><br/>**Exercice 2** : Créer une procédure récursive qui dessine une série de carrés de taille décroissante. <br/>Solution : <br/>```logo
+POUR CARRES_DECROISSANTS :taille
+  SI :taille < 5 [STOP]  ; Condition d'arrêt
+  REPETE 4 [AV :taille TD 90]  ; Dessine un carré
+  CARRES_DECROISSANTS :taille - 10  ; Appel récursif avec taille réduite
+FIN
+```                                                                                                                    |
+| **Mot-clé ou astuce mnémotechnique**          | **BRIC** : <br/>**B**oucles (REPETE) <br/>**R**écursivité (procédure qui s'appelle elle-même) <br/>**I**nstructions conditionnelles (SI, SIFAUX) <br/>**C**ontrôle du flux d'exécution                                                                                                                                                                                                                                                                                                                           |

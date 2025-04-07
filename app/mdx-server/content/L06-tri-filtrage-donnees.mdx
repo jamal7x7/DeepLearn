@@ -1,0 +1,190 @@
+---
+title: "Tri et Filtrage des Données"
+description: "Apprendre à organiser et filtrer les données dans Excel 2021"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Tri et Filtrage des Données dans Excel 2021
+
+<ExerciseCard title="Organiser vos données efficacement">
+
+Dans cette leçon, tu vas apprendre à organiser et à filtrer tes données pour les retrouver et les analyser plus facilement. Ces compétences sont essentielles lorsque tu travailles avec de grands ensembles de données.
+
+Voici ce que tu vas apprendre :
+- Comment trier des données par ordre alphabétique, numérique ou chronologique
+- Comment appliquer un tri sur plusieurs colonnes
+- Comment utiliser les filtres automatiques pour afficher uniquement certaines données
+- Comment créer des filtres personnalisés avec des critères spécifiques
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Trier des données sur une seule colonne",
+    content: (
+      <div>
+        <p>Le tri permet d'organiser tes données dans un ordre spécifique :</p>
+        <ol>
+          <li>Clique sur une cellule dans la colonne que tu souhaites trier</li>
+          <li>Va dans l'onglet "Données" du ruban</li>
+          <li>Pour un tri croissant (A à Z, 0 à 9, dates anciennes aux récentes) :</li>
+          <ul>
+            <li>Clique sur le bouton "Trier de A à Z" (↑)</li>
+          </ul>
+          <li>Pour un tri décroissant (Z à A, 9 à 0, dates récentes aux anciennes) :</li>
+          <ul>
+            <li>Clique sur le bouton "Trier de Z à A" (↓)</li>
+          </ul>
+        </ol>
+        <p>Tu peux aussi :</p>
+        <ul>
+          <li>Cliquer sur la flèche à côté de l'en-tête de colonne (si les filtres sont activés)</li>
+          <li>Choisir "Trier de A à Z" ou "Trier de Z à A" dans le menu</li>
+        </ul>
+        <p>Excel trie automatiquement l'ensemble du tableau, en gardant les lignes intactes.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Trier sur plusieurs colonnes",
+    content: (
+      <div>
+        <p>Pour trier selon plusieurs critères (par exemple, d'abord par catégorie, puis par date) :</p>
+        <ol>
+          <li>Sélectionne une cellule dans ton tableau</li>
+          <li>Dans l'onglet "Données", clique sur le bouton "Trier"</li>
+          <li>Dans la boîte de dialogue qui s'ouvre :</li>
+          <ul>
+            <li>Vérifie que "Mes données ont des en-têtes" est coché si ton tableau a des titres</li>
+            <li>Dans "Trier par", sélectionne la première colonne de tri</li>
+            <li>Choisis le type de tri (Valeurs, Couleur de cellule, etc.)</li>
+            <li>Sélectionne l'ordre (De A à Z, De Z à A, etc.)</li>
+            <li>Clique sur "Ajouter un niveau"</li>
+            <li>Dans "Puis par", sélectionne la deuxième colonne de tri</li>
+            <li>Définis le type et l'ordre pour cette colonne</li>
+            <li>Répète l'opération pour ajouter d'autres niveaux si nécessaire</li>
+          </ul>
+          <li>Clique sur OK pour appliquer le tri</li>
+        </ol>
+        <p>Exemple : Trier une liste d'élèves d'abord par classe, puis par nom de famille.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Utiliser les filtres automatiques",
+    content: (
+      <div>
+        <p>Les filtres permettent d'afficher temporairement uniquement les données qui t'intéressent :</p>
+        <ol>
+          <li>Sélectionne une cellule dans ton tableau</li>
+          <li>Dans l'onglet "Données", clique sur "Filtrer"</li>
+          <li>Des flèches apparaissent dans les en-têtes de toutes les colonnes</li>
+          <li>Clique sur la flèche de la colonne que tu veux filtrer</li>
+          <li>Dans le menu déroulant :</li>
+          <ul>
+            <li>Décoche "Sélectionner tout"</li>
+            <li>Coche uniquement les valeurs que tu veux voir</li>
+            <li>Clique sur OK</li>
+          </ul>
+        </ol>
+        <p>Excel masque temporairement les lignes qui ne correspondent pas à tes critères. Les numéros de lignes en bleu indiquent qu'un filtre est actif.</p>
+        <p>Pour supprimer un filtre :</p>
+        <ul>
+          <li>Clique sur la flèche de la colonne filtrée et sélectionne "Effacer le filtre"</li>
+          <li>Ou clique sur "Effacer" dans l'onglet "Données" pour supprimer tous les filtres</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Créer des filtres personnalisés",
+    content: (
+      <div>
+        <p>Pour des critères de filtrage plus complexes :</p>
+        <ol>
+          <li>Clique sur la flèche de la colonne à filtrer</li>
+          <li>Pour les données textuelles :</li>
+          <ul>
+            <li>Sélectionne "Filtre de texte"</li>
+            <li>Choisis une option (Commence par, Contient, etc.)</li>
+          </ul>
+          <li>Pour les données numériques :</li>
+          <ul>
+            <li>Sélectionne "Filtre numérique"</li>
+            <li>Choisis une option (Supérieur à, Entre, etc.)</li>
+          </ul>
+          <li>Pour les dates :</li>
+          <ul>
+            <li>Sélectionne "Filtre chronologique"</li>
+            <li>Choisis une option (Avant, Après, Entre, etc.)</li>
+          </ul>
+          <li>Dans la boîte de dialogue, définis tes critères</li>
+          <li>Clique sur OK</li>
+        </ol>
+        <p>Tu peux aussi créer un filtre avec deux conditions en utilisant "Et" (les deux conditions doivent être vraies) ou "Ou" (au moins une condition doit être vraie).</p>
+        <p>Exemple : Afficher les produits dont le prix est supérieur à 50 € ET dont le stock est inférieur à 10 unités.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Utiliser les filtres avancés",
+    content: (
+      <div>
+        <p>Pour des filtres encore plus complexes, tu peux utiliser les filtres avancés :</p>
+        <ol>
+          <li>Crée une zone de critères au-dessus ou à côté de ton tableau :</li>
+          <ul>
+            <li>Copie les en-têtes des colonnes que tu veux filtrer</li>
+            <li>Sous chaque en-tête, écris les critères de filtrage</li>
+          </ul>
+          <li>Sélectionne une cellule dans ton tableau principal</li>
+          <li>Dans l'onglet "Données", clique sur "Avancé"</li>
+          <li>Dans la boîte de dialogue :</li>
+          <ul>
+            <li>Vérifie que "Filtrer la liste, sur place" est sélectionné</li>
+            <li>La "Plage de la liste" devrait être automatiquement remplie</li>
+            <li>Dans "Plage de critères", sélectionne ta zone de critères (y compris les en-têtes)</li>
+            <li>Clique sur OK</li>
+          </ul>
+        </ol>
+        <p>Les filtres avancés permettent de créer des critères plus complexes que les filtres standard, comme des conditions "OU" entre différentes colonnes.</p>
+      </div>
+    )
+  }
+]} />
+
+<Tip>
+Tu peux rapidement trier des données en sélectionnant une plage de cellules, puis en cliquant avec le bouton droit et en choisissant "Trier". C'est particulièrement utile pour trier une partie spécifique de ton tableau!
+</Tip>
+
+<ExerciseCard title="Exercice pratique: Résultats sportifs">
+
+Crée un tableau de suivi des résultats d'une compétition sportive en suivant ces étapes :
+
+1. Crée un tableau avec les colonnes suivantes :
+   - Nom du participant
+   - Âge
+   - Catégorie (Junior, Senior)
+   - Épreuve (100m, Saut en longueur, Lancer de poids)
+   - Performance (temps en secondes ou distance en mètres)
+
+2. Saisis au moins 15 participants avec des données variées
+
+3. Trie le tableau par catégorie, puis par performance (du meilleur au moins bon)
+   - Pour le 100m, la meilleure performance est le temps le plus court
+   - Pour le saut et le lancer, la meilleure performance est la distance la plus longue
+
+4. Utilise les filtres pour afficher :
+   - Uniquement les participants de la catégorie Junior
+   - Uniquement les performances au 100m inférieures à 13 secondes
+   - Uniquement les participants âgés de 12 à 14 ans
+
+5. Crée un filtre personnalisé pour afficher les participants dont le nom commence par la lettre "M" ou "P"
+
+Bonus : Utilise la mise en forme conditionnelle pour mettre en évidence les trois meilleures performances de chaque épreuve.
+
+</ExerciseCard>
+
+</CenteredContent>

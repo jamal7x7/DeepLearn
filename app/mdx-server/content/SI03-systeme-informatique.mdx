@@ -1,0 +1,289 @@
+---
+title: "Le Système Informatique"
+description: "Comprendre l'organisation et le fonctionnement des systèmes informatiques"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Le Système Informatique
+
+<ExerciseCard title="Découvrir les systèmes informatiques">
+
+Dans cette leçon, tu vas découvrir ce qu'est un système informatique, comment il est organisé et comment ses différents composants interagissent pour traiter l'information.
+
+Voici ce que tu vas apprendre :
+- La définition et les caractéristiques d'un système informatique
+- Les différents composants qui constituent un système informatique
+- Les interactions entre ces composants
+- Les différents types de systèmes informatiques et leurs applications
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Qu'est-ce qu'un système informatique ?",
+    content: (
+      <div>
+        <p>Un <strong>système informatique</strong> est un ensemble organisé de ressources matérielles et logicielles qui interagissent pour collecter, traiter, stocker et diffuser de l'information.</p>
+        <p>On peut comparer un système informatique à un organisme vivant :</p>
+        <ul>
+          <li>Le matériel (hardware) représente le corps physique</li>
+          <li>Les logiciels (software) représentent l'intelligence qui contrôle ce corps</li>
+          <li>Les données représentent les connaissances et la mémoire</li>
+          <li>Les réseaux représentent le système nerveux qui permet la communication</li>
+          <li>Les utilisateurs représentent l'environnement avec lequel l'organisme interagit</li>
+        </ul>
+        <p>Un système informatique se caractérise par :</p>
+        <ul>
+          <li><strong>Sa finalité</strong> : l'objectif qu'il doit atteindre (ex: gérer une bibliothèque)</li>
+          <li><strong>Sa structure</strong> : l'organisation de ses composants</li>
+          <li><strong>Son comportement</strong> : comment il réagit aux entrées et produit des sorties</li>
+          <li><strong>Son évolution</strong> : sa capacité à s'adapter aux changements</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Les composants d'un système informatique",
+    content: (
+      <div>
+        <p>Un système informatique complet comprend cinq composants principaux :</p>
+        <h3>1. Le matériel (Hardware)</h3>
+        <ul>
+          <li><strong>Unités centrales</strong> : Ordinateurs, serveurs, etc.</li>
+          <li><strong>Périphériques d'entrée</strong> : Clavier, souris, scanner, etc.</li>
+          <li><strong>Périphériques de sortie</strong> : Écran, imprimante, haut-parleurs, etc.</li>
+          <li><strong>Périphériques de stockage</strong> : Disques durs, SSD, clés USB, etc.</li>
+          <li><strong>Équipements réseau</strong> : Routeurs, commutateurs, modems, etc.</li>
+        </ul>
+        <h3>2. Les logiciels (Software)</h3>
+        <ul>
+          <li><strong>Systèmes d'exploitation</strong> : Windows, macOS, Linux, etc.</li>
+          <li><strong>Applications</strong> : Logiciels de bureautique, navigateurs, etc.</li>
+          <li><strong>Utilitaires</strong> : Antivirus, outils de maintenance, etc.</li>
+          <li><strong>Logiciels système</strong> : Pilotes, firmware, etc.</li>
+        </ul>
+        <h3>3. Les données</h3>
+        <ul>
+          <li><strong>Fichiers</strong> : Documents, images, vidéos, etc.</li>
+          <li><strong>Bases de données</strong> : Collections structurées d'informations</li>
+          <li><strong>Métadonnées</strong> : Informations sur les données (date de création, auteur, etc.)</li>
+        </ul>
+        <h3>4. Les réseaux</h3>
+        <ul>
+          <li><strong>Connexions physiques</strong> : Câbles, fibres optiques, etc.</li>
+          <li><strong>Connexions sans fil</strong> : Wi-Fi, Bluetooth, 4G/5G, etc.</li>
+          <li><strong>Protocoles</strong> : Règles de communication (TCP/IP, HTTP, etc.)</li>
+        </ul>
+        <h3>5. Les utilisateurs</h3>
+        <ul>
+          <li><strong>Utilisateurs finaux</strong> : Personnes qui utilisent le système</li>
+          <li><strong>Administrateurs</strong> : Personnes qui gèrent le système</li>
+          <li><strong>Développeurs</strong> : Personnes qui créent et maintiennent les logiciels</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: L'architecture d'un système informatique",
+    content: (
+      <div>
+        <p>L'<strong>architecture</strong> d'un système informatique définit comment ses composants sont organisés et comment ils interagissent. On distingue généralement plusieurs couches :</p>
+        <pre>
+          <code>
+{`+----------------------------------+
+|           UTILISATEURS           |
++----------------------------------+
+                 ↕
++----------------------------------+
+|          APPLICATIONS            |
+| (Logiciels, Services, Interfaces)|
++----------------------------------+
+                 ↕
++----------------------------------+
+|      SYSTÈME D'EXPLOITATION      |
+|  (Gestion des ressources, APIs)  |
++----------------------------------+
+                 ↕
++----------------------------------+
+|            MATÉRIEL              |
+| (CPU, Mémoire, Stockage, Réseau) |
++----------------------------------+`}
+          </code>
+        </pre>
+        <p>Chaque couche fournit des services à la couche supérieure et utilise les services de la couche inférieure :</p>
+        <ul>
+          <li>Le <strong>matériel</strong> exécute les instructions de base</li>
+          <li>Le <strong>système d'exploitation</strong> gère les ressources matérielles et fournit des services aux applications</li>
+          <li>Les <strong>applications</strong> offrent des fonctionnalités aux utilisateurs</li>
+          <li>Les <strong>utilisateurs</strong> interagissent avec le système via les interfaces des applications</li>
+        </ul>
+        <p>Les <strong>interfaces</strong> entre ces couches sont essentielles : elles définissent comment les composants communiquent entre eux. Par exemple, l'API (Interface de Programmation d'Application) d'un système d'exploitation permet aux applications d'accéder aux ressources matérielles sans avoir à connaître leurs détails techniques.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Les types de systèmes informatiques",
+    content: (
+      <div>
+        <p>Il existe différents types de systèmes informatiques, adaptés à différents besoins :</p>
+        <h3>Selon leur taille et leur puissance</h3>
+        <ul>
+          <li><strong>Systèmes embarqués</strong> : Intégrés dans des appareils spécifiques (montres connectées, appareils ménagers, etc.)</li>
+          <li><strong>Systèmes personnels</strong> : Ordinateurs individuels, smartphones, tablettes</li>
+          <li><strong>Systèmes départementaux</strong> : Serveurs pour petites organisations</li>
+          <li><strong>Systèmes d'entreprise</strong> : Infrastructures complexes pour grandes organisations</li>
+          <li><strong>Supercalculateurs</strong> : Systèmes très puissants pour calculs scientifiques</li>
+        </ul>
+        <h3>Selon leur architecture</h3>
+        <ul>
+          <li><strong>Systèmes centralisés</strong> : Un ordinateur central traite toutes les données</li>
+          <li><strong>Systèmes distribués</strong> : Plusieurs ordinateurs connectés travaillent ensemble</li>
+          <li><strong>Systèmes client-serveur</strong> : Des clients demandent des services à des serveurs</li>
+          <li><strong>Systèmes pair-à-pair (P2P)</strong> : Chaque ordinateur peut être client et serveur</li>
+          <li><strong>Systèmes cloud</strong> : Ressources informatiques accessibles via Internet</li>
+        </ul>
+        <h3>Selon leur domaine d'application</h3>
+        <ul>
+          <li><strong>Systèmes de gestion</strong> : ERP, CRM, gestion de stocks, etc.</li>
+          <li><strong>Systèmes d'information</strong> : Bases de connaissances, intranets, etc.</li>
+          <li><strong>Systèmes de contrôle</strong> : Automatisation industrielle, domotique, etc.</li>
+          <li><strong>Systèmes multimédias</strong> : Traitement d'images, de sons, de vidéos</li>
+          <li><strong>Systèmes temps réel</strong> : Réponse immédiate (contrôle aérien, médical, etc.)</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Cycle de vie d'un système informatique",
+    content: (
+      <div>
+        <p>Un système informatique suit un cycle de vie qui comprend plusieurs phases :</p>
+        <ol>
+          <li><strong>Analyse des besoins</strong> : Identifier ce que le système doit faire</li>
+          <li><strong>Conception</strong> : Définir l'architecture et les composants du système</li>
+          <li><strong>Développement/Acquisition</strong> : Créer ou acheter les composants nécessaires</li>
+          <li><strong>Intégration</strong> : Assembler les composants en un système cohérent</li>
+          <li><strong>Test</strong> : Vérifier que le système fonctionne correctement</li>
+          <li><strong>Déploiement</strong> : Mettre le système en service</li>
+          <li><strong>Exploitation</strong> : Utiliser le système au quotidien</li>
+          <li><strong>Maintenance</strong> : Corriger les problèmes et améliorer le système</li>
+          <li><strong>Évolution</strong> : Adapter le système aux nouveaux besoins</li>
+          <li><strong>Retrait</strong> : Remplacer ou arrêter le système en fin de vie</li>
+        </ol>
+        <p>La <strong>maintenance</strong> est une phase cruciale qui peut représenter jusqu'à 70% du coût total d'un système informatique sur sa durée de vie. Elle comprend :</p>
+        <ul>
+          <li><strong>Maintenance corrective</strong> : Correction des bugs et des pannes</li>
+          <li><strong>Maintenance adaptative</strong> : Adaptation aux changements d'environnement</li>
+          <li><strong>Maintenance évolutive</strong> : Ajout de nouvelles fonctionnalités</li>
+          <li><strong>Maintenance préventive</strong> : Prévention des problèmes futurs</li>
+        </ul>
+      </div>
+    )
+  }
+]}>
+</TutorialAccordion>
+
+<ExerciseCard title="Exercices pratiques">
+
+## Exercice 1: Identification des composants
+
+Pour chaque élément ci-dessous, indique à quelle catégorie de composant d'un système informatique il appartient (matériel, logiciel, données, réseau ou utilisateur) :
+1. Un fichier PDF
+2. Un routeur Wi-Fi
+3. Un administrateur système
+4. Microsoft Excel
+5. Un câble Ethernet
+6. Une base de données client
+
+<details>
+  <summary>Solution</summary>
+  <p>1. Données</p>
+  <p>2. Matériel (et réseau)</p>
+  <p>3. Utilisateur</p>
+  <p>4. Logiciel</p>
+  <p>5. Réseau (et matériel)</p>
+  <p>6. Données</p>
+</details>
+
+## Exercice 2: Architecture système
+
+Dessine ou décris l'architecture d'un système informatique simple pour une petite bibliothèque. Le système doit permettre de gérer les livres, les emprunts et les membres de la bibliothèque.
+
+<details>
+  <summary>Solution</summary>
+  <p>Architecture possible pour un système de gestion de bibliothèque :</p>
+  <pre>
+    <code>
+        Matériel :
+        - Serveur central pour héberger la base de données
+        - Postes de travail pour le personnel
+        - Scanners de codes-barres pour les livres
+        - Imprimantes pour les reçus et les cartes de membre
+
+        Logiciels :
+        - Système d'exploitation sur tous les appareils
+        - Logiciel de gestion de bibliothèque
+        - Système de gestion de base de données
+        - Logiciels utilitaires (sauvegarde, sécurité)
+
+        Données :
+        - Base de données des livres (titre, auteur, ISBN, etc.)
+        - Base de données des membres (nom, coordonnées, etc.)
+        - Historique des emprunts et retours
+
+        Réseau :
+        - Réseau local (LAN) reliant tous les postes
+        - Connexion Internet pour l'accès au catalogue en ligne
+
+        Utilisateurs :
+        - Bibliothécaires (gestion des livres et des emprunts)
+        - Administrateur système (maintenance)
+        - Membres de la bibliothèque (consultation du catalogue)
+    </code>
+  </pre>
+</details>
+
+## Exercice 3: Analyse de système
+
+Identifie un système informatique que tu utilises régulièrement (smartphone, console de jeux, ordinateur personnel, etc.) et analyse-le en identifiant :
+1. Ses composants matériels principaux
+2. Les logiciels qu'il utilise
+3. Les types de données qu'il traite
+4. Ses connexions réseau
+5. Ses utilisateurs typiques
+
+<details>
+  <summary>Exemple de solution pour un smartphone</summary>
+  <p>1. Composants matériels : processeur, mémoire RAM, stockage flash, écran tactile, caméras, haut-parleurs, microphones, batterie, antennes (4G/5G, Wi-Fi, Bluetooth, GPS)</p>
+  <p>2. Logiciels : système d'exploitation (Android/iOS), applications préinstallées, applications téléchargées, pilotes</p>
+  <p>3. Données : contacts, messages, photos, vidéos, documents, paramètres, historique de navigation</p>
+  <p>4. Connexions réseau : réseau mobile (3G/4G/5G), Wi-Fi, Bluetooth, NFC</p>
+  <p>5. Utilisateurs : propriétaire principal, éventuellement famille ou amis, applications tierces (via API)</p>
+</details>
+
+</ExerciseCard>
+
+<ExerciseCard title="Pour aller plus loin">
+
+## Défis créatifs
+
+1. **Conception d'un système** : Imagine et conçois un système informatique pour une petite entreprise de ton choix (restaurant, boutique, cabinet médical, etc.). Décris ses composants, son architecture et son fonctionnement.
+
+2. **Analyse comparative** : Compare deux types de systèmes informatiques différents (par exemple, un système embarqué comme une montre connectée et un système d'entreprise). Identifie leurs similitudes et leurs différences en termes de composants, d'architecture et de fonctionnalités.
+
+3. **Évolution historique** : Recherche l'évolution d'un type de système informatique (ordinateur personnel, serveur, smartphone, etc.) au cours des 20 dernières années. Quels ont été les changements majeurs dans ses composants et son architecture ?
+
+## Réflexion
+
+Les systèmes informatiques sont omniprésents dans notre société moderne. Réfléchis aux questions suivantes :
+
+- Comment les systèmes informatiques ont-ils changé notre façon de vivre et de travailler ?
+- Quels sont les avantages et les inconvénients de la dépendance croissante aux systèmes informatiques ?
+- Comment les systèmes informatiques vont-ils évoluer dans le futur ? Quelles nouvelles technologies pourraient transformer leur architecture et leur fonctionnement ?
+- Quels défis éthiques et sociétaux posent les systèmes informatiques modernes (vie privée, sécurité, accessibilité, etc.) ?
+
+</ExerciseCard>
+
+</CenteredContent>

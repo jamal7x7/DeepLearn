@@ -1,0 +1,177 @@
+---
+title: "Références Absolues et Relatives"
+description: "Maîtriser les références de cellules dans les formules Excel 2021"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Références Absolues et Relatives dans Excel 2021
+
+<ExerciseCard title="Créer des formules réutilisables">
+
+Dans cette leçon, tu vas découvrir l'un des concepts les plus importants pour maîtriser Excel : les références de cellules. Comprendre la différence entre références relatives et absolues te permettra de créer des formules puissantes et réutilisables.
+
+Voici ce que tu vas apprendre :
+- La différence entre références relatives et absolues
+- Comment utiliser le symbole $ pour créer des références absolues
+- Comment appliquer des références mixtes (ligne ou colonne fixe)
+- Comment copier des formules en utilisant les références appropriées
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Comprendre les références relatives",
+    content: (
+      <div>
+        <p>Par défaut, Excel utilise des <strong>références relatives</strong> dans les formules :</p>
+        <ul>
+          <li>Une référence relative (comme A1, B2, C3) change automatiquement lorsque tu copies la formule vers une autre cellule</li>
+          <li>Elle s'adapte en fonction de la position relative de la nouvelle cellule par rapport à l'originale</li>
+        </ul>
+        <p>Exemple :</p>
+        <ol>
+          <li>Si tu écris la formule <strong>=A1+B1</strong> dans la cellule C1</li>
+          <li>Et que tu la copies dans la cellule C2</li>
+          <li>La formule devient automatiquement <strong>=A2+B2</strong></li>
+          <li>Si tu la copies dans la cellule D1, elle devient <strong>=B1+C1</strong></li>
+        </ol>
+        <p>C'est très utile quand tu veux répéter le même calcul sur différentes lignes ou colonnes.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Utiliser les références absolues",
+    content: (
+      <div>
+        <p>Une <strong>référence absolue</strong> reste fixe lorsque tu copies la formule :</p>
+        <ul>
+          <li>Pour créer une référence absolue, place le symbole $ devant la lettre de colonne ET le numéro de ligne : <strong>$A$1</strong></li>
+          <li>Cette référence pointera toujours vers la même cellule, peu importe où tu copies la formule</li>
+        </ul>
+        <p>Exemple :</p>
+        <ol>
+          <li>Imagine que tu as un taux de TVA en cellule E1 (20%)</li>
+          <li>Tu veux calculer le prix TTC pour plusieurs produits</li>
+          <li>Dans la cellule C2, tu écris <strong>=B2*(1+$E$1)</strong></li>
+          <li>Quand tu copies cette formule vers C3, C4, etc.</li>
+          <li>La référence B2 devient B3, B4, etc. (relative)</li>
+          <li>Mais $E$1 reste toujours $E$1 (absolue)</li>
+        </ol>
+        <p>Astuce : Pour insérer rapidement le symbole $, sélectionne la référence dans ta formule et appuie sur la touche F4.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Utiliser les références mixtes",
+    content: (
+      <div>
+        <p>Les <strong>références mixtes</strong> permettent de fixer soit la colonne, soit la ligne :</p>
+        <ul>
+          <li><strong>$A1</strong> : La colonne A est fixe, mais la ligne change quand tu copies</li>
+          <li><strong>A$1</strong> : La ligne 1 est fixe, mais la colonne change quand tu copies</li>
+        </ul>
+        <p>Exemple d'utilisation :</p>
+        <ol>
+          <li>Imagine une table de multiplication :</li>
+          <li>Les nombres de 1 à 10 sont dans la ligne 1 (B1:K1)</li>
+          <li>Les mêmes nombres sont dans la colonne A (A2:A11)</li>
+          <li>Dans la cellule B2, tu écris <strong>=$A2*B$1</strong></li>
+          <li>Quand tu copies cette formule dans toute la plage B2:K11 :</li>
+          <ul>
+            <li>$A2 garde toujours la référence à la colonne A, mais la ligne change</li>
+            <li>B$1 garde toujours la référence à la ligne 1, mais la colonne change</li>
+          </ul>
+          <li>Résultat : une table de multiplication complète!</li>
+        </ol>
+        <p>Astuce : En appuyant plusieurs fois sur F4, tu peux faire défiler les différents types de références (A1 → $A$1 → A$1 → $A1 → A1).</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Quand utiliser chaque type de référence",
+    content: (
+      <div>
+        <p>Voici quand utiliser chaque type de référence :</p>
+        <ul>
+          <li><strong>Références relatives (A1)</strong> :</li>
+          <ul>
+            <li>Pour la plupart des formules standard</li>
+            <li>Quand tu veux que les références s'adaptent lors de la copie</li>
+            <li>Exemple : Somme des valeurs dans chaque ligne</li>
+          </ul>
+          <li><strong>Références absolues ($A$1)</strong> :</li>
+          <ul>
+            <li>Pour les constantes ou valeurs fixes (taux, coefficients)</li>
+            <li>Quand tu veux toujours référencer la même cellule</li>
+            <li>Exemple : Calcul avec un taux de TVA fixe</li>
+          </ul>
+          <li><strong>Références mixtes ($A1 ou A$1)</strong> :</li>
+          <ul>
+            <li>Pour les tableaux à double entrée</li>
+            <li>Quand tu veux fixer soit la ligne, soit la colonne</li>
+            <li>Exemple : Tables de multiplication, matrices</li>
+          </ul>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Dépanner les problèmes de références",
+    content: (
+      <div>
+        <p>Si tes formules ne donnent pas les résultats attendus après copie :</p>
+        <ol>
+          <li>Vérifie les références dans ta formule :</li>
+          <ul>
+            <li>Clique sur la cellule contenant la formule</li>
+            <li>Regarde la barre de formule pour voir les références utilisées</li>
+            <li>Les différentes références sont colorées pour faciliter l'identification</li>
+          </ul>
+          <li>Utilise le mode "Afficher les formules" :</li>
+          <ul>
+            <li>Appuie sur Ctrl+` (touche accent grave, généralement sous Échap)</li>
+            <li>Toutes les cellules affichent leurs formules au lieu des résultats</li>
+            <li>Tu peux ainsi vérifier si les références ont été correctement ajustées</li>
+          </ul>
+          <li>Utilise l'évaluation de formule :</li>
+          <ul>
+            <li>Dans l'onglet "Formules", clique sur "Évaluer la formule"</li>
+            <li>Tu peux suivre étape par étape comment Excel calcule le résultat</li>
+          </ul>
+        </ol>
+      </div>
+    )
+  }
+]} />
+
+<Tip>
+Lorsque tu copies une formule avec la poignée de recopie (petit carré noir en bas à droite de la cellule), tu peux maintenir la touche Ctrl enfoncée pour insérer la formule sans modifier les références relatives. C'est utile quand tu veux copier exactement la même formule!
+</Tip>
+
+<ExerciseCard title="Exercice pratique: Tableau de conversion de températures">
+
+Crée un tableau de conversion de températures en suivant ces étapes :
+
+1. Dans la cellule A1, saisis "Celsius" et dans B1, saisis "Fahrenheit"
+2. Dans la colonne A (A2:A10), saisis différentes températures en Celsius (par exemple : 0, 5, 10, 15, 20, 25, 30, 35, 40)
+3. Dans la cellule B2, crée une formule pour convertir Celsius en Fahrenheit : =(A2*9/5)+32
+4. Copie cette formule vers le bas (B3:B10) en utilisant la poignée de recopie
+5. Observe comment la référence A2 change automatiquement en A3, A4, etc.
+
+Maintenant, crée un second tableau avec un facteur de conversion unique :
+
+1. Dans D1, saisis "Facteur" et dans E1 saisis 9/5
+2. Dans D2, saisis "Addition" et dans E2 saisis 32
+3. Dans A12, saisis "Celsius" et dans B12, saisis "Fahrenheit"
+4. Dans la colonne A (A13:A20), saisis différentes températures en Celsius
+5. Dans la cellule B13, crée une formule utilisant des références absolues : =(A13*$E$1)+$E$2
+6. Copie cette formule vers le bas (B14:B20)
+7. Compare les résultats des deux méthodes - ils devraient être identiques!
+
+Bonus : Ajoute une troisième colonne pour convertir en Kelvin (Kelvin = Celsius + 273.15) en utilisant une référence absolue pour la constante 273.15.
+
+</ExerciseCard>
+
+</CenteredContent>

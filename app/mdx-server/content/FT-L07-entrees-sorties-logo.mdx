@@ -1,0 +1,65 @@
+---
+title: FT-L07-entrees-sorties-logo
+description: Interagir avec l'utilisateur en Logo
+difficulty: "Intermédiaire"
+---
+
+# FT-L07-entrees-sorties-logo
+Voici une fiche technique sous forme de tableau, conçue pour des élèves de niveau intermédiaire, qui présente les entrées-sorties et l'interaction avec l'utilisateur en Logo :
+
+| **Rubrique**                                  | **Contenu**                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Titre du thème**                            | Les entrées-sorties en Logo : interagir avec l'utilisateur                                                                                                                                                                                                                                                                                                                                                                                         |
+| **Niveau concerné**                           | Intermédiaire                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| **Objectif pédagogique**                      | À la fin de cette leçon, l'élève saura : <br/>• Afficher des messages à l'utilisateur <br/>• Demander et récupérer des informations saisies par l'utilisateur <br/>• Créer des programmes interactifs <br/>• Utiliser les entrées-sorties dans des procédures                                                                                                                                                                                                                |
+| **Définitions clés**                          | **EC** : Commande pour afficher du texte ou des valeurs (ÉCris). <br/>**ECRIS** : Commande similaire à EC mais sans retour à la ligne. <br/>**QUESTION** : Commande pour demander une information à l'utilisateur. <br/>**LISCAR** : Commande pour lire un caractère saisi par l'utilisateur.                                                                                                                                                                                          |
+| **Explication de la notion avec exemples**    | Les entrées-sorties permettent à un programme Logo d'interagir avec l'utilisateur. La sortie consiste à afficher des informations à l'écran avec des commandes comme `EC` ou `ECRIS`. Par exemple, `EC [Bonjour tout le monde]` affiche le message "Bonjour tout le monde". L'entrée consiste à récupérer des informations saisies par l'utilisateur avec des commandes comme `QUESTION`. Par exemple, `DONNE "nom QUESTION [Comment t'appelles-tu? ]` affiche la question et stocke la réponse de l'utilisateur dans la variable "nom". Ces commandes permettent de créer des programmes interactifs qui s'adaptent aux choix de l'utilisateur.                                                                                                                       |
+| **Méthodologie ou étapes à suivre**           | 1. **Afficher des informations** : Utiliser `EC` ou `ECRIS` pour communiquer avec l'utilisateur.<br/>2. **Demander des informations** : Utiliser `QUESTION` pour poser une question et récupérer la réponse.<br/>3. **Traiter les entrées** : Convertir si nécessaire (texte en nombre) et valider les entrées.<br/>4. **Réagir en fonction des entrées** : Utiliser des conditions pour adapter le comportement du programme.<br/>5. **Créer une boucle d'interaction** : Permettre à l'utilisateur d'interagir de façon répétée avec le programme. |
+| **Illustration ou schéma explicatif**         | **Exemple d'interaction simple** : <br/>```logo
+EC [Bienvenue dans le programme de dessin]
+DONNE "taille QUESTION [Quelle taille de carré voulez-vous dessiner? ]
+DONNE "taille NOMBRE :taille  ; Convertit la réponse en nombre
+REPETE 4 [AV :taille TD 90]  ; Dessine un carré de la taille demandée
+``` <br/><br/>**Exemple de programme interactif** : <br/>```logo
+POUR MENU
+  EC [Choisissez une forme à dessiner :]
+  EC [1. Carré]
+  EC [2. Triangle]
+  EC [3. Cercle]
+  DONNE "choix QUESTION [Votre choix (1-3) : ]
+  DONNE "choix NOMBRE :choix
+  SI :choix = 1 [CARRE]
+  SI :choix = 2 [TRIANGLE]
+  SI :choix = 3 [CERCLE]
+FIN
+```                                                                                   |
+| **Exercice d'application ou question**        | **Exercice 1** : Créer une procédure qui demande à l'utilisateur un nombre de côtés et une longueur, puis dessine le polygone correspondant. <br/>Solution : <br/>```logo
+POUR DESSINE_POLYGONE
+  EC [Programme de dessin de polygone]
+  DONNE "nb_cotes QUESTION [Nombre de côtés (3 ou plus) : ]
+  DONNE "nb_cotes NOMBRE :nb_cotes
+  DONNE "longueur QUESTION [Longueur des côtés : ]
+  DONNE "longueur NOMBRE :longueur
+  SI :nb_cotes < 3 [EC [Il faut au moins 3 côtés!] STOP]
+  REPETE :nb_cotes [AV :longueur TD 360 / :nb_cotes]
+FIN
+```<br/><br/>**Exercice 2** : Créer un programme qui demande à l'utilisateur de deviner un nombre entre 1 et 100. <br/>Solution : <br/>```logo
+POUR DEVINE_NOMBRE
+  EC [Je pense à un nombre entre 1 et 100]
+  DONNE "secret 1 + HASARD 100  ; Nombre aléatoire entre 1 et 100
+  DONNE "essais 0
+  DONNE "trouve FAUX
+  TANTQUE [NON :trouve] [
+    DONNE "essais :essais + 1
+    DONNE "proposition QUESTION [Votre proposition : ]
+    DONNE "proposition NOMBRE :proposition
+    SI :proposition = :secret [
+      EC (PHRASE [Bravo! Vous avez trouvé en] :essais [essais])
+      DONNE "trouve VRAI
+    ]
+    SI :proposition < :secret [EC [C'est plus]]
+    SI :proposition > :secret [EC [C'est moins]]
+  ]
+FIN
+```                                                                                                                    |
+| **Mot-clé ou astuce mnémotechnique**          | **IQRE** : <br/>**I**nteraction avec l'utilisateur <br/>**Q**uestion pour obtenir des informations <br/>**R**éponse à traiter et valider <br/>**E**xécution adaptée aux entrées                                                                                                                                                                                                                                                                                                                           |

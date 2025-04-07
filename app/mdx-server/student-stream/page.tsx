@@ -125,7 +125,7 @@ export default function StudentStreamPage() {
             
             {!isLoading && !error && serializedSource && (
                                 // <div className=" mb-4 pt-20 bg-gray-50 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
-                                <div className=" mb-4 pt-20  rounded border border-gray-200 dark:border-gray-700">
+                                <div className=" mb-4 pt-20  ">
 
                 <MdxRenderer serializedSource={serializedSource} frontMatter={frontMatter || undefined} />
                 </div>

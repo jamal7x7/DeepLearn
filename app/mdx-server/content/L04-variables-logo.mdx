@@ -1,0 +1,236 @@
+---
+title: "Les Variables en Logo"
+description: "Rendre vos programmes flexibles et réutilisables"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Les Variables en Logo
+
+<ExerciseCard title="Rendre vos programmes flexibles et adaptables">
+
+Dans cette leçon, tu vas découvrir comment utiliser des variables en Logo pour rendre tes programmes plus flexibles et réutilisables. Les variables te permettront de créer des procédures qui peuvent s'adapter à différentes situations.
+
+Voici ce que tu vas apprendre :
+- Ce qu'est une variable et pourquoi l'utiliser
+- Comment créer et utiliser des variables en Logo
+- Comment modifier la valeur d'une variable
+- Comment utiliser des variables dans des procédures
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Comprendre les variables",
+    content: (
+      <div>
+        <p>Une <strong>variable</strong> est comme une boîte étiquetée qui peut contenir une valeur. Cette valeur peut être modifiée au cours de l'exécution du programme.</p>
+        <p>Imagine que tu veuilles dessiner plusieurs carrés de tailles différentes. Sans variables, tu devrais créer une procédure différente pour chaque taille :</p>
+        <pre>
+          POUR CARRE50
+            REPETE 4 [AV 50 TD 90]
+          FIN
+          
+          POUR CARRE100
+            REPETE 4 [AV 100 TD 90]
+          FIN
+          
+          ; Et ainsi de suite pour chaque taille...
+        </pre>
+        <p>Avec les variables, tu peux créer une seule procédure qui s'adapte à différentes tailles !</p>
+        <p>Les avantages des variables sont nombreux :</p>
+        <ul>
+          <li><strong>Flexibilité</strong> : Tu peux réutiliser le même code avec différentes valeurs</li>
+          <li><strong>Lisibilité</strong> : Ton code devient plus clair en utilisant des noms significatifs</li>
+          <li><strong>Maintenance</strong> : Si tu dois modifier ton programme, tu n'as qu'à changer la valeur de la variable</li>
+          <li><strong>Puissance</strong> : Tu peux créer des programmes beaucoup plus complexes et adaptables</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Créer et utiliser des variables",
+    content: (
+      <div>
+        <p>En Logo, tu peux créer une variable avec la commande <code>DONNE</code> :</p>
+        <pre>
+          DONNE "nom_variable valeur
+        </pre>
+        <p>Note le guillemet (<code>"</code>) avant le nom de la variable. Il indique à Logo que ce qui suit est un mot (le nom de la variable) et non une commande.</p>
+        <p>Pour utiliser la valeur stockée dans une variable, tu places deux-points (<code>:</code>) devant son nom :</p>
+        <pre>
+          AV :nom_variable
+        </pre>
+        <p>Voici un exemple concret :</p>
+        <pre>
+          DONNE "cote 50       ; Crée une variable "cote" avec la valeur 50
+          REPETE 4 [AV :cote TD 90]  ; Utilise cette variable pour dessiner un carré
+        </pre>
+        <p>Dans cet exemple :</p>
+        <ul>
+          <li><code>DONNE "cote 50</code> crée une variable nommée "cote" et lui attribue la valeur 50</li>
+          <li><code>AV :cote</code> fait avancer la tortue de 50 pas (la valeur actuelle de la variable)</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Modifier la valeur d'une variable",
+    content: (
+      <div>
+        <p>L'un des grands avantages des variables est que tu peux changer leur valeur au cours du programme. Pour cela, tu utilises à nouveau la commande <code>DONNE</code> avec le même nom de variable :</p>
+        <pre>
+          DONNE "cote 50       ; Crée une variable "cote" avec la valeur 50
+          REPETE 4 [AV :cote TD 90]  ; Dessine un carré de 50 pas
+          
+          DONNE "cote 100      ; Change la valeur de "cote" à 100
+          REPETE 4 [AV :cote TD 90]  ; Dessine un carré de 100 pas
+        </pre>
+        <p>Tu peux aussi utiliser la valeur actuelle d'une variable pour calculer sa nouvelle valeur :</p>
+        <pre>
+          DONNE "cote 50       ; Commence avec 50
+          REPETE 4 [AV :cote TD 90]  ; Dessine un carré de 50 pas
+          
+          DONNE "cote :cote + 25  ; Ajoute 25 à la valeur actuelle (50 + 25 = 75)
+          REPETE 4 [AV :cote TD 90]  ; Dessine un carré de 75 pas
+          
+          DONNE "cote :cote * 2   ; Double la valeur actuelle (75 * 2 = 150)
+          REPETE 4 [AV :cote TD 90]  ; Dessine un carré de 150 pas
+        </pre>
+        <p>Cette capacité à modifier les variables est très puissante et te permet de créer des programmes dynamiques qui évoluent au fil de leur exécution.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Utiliser des variables dans des procédures",
+    content: (
+      <div>
+        <p>La vraie puissance des variables se révèle lorsque tu les utilises comme paramètres dans des procédures. Cela te permet de créer des procédures flexibles qui peuvent s'adapter à différentes situations.</p>
+        <p>Pour définir une procédure avec des paramètres, tu places les noms des paramètres (précédés de deux-points) après le nom de la procédure :</p>
+        <pre>
+          POUR nom_procedure :parametre1 :parametre2 ...
+            ; Instructions utilisant :parametre1, :parametre2, etc.
+          FIN
+        </pre>
+        <p>Voici un exemple de procédure <code>CARRE</code> qui prend la taille du carré comme paramètre :</p>
+        <pre>
+          POUR CARRE :taille
+            REPETE 4 [AV :taille TD 90]
+          FIN
+        </pre>
+        <p>Tu peux maintenant appeler cette procédure avec différentes valeurs :</p>
+        <pre>
+          CARRE 50    ; Dessine un carré de 50 pas
+          CARRE 100   ; Dessine un carré de 100 pas
+          CARRE 75    ; Dessine un carré de 75 pas
+        </pre>
+        <p>C'est beaucoup plus flexible que d'avoir une procédure différente pour chaque taille de carré !</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Créer des procédures avec plusieurs paramètres",
+    content: (
+      <div>
+        <p>Tu peux définir des procédures avec plusieurs paramètres pour les rendre encore plus flexibles :</p>
+        <pre>
+          POUR RECTANGLE :longueur :largeur
+            REPETE 2 [
+              AV :longueur
+              TD 90
+              AV :largeur
+              TD 90
+            ]
+          FIN
+        </pre>
+        <p>Tu peux maintenant dessiner des rectangles de différentes dimensions :</p>
+        <pre>
+          RECTANGLE 100 50   ; Rectangle de 100×50
+          RECTANGLE 75 200   ; Rectangle de 75×200
+        </pre>
+        <p>Voici un autre exemple : une procédure <code>POLYGONE</code> qui dessine n'importe quel polygone régulier :</p>
+        <pre>
+          POUR POLYGONE :nb_cotes :longueur
+            REPETE :nb_cotes [
+              AV :longueur
+              TD 360 / :nb_cotes
+            ]
+          FIN
+        </pre>
+        <p>Avec cette seule procédure, tu peux dessiner n'importe quel polygone régulier :</p>
+        <pre>
+          POLYGONE 3 100   ; Triangle équilatéral
+          POLYGONE 4 75    ; Carré
+          POLYGONE 5 60    ; Pentagone
+          POLYGONE 6 50    ; Hexagone
+          POLYGONE 8 40    ; Octogone
+          POLYGONE 360 1   ; Cercle approximatif
+        </pre>
+        <p>C'est la puissance des procédures paramétrées : avec un seul morceau de code, tu peux créer une infinité de formes différentes !</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 6: Combiner des procédures paramétrées",
+    content: (
+      <div>
+        <p>Tu peux combiner plusieurs procédures paramétrées pour créer des dessins plus complexes. Par exemple, créons une procédure <code>MAISON</code> qui utilise nos procédures <code>CARRE</code> et <code>POLYGONE</code> :</p>
+        <pre>
+          POUR MAISON :taille
+            ; Le corps de la maison (un carré)
+            CARRE :taille
+            
+            ; Positionne pour le toit
+            TD 90 AV :taille TG 90
+            
+            ; Le toit (un triangle)
+            POLYGONE 3 :taille
+          FIN
+        </pre>
+        <p>Maintenant, tu peux dessiner des maisons de différentes tailles :</p>
+        <pre>
+          MAISON 50    ; Petite maison
+          MAISON 100   ; Grande maison
+        </pre>
+        <p>Tu pourrais même créer un village avec des maisons de différentes tailles :</p>
+        <pre>
+          POUR VILLAGE
+            MAISON 50
+            LC AV 100 BC
+            MAISON 75
+            LC AV 150 BC
+            MAISON 100
+          FIN
+        </pre>
+        <p>Les possibilités sont infinies ! En combinant des procédures paramétrées, tu peux créer des dessins très complexes tout en gardant ton code simple et lisible.</p>
+      </div>
+    )
+  }
+]} />
+
+<Tip>
+Lorsque tu nommes tes variables, choisis des noms descriptifs qui indiquent clairement à quoi elles servent. Par exemple, utilise "rayon" plutôt que "r" pour le rayon d'un cercle, ou "hauteur" plutôt que "h" pour la hauteur d'un rectangle. Cela rendra ton code beaucoup plus facile à comprendre !
+</Tip>
+
+<ExerciseCard title="Exercice pratique: Utiliser des variables et des procédures paramétrées">
+
+Mets en pratique ce que tu as appris en réalisant ces défis :
+
+1. Crée une procédure `CARRE` qui prend un paramètre `:taille` et dessine un carré de la taille spécifiée.
+
+2. Crée une procédure `TRIANGLE` qui prend un paramètre `:cote` et dessine un triangle équilatéral avec des côtés de la longueur spécifiée.
+
+3. Crée une procédure `ESCALIER` qui prend deux paramètres : `:nb_marches` (le nombre de marches) et `:taille` (la taille de chaque marche). L'escalier doit monter de gauche à droite.
+
+4. Crée une procédure `SPIRALE` qui prend deux paramètres : `:depart` (la longueur du premier segment) et `:increment` (l'augmentation de longueur à chaque segment). La spirale doit faire 20 segments, chacun tournant de 90 degrés.
+
+5. Crée une procédure `FLEUR` qui prend deux paramètres : `:nb_petales` (le nombre de pétales) et `:taille` (la taille des pétales). Chaque pétale peut être un cercle approximatif.
+
+6. Défi bonus : Crée une procédure `ETOILE` qui prend deux paramètres : `:nb_branches` (le nombre de branches) et `:taille` (la longueur des branches). L'étoile doit avoir des branches pointues.
+
+N'oublie pas d'utiliser la commande VE entre chaque exercice pour repartir d'un écran vide. Expérimente avec différentes valeurs pour tes paramètres !
+
+</ExerciseCard>
+
+</CenteredContent>

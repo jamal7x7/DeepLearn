@@ -1,0 +1,190 @@
+---
+title: "Protection et Partage des Classeurs"
+description: "Apprendre à protéger et partager des classeurs dans Excel 2021"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Protection et Partage des Classeurs dans Excel 2021
+
+<ExerciseCard title="Sécuriser et collaborer sur vos données">
+
+Dans cette leçon, tu vas apprendre à protéger tes données et à partager tes classeurs Excel avec d'autres personnes tout en gardant le contrôle sur ce qu'ils peuvent voir et modifier.
+
+Voici ce que tu vas apprendre :
+- Comment protéger des cellules, des feuilles et des classeurs entiers
+- Comment définir des mots de passe pour différents niveaux de protection
+- Comment partager un classeur pour permettre la modification simultanée
+- Comment suivre et gérer les modifications apportées par plusieurs utilisateurs
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Protéger des cellules et des feuilles",
+    content: (
+      <div>
+        <p>Pour protéger certaines cellules tout en permettant la modification d'autres :</p>
+        <ol>
+          <li>Sélectionne les cellules que les utilisateurs pourront modifier</li>
+          <li>Clique avec le bouton droit et sélectionne "Format de cellule"</li>
+          <li>Va dans l'onglet "Protection" et décoche "Verrouillée"</li>
+          <li>Clique sur "OK"</li>
+          <li>Ensuite, pour activer la protection :</li>
+          <li>Va dans l'onglet "Révision" du ruban</li>
+          <li>Clique sur "Protéger la feuille"</li>
+          <li>Entre un mot de passe (facultatif)</li>
+          <li>Coche les actions que tu souhaites autoriser</li>
+          <li>Clique sur "OK"</li>
+        </ol>
+        <p>Par défaut, toutes les cellules sont verrouillées, mais cette propriété ne prend effet que lorsque la protection de la feuille est activée.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Masquer des formules",
+    content: (
+      <div>
+        <p>Pour masquer les formules tout en affichant leurs résultats :</p>
+        <ol>
+          <li>Sélectionne les cellules contenant les formules que tu veux masquer</li>
+          <li>Clique avec le bouton droit et sélectionne "Format de cellule"</li>
+          <li>Va dans l'onglet "Protection"</li>
+          <li>Coche "Masquée" (et laisse "Verrouillée" cochée)</li>
+          <li>Clique sur "OK"</li>
+          <li>Active la protection de la feuille comme expliqué précédemment</li>
+        </ol>
+        <p>Une fois la feuille protégée, les utilisateurs verront les résultats des formules mais ne pourront pas voir les formules elles-mêmes dans la barre de formule lorsqu'ils sélectionnent ces cellules.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Protéger la structure du classeur",
+    content: (
+      <div>
+        <p>Pour empêcher les utilisateurs d'ajouter, supprimer, renommer ou déplacer des feuilles :</p>
+        <ol>
+          <li>Va dans l'onglet "Révision" du ruban</li>
+          <li>Clique sur "Protéger le classeur"</li>
+          <li>Coche "Structure" pour protéger l'organisation des feuilles</li>
+          <li>Coche "Fenêtres" si tu veux également protéger la taille et la position des fenêtres</li>
+          <li>Entre un mot de passe (facultatif)</li>
+          <li>Clique sur "OK"</li>
+        </ol>
+        <p>Cette protection empêche les modifications structurelles du classeur, mais n'affecte pas la possibilité de modifier le contenu des cellules (qui est gérée par la protection des feuilles).</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Protéger un classeur avec un mot de passe",
+    content: (
+      <div>
+        <p>Pour protéger l'accès à ton classeur avec un mot de passe :</p>
+        <ol>
+          <li>Va dans "Fichier" → "Informations"</li>
+          <li>Clique sur "Protéger le classeur" → "Chiffrer avec un mot de passe"</li>
+          <li>Entre un mot de passe</li>
+          <li>Confirme le mot de passe</li>
+          <li>Clique sur "OK"</li>
+        </ol>
+        <p>Tu peux aussi définir des permissions lors de l'enregistrement :</p>
+        <ol>
+          <li>Va dans "Fichier" → "Enregistrer sous"</li>
+          <li>Clique sur "Outils" → "Options générales"</li>
+          <li>Tu peux définir :</li>
+          <ul>
+            <li>Un mot de passe pour ouvrir le fichier</li>
+            <li>Un mot de passe pour modifier le fichier (permet l'ouverture en lecture seule sans ce mot de passe)</li>
+          </ul>
+        </ol>
+        <p><strong>Important</strong> : Si tu oublies ces mots de passe, tu ne pourras plus accéder à ton fichier. Note-les dans un endroit sûr!</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Partager un classeur pour la modification simultanée",
+    content: (
+      <div>
+        <p>Pour permettre à plusieurs personnes de travailler simultanément sur un classeur :</p>
+        <ol>
+          <li>Va dans l'onglet "Révision"</li>
+          <li>Clique sur "Partager le classeur"</li>
+          <li>Dans l'onglet "Modification", coche "Autoriser les modifications par plusieurs utilisateurs simultanément"</li>
+          <li>Clique sur "OK"</li>
+          <li>Enregistre le classeur</li>
+        </ol>
+        <p>Dans Excel 2021, le partage en temps réel est mieux pris en charge via Microsoft 365 :</p>
+        <ol>
+          <li>Clique sur le bouton "Partager" dans le coin supérieur droit</li>
+          <li>Entre les adresses e-mail des personnes avec qui tu veux partager</li>
+          <li>Choisis leurs permissions (peut modifier ou peut afficher)</li>
+          <li>Ajoute un message si nécessaire</li>
+          <li>Clique sur "Partager"</li>
+        </ol>
+      </div>
+    )
+  },
+  {
+    title: "Étape 6: Suivre les modifications",
+    content: (
+      <div>
+        <p>Pour suivre qui a fait quelles modifications dans un classeur partagé :</p>
+        <ol>
+          <li>Va dans l'onglet "Révision"</li>
+          <li>Clique sur "Suivi des modifications" → "Mettre en surbrillance les modifications"</li>
+          <li>Coche "Suivre les modifications lors de la modification"</li>
+          <li>Choisis quelles modifications tu veux suivre (tous, depuis la dernière sauvegarde, etc.)</li>
+          <li>Coche "Mettre en surbrillance les modifications à l'écran" si tu veux voir les modifications directement</li>
+          <li>Clique sur "OK"</li>
+        </ol>
+        <p>Pour accepter ou rejeter les modifications :</p>
+        <ol>
+          <li>Va dans l'onglet "Révision"</li>
+          <li>Clique sur "Suivi des modifications" → "Accepter/Rejeter les modifications"</li>
+          <li>Choisis la plage de modifications à examiner</li>
+          <li>Clique sur "OK"</li>
+          <li>Pour chaque modification, décide si tu veux l'accepter ou la rejeter</li>
+        </ol>
+      </div>
+    )
+  }
+]} />
+
+<Tip>
+Lorsque tu protèges un classeur avec un mot de passe, utilise un mot de passe fort (mélange de lettres, chiffres et caractères spéciaux) mais que tu peux te rappeler. Si tu oublies le mot de passe, il est généralement impossible de récupérer le contenu du fichier!
+</Tip>
+
+<ExerciseCard title="Exercice pratique: Créer un classeur protégé">
+
+Crée un classeur Excel avec différents niveaux de protection :
+
+1. Crée un classeur avec trois feuilles :
+   - "Données" : contenant un tableau de données fictives (ex: ventes mensuelles)
+   - "Calculs" : contenant des formules qui utilisent les données de la première feuille
+   - "Graphique" : contenant un graphique basé sur les calculs
+
+2. Sur la feuille "Données" :
+   - Verrouille toutes les cellules sauf celles où les utilisateurs doivent entrer des données
+   - Active la protection de la feuille avec un mot de passe
+
+3. Sur la feuille "Calculs" :
+   - Masque les formules pour qu'elles ne soient pas visibles dans la barre de formule
+   - Verrouille toutes les cellules
+   - Active la protection de la feuille
+
+4. Sur la feuille "Graphique" :
+   - Verrouille tous les éléments
+   - Active la protection de la feuille
+
+5. Protège la structure du classeur pour empêcher l'ajout ou la suppression de feuilles
+
+6. Enregistre le classeur avec un mot de passe pour la modification (mais permets l'ouverture en lecture seule sans mot de passe)
+
+7. Teste ton classeur en l'ouvrant et en essayant de modifier différentes parties
+
+Bonus : Si tu travailles avec d'autres personnes, essaie de partager ton classeur et de suivre les modifications qu'ils y apportent.
+
+</ExerciseCard>
+
+</CenteredContent>

@@ -1,0 +1,262 @@
+---
+title: "Les Listes en Logo"
+description: "Stocker et manipuler des données avec les listes"
+difficulty: "Intermédiaire"
+---
+
+<CenteredContent>
+
+# Les Listes en Logo
+
+<ExerciseCard title="Stocker et manipuler des données">
+
+Dans cette leçon, tu vas découvrir les listes en Logo, qui te permettront de stocker et de manipuler des collections de données. Les listes sont essentielles pour créer des programmes plus complexes et plus puissants.
+
+Voici ce que tu vas apprendre :
+- Ce qu'est une liste et comment la créer
+- Comment accéder aux éléments d'une liste
+- Comment modifier et combiner des listes
+- Comment parcourir une liste pour traiter chaque élément
+
+</ExerciseCard>
+
+<TutorialAccordion items={[
+  {
+    title: "Étape 1: Comprendre les listes",
+    content: (
+      <div>
+        <p>Une <strong>liste</strong> en Logo est une collection ordonnée d'éléments entourée de crochets. Ces éléments peuvent être des nombres, des mots ou même d'autres listes.</p>
+        <p>Exemples de listes :</p>
+        <ul>
+          <li><code>[1 2 3 4 5]</code> : une liste de nombres</li>
+          <li><code>[rouge vert bleu]</code> : une liste de mots</li>
+          <li><code>[[0 0] [100 0] [0 100]]</code> : une liste de listes (ici, des coordonnées)</li>
+          <li><code>[AV 50 TD 90]</code> : une liste d'instructions Logo</li>
+        </ul>
+        <p>Les listes sont très utiles pour :</p>
+        <ul>
+          <li><strong>Stocker des données</strong> : coordonnées, couleurs, valeurs, etc.</li>
+          <li><strong>Regrouper des instructions</strong> : comme dans la commande REPETE</li>
+          <li><strong>Traiter des séquences</strong> : parcourir et manipuler plusieurs éléments</li>
+        </ul>
+        <p>En Logo, les listes sont fondamentales et sont utilisées dans de nombreuses commandes que tu connais déjà, comme <code>REPETE</code> qui prend une liste d'instructions à répéter.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 2: Créer et stocker des listes",
+    content: (
+      <div>
+        <p>Pour créer une liste en Logo, il suffit d'entourer les éléments avec des crochets, en les séparant par des espaces :</p>
+        <pre>
+          [1 2 3 4]  ; Une liste de 4 nombres
+          [rouge vert bleu]  ; Une liste de 3 mots
+        </pre>
+        <p>Tu peux stocker une liste dans une variable pour l'utiliser plus tard :</p>
+        <pre>
+          DONNE "couleurs [rouge vert bleu jaune]
+          DONNE "coordonnees [[0 0] [100 0] [100 100] [0 100]]
+        </pre>
+        <p>Pour accéder à la liste stockée dans une variable, utilise le préfixe <code>:</code> comme pour toute variable :</p>
+        <pre>
+          EC :couleurs  ; Affiche [rouge vert bleu jaune]
+        </pre>
+        <p>Tu peux aussi créer des listes vides, que tu rempliras plus tard :</p>
+        <pre>
+          DONNE "ma_liste []
+        </pre>
+        <p>Les listes peuvent contenir différents types d'éléments, y compris d'autres listes (on parle alors de listes imbriquées) :</p>
+        <pre>
+          DONNE "melange [1 deux [3 4] cinq]
+        </pre>
+      </div>
+    )
+  },
+  {
+    title: "Étape 3: Accéder aux éléments d'une liste",
+    content: (
+      <div>
+        <p>Logo offre plusieurs commandes pour accéder aux éléments d'une liste :</p>
+        <ul>
+          <li><code>PREMIER liste</code> : renvoie le premier élément de la liste</li>
+          <li><code>DERNIER liste</code> : renvoie le dernier élément de la liste</li>
+          <li><code>ITEM n liste</code> : renvoie le n-ième élément de la liste (la numérotation commence à 1)</li>
+          <li><code>SAUF.PREMIER liste</code> : renvoie une liste contenant tous les éléments sauf le premier</li>
+          <li><code>SAUF.DERNIER liste</code> : renvoie une liste contenant tous les éléments sauf le dernier</li>
+        </ul>
+        <p>Exemples :</p>
+        <pre>
+          DONNE "animaux [chat chien lapin tortue poisson]
+          
+          EC PREMIER :animaux       ; Affiche "chat"
+          EC DERNIER :animaux       ; Affiche "poisson"
+          EC ITEM 3 :animaux        ; Affiche "lapin" (le 3ème élément)
+          EC SAUF.PREMIER :animaux  ; Affiche [chien lapin tortue poisson]
+          EC SAUF.DERNIER :animaux  ; Affiche [chat chien lapin tortue]
+        </pre>
+        <p>Pour les listes imbriquées, tu peux combiner ces commandes :</p>
+        <pre>
+          DONNE "points [[10 20] [30 40] [50 60]]
+          
+          EC PREMIER :points         ; Affiche [10 20]
+          EC PREMIER PREMIER :points ; Affiche 10
+          EC DERNIER PREMIER :points ; Affiche 20
+        </pre>
+      </div>
+    )
+  },
+  {
+    title: "Étape 4: Modifier des listes",
+    content: (
+      <div>
+        <p>Logo offre plusieurs commandes pour modifier des listes :</p>
+        <ul>
+          <li><code>AJOUTE element liste</code> : ajoute un élément au début de la liste</li>
+          <li><code>METS.DERNIER liste element</code> : ajoute un élément à la fin de la liste</li>
+          <li><code>INSERE liste position element</code> : insère un élément à une position spécifique</li>
+          <li><code>REMPLACE liste position element</code> : remplace l'élément à une position spécifique</li>
+          <li><code>SUPPRIME liste position</code> : supprime l'élément à une position spécifique</li>
+        </ul>
+        <p>Exemples :</p>
+        <pre>
+          DONNE "nombres [2 3 4]
+          
+          DONNE "nombres AJOUTE 1 :nombres
+          EC :nombres  ; Affiche [1 2 3 4]
+          
+          DONNE "nombres METS.DERNIER :nombres 5
+          EC :nombres  ; Affiche [1 2 3 4 5]
+          
+          DONNE "nombres INSERE :nombres 3 2.5
+          EC :nombres  ; Affiche [1 2 2.5 3 4 5]
+          
+          DONNE "nombres REMPLACE :nombres 2 "deux
+          EC :nombres  ; Affiche [1 deux 2.5 3 4 5]
+          
+          DONNE "nombres SUPPRIME :nombres 4
+          EC :nombres  ; Affiche [1 deux 2.5 4 5]
+        </pre>
+        <p>Tu peux aussi combiner des listes avec la commande <code>PHRASE</code> :</p>
+        <pre>
+          DONNE "liste1 [1 2 3]
+          DONNE "liste2 [4 5 6]
+          DONNE "combinee PHRASE :liste1 :liste2
+          EC :combinee  ; Affiche [1 2 3 4 5 6]
+        </pre>
+      </div>
+    )
+  },
+  {
+    title: "Étape 5: Parcourir une liste",
+    content: (
+      <div>
+        <p>Pour traiter chaque élément d'une liste, tu peux utiliser plusieurs approches :</p>
+        <p><strong>1. La commande POUR.CHAQUE</strong> :</p>
+        <pre>
+          POUR.CHAQUE "element [1 2 3 4] [EC :element * 2]
+          ; Affiche 2, 4, 6, 8 (chaque élément multiplié par 2)
+        </pre>
+        <p>La syntaxe est : <code>POUR.CHAQUE "variable liste [instructions]</code></p>
+        <p><strong>2. La récursivité</strong> :</p>
+        <pre>
+          POUR AFFICHE_LISTE :liste
+            SI VIDE? :liste [STOP]  ; Condition d'arrêt si la liste est vide
+            EC PREMIER :liste       ; Affiche le premier élément
+            AFFICHE_LISTE SAUF.PREMIER :liste  ; Appel récursif avec le reste
+          FIN
+          
+          AFFICHE_LISTE [a b c d]  ; Affiche a, b, c, d (un par ligne)
+        </pre>
+        <p><strong>3. Utiliser COMPTE et ITEM</strong> :</p>
+        <pre>
+          POUR PARCOURS_LISTE :liste
+            DONNE "i 1
+            REPETE COMPTE :liste [
+              EC ITEM :i :liste
+              DONNE "i :i + 1
+            ]
+          FIN
+          
+          PARCOURS_LISTE [w x y z]  ; Affiche w, x, y, z (un par ligne)
+        </pre>
+        <p>La commande <code>COMPTE</code> renvoie le nombre d'éléments dans une liste.</p>
+      </div>
+    )
+  },
+  {
+    title: "Étape 6: Applications pratiques des listes",
+    content: (
+      <div>
+        <p>Les listes ont de nombreuses applications pratiques en Logo. Voici quelques exemples :</p>
+        <p><strong>1. Dessiner une forme à partir d'une liste de coordonnées</strong> :</p>
+        <pre>
+          POUR DESSINE_FORME :points
+            VE
+            FPOS PREMIER :points  ; Va au premier point
+            BC
+            POUR.CHAQUE "point SAUF.PREMIER :points [FPOS :point]
+          FIN
+          
+          DONNE "carre [[0 0] [100 0] [100 100] [0 100] [0 0]]
+          DESSINE_FORME :carre  ; Dessine un carré
+        </pre>
+        <p>La commande <code>FPOS</code> (FixePOSition) déplace la tortue aux coordonnées spécifiées.</p>
+        <p><strong>2. Créer une palette de couleurs</strong> :</p>
+        <pre>
+          DONNE "palette [1 2 4 6]  ; Liste de numéros de couleurs
+          
+          POUR DESSINE_BANDES :couleurs :taille
+            VE
+            POUR.CHAQUE "couleur :couleurs [
+              FIXECOULEUR :couleur
+              REPETE 4 [AV :taille TD 90]  ; Dessine un carré
+              AV :taille  ; Avance pour la prochaine bande
+            ]
+          FIN
+          
+          DESSINE_BANDES :palette 30  ; Dessine des carrés de couleurs différentes
+        </pre>
+        <p><strong>3. Calculer des statistiques</strong> :</p>
+        <pre>
+          POUR SOMME :liste
+            SI VIDE? :liste [RETOURNE 0]
+            RETOURNE (PREMIER :liste) + SOMME SAUF.PREMIER :liste
+          FIN
+          
+          POUR MOYENNE :liste
+            RETOURNE (SOMME :liste) / (COMPTE :liste)
+          FIN
+          
+          DONNE "notes [12 15 9 18 14]
+          EC SOMME :notes    ; Affiche 68
+          EC MOYENNE :notes  ; Affiche 13.6
+        </pre>
+        <p>Ces exemples montrent comment les listes peuvent être utilisées pour stocker et manipuler différents types de données, rendant tes programmes Logo plus puissants et plus flexibles.</p>
+      </div>
+    )
+  }
+]} />
+
+<Tip>
+Lorsque tu travailles avec des listes, fais attention à la différence entre un élément simple et une liste contenant un seul élément. Par exemple, 5 est un nombre, mais [5] est une liste contenant un nombre. Cette distinction est importante car les commandes comme PREMIER, DERNIER, etc. s'attendent à recevoir une liste, pas un élément simple.
+</Tip>
+
+<ExerciseCard title="Exercice pratique: Manipuler des listes">
+
+Mets en pratique ce que tu as appris en réalisant ces défis :
+
+1. Crée une liste `couleurs` contenant au moins 5 numéros de couleurs différents. Utilise cette liste pour dessiner 5 carrés de couleurs différentes, côte à côte.
+
+2. Crée une procédure `DESSINE_POLYGONE` qui prend une liste de coordonnées et dessine un polygone en reliant ces points. Teste-la avec une liste représentant un triangle, puis un pentagone.
+
+3. Crée une procédure `INVERSE` qui prend une liste en paramètre et renvoie une nouvelle liste contenant les mêmes éléments mais dans l'ordre inverse. Par exemple, `INVERSE [1 2 3]` devrait renvoyer `[3 2 1]`.
+
+4. Crée une procédure `MAX_LISTE` qui trouve et renvoie la valeur maximale dans une liste de nombres. Par exemple, `MAX_LISTE [3 8 2 10 5]` devrait renvoyer `10`.
+
+5. Défi bonus : Crée une procédure `TRI` qui trie une liste de nombres par ordre croissant. Par exemple, `TRI [5 2 8 1 3]` devrait renvoyer `[1 2 3 5 8]`. Indice : tu peux utiliser l'algorithme du tri par sélection, qui consiste à trouver le plus petit élément, le retirer de la liste, puis recommencer avec la liste restante.
+
+N'oublie pas d'utiliser la commande VE entre chaque exercice pour repartir d'un écran vide. Si tu rencontres des difficultés, essaie de décomposer le problème en étapes plus simples.
+
+</ExerciseCard>
+
+</CenteredContent>
