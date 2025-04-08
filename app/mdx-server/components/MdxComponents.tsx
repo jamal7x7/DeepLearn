@@ -204,10 +204,10 @@ export function CenteredContent({ children }: { children: React.ReactNode }) {
 // Astuce avec icône
 export function Tip({ children }: { children: React.ReactNode }) {
   return (
-    <div className="bg-amber-50 dark:bg-primary/20 border-l-4 border-primary p-6 my-4 rounded-r-xl w-full max-w-3xl mx-auto">
+    <div className="bg-amber-50 dark:bg-amber-500/20 border-l-4 border-amber-500 dark:border-amber-300 p-6 my-4  rounded-r-xl w-full max-w-3xl mx-auto">
       <div className="flex items-start">
-        <span className="text-2xl mr-4 "><IconBulbFilled className="fill-primary" color=''/></span>
-        <div>{children}</div>
+        <span className="text-2xl mr-4 "><IconBulbFilled className="fill-amber-500 dark:fill-amber-300" color=''/></span>
+        <div >{children}</div>
       </div>
     </div>
   );

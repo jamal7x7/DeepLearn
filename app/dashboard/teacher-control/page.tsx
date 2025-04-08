@@ -42,7 +42,7 @@ export default function TeacherControlPage() {
     const [serverStatus, setServerStatus] = useState<'connecting' | 'connected' | 'disconnected' | 'error'>('connecting');
     const [newFileName, setNewFileName] = useState<string>('');
     const [connectionCount, setConnectionCount] = useState<number>(0);
-    const [connectedSockets, setConnectedSockets] = useState<string[]>([]);
+    const [connectedSockets, setConnectedSockets] = useState<Array<{id: string, ip: string}>>([]);
     const [connectedSocketIds, setConnectedSocketIds] = useState<string[]>([]);
     const [showPreview, setShowPreview] = useState<boolean>(false);
 
@@ -130,10 +130,10 @@ export default function TeacherControlPage() {
             });
 
             // Listen for connection count updates
-            newSocket.on('connection-count', ({ count, socketIds }: { count: number, socketIds?: string[] }) => {
+            newSocket.on('connection-count', ({ count, socketData }: { count: number, socketData?: Array<{id: string, ip: string}> }) => {
                 setConnectionCount(count);
-                if (socketIds) {
-                    setConnectedSockets(socketIds);
+                if (socketData) {
+                    setConnectedSockets(socketData);
                 }
             });
             
@@ -268,13 +268,13 @@ Write your content here...
                         <div className="flex items-center gap-2">
   <CardDescription>Active Connections</CardDescription>
   <div className="flex space-x-1">
-    {connectedSockets.map((id) => (
-      <Tooltip key={id}>
+    {connectedSockets.map((socket) => (
+      <Tooltip key={socket.id}>
         <TooltipTrigger className="cursor-default">
           <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
         </TooltipTrigger>
         <TooltipContent side="bottom">
-          <p className="text-xs font-mono">{id}</p>
+          <p className="text-xs font-mono">{socket.id}</p>
         </TooltipContent>
       </Tooltip>
     ))}
@@ -294,10 +294,13 @@ Write your content here...
                         <ScrollArea className="h-[80px] rounded-md border p-2">
                             {connectedSockets.length > 0 ? (
                                 <ul className="space-y-2">
-                                    {connectedSockets.map((socketId) => (
-                                        <li key={socketId} className="text-sm flex items-center gap-2">
+                                    {connectedSockets.map((socket) => (
+                                        <li key={socket.id} className="text-sm flex items-center gap-2">
                                             <Badge variant="secondary" className="font-mono">
-                                                {socketId}
+                                                {socket.id}
+                                            </Badge>
+                                            <Badge variant="outline" className="font-mono ml-2">
+                                                {socket.ip}
                                             </Badge>
                                         </li>
                                     ))}

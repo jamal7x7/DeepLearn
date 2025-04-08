@@ -47,10 +47,11 @@ app.prepare().then(async () => {
 
   const io = new Server(httpServer);
   
-  // Track total connected clients from student-stream
+
+
+  // Track connected socket IDs and IP addresses from student-stream
   let connectedClients = 0;
-  // Track connected socket IDs from student-stream
-  let connectedSocketIds = new Set();
+  let connectedSocketData = new Map(); // Map to store socket ID and IP address pairs
   // Track which sockets are from student-stream
   let studentStreamSockets = new Set();
 
@@ -61,9 +62,14 @@ app.prepare().then(async () => {
     
     if (isStudentStream) {
       connectedClients++;
-      connectedSocketIds.add(socket.id);
+      // Get client IP address
+      const clientIp = socket.handshake.headers['x-forwarded-for'] || 
+                      socket.handshake.address ||
+                      socket.request.connection.remoteAddress;
+      // Store socket ID with its IP address
+      connectedSocketData.set(socket.id, { ip: clientIp });
       studentStreamSockets.add(socket.id);
-      console.log('Student connected:', socket.id, 'Total student connections:', connectedClients);
+      console.log('Student connected:', socket.id, 'IP:', clientIp, 'Total student connections:', connectedClients);
     } else {
       console.log('Non-student client connected:', socket.id);
     }
@@ -71,8 +77,12 @@ app.prepare().then(async () => {
     // Send the currently selected file and its content to the new client
     socket.emit('current-mdx', { fileName: currentMdxFile, content: currentMdxContent });
     
-    // Broadcast updated connection count and socket IDs to all clients
-    io.emit('connection-count', { count: connectedClients, socketIds: Array.from(connectedSocketIds) });
+    // Broadcast updated connection count and socket data to all clients
+    const socketData = Array.from(connectedSocketData.entries()).map(([id, data]) => ({
+      id,
+      ip: data.ip
+    }));
+    io.emit('connection-count', { count: connectedClients, socketData });
 
     // Handle teacher selecting a new file
     socket.on('select-file', async (fileName) => {
@@ -148,23 +158,31 @@ app.prepare().then(async () => {
      });
 
 
-    // Handle requests for connected socket IDs
+    // Handle requests for connected socket data
     socket.on('get-socket-ids', () => {
-      socket.emit('connection-count', { count: connectedClients, socketIds: Array.from(connectedSocketIds) });
+      const socketData = Array.from(connectedSocketData.entries()).map(([id, data]) => ({
+        id,
+        ip: data.ip
+      }));
+      socket.emit('connection-count', { count: connectedClients, socketData });
     });
 
     socket.on('disconnect', () => {
       // Only decrement counter if this was a student-stream socket
       if (studentStreamSockets.has(socket.id)) {
         connectedClients--;
-        connectedSocketIds.delete(socket.id);
+        connectedSocketData.delete(socket.id);
         studentStreamSockets.delete(socket.id);
         console.log('Student disconnected:', socket.id, 'Total student connections:', connectedClients);
-        // Broadcast updated connection count and socket IDs to all clients
-        io.emit('connection-count', { count: connectedClients, socketIds: Array.from(connectedSocketIds) });
-      } else if (connectedSocketIds.has(socket.id)) {
-        // Handle non-student socket that was somehow in the IDs set
-        connectedSocketIds.delete(socket.id);
+        // Broadcast updated connection count and socket data to all clients
+        const socketData = Array.from(connectedSocketData.entries()).map(([id, data]) => ({
+          id,
+          ip: data.ip
+        }));
+        io.emit('connection-count', { count: connectedClients, socketData });
+      } else if (connectedSocketData.has(socket.id)) {
+        // Handle non-student socket that was somehow in the data map
+        connectedSocketData.delete(socket.id);
         console.log('Non-student client disconnected:', socket.id);
       } else {
         console.log('Duplicate disconnect event for:', socket.id);

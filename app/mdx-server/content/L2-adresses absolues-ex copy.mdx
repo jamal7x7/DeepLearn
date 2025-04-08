@@ -1,0 +1,82 @@
+### **Exercice : Calcul avec des adresses absolues dans Excel**
+
+{/* #### **Objectif :**
+Apprendre à utiliser les **références absolues** (`$A$1`) dans une formule Excel pour fixer une cellule lors de la recopie.
+
+---
+
+### **Énoncé de l’exercice :**
+
+Tu veux calculer le **prix TTC** (Toutes Taxes Comprises) d’une liste de produits.  
+La **TVA** (taxe) est de **20 %**, indiquée dans une cellule séparée.
+
+--- */}
+
+#### **Étapes à suivre :**
+
+1. **Ouvre Excel** et remplis les cellules comme ci-dessous :
+
+{/* |     | A   | B  | C   | D |   E  | F | G| H  |   I | J| K  |
+|-----|-----|-----|-----|-----|-----|----|----|-----|----|----|-----| 
+|  1  | X   | 1   | 2   | 3   |  4  |   5  | 6  | 7   |  8 | 9  | 10  | 
+|  2  |  1  |     |     |    |    |     |   |    |    |   |   |
+|  3  | 2   |     |     |    |    |     |    |    |    |   |   |
+|  4  | 3   |     |     |    |    |     |    |    |    |   |   |
+|  5  | 4   |     |     |    |    |     |    |    |    |   |   |
+|  6  | 5   |     |     |    |    |     |    |    |    |   |   |
+|  7  | 6   |     |     |    |    |     |    |    |    |   |   |
+|  8  | 7   |     |     |    |    |     |    |    |    |   |   |
+|  9  | 8   |     |     |    |    |     |    |    |    |   |   |
+| 10  | 9   |     |     |    |    |     |    |    |    |   |   |
+|  11 | 10 |    |     |    |    |     |    |    |    |   |   | */}
+|     | A   | B  | 
+|-----|-----|-----|
+|  1  | * | 7   | 
+|  2  |  1  |     |    
+|  3  | 2   |     |     
+|  4  | 3   |     |    
+|  7  | 6   |     |    
+|  8  | 7   |     |    
+|  9  | 8   |     |     
+| 10  | 9   |     |  
+|  11 | 10 |    |     
+
+  
+{/* 
+> La valeur **20** est en cellule **B6** (TVA)
+
+---
+
+2. Dans la cellule **C2**, saisis la formule suivante :  
+```excel
+= B2 * (1 + B6 / 100)
+```
+
+3. Recopie la formule de **C2 à C4** (avec le petit carré en bas à droite de la cellule).
+
+---
+
+#### **Résultat attendu :**
+
+| Produit  | Prix HT (€) | Prix TTC (€) |
+|----------|-------------|---------------|
+| Livre    | 10          | 12            |
+| Clé USB  | 15          | 18            |
+| Souris   | 25          | 30            |
+
+---
+
+### **Explication :**
+
+- `$B$6` est une **adresse absolue** : elle **ne change pas** quand on copie la formule.
+- Si tu avais écrit `B6` (adresse relative), Excel aurait modifié la référence lors de la recopie (et les résultats seraient faux).
+
+---
+
+### **Extension possible (facultative)** :
+
+- Modifier la valeur de TVA dans **B6** et observer comment **toutes les valeurs en colonne C se mettent à jour automatiquement**.
+
+---
+
+Souhaites-tu une version PDF imprimable ou intégrée à un fichier Excel exemple ?  */}

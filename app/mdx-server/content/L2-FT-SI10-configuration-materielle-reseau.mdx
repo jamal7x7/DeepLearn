@@ -4,17 +4,19 @@ description: "Comprendre les composants matériels nécessaires à la mise en pl
 difficulty: "Intermédiaire"
 ---
 
-<CenteredContent>
+
 
 # Fiche Technique : Configuration Matérielle d'un Réseau
 
+| **Rubrique**                                  | **Contenu**                                                                                                                                                                                                                      |
+|-----------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Titre du thème**                            | Configuration Matérielle d'un Réseau                                                                                                                                                                                                                                                                                                                                                                                         |
 | **Niveau concerné**                           | Intermédiaire                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | **Objectif pédagogique**                      | À la fin de cette leçon, l'élève saura : <br/>• Identifier les différents composants matériels d'un réseau <br/>• Comprendre le rôle de chaque équipement réseau <br/>• Distinguer les différentes topologies de réseau <br/>• Reconnaître les types de câblage et leurs caractéristiques                                                                                                                                                                                                                |
 | **Définitions clés**                          | **Routeur** : Équipement qui permet de relier plusieurs réseaux et d'acheminer les données entre eux. <br/>**Switch** : Appareil qui relie plusieurs ordinateurs au sein d'un même réseau local. <br/>**Modem** : Dispositif qui convertit les signaux numériques en signaux analogiques et vice-versa. <br/>**Point d'accès Wi-Fi** : Équipement permettant aux appareils de se connecter sans fil à un réseau. <br/>**Carte réseau** : Composant qui permet à un ordinateur de se connecter à un réseau.                                                                                                          |
 | **Explication de la notion avec exemples**    | La configuration matérielle d'un réseau comprend l'ensemble des équipements physiques nécessaires pour établir des connexions entre différents appareils informatiques. Dans une maison, un réseau domestique typique inclut un modem fourni par le fournisseur d'accès Internet, un routeur Wi-Fi qui distribue la connexion, et éventuellement un switch si plusieurs appareils doivent être connectés par câble. Dans un environnement professionnel, la configuration est généralement plus complexe avec des routeurs plus puissants, plusieurs switches, des serveurs dédiés, et parfois des équipements spécialisés comme des pare-feu matériels. La qualité et les performances du réseau dépendent directement des caractéristiques techniques de ces équipements, comme la vitesse de transmission supportée par les switches (100 Mbps, 1 Gbps, 10 Gbps), la norme Wi-Fi des points d'accès (802.11n, ac, ax), ou encore la catégorie des câbles réseau utilisés (Cat5e, Cat6, Cat6a).                                                                                                                       |
 | **Méthodologie ou étapes à suivre**           | 1. **Analyse des besoins** : Déterminer le nombre d'appareils à connecter et leurs emplacements.<br/>2. **Choix de la topologie** : Décider de l'organisation physique du réseau (étoile, bus, anneau, maillée).<br/>3. **Sélection des équipements** : Choisir les routeurs, switches, modems adaptés aux besoins.<br/>4. **Planification du câblage** : Déterminer les types de câbles et leurs parcours.<br/>5. **Configuration des équipements sans fil** : Planifier les emplacements des points d'accès Wi-Fi.<br/>6. **Mise en place des équipements** : Installer physiquement les différents composants.<br/>7. **Test de connectivité** : Vérifier que tous les appareils peuvent communiquer entre eux. |
-| **Illustration ou schéma explicatif**         | **Topologies de réseau** : <br/>```
+| **Illustration ou schéma explicatif**         | **Topologies de réseau** : <br/> ```
 +------------------+     +------------------+     +------------------+
 |  Topologie en    |     |  Topologie en    |     |  Topologie      |
 |  étoile          |     |  bus             |     |  en anneau      |
@@ -25,7 +27,10 @@ difficulty: "Intermédiaire"
 |     /|\|/|\      |     |                  |     |     \     /     |
 |    * * * * *     |     |                  |     |      *---*      |
 +------------------+     +------------------+     +------------------+
-``` <br/><br/>**Composants d'un réseau domestique** : <br/>```
+```  
+<br/> 
+<br/> **Composants d'un réseau domestique** : <br/>
+```
 +-------------+     +-------------+     +-------------+
 |   Internet  |---->|    Modem    |---->|   Routeur   |
 +-------------+     +-------------+     +-------------+
@@ -48,8 +53,8 @@ difficulty: "Intermédiaire"
                |   NAS       |
                +-------------+
 ``` |
+
 | **Conseils pratiques ou astuces**             | • Placez le routeur Wi-Fi dans un endroit central pour une meilleure couverture.<br/>• Utilisez des câbles de catégorie 6 ou supérieure pour les nouvelles installations.<br/>• Étiquetez tous les câbles pour faciliter la maintenance future.<br/>• Prévoyez une alimentation électrique secourue (UPS) pour les équipements critiques.<br/>• Documentez votre configuration réseau (adresses IP, identifiants, mots de passe).<br/>• Utilisez des canaux Wi-Fi différents si plusieurs points d'accès sont nécessaires pour éviter les interférences. |
 | **Erreurs courantes à éviter**                | • Sous-dimensionner les équipements par rapport au nombre d'utilisateurs.<br/>• Négliger la sécurité physique des équipements réseau.<br/>• Utiliser des câbles de mauvaise qualité ou trop longs.<br/>• Placer les équipements sans fil près de sources d'interférences (micro-ondes, téléphones sans fil).<br/>• Oublier de mettre à jour le firmware des équipements réseau.<br/>• Ne pas sécuriser correctement le réseau sans fil (mot de passe faible, WEP au lieu de WPA3). |
 | **Ressources complémentaires**                | • Sites web : Cisco Networking Academy, NetworkLessons.com<br/>• Tutoriels en ligne : YouTube (chaînes spécialisées en réseaux informatiques)<br/>• Forums d'entraide : Reddit (r/HomeNetworking, r/networking)<br/>• Livres : "Computer Networking: A Top-Down Approach" (Kurose & Ross)<br/>• Outils : Wireshark (analyse de réseau), Ping, Traceroute (diagnostic) |
 
-</CenteredContent>
