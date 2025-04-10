@@ -15,7 +15,8 @@ interface QuizCardProps {
 
 export function QuizCard({ title, children }: QuizCardProps) {
   return (
-    <Card className="w-[calc(100%+8rem)] gap-0 my-8 p-0 shadow-lg -mx-16 overflow-visible">
+    // <Card className="w-[calc(100%+8rem)] gap-0 my-8 p-0 shadow-lg -mx-16 overflow-visible">
+    <Card className="-mx-32 gap-0 my-8 p-0 shadow-lg overflow-visible">
      <BentoCard
         speed={100}
         colors={["#EC4899", "#F472B6", "#3B82F6"]}

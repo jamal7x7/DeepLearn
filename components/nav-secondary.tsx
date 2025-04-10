@@ -19,7 +19,7 @@ export function NavSecondary({
   items: {
     title: string
     url: string
-    icon: Icon
+    icon: React.ComponentType<import("lucide-react").LucideProps>
   }[]
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   return (

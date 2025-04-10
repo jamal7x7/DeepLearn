@@ -179,15 +179,16 @@ export function TutorialAccordion({
   children?: React.ReactNode;
 }) {
   return (
-    <Accordion  type="single" collapsible className="w-full max-w-3xl mx-auto my-6">
+    <Accordion  type="single" collapsible className="text-blue-300  w-full max-w-3xl mx-auto my-6 container  ">
       {items
         ? items.map((item, index) => (
             <AccordionItem key={index} value={`item-${index}`}>
-              <AccordionTrigger  className="text-lg hover:bg-accent px-4 hover:no-underline cursor-pointer">{item.title}</AccordionTrigger>
+              <AccordionTrigger  className="-mx-4 text-xl text-shadow-2xl bg-accent/50 dark:bg-accent/20 hover:dark:bg-accent/40   hover:bg-accent px-8 hover:no-underline cursor-pointer">{item.title}</AccordionTrigger>
               <AccordionContent>{item.content}</AccordionContent>
             </AccordionItem>
           ))
-        : children}
+        : children
+        }
     </Accordion>
   );
 }

@@ -84,6 +84,29 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               />
             </div>
           </div>
+          {mode === 'signup' && (
+            <div>
+              <Label
+                htmlFor="role"
+                className="block text-sm font-medium "
+              >
+                Role
+              </Label>
+              <div className="mt-1">
+                <select
+                  id="role"
+                  name="role"
+                  defaultValue="student"
+                  required
+                  className="relative block w-full px-3 py-2  focus:z-10 sm:text-sm"
+                >
+                  <option value="student">Student</option>
+                  <option value="teacher">Teacher</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+            </div>
+          )}
 
           {state?.error && (
             <div className="text-red-500 text-sm">{state.error}</div>

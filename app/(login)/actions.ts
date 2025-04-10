@@ -86,8 +86,10 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
     };
   }
 
+  const [fullUser] = await db.select().from(users).where(eq(users.id, foundUser.id));
+
   await Promise.all([
-    setSession(foundUser),
+    setSession(fullUser),
     logActivity(foundTeam?.id, foundUser.id, ActivityType.SIGN_IN),
   ]);
 
@@ -97,17 +99,20 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
     return createCheckoutSession({ team: foundTeam, priceId });
   }
 
-  redirect('/dashboard');
+  redirect(fullUser.role === 'student' ? '/dashboard/student' : '/dashboard');
 });
 
 const signUpSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   inviteId: z.string().optional(),
+  role: z.enum(['student', 'teacher', 'admin']).default('student'),
+  redirect: z.string().optional(),
+  priceId: z.string().optional(),
 });
 
 export const signUp = validatedAction(signUpSchema, async (data, formData) => {
-  const { email, password, inviteId } = data;
+  const { email, password, inviteId, role } = data;
 
   const existingUser = await db
     .select()
@@ -128,7 +133,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   const newUser: NewUser = {
     email,
     passwordHash,
-    role: 'owner', // Default role, will be overridden if there's an invitation
+    role: role, // Use selected role
   };
 
   const [createdUser] = await db.insert(users).values(newUser).returning();
@@ -142,7 +147,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   }
 
   let teamId: number;
-  let userRole: string;
+  let userRole: string = 'student';
   let createdTeam: typeof teams.$inferSelect | null = null;
 
   if (inviteId) {
@@ -195,7 +200,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     }
 
     teamId = createdTeam.id;
-    userRole = 'owner';
+    userRole = role; // Use selected role
 
     await logActivity(teamId, createdUser.id, ActivityType.CREATE_TEAM);
   }
@@ -209,20 +214,25 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   await Promise.all([
     db.insert(teamMembers).values(newTeamMember),
     logActivity(teamId, createdUser.id, ActivityType.SIGN_UP),
-    setSession(createdUser),
+    // Remove setSession to require login after registration
+    // setSession({...createdUser, role: userRole}),
   ]);
 
-  const redirectTo = formData.get('redirect') as string | null;
+  const redirectTo = data.redirect as string | null;
   if (redirectTo === 'checkout') {
-    const priceId = formData.get('priceId') as string;
+    const priceId = data.priceId as string;
     return createCheckoutSession({ team: createdTeam, priceId });
   }
 
-  redirect('/dashboard');
+  redirect('/sign-in?registered=true'); // Redirect to sign-in page after registration
 });
 
 export async function signOut() {
-  const user = (await getUser()) as User;
+  const user = await getUser();
+  if (!user) {
+    (await cookies()).delete('session');
+    return;
+  }
   const userWithTeam = await getUserWithTeam(user.id);
   await logActivity(userWithTeam?.teamId, user.id, ActivityType.SIGN_OUT);
   (await cookies()).delete('session');

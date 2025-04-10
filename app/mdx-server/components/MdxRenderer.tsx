@@ -52,7 +52,7 @@ const components = {
   ),
   h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3 
-      className="text-2xl font-medium text-red-700 dark:text-red-300 mb-3" 
+      className="text-2xl font-medium   mb-3" 
       {...props}
     />
   ),
@@ -197,7 +197,7 @@ export default function MdxRenderer({ serializedSource, frontMatter }: MdxRender
   return (
     <div className="prose dark:prose-invert max-w-none flex flex-col items-center "> {/* Centered styling */}
       {/* @ts-ignore // TODO: Investigate type mismatch if any */}
-       <div className="w-full md:w-[640px] lg:w-[640px]">
+       <div className="w-full md:w-[640px] lg:w-[686px]">
       <MDXRemote {...serializedSource} components={components} />
       </div>
     </div>

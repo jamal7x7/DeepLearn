@@ -8,6 +8,13 @@
       "when": 1726443359662,
       "tag": "0000_soft_the_anarchist",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1744294702542,
+      "tag": "0001_wandering_joshua_kane",
+      "breakpoints": true
     }
   ]
 }

@@ -31,7 +31,7 @@ export function NavDocuments({
   items: {
     name: string
     url: string
-    icon: Icon
+    icon: React.ComponentType<import("lucide-react").LucideProps>
   }[]
 }) {
   const { isMobile } = useSidebar()

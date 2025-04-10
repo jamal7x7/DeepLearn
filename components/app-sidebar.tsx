@@ -2,23 +2,23 @@
 
 import * as React from "react"
 import {
-  IconCamera,
-  IconChartBar,
-  IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
-  IconFolder,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
-  IconSearch,
-  IconSettings,
-  IconUsers,
-  IconTriangle
-} from "@tabler/icons-react"
+  Camera,
+  BarChart,
+  LayoutDashboard,
+  Database,
+  Pencil,
+  FileScan,
+  FileText,
+  Folder,
+  HelpCircle,
+  List,
+  Play,
+  StopCircle,
+  Search,
+  Settings,
+  Users,
+  Triangle,
+} from "lucide-react"
 
 import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
@@ -33,49 +33,84 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { is } from "drizzle-orm"
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
+
   navMain: [
     {
       title: "Dashboard",
       url: "/dashboard",
-      icon: IconDashboard,
+      icon: LayoutDashboard,
     },
     {
       title: "Teacher Control",
-      url: "/dashboard/teacher-control",
-      icon: IconFileDescription,
+      url: "#",
+      icon: FileText,
+      // isActive: true,
+      items: [
+        {
+          title: "Over View",
+          url: "/dashboard/teacher-control",
+          icon: FileText,
+        },
+        {
+          title: "Start Stream",
+          url: "/dashboard/stream-control",
+          icon: Play,
+        },
+        {
+          title: "Stop Stream",
+          url: "/dashboard/teacher-control/stream/stop",
+          icon: StopCircle,
+        },
+        {
+          title: "Stream Settings",
+          url: "/dashboard/teacher-control/stream/settings",
+          icon: Settings,
+        },
+        {
+          title: "Edit Mdx Files",
+          url: "#",
+          icon: Pencil,
+        },
+      ]
     },
     {
-      title: "Lifecycle",
+      title: "Student Stream",
       url: "#",
-      icon: IconListDetails,
+      icon: List,
     },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
-    },
+    // {
+    //   title: "Lifecycle",
+    //   url: "#",
+    //   icon: List,
+    // },
+    // {
+    //   title: "Analytics",
+    //   url: "#",
+    //   icon: BarChart,
+    // },
     {
       title: "Projects",
       url: "#",
-      icon: IconFolder,
+      icon: Folder,
     },
     {
       title: "Team",
       url: "#",
-      icon: IconUsers,
+      icon: Users,
+    },
+    {
+      title: "Manage Users",
+      url: "/dashboard/manage-users",
+      icon: Users,
     },
   ],
   navClouds: [
     {
       title: "Capture",
-      icon: IconCamera,
+      icon: Camera,
       isActive: true,
       url: "#",
       items: [
@@ -91,7 +126,7 @@ const data = {
     },
     {
       title: "Proposal",
-      icon: IconFileDescription,
+      icon: FileText,
       url: "#",
       items: [
         {
@@ -106,7 +141,7 @@ const data = {
     },
     {
       title: "Prompts",
-      icon: IconFileAi,
+      icon: FileScan,
       url: "#",
       items: [
         {
@@ -124,34 +159,34 @@ const data = {
     {
       title: "Settings",
       url: "/dashboard/settings-dashboard",
-      icon: IconSettings,
+      icon: Settings,
     },
     {
       title: "Get Help",
       url: "/dashboard",
-      icon: IconHelp,
+      icon: HelpCircle,
     },
     {
       title: "Search",
       url: "#",
-      icon: IconSearch,
+      icon: Search,
     },
   ],
   documents: [
     {
       name: "Data Library",
       url: "#",
-      icon: IconDatabase,
+      icon: Database,
     },
     {
       name: "Reports",
       url: "#",
-      icon: IconReport,
+      icon: BarChart,
     },
     {
       name: "Word Assistant",
       url: "#",
-      icon: IconFileWord,
+      icon: FileText,
     },
   ],
 }
@@ -167,7 +202,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href="/">
-                <IconTriangle className="!size-5 fill-primary-foreground" />
+                <Triangle className="!size-5 fill-primary-foreground" />
                 <span className="text-base font-semibold">Triangl.</span>
               </a>
             </SidebarMenuButton>
@@ -175,7 +210,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain}  />
+        <NavMain items={data.navMain} userRole="student" />
         <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>

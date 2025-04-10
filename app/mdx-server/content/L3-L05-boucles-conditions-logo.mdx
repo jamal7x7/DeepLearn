@@ -51,24 +51,24 @@ Voici ce que tu vas apprendre :
         <p>La condition est une expression qui est évaluée comme vraie ou fausse. Si elle est vraie, les instructions entre crochets sont exécutées. Si elle est fausse, rien ne se passe.</p>
         <p>Exemples de conditions :</p>
         <ul>
-          <li><code>:x > 10</code> : Vrai si la valeur de x est supérieure à 10</li>
-          <li><code>:x < 5</code> : Vrai si la valeur de x est inférieure à 5</li>
+          <li><code>:x &gt; 10</code> : Vrai si la valeur de x est supérieure à 10</li>
+          <li><code>:x &lt; 5</code> : Vrai si la valeur de x est inférieure à 5</li>
           <li><code>:x = 7</code> : Vrai si la valeur de x est égale à 7</li>
-          <li><code>:x <> 3</code> : Vrai si la valeur de x est différente de 3</li>
+          <li><code>:x &ne; 3</code> : Vrai si la valeur de x est différente de 3</li>
         </ul>
         <p>Exemple d'utilisation de <code>SI</code> :</p>
         <pre>
           DONNE "taille 50
-          SI :taille > 30 [AV :taille]  ; Avance seulement si taille > 30
+          SI :taille &gt; 30 [AV :taille]  ; Avance seulement si taille &gt; 30
         </pre>
         <p>Tu peux aussi utiliser <code>SI</code> dans des procédures :</p>
         <pre>
           POUR CARRE_CONDITIONNEL :taille
-            SI :taille > 20 [REPETE 4 [AV :taille TD 90]]
+            SI :taille &gt; 20 [REPETE 4 [AV :taille TD 90]]
           FIN
           
-          CARRE_CONDITIONNEL 10  ; Ne dessine rien (taille <= 20)
-          CARRE_CONDITIONNEL 30  ; Dessine un carré (taille > 20)
+          CARRE_CONDITIONNEL 10  ; Ne dessine rien (taille &le; 20)
+          CARRE_CONDITIONNEL 30  ; Dessine un carré (taille &gt; 20)
         </pre>
       </div>
     )
@@ -82,8 +82,8 @@ Voici ce que tu vas apprendre :
         <p>Exemple :</p>
         <pre>
           DONNE "taille 15
-          SIFAUX :taille > 20 [
-            REPETE 4 [AV :taille TD 90]  ; Si taille > 20, dessine un carré
+          SIFAUX :taille &gt; 20 [
+            REPETE 4 [AV :taille TD 90]  ; Si taille &gt; 20, dessine un carré
           ] [
             REPETE 3 [AV :taille TD 120]  ; Sinon, dessine un triangle
           ]
@@ -92,8 +92,8 @@ Voici ce que tu vas apprendre :
         <p>Tu peux utiliser <code>SIFAUX</code> pour créer des procédures qui se comportent différemment selon les paramètres :</p>
         <pre>
           POUR DESSINE_FORME :nb_cotes :taille
-            SIFAUX :nb_cotes < 3 [
-              ; Si nb_cotes >= 3, dessine un polygone
+            SIFAUX :nb_cotes &lt; 3 [
+              ; Si nb_cotes &ge; 3, dessine un polygone
               REPETE :nb_cotes [AV :taille TD 360 / :nb_cotes]
             ] [
               ; Sinon, affiche un message d'erreur
@@ -169,14 +169,14 @@ Voici ce que tu vas apprendre :
         <pre>
           POUR COMPTE_A_REBOURS :n
             EC :n  ; Affiche la valeur actuelle
-            SI :n > 0 [COMPTE_A_REBOURS :n - 1]  ; Appel récursif si n > 0
+            SI :n &gt; 0 [COMPTE_A_REBOURS :n - 1]  ; Appel récursif si n &gt; 0
           FIN
           
           COMPTE_A_REBOURS 5  ; Affiche 5, 4, 3, 2, 1, 0
         </pre>
         <p>Dans cet exemple :</p>
         <ul>
-          <li>La condition d'arrêt est implicite : quand <code>:n</code> n'est plus > 0, il n'y a plus d'appel récursif</li>
+          <li>La condition d'arrêt est implicite : quand <code>:n</code> n'est plus &gt; 0, il n'y a plus d'appel récursif</li>
           <li>À chaque appel récursif, la valeur de <code>:n</code> diminue de 1</li>
         </ul>
       </div>
@@ -190,7 +190,7 @@ Voici ce que tu vas apprendre :
         <p><strong>Spirale carrée</strong> :</p>
         <pre>
           POUR SPIRALE :taille
-            SI :taille > 100 [STOP]  ; Condition d'arrêt
+            SI :taille &gt; 100 [STOP]  ; Condition d'arrêt
             AV :taille
             TD 90
             SPIRALE :taille + 5  ; Appel récursif avec taille augmentée
@@ -200,7 +200,7 @@ Voici ce que tu vas apprendre :
         <p><strong>Carrés imbriqués</strong> :</p>
         <pre>
           POUR CARRES_IMBRIQUES :taille
-            SI :taille < 5 [STOP]  ; Condition d'arrêt
+            SI :taille &lt; 5 [STOP]  ; Condition d'arrêt
             REPETE 4 [AV :taille TD 90]  ; Dessine un carré
             AV 5 TD 5  ; Déplace légèrement et tourne un peu
             CARRES_IMBRIQUES :taille - 10  ; Appel récursif avec taille réduite
