@@ -9,7 +9,7 @@ import { ResourcesCard } from './ResourcesCard'; // Import the ResourcesCard com
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { GlowEffect } from '@/components/ui/glow-effect'
-import { Quiz } from './Quiz'; // Import the Quiz component
+import { Quiz } from './Quiz1'; // Import the Quiz component
 
 // Define the shape of front-matter data
 interface FrontMatter {
@@ -52,7 +52,7 @@ const components = {
   ),
   h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3 
-      className="text-2xl font-medium   mb-3" 
+      className="text-2xl font-medium t  mb-3" 
       {...props}
     />
   ),

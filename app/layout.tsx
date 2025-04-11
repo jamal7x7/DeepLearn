@@ -1,3 +1,4 @@
+// import './globals0.css';
 import './globals.css';
 import 'katex/dist/katex.min.css'; // Add KaTeX CSS
 import 'prismjs/themes/prism-okaidia.css' ; // Add Prism theme CSS
@@ -7,6 +8,7 @@ import { UserProvider } from '@/lib/auth';
 import { getUser } from '@/lib/db/queries';
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
+
 import { ActiveThemeProvider } from "@/components/active-theme";
 import { cookies } from "next/headers";
 import { cn } from "@/lib/utils";
@@ -44,8 +46,8 @@ export default async function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      // className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className}`}
-      className={`${instrumentSans.className}`}
+      className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className}`}
+      // className={`${instrumentSans.className}`}
     >
       <head>
         {/* <script
@@ -71,7 +73,10 @@ export default async function RootLayout({
           <ActiveThemeProvider initialTheme={activeThemeValue}>
             <UserProvider userPromise={userPromise}>
 
-              {children}
+<div className="">
+  {children}
+</div>
+
 
             </UserProvider>
           </ActiveThemeProvider>

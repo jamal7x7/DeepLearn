@@ -36,7 +36,6 @@ import {
 import { is } from "drizzle-orm"
 
 const data = {
-
   navMain: [
     {
       title: "Dashboard",
@@ -191,7 +190,11 @@ const data = {
   ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  userRole: string;
+}
+
+export function AppSidebar({ userRole, ...props }: AppSidebarProps) {
   return (
     <Sidebar  {...props}>
       <SidebarHeader>
@@ -210,12 +213,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} userRole="student" />
+        <NavMain items={data.navMain} userRole={userRole} />
         <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   )

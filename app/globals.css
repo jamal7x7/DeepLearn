@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap');
 @import 'tailwindcss';
 /*
   ---break---
@@ -56,8 +57,6 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
-
-
   --background-gradient-delay: 1s;
   --animate-background-gradient: background-gradient;
   @keyframes background-gradient {
@@ -99,8 +98,11 @@
 }
 
 @layer utilities {
+}
+
+@layer base {
   body {
-    font-family: 'Manrope', Arial, Helvetica, sans-serif;
+    font-family:  'Manrope','Tajawal',monospace , Arial, Helvetica, sans-serif !important;
   }
 }
 
@@ -139,7 +141,6 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-
 
   --color-tertiary: hsl(280deg 100% 85%);
   --color-tertiary-foreground: hsl(280deg 100% 10%);
@@ -185,7 +186,7 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-        --color-tertiary: hsl(255deg 85% 30%);
+    --color-tertiary: hsl(255deg 85% 30%);
   }
 }
 
@@ -197,7 +198,6 @@
     @apply bg-background text-foreground;
   }
 }
-
 
 /*
   ---break---
@@ -498,6 +498,10 @@
 
 body {
   @apply overscroll-none bg-transparent;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 :root {
@@ -619,7 +623,6 @@ pre .line::before {
   color: rgba(115,138,148,.4)
 } */
 
-
  /* Pour le curseur clignotant */
 @keyframes blink {
   /* 0%, 100% { opacity: 1; } */
@@ -632,6 +635,4 @@ pre .line::before {
   /* animation: blink 1s step-end infinite; */
   /* margin-left: -1px; Ajustement fin */
 }
-
-
 
