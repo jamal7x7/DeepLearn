@@ -5,6 +5,7 @@ import {
   text,
   timestamp,
   integer,
+  boolean,
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
@@ -39,7 +40,7 @@ export const teamMembers = pgTable('team_members', {
     .references(() => users.id),
   teamId: integer('team_id')
     .notNull()
-    .references(() => teams.id),
+    .references(() => teams.id, { onDelete: 'cascade' }),
   role: varchar('role', { length: 50 }).notNull(),
   joinedAt: timestamp('joined_at').notNull().defaultNow(),
 });
@@ -48,7 +49,7 @@ export const activityLogs = pgTable('activity_logs', {
   id: serial('id').primaryKey(),
   teamId: integer('team_id')
     .notNull()
-    .references(() => teams.id),
+    .references(() => teams.id, { onDelete: 'cascade' }),
   userId: integer('user_id').references(() => users.id),
   action: text('action').notNull(),
   timestamp: timestamp('timestamp').notNull().defaultNow(),
@@ -59,7 +60,7 @@ export const invitations = pgTable('invitations', {
   id: serial('id').primaryKey(),
   teamId: integer('team_id')
     .notNull()
-    .references(() => teams.id),
+    .references(() => teams.id, { onDelete: 'cascade' }),
   email: varchar('email', { length: 255 }).notNull(),
   role: varchar('role', { length: 50 }).notNull(),
   invitedBy: integer('invited_by')
@@ -73,11 +74,14 @@ export const teamsRelations = relations(teams, ({ many }) => ({
   teamMembers: many(teamMembers),
   activityLogs: many(activityLogs),
   invitations: many(invitations),
+  invitationCodes: many(invitationCodes),
 }));
 
 export const usersRelations = relations(users, ({ many }) => ({
   teamMembers: many(teamMembers),
   invitationsSent: many(invitations),
+  invitationCodesCreated: many(invitationCodes, { relationName: 'createdInvitationCodes' }),
+  invitationCodeUses: many(invitationCodeUses),
 }));
 
 export const invitationsRelations = relations(invitations, ({ one }) => ({
@@ -87,6 +91,57 @@ export const invitationsRelations = relations(invitations, ({ one }) => ({
   }),
   invitedBy: one(users, {
     fields: [invitations.invitedBy],
+    references: [users.id],
+  }),
+}));
+
+export const invitationCodes = pgTable('invitation_codes', {
+  id: serial('id').primaryKey(),
+  teamId: integer('team_id')
+    .notNull()
+    .references(() => teams.id, { onDelete: 'cascade' }),
+  code: varchar('code', { length: 20 }).notNull().unique(),
+  createdBy: integer('created_by')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  expiresAt: timestamp('expires_at'),
+  maxUses: integer('max_uses').default(1),
+  usedCount: integer('used_count').notNull().default(0),
+  isActive: boolean('is_active').notNull().default(true),
+});
+
+export const invitationCodeUses = pgTable('invitation_code_uses', {
+  id: serial('id').primaryKey(),
+  codeId: integer('code_id')
+    .notNull()
+    .references(() => invitationCodes.id, { onDelete: 'cascade' }),
+  userId: integer('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  usedAt: timestamp('used_at').notNull().defaultNow(),
+});
+
+export const invitationCodesRelations = relations(invitationCodes, ({ one, many }) => ({
+  team: one(teams, {
+    fields: [invitationCodes.teamId],
+    references: [teams.id],
+  }),
+  createdBy: one(users, {
+    fields: [invitationCodes.createdBy],
+    references: [users.id],
+    relationName: 'createdInvitationCodes',
+  }),
+  uses: many(invitationCodeUses),
+}));
+
+export const invitationCodeUsesRelations = relations(invitationCodeUses, ({ one }) => ({
+  code: one(invitationCodes, {
+    fields: [invitationCodeUses.codeId],
+    references: [invitationCodes.id],
+  }),
+  user: one(users, {
+    fields: [invitationCodeUses.userId],
     references: [users.id],
   }),
 }));
@@ -123,6 +178,10 @@ export type ActivityLog = typeof activityLogs.$inferSelect;
 export type NewActivityLog = typeof activityLogs.$inferInsert;
 export type Invitation = typeof invitations.$inferSelect;
 export type NewInvitation = typeof invitations.$inferInsert;
+export type InvitationCode = typeof invitationCodes.$inferSelect;
+export type NewInvitationCode = typeof invitationCodes.$inferInsert;
+export type InvitationCodeUse = typeof invitationCodeUses.$inferSelect;
+export type NewInvitationCodeUse = typeof invitationCodeUses.$inferInsert;
 export type TeamDataWithMembers = Team & {
   teamMembers: (TeamMember & {
     user: Pick<User, 'id' | 'name' | 'email'>;
@@ -140,4 +199,6 @@ export enum ActivityType {
   REMOVE_TEAM_MEMBER = 'REMOVE_TEAM_MEMBER',
   INVITE_TEAM_MEMBER = 'INVITE_TEAM_MEMBER',
   ACCEPT_INVITATION = 'ACCEPT_INVITATION',
+  GENERATE_INVITATION_CODE = 'GENERATE_INVITATION_CODE',
+  JOIN_TEAM_WITH_CODE = 'JOIN_TEAM_WITH_CODE',
 }

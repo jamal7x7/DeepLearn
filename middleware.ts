@@ -5,9 +5,12 @@ import { signToken, verifyToken } from '@/lib/auth/session';
 const protectedRoutes = '/dashboard';
 
 const roles = {
+  '/dashboard/invitation-codes': ['admin', 'teacher'],
+  '/dashboard/join-team': ['admin', 'teacher', 'student'],
+  '/dashboard/settings-dashboard/account ': ['admin', 'teacher', 'student'],
   '/dashboard/admin': ['admin'],
   '/dashboard/teacher-control': ['admin', 'teacher'],
-  '/dashboard': ['admin', 'teacher'],
+  '/dashboard': ['admin', 'teacher', 'student'],
   '/dashboard/student': ['student'],
 };
 

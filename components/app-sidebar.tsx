@@ -90,15 +90,32 @@ const data = {
     //   url: "#",
     //   icon: BarChart,
     // },
-    {
-      title: "Projects",
-      url: "#",
-      icon: Folder,
-    },
+    // {
+    //   title: "Projects",
+    //   url: "#",
+    //   icon: Folder,
+    // },
     {
       title: "Team",
       url: "#",
       icon: Users,
+      items: [
+        {
+          title: "Invitation Codes",
+          url: "/dashboard/invitation-codes",
+          icon: require("lucide-react").Key,
+        },
+        {
+          title: "Join Team",
+          url: "/dashboard/join-team",
+          icon: require("lucide-react").UserPlus,
+        },
+        {
+          title: "Team Members",
+          url: "/dashboard/team-members",
+          icon: require("lucide-react").Users,
+        },
+      ],
     },
     {
       title: "Manage Users",
@@ -214,8 +231,8 @@ export function AppSidebar({ userRole, ...props }: AppSidebarProps) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} userRole={userRole} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        {/* <NavDocuments items={data.documents} /> */}
+        {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

@@ -12,6 +12,7 @@ import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'motion/react';
 import { Separator } from '@/components/ui/separator';
 
+
 // Dynamically import canvas-confetti to avoid SSR issues
 const confetti = dynamic(() => import('canvas-confetti').then(mod => mod.default), {
   ssr: false
@@ -420,11 +421,10 @@ export function Quiz({ questions }: QuizProps) {
                 {performanceRating}
               </motion.p>
             </motion.div>
-          </CardContent> {/* End of score card content */}
-        </Card> {/* End of score card */}
+          </CardContent>
+        </Card>
 
-        {/* Stats Grid - Should be outside the Card but inside the main results motion.div */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
               {[
                 { icon: <TimerIcon className="h-6 w-6 text-primary" />, title: "Temps total", value: formatTime(totalTime), delay: 0.3 },
                 { icon: <TimerIcon className="h-6 w-6 text-primary" />, title: "Temps moyen par question", value: formatTime(averageTime), delay: 0.4 },
@@ -487,15 +487,17 @@ export function Quiz({ questions }: QuizProps) {
               >
                 {getTips()}
               </motion.p>
-            </motion.div> {/* End of tips section */}
-            
-            {/* Buttons - Should be outside the Card but inside the main results motion.div */}
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
+
+            </motion.div>
+          </CardContent>
+        </Card>
+        
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 2.8 }}
-            >
+              >
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
                 <Button 
                   onClick={handleRestartQuiz} 
@@ -523,13 +525,9 @@ export function Quiz({ questions }: QuizProps) {
                   <span className="relative z-10">Partager mes résultats</span>
                 </Button>
               </motion.div>
-            </motion.div> {/* End of buttons section */}
-            
-      </motion.div> // End of main results container
-    ); // End of return for quizCompleted
-  } // End of if (quizCompleted)
+            </motion.div>
+  }
 
-  // Return statement for when the quiz is NOT completed
   return (
     <motion.div 
       ref={containerRef} 

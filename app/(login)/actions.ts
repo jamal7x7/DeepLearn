@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { and, eq, sql } from 'drizzle-orm';
+import { and, eq, or, gte, lt, sql, SQL } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import {
   User,
@@ -15,6 +15,8 @@ import {
   type NewActivityLog,
   ActivityType,
   invitations,
+  invitationCodes,
+  invitationCodeUses,
 } from '@/lib/db/schema';
 import { comparePasswords, hashPassword, setSession } from '@/lib/auth/session';
 import { redirect } from 'next/navigation';
@@ -26,7 +28,7 @@ import {
   validatedActionWithUser,
 } from '@/lib/auth/middleware';
 
-async function logActivity(
+export async function logActivity(
   teamId: number | null | undefined,
   userId: number,
   type: ActivityType,
@@ -106,126 +108,194 @@ const signUpSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   inviteId: z.string().optional(),
-  role: z.enum(['student', 'teacher', 'admin']).default('student'),
+  invitationCode: z.string().optional(),
+  role: z.enum(['student', 'teacher', 'admin', 'dev']).default('student'),
   redirect: z.string().optional(),
   priceId: z.string().optional(),
 });
 
-export const signUp = validatedAction(signUpSchema, async (data, formData) => {
-  const { email, password, inviteId, role } = data;
+export const signUp = validatedAction(
+  signUpSchema,
+  async (data, formData) => {
+    const { email, password, inviteId, invitationCode, role } = data;
 
-  const existingUser = await db
-    .select()
-    .from(users)
-    .where(eq(users.email, email))
-    .limit(1);
-
-  if (existingUser.length > 0) {
-    return {
-      error: 'Failed to create user. Please try again.',
-      email,
-      password,
-    };
-  }
-
-  const passwordHash = await hashPassword(password);
-
-  const newUser: NewUser = {
-    email,
-    passwordHash,
-    role: role, // Use selected role
-  };
-
-  const [createdUser] = await db.insert(users).values(newUser).returning();
-
-  if (!createdUser) {
-    return {
-      error: 'Failed to create user. Please try again.',
-      email,
-      password,
-    };
-  }
-
-  let teamId: number;
-  let userRole: string = 'student';
-  let createdTeam: typeof teams.$inferSelect | null = null;
-
-  if (inviteId) {
-    // Check if there's a valid invitation
-    const [invitation] = await db
+    // Check if user already exists
+    const existingUser = await db
       .select()
-      .from(invitations)
-      .where(
-        and(
-          eq(invitations.id, parseInt(inviteId)),
-          eq(invitations.email, email),
-          eq(invitations.status, 'pending'),
-        ),
-      )
+      .from(users)
+      .where(eq(users.email, email))
       .limit(1);
 
-    if (invitation) {
-      teamId = invitation.teamId;
-      userRole = invitation.role;
-
-      await db
-        .update(invitations)
-        .set({ status: 'accepted' })
-        .where(eq(invitations.id, invitation.id));
-
-      await logActivity(teamId, createdUser.id, ActivityType.ACCEPT_INVITATION);
-
-      [createdTeam] = await db
-        .select()
-        .from(teams)
-        .where(eq(teams.id, teamId))
-        .limit(1);
-    } else {
-      return { error: 'Invalid or expired invitation.', email, password };
+    if (existingUser.length > 0) {
+      return { error: 'User already exists', email, password };
     }
-  } else {
-    // Create a new team if there's no invitation
-    const newTeam: NewTeam = {
-      name: `${email}'s Team`,
+
+    // Hash password
+    const passwordHash = await hashPassword(password);
+
+    // Create user
+    const [createdUser] = await db
+      .insert(users)
+      .values({
+        email,
+        passwordHash,
+        role,
+      })
+      .returning();
+
+    if (!createdUser) {
+      return { error: 'Failed to create user', email, password };
+    }
+
+    // Create or join team
+    let teamId: number;
+    let userRole = role;
+    let createdTeam: typeof teams.$inferSelect | null = null;
+
+    // Check for invitation code first (new feature)
+    if (invitationCode) {
+      // Find the invitation code
+      const code = await db.query.invitationCodes.findFirst({
+        where: and(
+          eq(invitationCodes.code, invitationCode),
+          eq(invitationCodes.isActive, true),
+          // Check if code is not expired or has no expiration
+          or(
+            eq(invitationCodes.expiresAt, sql`null`),
+            gte(invitationCodes.expiresAt, new Date())
+          ),
+          // Check if code has not reached max uses
+          or(
+            eq(invitationCodes.maxUses, sql`null`),
+            lt(invitationCodes.usedCount, invitationCodes.maxUses)
+          )
+        ),
+        with: {
+          team: true
+        }
+      });
+
+      if (code) {
+        teamId = code.teamId;
+        userRole = 'student'; // Default role for users joining via code
+
+        // Record the code usage in a transaction
+        await db.transaction(async (tx) => {
+          // Add user to the team
+          await tx.insert(teamMembers).values({
+            userId: createdUser.id,
+            teamId: code.teamId,
+            role: userRole,
+          });
+          
+          // Record the code usage
+          await tx.insert(invitationCodeUses).values({
+            codeId: code.id,
+            userId: createdUser.id,
+          });
+          
+          // Increment the used count
+          await tx.update(invitationCodes)
+            .set({ usedCount: code.usedCount + 1 })
+            .where(eq(invitationCodes.id, code.id));
+          
+          // If code has reached max uses, deactivate it
+          if (code.maxUses && code.usedCount + 1 >= code.maxUses) {
+            await tx.update(invitationCodes)
+              .set({ isActive: false })
+              .where(eq(invitationCodes.id, code.id));
+          }
+        });
+
+        await logActivity(teamId, createdUser.id, ActivityType.JOIN_TEAM_WITH_CODE);
+
+        [createdTeam] = await db
+          .select()
+          .from(teams)
+          .where(eq(teams.id, teamId));
+      } else {
+        return { error: 'Invalid or expired invitation code.', email, password };
+      }
+    } else if (inviteId) {
+      // Check if there's a valid invitation
+      const [invitation] = await db
+        .select()
+        .from(invitations)
+        .where(
+          and(
+            eq(invitations.id, parseInt(inviteId)),
+            eq(invitations.email, email),
+            eq(invitations.status, 'pending'),
+          )
+        )
+        .limit(1);
+
+      if (invitation) {
+        teamId = invitation.teamId;
+        userRole = invitation.role as "student" | "admin" | "teacher" | "dev";
+
+        await db
+          .update(invitations)
+          .set({ status: 'accepted' })
+          .where(eq(invitations.id, invitation.id));
+
+        await logActivity(teamId, createdUser.id, ActivityType.ACCEPT_INVITATION);
+
+        [createdTeam] = await db
+          .select()
+          .from(teams)
+          .where(eq(teams.id, teamId))
+          .limit(1);
+      } else {
+        return { error: 'Invalid or expired invitation.', email, password };
+      }
+    } else {
+      // Create a new team if there's no invitation
+      const newTeam: NewTeam = {
+        name: `${email}'s Team`,
+      };
+
+      [createdTeam] = await db.insert(teams).values(newTeam).returning();
+
+      if (!createdTeam) {
+        return {
+          error: 'Failed to create team. Please try again.',
+          email,
+          password,
+        };
+      }
+
+      teamId = createdTeam.id;
+      
+      // Log team creation
+      await logActivity(teamId, createdUser.id, ActivityType.CREATE_TEAM);
+    }
+
+    // Add user to team
+    const newTeamMember: NewTeamMember = {
+      userId: createdUser.id,
+      teamId: teamId,
+      role: userRole,
     };
 
-    [createdTeam] = await db.insert(teams).values(newTeam).returning();
+    await Promise.all([
+      db.insert(teamMembers).values(newTeamMember),
+      logActivity(teamId, createdUser.id, ActivityType.SIGN_UP),
+    ]);
 
-    if (!createdTeam) {
-      return {
-        error: 'Failed to create team. Please try again.',
-        email,
-        password,
-      };
+    // Set session
+    await setSession(createdUser);
+
+    // Handle redirect to checkout if priceId is provided
+    const priceId = data.priceId as string;
+    if (priceId) {
+      return createCheckoutSession({ team: createdTeam, priceId });
     }
 
-    teamId = createdTeam.id;
-    userRole = role; // Use selected role
-
-    await logActivity(teamId, createdUser.id, ActivityType.CREATE_TEAM);
+    // Redirect to dashboard
+    redirect(createdUser.role === 'student' ? '/dashboard/student' : '/dashboard');
   }
-
-  const newTeamMember: NewTeamMember = {
-    userId: createdUser.id,
-    teamId: teamId,
-    role: userRole,
-  };
-
-  await Promise.all([
-    db.insert(teamMembers).values(newTeamMember),
-    logActivity(teamId, createdUser.id, ActivityType.SIGN_UP),
-    // Remove setSession to require login after registration
-    // setSession({...createdUser, role: userRole}),
-  ]);
-
-  const redirectTo = data.redirect as string | null;
-  if (redirectTo === 'checkout') {
-    const priceId = data.priceId as string;
-    return createCheckoutSession({ team: createdTeam, priceId });
-  }
-
-  redirect('/sign-in?registered=true'); // Redirect to sign-in page after registration
-});
+);
 
 export async function signOut() {
   const user = await getUser();

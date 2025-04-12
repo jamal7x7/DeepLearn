@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Users, Settings, Shield, Activity, Menu } from 'lucide-react';
+import { Users, Settings, Shield, Activity, Menu, Cog, CreditCard, Ticket, UserPlus } from 'lucide-react';
 
 import  Heading  from '@/components/heading'; // Adjust the path based on your project structure
 import { cn } from '@/lib/utils';
@@ -18,10 +18,11 @@ export default function DashboardLayout({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const navItems = [
+    { href: '/dashboard/settings-dashboard/account', icon: Cog, label: 'Account' },
     { href: '/dashboard/settings-dashboard', icon: Users, label: 'Team' },
-    { href: '/dashboard/settings-dashboard/general', icon: Settings, label: 'General' },
-    { href: '/dashboard/settings-dashboard/activity', icon: Activity, label: 'Activity' },
-    { href: '/dashboard/settings-dashboard/security', icon: Shield, label: 'Security' },
+    { href: '/dashboard/settings-dashboard/invitation-codes', icon: Ticket, label: 'Invitation Codes' },
+    { href: '/dashboard/join-team', icon: UserPlus, label: 'Join Team' },
+    { href: '/dashboard/settings-dashboard/billing', icon: CreditCard, label: 'Billing' },
   ];
 
   return (

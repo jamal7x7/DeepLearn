@@ -43,7 +43,7 @@ pnpm db:setup
 Then, run the database migrations and seed the database with a default user and team:
 
 ```bash
-pnpm db:migrate
+pnpm db:seed
 pnpm db:seed
 ```
 
