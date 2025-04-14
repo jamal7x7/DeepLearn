@@ -97,11 +97,11 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
         </CardContent>
       ) : (
         <>
-          <CardHeader className="flex flex-row items-center gap-4 pb-2">
-            <Avatar className={variant === "teacher" ? "h-12 w-12" : "h-10 w-10"}>
+          <CardHeader className="flex flex-row items-center gap-3 pb-2 min-h-0">
+            <Avatar className={variant === "teacher" ? "h-9 w-9" : "h-10 w-10"}>
               <AvatarFallback className="rounded-lg">
                 <Jdenticon
-                  size={avatarSize}
+                  size={variant === "teacher" ? 36 : avatarSize}
                   value={String(member.id || member.email || member.name || "user")}
                   title={member.name || member.email || "User"}
                   style={{ borderRadius: "9999px", width: "100%", height: "100%" }}
@@ -109,7 +109,7 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
               </AvatarFallback>
             </Avatar>
             <div>
-              <CardTitle className={variant === "teacher" ? "text-lg flex items-center gap-1" : "text-base flex items-center gap-1"}>
+              <CardTitle className={variant === "teacher" ? "text-base flex items-center gap-1" : "text-base flex items-center gap-1"}>
                 {getRoleIcon(member.role)}
                 {member.name || "No Name"}
               </CardTitle>
@@ -122,29 +122,7 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
               </Badge>
             </div>
           </CardHeader>
-          <CardContent className="flex-1"></CardContent>
-          <CardFooter className="flex gap-2 justify-end">
-            <Button
-              size="sm"
-              variant="outline"
-              className="flex items-center gap-1"
-              type="button"
-            >
-              <Mail className="h-4 w-4" />
-              Email
-            </Button>
-            {canDelete && showDelete && (
-              <Button
-                size="sm"
-                variant="destructive"
-                className="flex items-center gap-1"
-                type="submit"
-              >
-                <Trash2 className="h-4 w-4" />
-                Remove
-              </Button>
-            )}
-          </CardFooter>
+          {/* No CardContent or CardFooter for teacher card to keep it compact */}
         </>
       )}
     </Card>

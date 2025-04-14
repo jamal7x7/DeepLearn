@@ -1,6 +1,6 @@
-import { desc, and, eq, isNull } from 'drizzle-orm';
+import { desc, and, eq, isNull, inArray } from 'drizzle-orm';
 import { db } from './drizzle';
-import { activityLogs, teamMembers, teams, users } from './schema';
+import { activityLogs, teamMembers, teams, users, TeamMember } from './schema'; // Added TeamMember import
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/lib/auth/session';
 
@@ -64,11 +64,25 @@ export async function updateTeamSubscription(
     .where(eq(teams.id, teamId));
 }
 
+/**
+ * Update a team's name by ID.
+ */
+export async function updateTeamName(teamId: number, newName: string) {
+  await db
+    .update(teams)
+    .set({
+      name: newName,
+      updatedAt: new Date(),
+    })
+    .where(eq(teams.id, teamId));
+}
+
 export async function getUserWithTeam(userId: number) {
   const result = await db
     .select({
       user: users,
       teamId: teamMembers.teamId,
+      teamRole: teamMembers.role,
     })
     .from(users)
     .leftJoin(teamMembers, eq(users.id, teamMembers.userId))
@@ -126,4 +140,65 @@ export async function getTeamForUser(userId: number) {
   });
 
   return result?.teamMembers[0]?.team || null;
+}
+
+/**
+ * Get all teams for a user, optionally filtered by role.
+ * @param userId number
+ * @param role string | undefined (e.g. "teacher" or "student")
+ */
+export async function getTeamsForUser(userId: number, role?: string) {
+  const result = await db.query.users.findFirst({
+    where: eq(users.id, userId),
+    with: {
+      teamMembers: {
+        with: {
+          team: true,
+        },
+      },
+    },
+  });
+
+  // Filter by role in JS if provided
+  const teamMembersArr = (result as any)?.teamMembers as Array<{ role: string; team: any }> | undefined;
+  if (!teamMembersArr) return [];
+  const filtered = role ? teamMembersArr.filter(tm => tm.role === role) : teamMembersArr;
+  return filtered.map((tm: { team: any }) => tm.team);
+}
+
+/**
+ * Get specific team memberships for a user.
+ * @param userId number
+ * @param teamIds number[]
+ */
+export async function getUserMembershipsInTeams(userId: number, teamIds: number[]): Promise<TeamMember[]> {
+  if (!teamIds || teamIds.length === 0) {
+    return [];
+  }
+  return db
+    .select()
+    .from(teamMembers)
+    .where(and(eq(teamMembers.userId, userId), inArray(teamMembers.teamId, teamIds)));
+}
+
+/**
+ * Get all members for a specific team with their user details.
+ * @param teamId number
+ */
+export async function getTeamMembersWithUserDetails(teamId: number) {
+  return db
+    .select({
+      userId: teamMembers.userId,
+      role: teamMembers.role,
+      user: {
+        id: users.id,
+        name: users.name,
+        email: users.email,
+        isFrozen: users.isFrozen,
+        // image: users.image, // Removed as 'image' column doesn't exist in schema
+      },
+    })
+    .from(teamMembers)
+    .innerJoin(users, eq(teamMembers.userId, users.id))
+    .where(and(eq(teamMembers.teamId, teamId), isNull(users.deletedAt))); // Exclude deleted users
 }

@@ -10,14 +10,17 @@ import { Label } from '@/components/ui/label';
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { PlusCircle, FileText } from "lucide-react";
+import { PlusCircle, FileText, Send } from "lucide-react"; // Added Send icon
 import { IconUsers, IconId } from "@tabler/icons-react";
 import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox"; // Added Checkbox
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
+import { sendAnnouncementAction } from '@/app/actions/announcement'; // Corrected import path
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import dynamic from 'next/dynamic';
+
 
 // Dynamically import the MdxPreview component to avoid SSR issues
 const MdxPreview = dynamic(() => import('@/app/mdx-server/components/MdxPreview'), {
@@ -46,8 +49,58 @@ export default function TeacherControlPage() {
     const [connectedSocketIds, setConnectedSocketIds] = useState<string[]>([]);
     const [showPreview, setShowPreview] = useState<boolean>(false);
 
+    // Teams state
+    const [teams, setTeams] = useState<Array<{ id: number; name: string }>>([]);
+    const [selectedTeam, setSelectedTeam] = useState<{ id: number; name: string } | null>(null); // Used for team context, keep as is for now
+
+    // Announcement state
+    const [announcementMessage, setAnnouncementMessage] = useState<string>('');
+    const [selectedTeamIdsForAnnouncement, setSelectedTeamIdsForAnnouncement] = useState<number[]>([]);
+    const [isSendingAnnouncement, setIsSendingAnnouncement] = useState<boolean>(false);
+
+    // Fetch teams for the teacher
+    useEffect(() => {
+        fetch('/api/manage-users/teams')
+            .then(res => res.json())
+            .then(data => {
+                if (data.teams && data.teams.length > 0) {
+                    setTeams(data.teams);
+                    setSelectedTeam(data.teams[0]);
+                }
+            });
+    }, []);
+
     // Ref to track if initial load is done to prevent premature actions
     const isInitialLoadDone = useRef(false);
+
+    // --- Team Selector UI ---
+    // Place this at the top of your return JSX
+    const TeamSelector = (
+        <div className="w-full flex items-center gap-4 mb-6">
+            <Select
+                value={selectedTeam?.id ? String(selectedTeam.id) : ""}
+                onValueChange={val => {
+                    const team = teams.find(t => String(t.id) === val);
+                    setSelectedTeam(team || null);
+                }}
+                disabled={teams.length === 0}
+            >
+                <SelectTrigger className="w-[240px]">
+                    <SelectValue placeholder="Select a team" />
+                </SelectTrigger>
+                <SelectContent>
+                    {teams.map(team => (
+                        <SelectItem key={team.id} value={String(team.id)}>
+                            {team.name}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+            <span className="text-muted-foreground text-sm">
+                {selectedTeam ? `Team: ${selectedTeam.name}` : "No team selected"}
+            </span>
+        </div>
+    );
 
     // Categorize files using useMemo
     const categorizedFiles = useMemo(() => {
@@ -233,10 +286,48 @@ Write your content here...
         }
     };
 
+    // Handle selecting/deselecting teams for announcement
+    const handleTeamCheckboxChange = (teamId: number, checked: boolean) => {
+        setSelectedTeamIdsForAnnouncement(prev =>
+            checked ? [...prev, teamId] : prev.filter(id => id !== teamId)
+        );
+    };
+
+    // Handle sending the announcement
+    const handleSendAnnouncement = async () => {
+        if (!announcementMessage.trim()) {
+            toast.error("Please enter an announcement message.");
+            return;
+        }
+        if (selectedTeamIdsForAnnouncement.length === 0) {
+            toast.error("Please select at least one team.");
+            return;
+        }
+
+        setIsSendingAnnouncement(true);
+        toast.info("Sending announcement...");
+
+        const result = await sendAnnouncementAction(
+            announcementMessage,
+            selectedTeamIdsForAnnouncement
+        );
+
+        setIsSendingAnnouncement(false);
+
+        if (result.success) {
+            toast.success(result.message);
+            setAnnouncementMessage(''); // Clear message
+            setSelectedTeamIdsForAnnouncement([]); // Clear selection
+        } else {
+            toast.error(result.message || "Failed to send announcement.");
+        }
+    };
+
     return (
         <div className="container mx-auto p-6 space-y-6">
             <h1 className="text-3xl font-bold ">Teacher Control</h1>
             <p className="text-muted-foreground">Manage MDX content and streaming for students</p>
+            {TeamSelector}
 
             {/* Connected Users and Socket IDs cards - above tabs */}
             <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs md:grid-cols-2 mb-6">
@@ -318,6 +409,7 @@ Write your content here...
                     <TabsList className="bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]">
                         <TabsTrigger value="stream" className="data-[state=active]:bg-background data-[state=active]:text-foreground">Stream Control</TabsTrigger>
                         <TabsTrigger value="editor" className="data-[state=active]:bg-background data-[state=active]:text-foreground">MDX Editor</TabsTrigger>
+                        <TabsTrigger value="announcements" className="data-[state=active]:bg-background data-[state=active]:text-foreground">Announcements</TabsTrigger>
                     </TabsList>
                     
                     <Button
@@ -473,6 +565,72 @@ Write your content here...
                                 disabled={!selectedFileForEdit || isSaving || serverStatus !== 'connected'}
                             >
                                 {isSaving ? "Saving..." : "Save Changes"}
+                            </Button>
+                        </CardFooter>
+                    </Card>
+                </TabsContent>
+
+                {/* Announcements Tab */}
+                <TabsContent value="announcements" className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6">
+                    {/* Announcement History */}
+
+                    
+                    {/* Send Announcement */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Send Announcement</CardTitle>
+                            <CardDescription>Send a message to selected teams.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            {/* Team Selection */}
+                            <div>
+                                <Label className="text-base font-medium mb-3 block">Select Teams</Label>
+                                {teams.length > 0 ? (
+                                    <ScrollArea className="h-40 w-full rounded-md border p-4">
+                                        <div className="space-y-3">
+                                            {teams.map((team) => (
+                                                <div key={`announce-team-${team.id}`} className="flex items-center space-x-3">
+                                                    <Checkbox
+                                                        id={`checkbox-team-${team.id}`}
+                                                        checked={selectedTeamIdsForAnnouncement.includes(team.id)}
+                                                        onCheckedChange={(checked) => handleTeamCheckboxChange(team.id, !!checked)}
+                                                        disabled={isSendingAnnouncement}
+                                                    />
+                                                    <Label
+                                                        htmlFor={`checkbox-team-${team.id}`}
+                                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                    >
+                                                        {team.name}
+                                                    </Label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </ScrollArea>
+                                ) : (
+                                    <p className="text-sm text-muted-foreground">No teams found. Create teams on the 'Teams' page.</p>
+                                )}
+                            </div>
+
+                            {/* Message Input */}
+                            <div>
+                                <Label htmlFor="announcement-message" className="text-base font-medium mb-2 block">Message</Label>
+                                <Textarea
+                                    id="announcement-message"
+                                    placeholder="Type your announcement here..."
+                                    value={announcementMessage}
+                                    onChange={(e) => setAnnouncementMessage(e.target.value)}
+                                    rows={5}
+                                    disabled={isSendingAnnouncement}
+                                    className="min-h-[100px]"
+                                />
+                            </div>
+                        </CardContent>
+                        <CardFooter className="flex justify-end">
+                            <Button
+                                onClick={handleSendAnnouncement}
+                                disabled={isSendingAnnouncement || selectedTeamIdsForAnnouncement.length === 0 || !announcementMessage.trim()}
+                            >
+                                {isSendingAnnouncement ? "Sending..." : <><Send className="mr-2 h-4 w-4" /> Send Announcement</>}
                             </Button>
                         </CardFooter>
                     </Card>

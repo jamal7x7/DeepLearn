@@ -6,13 +6,9 @@ import type { Metadata, Viewport } from 'next';
 import { Manrope, Instrument_Sans } from 'next/font/google';
 import { UserProvider } from '@/lib/auth';
 import { getUser } from '@/lib/db/queries';
-
-import { ThemeProvider } from "@/components/providers/theme-provider";
-
-import { ActiveThemeProvider } from "@/components/active-theme";
+import AppClientProviders from "./components/AppClientProviders";
 import { cookies } from "next/headers";
 import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/sonner"; // Import Toaster
 
 const META_THEME_COLORS = {
   light: "#ffffff",
@@ -37,7 +33,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   let userPromise = getUser();
-
   const cookieStore = await cookies();
   const activeThemeValue = cookieStore.get("active_theme")?.value;
   const isScaled = activeThemeValue?.endsWith("-scaled");
@@ -47,14 +42,9 @@ export default async function RootLayout({
       lang="en"
       suppressHydrationWarning
       className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className}`}
-      // className={`${instrumentSans.className}`}
     >
       <head>
-        {/* <script
-          crossOrigin="anonymous"
-          src="//unpkg.com/react-scan/dist/auto.global.js"
-        /> */}
-        {/* rest of your scripts go under */}
+        {/* Add any additional scripts or meta tags here */}
       </head>
       <body
         className={cn(
@@ -63,25 +53,13 @@ export default async function RootLayout({
           isScaled ? "theme-scaled" : ""
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-          enableColorScheme
-        >
-          <ActiveThemeProvider initialTheme={activeThemeValue}>
-            <UserProvider userPromise={userPromise}>
-
-<div className="">
-  {children}
-</div>
-
-
-            </UserProvider>
-          </ActiveThemeProvider>
-          <Toaster /> {/* Add Toaster component here */}
-        </ThemeProvider>
+        <UserProvider userPromise={userPromise}>
+          <AppClientProviders>
+            <div className="">
+              {children}
+            </div>
+          </AppClientProviders>
+        </UserProvider>
       </body>
     </html>
   );

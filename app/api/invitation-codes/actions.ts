@@ -78,7 +78,7 @@ export const generateInvitationCode = validatedActionWithUser(
       success: 'Invitation code generated successfully',
       code: newCode.code,
       expiresAt: newCode.expiresAt,
-      maxUses: newCode.maxUses
+      maxUses: typeof newCode.maxUses === 'number' ? newCode.maxUses : undefined
     };
   }
 );

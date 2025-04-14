@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslation } from "react-i18next";
 import {
   Camera,
   BarChart,
@@ -35,185 +36,106 @@ import {
 } from "@/components/ui/sidebar"
 import { is } from "drizzle-orm"
 
-const data = {
-  navMain: [
+export function useUserTeamRole() {
+  const [userRole, setUserRole] = React.useState<string | null>(null);
+  const [teamRole, setTeamRole] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    fetch('/api/user/team-role')
+      .then(res => res.json())
+      .then(data => {
+        setUserRole(data.userRole);
+        setTeamRole(data.teamRole);
+      });
+  }, []);
+
+  return { userRole, teamRole };
+}
+
+const buildNavMain = (userRole: string | null, teamRole: string | null, t: (key: string) => string) => [
     {
-      title: "Dashboard",
+      title: t("dashboard"),
       url: "/dashboard",
       icon: LayoutDashboard,
     },
     {
-      title: "Teacher Control",
+      title: t("teacherControl"),
       url: "#",
       icon: FileText,
       // isActive: true,
       items: [
         {
-          title: "Over View",
+          title: t("overview"),
           url: "/dashboard/teacher-control",
           icon: FileText,
         },
         {
-          title: "Start Stream",
+          title: t("startStream"),
           url: "/dashboard/stream-control",
           icon: Play,
         },
         {
-          title: "Stop Stream",
+          title: t("stopStream"),
           url: "/dashboard/teacher-control/stream/stop",
           icon: StopCircle,
         },
         {
-          title: "Stream Settings",
+          title: t("streamSettings"),
           url: "/dashboard/teacher-control/stream/settings",
           icon: Settings,
         },
         {
-          title: "Edit Mdx Files",
+          title: t("editMdxFiles"),
           url: "#",
           icon: Pencil,
         },
       ]
     },
     {
-      title: "Student Stream",
+      title: t("studentStream"),
       url: "#",
       icon: List,
     },
-    // {
-    //   title: "Lifecycle",
-    //   url: "#",
-    //   icon: List,
-    // },
-    // {
-    //   title: "Analytics",
-    //   url: "#",
-    //   icon: BarChart,
-    // },
-    // {
-    //   title: "Projects",
-    //   url: "#",
-    //   icon: Folder,
-    // },
     {
-      title: "Team",
+      title: t("team"),
       url: "#",
       icon: Users,
       items: [
+        ...(userRole === "teacher" || userRole === "owner" || teamRole === "representative"
+          ? [{
+              title: t("invitationCodes"),
+              url: "/dashboard/invitation-codes",
+              icon: require("lucide-react").Key,
+            }]
+          : []),
         {
-          title: "Invitation Codes",
-          url: "/dashboard/invitation-codes",
-          icon: require("lucide-react").Key,
-        },
-        {
-          title: "Join Team",
+          title: t("joinTeam"),
           url: "/dashboard/join-team",
           icon: require("lucide-react").UserPlus,
         },
         {
-          title: "Team Members",
+          title: t("teamMembers"),
           url: "/dashboard/team-members",
           icon: require("lucide-react").Users,
         },
       ],
     },
     {
-      title: "Manage Users",
+      title: t("manageUsers"),
       url: "/dashboard/manage-users",
       icon: Users,
     },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: Camera,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: FileText,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: FileScan,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "/dashboard/settings-dashboard",
-      icon: Settings,
-    },
-    {
-      title: "Get Help",
-      url: "/dashboard",
-      icon: HelpCircle,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: Search,
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: Database,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: BarChart,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: FileText,
-    },
-  ],
-}
+  ]
 
-interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  userRole: string;
-}
-
-export function AppSidebar({ userRole, ...props }: AppSidebarProps) {
+export function AppSidebar({ userRole: incomingUserRole, teamRole: incomingTeamRole, ...restProps }: React.ComponentProps<typeof Sidebar> & { userRole?: string, teamRole?: string }) {
+  const { userRole: fetchedUserRole, teamRole: fetchedTeamRole } = useUserTeamRole();
+  // Prioritize fetched role, fall back to prop, default to null
+  const userRole = fetchedUserRole ?? incomingUserRole ?? null;
+  const teamRole = fetchedTeamRole ?? incomingTeamRole ?? null;
+  const { t } = useTranslation();
+  const navMain = React.useMemo(() => buildNavMain(userRole, teamRole, t), [userRole, teamRole, t]);
   return (
-    <Sidebar  {...props}>
+    <Sidebar {...restProps}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -230,7 +152,7 @@ export function AppSidebar({ userRole, ...props }: AppSidebarProps) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} userRole={userRole} />
+        <NavMain items={navMain} userRole={userRole ?? undefined} />
         {/* <NavDocuments items={data.documents} /> */}
         {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>

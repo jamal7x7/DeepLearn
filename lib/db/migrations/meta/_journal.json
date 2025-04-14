@@ -43,6 +43,13 @@
       "when": 1744435510649,
       "tag": "0005_stormy_wasp",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1744501620339,
+      "tag": "0006_curly_mesmero",
+      "breakpoints": true
     }
   ]
 }

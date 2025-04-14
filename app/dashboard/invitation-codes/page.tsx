@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from "react-i18next";
+import { Pencil, X, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -15,68 +16,285 @@ import { Loader2, PlusCircle, Trash2, Copy, Clock } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { useActionState } from 'react';
 import { useUser } from '@/lib/auth';
-import { generateInvitationCode, revokeInvitationCode } from '@/app/api/invitation-codes/actions';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { InvitationCode } from '@/lib/db/schema';
-
-type ActionState = {
-  error?: string;
-  success?: string;
-  code?: string;
-  expiresAt?: Date | null;
-  maxUses?: number;
-};
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { createTeamAction } from '@/app/actions/team';
+import { generateInvitationCode, revokeInvitationCode } from '@/app/api/invitation-codes/actions';
+ 
+type Team = { id: number; name: string };
 
 export default function InvitationCodesPage() {
   const { userPromise } = useUser();
+  const [teamRole, setTeamRole] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [roleLoading, setRoleLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
-  const [codes, setCodes] = useState<InvitationCode[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [maxUses, setMaxUses] = useState('1');
-  const [expiresInHours, setExpiresInHours] = useState('24');
-  
-  const [generateState, generateAction, isGeneratePending] = useActionState<
-    ActionState,
-    FormData
-  >(generateInvitationCode, { error: '', success: '' });
-  
-  const [revokeState, revokeAction, isRevokePending] = useActionState<
-    ActionState,
-    FormData
-  >(revokeInvitationCode, { error: '', success: '' });
+  const [teams, setTeams] = useState<Team[]>([]);
+  const [selectedTab, setSelectedTab] = useState<string | undefined>(undefined);
+  const [isLoadingTeams, setIsLoadingTeams] = useState(true);
+  const [editingTeamId, setEditingTeamId] = useState<number | null>(null);
+  const [editingName, setEditingName] = useState('');
+  const [isRenaming, setIsRenaming] = useState(false);
+   const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    setRoleLoading(true);
+    fetch('/api/user/team-role')
+      .then(res => res.json())
+      .then(data => {
+        setTeamRole(data.teamRole);
+        setUserRole(data.userRole);
+      })
+      .finally(() => setRoleLoading(false));
+  }, []);
+
+  // Fetch teams for the teacher
+  useEffect(() => {
+    setIsLoadingTeams(true);
+    fetch('/api/manage-users/teams')
+      .then(res => res.json())
+      .then(data => {
+        if (data.teams && data.teams.length > 0) {
+          setTeams(data.teams);
+          setSelectedTab(String(data.teams[0].id));
+        } else {
+          setTeams([]);
+          setSelectedTab(undefined);
+        }
+      })
+      .finally(() => setIsLoadingTeams(false));
+  }, []);
 
   useEffect(() => {
     userPromise.then(setUser);
   }, [userPromise]);
+  // Only allow teachers, owners, or representatives
+  if (roleLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[200px]">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+  if (
+    userRole !== 'teacher' &&
+    userRole !== 'owner' &&
+    teamRole !== 'representative'
+  ) {
+    return (
+      <div className="flex items-center justify-center min-h-[200px]">
+        <div className="text-lg text-muted-foreground">{t("notAuthorizedInvitationCodes")}</div>
+      </div>
+    );
+  }
+
+  // State for renaming teams (moved hooks to top)
+
+  // Handler to start renaming
+  const startRenaming = (teamId: number, currentName: string) => {
+    setEditingTeamId(teamId);
+    setEditingName(currentName);
+  };
+
+  // Handler to cancel renaming
+  const cancelRenaming = () => {
+    setEditingTeamId(null);
+    setEditingName('');
+  };
+
+  // Handler to save new name
+  const saveRenaming = async (teamId: number) => {
+    if (!editingName.trim() || isRenaming) return;
+    setIsRenaming(true);
+    try {
+      const res = await fetch('/api/manage-users/teams', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teamId, newName: editingName.trim() }),
+      });
+      if (res.ok) {
+        setTeams(teams =>
+          teams.map(t =>
+            t.id === teamId ? { ...t, name: editingName.trim() } : t
+          )
+        );
+        // If the currently selected tab was renamed, update its label
+        if (selectedTab === String(teamId)) {
+          setSelectedTab(String(teamId));
+        }
+        cancelRenaming();
+      } else {
+        // Optionally, show error
+      }
+    } finally {
+      setIsRenaming(false);
+    }
+  };
+
+
+  const handleTeamCreated = (team: Team) => {
+    // After creating a team, refetch teams and select the new team tab
+    fetch('/api/manage-users/teams')
+      .then(res => res.json())
+      .then(data => {
+        setTeams(data.teams || []);
+        setSelectedTab(String(team.id));
+      });
+  };
+
+  const isTeacher = user?.role === 'teacher' || user?.role === 'owner';
+
+  return (
+    <div className="p-6 space-y-6 " dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
+      <h1 className="text-2xl font-bold">{t("invitationCodesTitle")}</h1>
+      <p className="text-muted-foreground">
+        {t("invitationCodesDescription")}
+      </p>
+      {isLoadingTeams ? (
+        <div className="flex justify-center py-8">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        </div>
+      ) : (
+        <Tabs
+          value={selectedTab}
+          onValueChange={setSelectedTab}
+          className="w-full"
+        >
+          <TabsList className="flex justify-between items-center w-full">
+            <div className="flex gap-1">
+              {teams.map(team => (
+                <TabsTrigger key={team.id} value={String(team.id)}>
+                  {team.name}
+                </TabsTrigger>
+              ))}
+            </div>
+            <div className="flex gap-1 items-center">
+              {isTeacher && selectedTab && selectedTab !== "new" && (
+                editingTeamId === Number(selectedTab) ? (
+                  <div className="flex items-center gap-1">
+                    <Input
+                      value={editingName}
+                      onChange={e => setEditingName(e.target.value)}
+                      className="h-7 w-24 px-2 py-1 text-xs"
+                      autoFocus
+                      maxLength={32}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          saveRenaming(Number(selectedTab));
+                        } else if (e.key === 'Escape') {
+                          cancelRenaming();
+                        }
+                      }}
+                    />
+                    <Button
+                      type="button"
+                      size="icon"
+                      variant="ghost"
+                      className="h-7 w-7 p-0"
+                      onClick={() => saveRenaming(Number(selectedTab))}
+                      disabled={isRenaming}
+                      aria-label={t("save")}
+                    >
+                      <Check className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      type="button"
+                      size="icon"
+                      variant="ghost"
+                      className="h-7 w-7 p-0"
+                      onClick={cancelRenaming}
+                      aria-label={t("cancel")}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    type="button"
+                    size="icon"
+                    variant="ghost"
+                    className="h-7 w-7 p-0"
+                    onClick={() => startRenaming(Number(selectedTab), teams.find(t => String(t.id) === selectedTab)?.name || '')}
+                    aria-label={t("rename")}
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </Button>
+                )
+              )}
+              <TabsTrigger value="new" className="flex items-center">
+                <PlusCircle className="h-4 w-4 mr-1" />
+                {t("addTeam")}
+              </TabsTrigger>
+            </div>
+          </TabsList>
+          {teams.map(team => (
+            <TabsContent key={team.id} value={String(team.id)}  dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
+              <TeamTabContent team={team} user={user} />
+            </TabsContent>
+          ))}
+          <TabsContent value="new"  dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
+            <AddTeamForm user={user} onTeamCreated={handleTeamCreated} />
+          </TabsContent>
+        </Tabs>
+      )}
+    </div>
+  );
+}
+
+// Component: TeamTabContent
+function TeamTabContent({ team, user }: { team: Team; user: any }) {
+  const [codes, setCodes] = useState<InvitationCode[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [maxUses, setMaxUses] = useState('1');
+  const [expiresInHours, setExpiresInHours] = useState('24');
+
+  const [generateState, generateAction, isGeneratePending] = useActionState(
+    generateInvitationCode,
+    { error: '' }
+  );
+  const [revokeState, revokeAction, isRevokePending] = useActionState(
+    revokeInvitationCode,
+    { error: '' }
+  );
+
+  const { t } = useTranslation();
 
   useEffect(() => {
-    if (user?.id) {
-      fetchCodes();
-    }
-  }, [user]);
+    fetchCodes();
+    // eslint-disable-next-line
+  }, [team.id]);
 
   useEffect(() => {
     if (generateState?.success && generateState?.code) {
       fetchCodes();
     }
+    // eslint-disable-next-line
   }, [generateState]);
 
   useEffect(() => {
     if (revokeState?.success) {
       fetchCodes();
     }
+    // eslint-disable-next-line
   }, [revokeState]);
 
   const fetchCodes = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/invitation-codes?teamId=${user.teamId}`);
+      const response = await fetch(`/api/invitation-codes?teamId=${team.id}`);
       if (response.ok) {
         const data = await response.json();
-        setCodes(data.codes || []);
+        const codesPatched = (data.codes || []).map((c: any) => ({
+          ...c,
+          maxUses: typeof c.maxUses === 'number' ? c.maxUses : undefined,
+        }));
+        setCodes(codesPatched);
       }
     } catch (error) {
       console.error('Error fetching codes:', error);
@@ -87,46 +305,36 @@ export default function InvitationCodesPage() {
 
   const copyToClipboard = (code: string) => {
     navigator.clipboard.writeText(code);
-    toast.success('Code copied to clipboard');
+    toast.success(t("codeCopiedToClipboard"));
   };
 
   const isTeacher = user?.role === 'teacher' || user?.role === 'owner';
 
   return (
-    <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Invitation Codes</h1>
-      <p className="text-muted-foreground">
-        Generate unique invitation codes for students to join your class.
-      </p>
-
+    <div className="space-y-6">
       {isTeacher && (
         <Card>
           <CardHeader>
-            <CardTitle>Generate New Invitation Code</CardTitle>
+            <CardTitle>{t("generateNewInvitationCode")}</CardTitle>
             <CardDescription>
-              Create a unique code that students can use to join your class.
+              {t("generateNewInvitationCodeDesc")}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form action={generateAction} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="teamName">Team Name</Label>
-                <Input
-                  id="teamName"
-                  name="teamName"
-                  type="text"
-                  placeholder="Enter team name"
-                  required
-                />
-                <p className="text-xs text-muted-foreground">
-                  Specify the team for this invitation code. If the team does not exist, it will be created.
-                </p>
-              </div>
+            <form
+              action={generateAction}
+              className="space-y-4"
+              onSubmit={() => {
+                // Ensure teamName is set to the current team
+                // (handled by hidden input below)
+              }}
+            >
+              <input type="hidden" name="teamName" value={team.name} />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="maxUses">Maximum Uses</Label>
+                  <Label htmlFor={`maxUses-${team.id}`}>{t("maximumUses")}</Label>
                   <Input
-                    id="maxUses"
+                    id={`maxUses-${team.id}`}
                     name="maxUses"
                     type="number"
                     value={maxUses}
@@ -135,13 +343,13 @@ export default function InvitationCodesPage() {
                     placeholder="1"
                   />
                   <p className="text-xs text-muted-foreground">
-                    How many students can use this code. Leave at 1 for single-use codes.
+                    {t("maximumUsesDesc")}
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="expiresInHours">Expires After (hours)</Label>
+                  <Label htmlFor={`expiresInHours-${team.id}`}>{t("expiresAfterHours")}</Label>
                   <Input
-                    id="expiresInHours"
+                    id={`expiresInHours-${team.id}`}
                     name="expiresInHours"
                     type="number"
                     value={expiresInHours}
@@ -150,11 +358,10 @@ export default function InvitationCodesPage() {
                     placeholder="24"
                   />
                   <p className="text-xs text-muted-foreground">
-                    Code will expire after this many hours. Set to 24 for one day.
+                    {t("expiresAfterHoursDesc")}
                   </p>
                 </div>
               </div>
-
               {generateState?.error && (
                 <p className="text-red-500">{generateState.error}</p>
               )}
@@ -176,7 +383,6 @@ export default function InvitationCodesPage() {
                   </div>
                 </div>
               )}
-
               <Button
                 type="submit"
                 className="bg-primary hover:bg-primary/90"
@@ -185,12 +391,12 @@ export default function InvitationCodesPage() {
                 {isGeneratePending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Generating...
+                    {t("generating")}
                   </>
                 ) : (
                   <>
                     <PlusCircle className="mr-2 h-4 w-4" />
-                    Generate Code
+                    {t("generateCode")}
                   </>
                 )}
               </Button>
@@ -201,9 +407,9 @@ export default function InvitationCodesPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Active Invitation Codes</CardTitle>
+          <CardTitle>{t("activeInvitationCodes")}</CardTitle>
           <CardDescription>
-            Manage your active invitation codes.
+            {t("manageActiveInvitationCodes")}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -213,13 +419,13 @@ export default function InvitationCodesPage() {
             </div>
           ) : codes.length === 0 ? (
             <p className="text-center py-8 text-muted-foreground">
-              No active invitation codes found.
+              {t("noActiveInvitationCodesFound")}
             </p>
           ) : (
             <div className="space-y-4">
               {codes.map((code) => (
                 <div
-                  key={code.id}
+                  key={`${code.id}-${code.code}`}
                   className="p-4 border rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-4"
                 >
                   <div className="space-y-2">
@@ -238,16 +444,26 @@ export default function InvitationCodesPage() {
                       <Badge variant="outline" className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         {code.expiresAt
-                          ? `Expires: ${format(new Date(code.expiresAt), 'MMM d, yyyy h:mm a')}`
-                          : 'Never expires'}
+                          ? t("expiresAt", { date: format(new Date(code.expiresAt), 'MMM d, yyyy h:mm a') })
+                          : t("neverExpires")}
                       </Badge>
                       <Badge variant="outline">
-                        Used {code.usedCount} of {code.maxUses || '∞'}
+                        {t("usedOf", { used: code.usedCount, max: code.maxUses || '∞' })}
                       </Badge>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      Created by {code.createdBy?.name || code.createdBy?.email} on{' '}
-                      {format(new Date(code.createdAt), 'MMM d, yyyy')}
+                      {t("createdByOn", {
+                        name: (
+                          code.createdBy &&
+                          typeof code.createdBy === 'object' &&
+                          ('name' in code.createdBy || 'email' in code.createdBy)
+                        )
+                          ? ((code.createdBy as { name?: string; email?: string }).name ??
+                             (code.createdBy as { name?: string; email?: string }).email ??
+                             t("unknown"))
+                          : t("unknown"),
+                        date: format(new Date(code.createdAt), 'MMM d, yyyy')
+                      })}
                     </p>
                   </div>
                   {isTeacher && (
@@ -270,7 +486,7 @@ export default function InvitationCodesPage() {
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>Revoke this code</p>
+                            <p>{t("revokeThisCode")}</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
@@ -283,5 +499,85 @@ export default function InvitationCodesPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+// Component: AddTeamForm
+function AddTeamForm({
+  user,
+  onTeamCreated,
+}: {
+  user: any;
+  onTeamCreated: (team: Team) => void;
+}) {
+  const [teamName, setTeamName] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { t } = useTranslation();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
+    try {
+      const res = await createTeamAction(teamName, user?.id);
+      if (res?.error) {
+        setError(res.error);
+      } else if (res?.team) {
+        setTeamName('');
+        onTeamCreated(res.team);
+        toast.success(t("teamCreatedSuccessfully"));
+      } else {
+        setError(t("unknownError"));
+      }
+    } catch (err) {
+      setError(t("failedToCreateTeam"));
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <Card className="max-w-md mx-auto mt-8">
+      <CardHeader>
+        <CardTitle>{t("addNewTeam")}</CardTitle>
+        <CardDescription>
+          {t("addNewTeamDesc")}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="new-team-name">{t("teamName")}</Label>
+            <Input
+              id="new-team-name"
+              value={teamName}
+              onChange={e => setTeamName(e.target.value)}
+              required
+              placeholder={t("enterTeamName")}
+              disabled={isSubmitting}
+            />
+          </div>
+          {error && <p className="text-red-500">{error}</p>}
+          <Button
+            type="submit"
+            className="bg-primary hover:bg-primary/90"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                {t("creating")}
+              </>
+            ) : (
+              <>
+                <PlusCircle className="mr-2 h-4 w-4" />
+                {t("createTeam")}
+              </>
+            )}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

@@ -197,7 +197,7 @@ export default function MdxRenderer({ serializedSource, frontMatter }: MdxRender
   return (
     <div className="prose dark:prose-invert max-w-none flex flex-col items-center "> {/* Centered styling */}
       {/* @ts-ignore // TODO: Investigate type mismatch if any */}
-       <div className="w-full md:w-[640px] lg:w-[686px]">
+       <div className="w-full p-0 md:p-6 lg:p-8 xl:p-20 2xl:p-40">
       <MDXRemote {...serializedSource} components={components} />
       </div>
     </div>

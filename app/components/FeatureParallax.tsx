@@ -4,85 +4,89 @@ import React, { useRef, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { UserPlus, ShieldCheck, Settings, Users, MessageCircle } from "lucide-react";
 
+import { useTranslation } from "react-i18next";
+
 const features = [
   {
     icon: <UserPlus className="w-10 h-10 text-blue-500 dark:text-blue-400" />,
-    title: "إنشاء حساب بسهولة",
-    desc: "سجّل بسرعة دون الحاجة إلى رقم هاتف أو بريد إلكتروني.",
+    titleKey: "feature_1_title",
+    descKey: "feature_1_desc",
   },
   {
     icon: <ShieldCheck className="w-10 h-10 text-green-500 dark:text-green-400" />,
-    title: "تسجيل دخول آمن",
-    desc: "ادخل إلى حسابك بسرعة مع ضمان أعلى معايير الأمان.",
+    titleKey: "feature_2_title",
+    descKey: "feature_2_desc",
   },
   {
     icon: <Settings className="w-10 h-10 text-purple-500 dark:text-purple-400" />,
-    title: "إدارة المعلومات الشخصية",
-    desc: "قم بتحديث بياناتك الشخصية بسهولة في أي وقت.",
+    titleKey: "feature_3_title",
+    descKey: "feature_3_desc",
   },
   {
     icon: <Users className="w-10 h-10 text-pink-500 dark:text-pink-400" />,
-    title: "إنشاء وإدارة المجموعات",
-    desc: "كوّن مجموعات وأدرها مع تحكم إداري كامل.",
+    titleKey: "feature_4_title",
+    descKey: "feature_4_desc",
   },
   {
     icon: <MessageCircle className="w-10 h-10 text-yellow-500 dark:text-yellow-400" />,
-    title: "مراسلة فورية",
-    desc: "تواصل مع مجتمع مدرستك في الوقت الحقيقي.",
+    titleKey: "feature_5_title",
+    descKey: "feature_5_desc",
+  },
+  // Repeat for animation effect
+  {
+    icon: <UserPlus className="w-10 h-10 text-blue-500 dark:text-blue-400" />,
+    titleKey: "feature_1_title",
+    descKey: "feature_1_desc",
+  },
+  {
+    icon: <ShieldCheck className="w-10 h-10 text-green-500 dark:text-green-400" />,
+    titleKey: "feature_2_title",
+    descKey: "feature_2_desc",
+  },
+  {
+    icon: <Settings className="w-10 h-10 text-purple-500 dark:text-purple-400" />,
+    titleKey: "feature_3_title",
+    descKey: "feature_3_desc",
+  },
+  {
+    icon: <Users className="w-10 h-10 text-pink-500 dark:text-pink-400" />,
+    titleKey: "feature_4_title",
+    descKey: "feature_4_desc",
+  },
+  {
+    icon: <MessageCircle className="w-10 h-10 text-yellow-500 dark:text-yellow-400" />,
+    titleKey: "feature_5_title",
+    descKey: "feature_5_desc",
   },
   {
     icon: <UserPlus className="w-10 h-10 text-blue-500 dark:text-blue-400" />,
-    title: "إنشاء حساب بسهولة",
-    desc: "سجّل بسرعة دون الحاجة إلى رقم هاتف أو بريد إلكتروني.",
+    titleKey: "feature_1_title",
+    descKey: "feature_1_desc",
   },
   {
     icon: <ShieldCheck className="w-10 h-10 text-green-500 dark:text-green-400" />,
-    title: "تسجيل دخول آمن",
-    desc: "ادخل إلى حسابك بسرعة مع ضمان أعلى معايير الأمان.",
+    titleKey: "feature_2_title",
+    descKey: "feature_2_desc",
   },
   {
     icon: <Settings className="w-10 h-10 text-purple-500 dark:text-purple-400" />,
-    title: "إدارة المعلومات الشخصية",
-    desc: "قم بتحديث بياناتك الشخصية بسهولة في أي وقت.",
+    titleKey: "feature_3_title",
+    descKey: "feature_3_desc",
   },
   {
     icon: <Users className="w-10 h-10 text-pink-500 dark:text-pink-400" />,
-    title: "إنشاء وإدارة المجموعات",
-    desc: "كوّن مجموعات وأدرها مع تحكم إداري كامل.",
+    titleKey: "feature_4_title",
+    descKey: "feature_4_desc",
   },
   {
     icon: <MessageCircle className="w-10 h-10 text-yellow-500 dark:text-yellow-400" />,
-    title: "مراسلة فورية",
-    desc: "تواصل مع مجتمع مدرستك في الوقت الحقيقي.",
-  },
-  {
-    icon: <UserPlus className="w-10 h-10 text-blue-500 dark:text-blue-400" />,
-    title: "إنشاء حساب بسهولة",
-    desc: "سجّل بسرعة دون الحاجة إلى رقم هاتف أو بريد إلكتروني.",
-  },
-  {
-    icon: <ShieldCheck className="w-10 h-10 text-green-500 dark:text-green-400" />,
-    title: "تسجيل دخول آمن",
-    desc: "ادخل إلى حسابك بسرعة مع ضمان أعلى معايير الأمان.",
-  },
-  {
-    icon: <Settings className="w-10 h-10 text-purple-500 dark:text-purple-400" />,
-    title: "إدارة المعلومات الشخصية",
-    desc: "قم بتحديث بياناتك الشخصية بسهولة في أي وقت.",
-  },
-  {
-    icon: <Users className="w-10 h-10 text-pink-500 dark:text-pink-400" />,
-    title: "إنشاء وإدارة المجموعات",
-    desc: "كوّن مجموعات وأدرها مع تحكم إداري كامل.",
-  },
-  {
-    icon: <MessageCircle className="w-10 h-10 text-yellow-500 dark:text-yellow-400" />,
-    title: "مراسلة فورية",
-    desc: "تواصل مع مجتمع مدرستك في الوقت الحقيقي.",
+    titleKey: "feature_5_title",
+    descKey: "feature_5_desc",
   },
 ];
 
 export default function FeatureParallax() {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [speed, setSpeed] = useState(0.5); // base speed
@@ -157,9 +161,9 @@ export default function FeatureParallax() {
                 {feature.icon}
               </div>
               <h3 className="font-bold text-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
-                {feature.title}
+                {t(feature.titleKey)}
               </h3>
-              <p className="text-gray-700 dark:text-gray-300">{feature.desc}</p>
+              <p className="text-gray-700 dark:text-gray-300">{t(feature.descKey)}</p>
             </Card>
           ))}
         </div>
@@ -185,9 +189,9 @@ export default function FeatureParallax() {
                 {feature.icon}
               </div>
               <h3 className="font-bold text-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
-                {feature.title}
+                {t(feature.titleKey)}
               </h3>
-              <p className="text-gray-700 dark:text-gray-300">{feature.desc}</p>
+              <p className="text-gray-700 dark:text-gray-300">{t(feature.descKey)}</p>
             </Card>
           ))}
         </div>
@@ -213,9 +217,9 @@ export default function FeatureParallax() {
                 {feature.icon}
               </div>
               <h3 className="font-bold text-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
-                {feature.title}
+                {t(feature.titleKey)}
               </h3>
-              <p className="text-gray-700 dark:text-gray-300">{feature.desc}</p>
+              <p className="text-gray-700 dark:text-gray-300">{t(feature.descKey)}</p>
             </Card>
           ))}
         </div>

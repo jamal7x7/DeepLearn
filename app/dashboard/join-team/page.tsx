@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -16,6 +16,8 @@ import { Label } from '@/components/ui/label';
 import { useActionState } from 'react';
 import { joinTeamWithCode } from '@/app/api/invitation-codes/actions';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@/lib/auth';
+import { useTranslation } from 'react-i18next';
 
 type ActionState = {
   error?: string;
@@ -23,6 +25,18 @@ type ActionState = {
 };
 
 export default function JoinTeamPage() {
+  const { userPromise } = useUser();
+  const [user, setUser] = useState<any>(null);
+  const router = useRouter();
+  const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    userPromise.then((u) => {
+      setUser(u);
+    });
+  }, [userPromise]);
+
+  // If user is not loaded yet, show nothing (or a loader)
   const [code, setCode] = useState('');
   const [isValidating, setIsValidating] = useState(false);
   const [validationResult, setValidationResult] = useState<{
@@ -30,7 +44,6 @@ export default function JoinTeamPage() {
     teamName?: string;
     message: string;
   } | null>(null);
-  const router = useRouter();
 
   const [joinState, joinAction, isJoinPending] = useActionState<
     ActionState,
@@ -73,25 +86,34 @@ export default function JoinTeamPage() {
     }, 2000);
   }
 
+  if (user === null) {
+    // Show a centered loader while checking authentication
+    return (
+      <div className="flex items-center justify-center min-h-[200px]">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-md mx-auto p-6">
+    <div className="max-w-md mx-auto p-6" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
       <Card>
         <CardHeader>
-          <CardTitle>Join a Team</CardTitle>
+          <CardTitle>{t('joinATeam')}</CardTitle>
           <CardDescription>
-            Enter the invitation code provided by your teacher to join their class.
+            {t('enterInvitationCode')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="code">Invitation Code</Label>
+              <Label htmlFor="code">{t('invitationCode')}</Label>
               <div className="flex space-x-2">
                 <Input
                   id="code"
                   value={code}
                   onChange={(e) => setCode(e.target.value.toUpperCase())}
-                  placeholder="Enter code"
+                  placeholder={t('enterCode')}
                   className="font-mono uppercase"
                   maxLength={10}
                 />
@@ -104,7 +126,7 @@ export default function JoinTeamPage() {
                   {isValidating ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
-                    'Verify'
+                    t('verify')
                   )}
                 </Button>
               </div>
@@ -128,7 +150,7 @@ export default function JoinTeamPage() {
                   {validationResult.message}
                 </p>
                 {validationResult.valid && validationResult.teamName && (
-                  <p className="mt-1 text-sm">Team: {validationResult.teamName}</p>
+                  <p className="mt-1 text-sm">{t('team')} {validationResult.teamName}</p>
                 )}
               </div>
             )}
@@ -146,7 +168,7 @@ export default function JoinTeamPage() {
                 <p className="text-green-700 dark:text-green-300 font-medium">
                   {joinState.success}
                 </p>
-                <p className="mt-1 text-sm">Redirecting to dashboard...</p>
+                <p className="mt-1 text-sm">{t('redirectingToDashboard')}</p>
               </div>
             )}
           </div>
@@ -167,10 +189,10 @@ export default function JoinTeamPage() {
               {isJoinPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Joining...
+                  {t('joining')}
                 </>
               ) : (
-                'Join Team'
+                t('joinTeam')
               )}
             </Button>
           </form>

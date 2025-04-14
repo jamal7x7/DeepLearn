@@ -168,6 +168,68 @@ export const activityLogsRelations = relations(activityLogs, ({ one }) => ({
   }),
 }));
 
+// --- Announcements ---
+
+export const announcements = pgTable('announcements', {
+  id: serial('id').primaryKey(),
+  senderId: integer('sender_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }), // Teacher sending the announcement
+  content: text('content').notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  type: text('type').notNull().default('plain'),
+});
+
+export const announcementRecipients = pgTable('announcement_recipients', {
+  id: serial('id').primaryKey(),
+  announcementId: integer('announcement_id')
+    .notNull()
+    .references(() => announcements.id, { onDelete: 'cascade' }),
+  teamId: integer('team_id')
+    .notNull()
+    .references(() => teams.id, { onDelete: 'cascade' }),
+});
+
+export const announcementsRelations = relations(announcements, ({ one, many }) => ({
+  sender: one(users, {
+    fields: [announcements.senderId],
+    references: [users.id],
+  }),
+  recipients: many(announcementRecipients),
+}));
+
+export const announcementRecipientsRelations = relations(
+  announcementRecipients,
+  ({ one }) => ({
+    announcement: one(announcements, {
+      fields: [announcementRecipients.announcementId],
+      references: [announcements.id],
+    }),
+    team: one(teams, {
+      fields: [announcementRecipients.teamId],
+      references: [teams.id],
+    }),
+  }),
+);
+
+// Add relation from teams to announcementRecipients
+export const teamsRelationsExtended = relations(teams, ({ many }) => ({
+  teamMembers: many(teamMembers),
+  activityLogs: many(activityLogs),
+  invitations: many(invitations),
+  invitationCodes: many(invitationCodes),
+  announcementRecipients: many(announcementRecipients), // Added relation
+}));
+
+// Add relation from users to announcements (as sender)
+export const usersRelationsExtended = relations(users, ({ many }) => ({
+  teamMembers: many(teamMembers),
+  invitationsSent: many(invitations),
+  invitationCodesCreated: many(invitationCodes, { relationName: 'createdInvitationCodes' }),
+  invitationCodeUses: many(invitationCodeUses),
+  sentAnnouncements: many(announcements), // Added relation
+}));
+
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type Team = typeof teams.$inferSelect;
@@ -182,6 +244,10 @@ export type InvitationCode = typeof invitationCodes.$inferSelect;
 export type NewInvitationCode = typeof invitationCodes.$inferInsert;
 export type InvitationCodeUse = typeof invitationCodeUses.$inferSelect;
 export type NewInvitationCodeUse = typeof invitationCodeUses.$inferInsert;
+export type Announcement = typeof announcements.$inferSelect;
+export type NewAnnouncement = typeof announcements.$inferInsert;
+export type AnnouncementRecipient = typeof announcementRecipients.$inferSelect;
+export type NewAnnouncementRecipient = typeof announcementRecipients.$inferInsert;
 export type TeamDataWithMembers = Team & {
   teamMembers: (TeamMember & {
     user: Pick<User, 'id' | 'name' | 'email'>;
@@ -201,4 +267,5 @@ export enum ActivityType {
   ACCEPT_INVITATION = 'ACCEPT_INVITATION',
   GENERATE_INVITATION_CODE = 'GENERATE_INVITATION_CODE',
   JOIN_TEAM_WITH_CODE = 'JOIN_TEAM_WITH_CODE',
+  SEND_ANNOUNCEMENT = 'SEND_ANNOUNCEMENT', // Added activity type
 }
