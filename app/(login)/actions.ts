@@ -101,7 +101,14 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
     return createCheckoutSession({ team: foundTeam, priceId });
   }
 
-  redirect(fullUser.role === 'student' ? '/dashboard/student' : '/dashboard');
+  // Redirect based on user role
+  if (fullUser.role === 'student') {
+    redirect('/dashboard/student');
+  } else if (fullUser.role === 'teacher') {
+    redirect('/dashboard/teacher');
+  } else {
+    redirect('/dashboard');
+  }
 });
 
 const signUpSchema = z.object({
@@ -303,8 +310,7 @@ export async function signOut() {
     (await cookies()).delete('session');
     return;
   }
-  const userWithTeam = await getUserWithTeam(user.id);
-  await logActivity(userWithTeam?.teamId, user.id, ActivityType.SIGN_OUT);
+  // Removed activity logging for sign-out to prevent double counting when users sign out and sign back in
   (await cookies()).delete('session');
 }
 

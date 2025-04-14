@@ -1,6 +1,28 @@
 import { db } from '../lib/db/drizzle'; // Adjust path if needed
 import { users, teams, teamMembers } from '../lib/db/schema'; // Adjust path if needed
-import { faker } from '@faker-js/faker';
+// Import all relevant tables for deletion
+import { announcements, announcementRecipients, activityLogs } from '../lib/db/schema';
+import { faker as baseFaker } from '@faker-js/faker';
+import { Faker } from '@faker-js/faker';
+// Try to import Arabic locale, fallback to hardcoded names if not available
+// (removed ar_MA import)
+let arabicFaker: Faker | null = null;
+try {
+  // @ts-ignore
+  const { ar } = require('@faker-js/faker/locale/ar');
+  arabicFaker = new Faker({ locale: [ar] });
+} catch (e) {
+  arabicFaker = null;
+}
+const arabicNames = [
+  "Mohamed Alaoui", "Said Benani", "Fatima Zahra", "Khadija Idrissi", "Youssef Amine",
+  "Hicham Bouzid", "Salma Chafai", "Abdellah Naciri", "Meryem El Aaroui", "Yassine Barada",
+  "Amina Benjelloun", "Hassan Tazi", "Leila Saadi", "Hamza Belmekki", "Zineb El Aaroui",
+  "Omar El Fassi", "Nadia Bennis", "Karim El Mansouri", "Samira El Ghazali", "Rachid El Idrissi",
+  "Imane El Khatib", "Younes El Amrani", "Sara El Yacoubi", "Mounir El Hachimi", "Latifa El Fadili",
+  "Nabil El Malki", "Rania El Gharbi", "Tarik El Moutawakkil", "Soukaina El Fassi", "Jalil El Amrani"
+];
+
 import bcrypt from 'bcryptjs'; // Use bcryptjs
 
 const SALT_ROUNDS = 10; // For bcrypt hashing
@@ -9,6 +31,15 @@ async function seedDatabase() {
   console.log('Seeding database...');
 
   try {
+    // Wipe all data in correct order (child tables first)
+    console.log('Wiping all existing data...');
+    await db.delete(announcementRecipients);
+    await db.delete(announcements);
+    await db.delete(teamMembers);
+    await db.delete(activityLogs); // Delete activity logs before users
+    await db.delete(users);
+    await db.delete(teams);
+    console.log('All data wiped. Proceeding with seeding...');
     // Clear existing data (optional, use with caution!)
     // console.log('Clearing existing data...');
     // await db.delete(teamMembers);
@@ -49,7 +80,7 @@ async function seedDatabase() {
       const existing = await userExists(email);
       if (!existing) {
         usersToCreate.push({
-          name: faker.person.fullName(),
+          name: baseFaker.person.fullName(),
           email,
           passwordHash: hashedPassword,
           role: 'teacher',
@@ -58,12 +89,14 @@ async function seedDatabase() {
     }
 
     // Students
-    for (let i = 1; i <= 15; i++) {
+    // Use Arabic (Moroccan) names for students
+    const totalStudents = 90;
+    for (let i = 1; i <= totalStudents; i++) {
       const email = `student${i}@example.com`;
       const existing = await userExists(email);
       if (!existing) {
         usersToCreate.push({
-          name: faker.person.fullName(),
+          name: arabicNames[(i - 1) % arabicNames.length],
           email,
           passwordHash: hashedPassword,
           role: 'student',
@@ -71,7 +104,7 @@ async function seedDatabase() {
       }
     }
 
-    let createdUsers = [];
+    let createdUsers: { id: number; email: string; role: string }[] = [];
     if (usersToCreate.length > 0) {
       createdUsers = await db.insert(users).values(usersToCreate).returning({
         id: users.id,
@@ -88,7 +121,7 @@ async function seedDatabase() {
 
     // --- Assign Users to Teams ---
     console.log('Assigning users to teams...');
-    const teamMembersToCreate = [];
+    const teamMembersToCreate: { userId: number; teamId: number; role: string }[] = [];
     const teacher1 = allUsers.find(u => u.email === 'teacher1@example.com');
     const teacher2 = allUsers.find(u => u.email === 'teacher2@example.com');
     const mathTeam = createdTeams.find(t => t.name === 'Math Wizards');
@@ -109,12 +142,12 @@ async function seedDatabase() {
     for (const user of createdUsers) {
       if (user.role === 'student') {
         studentIndex++;
-        if (studentIndex <= 7) { // First 7 students in Math
+        if (studentIndex <= 30) { // First 30 students in Math
           teamMembersToCreate.push({ userId: user.id, teamId: mathTeam.id, role: 'student' });
-        } else if (studentIndex <= 12) { // Next 5 students in Science
-           teamMembersToCreate.push({ userId: user.id, teamId: scienceTeam.id, role: 'student' });
-        } else { // Remaining students in History
-           teamMembersToCreate.push({ userId: user.id, teamId: historyTeam.id, role: 'student' });
+        } else if (studentIndex <= 60) { // Next 30 students in Science
+          teamMembersToCreate.push({ userId: user.id, teamId: scienceTeam.id, role: 'student' });
+        } else { // Last 30 students in History
+          teamMembersToCreate.push({ userId: user.id, teamId: historyTeam.id, role: 'student' });
         }
       }
     }
@@ -126,7 +159,7 @@ async function seedDatabase() {
 
     // --- Create Example Announcements ---
     console.log('Creating example announcements...');
-    const { announcements, announcementRecipients } = await import('../lib/db/schema');
+    // Use statically imported announcements, announcementRecipients
     const announcementInserts = [];
     const recipientInserts = [];
 

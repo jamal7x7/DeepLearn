@@ -55,7 +55,7 @@ export function useUserTeamRole() {
 const buildNavMain = (userRole: string | null, teamRole: string | null, t: (key: string) => string) => [
     {
       title: t("dashboard"),
-      url: "/dashboard",
+      url: "/dashboard/teacher",
       icon: LayoutDashboard,
     },
     {
