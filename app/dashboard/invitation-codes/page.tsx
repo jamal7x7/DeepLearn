@@ -150,10 +150,24 @@ export default function InvitationCodesPage() {
 
   return (
     <div className="p-6 space-y-6 " dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
-      <h1 className="text-2xl font-bold">{t("invitationCodesTitle")}</h1>
-      <p className="text-muted-foreground">
-        {t("invitationCodesDescription")}
-      </p>
+      <div className="flex justify-between items-center mb-4">
+        <div>
+          <h1 className="text-2xl font-bold">{t("invitationCodesTitle")}</h1>
+          <p className="text-muted-foreground">
+            {t("invitationCodesDescription")}
+          </p>
+        </div>
+        {isTeacher && (
+          <Button 
+            onClick={() => setSelectedTab("new")} 
+            className="bg-primary hover:bg-primary/90 text-white font-medium"
+            size="lg"
+          >
+            <PlusCircle className="mr-2 h-5 w-5" />
+            {t("addTeam")}
+          </Button>
+        )}
+      </div>
       {isLoadingTeams ? (
         <div className="flex justify-center py-8">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />

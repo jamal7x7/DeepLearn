@@ -77,7 +77,7 @@ export async function GET() {
         eq(users.id, announcements.senderId)
       )
       .where(
-        sql`${announcementRecipients.teamId} IN (${teamIds.join(',')})`
+        sql`${announcementRecipients.teamId} IN ${teamIds}`
       )
       .orderBy(desc(announcements.createdAt));
 
@@ -90,7 +90,7 @@ export async function GET() {
       .from(teamMembers)
       .where(
         and(
-          sql`${teamMembers.teamId} IN (${teamIds.join(',')})`,
+          sql`${teamMembers.teamId} IN ${teamIds}`,
           eq(teamMembers.role, 'student')
         )
       )
@@ -110,7 +110,7 @@ export async function GET() {
       .from(activityLogs)
       .where(
         and(
-          sql`${activityLogs.teamId} IN (${teamIds.join(',')})`,
+          sql`${activityLogs.teamId} IN ${teamIds}`,
           gte(activityLogs.timestamp, sevenDaysAgo),
           lt(activityLogs.timestamp, new Date(today.getTime() + 86400000)) // Add one day to include today
         )
@@ -142,7 +142,7 @@ export async function GET() {
       .from(activityLogs)
       .where(
         and(
-          sql`${activityLogs.teamId} IN (${teamIds.join(',')})`,
+          sql`${activityLogs.teamId} IN ${teamIds}`,
           gte(activityLogs.timestamp, fourWeeksAgo)
         )
       )
@@ -183,7 +183,7 @@ export async function GET() {
       .from(activityLogs)
       .where(
         and(
-          sql`${activityLogs.teamId} IN (${teamIds.join(',')})`,
+          sql`${activityLogs.teamId} IN ${teamIds}`,
           gte(activityLogs.timestamp, sixMonthsAgo)
         )
       )

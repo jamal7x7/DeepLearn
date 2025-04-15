@@ -21,21 +21,32 @@ export async function GET(request: Request) {
 
     const userId = session.user.id;
 
-    // Verify user is a member of the team
-    const teamMembership = await db
+    // Check if the user is an admin
+    const user = await db
       .select()
-      .from(teamMembers)
-      .where(
-        and(
-          eq(teamMembers.teamId, teamId),
-          eq(teamMembers.userId, userId),
-        //   eq(teamMembers.active, true)
-        )
-      )
+      .from(users)
+      .where(eq(users.id, userId))
       .limit(1);
 
-    if (teamMembership.length === 0) {
-      return NextResponse.json({ error: 'Not a team member' }, { status: 403 });
+    const isAdmin = user.length > 0 && user[0].role === 'admin';
+
+    // If not admin, verify user is a member of the team
+    if (!isAdmin) {
+      const teamMembership = await db
+        .select()
+        .from(teamMembers)
+        .where(
+          and(
+            eq(teamMembers.teamId, teamId),
+            eq(teamMembers.userId, userId),
+          //   eq(teamMembers.active, true)
+          )
+        )
+        .limit(1);
+
+      if (teamMembership.length === 0) {
+        return NextResponse.json({ error: 'Not a team member' }, { status: 403 });
+      }
     }
 
     // Get announcements for the specific team

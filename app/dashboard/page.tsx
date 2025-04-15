@@ -11,16 +11,18 @@ import {
 import data from "./data.json"
 
 import { ColumnDef } from "@tanstack/react-table";
+import { useTranslation } from "react-i18next";
 
 export default function Page() {
+  const { t } = useTranslation();
   // Define columns for the data.json structure
   const columns: ColumnDef<any>[] = [
-    { accessorKey: "header", header: "Header" },
-    { accessorKey: "type", header: "Type" },
-    { accessorKey: "status", header: "Status" },
-    { accessorKey: "target", header: "Target" },
-    { accessorKey: "limit", header: "Limit" },
-    { accessorKey: "reviewer", header: "Reviewer" },
+    { accessorKey: "header", header: t("header") },
+    { accessorKey: "type", header: t("type") },
+    { accessorKey: "status", header: t("status") },
+    { accessorKey: "target", header: t("target") },
+    { accessorKey: "limit", header: t("limit") },
+    { accessorKey: "reviewer", header: t("reviewer") },
   ];
 
   return (

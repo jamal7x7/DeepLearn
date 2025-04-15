@@ -19,6 +19,8 @@ import {
   Settings,
   Users,
   Triangle,
+  Activity,
+  Bell,
 } from "lucide-react"
 
 import { NavDocuments } from "@/components/nav-documents"
@@ -55,9 +57,33 @@ export function useUserTeamRole() {
 const buildNavMain = (userRole: string | null, teamRole: string | null, t: (key: string) => string) => [
     {
       title: t("dashboard"),
-      url: "/dashboard/teacher",
+      url: userRole === 'admin' ? "/dashboard/admin" : "/dashboard/teacher",
       icon: LayoutDashboard,
     },
+    ...(userRole === 'admin' ? [
+      {
+        title: t("adminControls"),
+        url: "#",
+        icon: BarChart,
+        items: [
+          {
+            title: t("teamActivities"),
+            url: "/dashboard/admin/team-activities",
+            icon: Activity,
+          },
+          {
+            title: t("announcements"),
+            url: "/dashboard/admin/announcements",
+            icon: Bell,
+          },
+          {
+            title: t("manageUsers"),
+            url: "/dashboard/manage-users",
+            icon: Users,
+          },
+        ]
+      }
+    ] : []),
     {
       title: t("teacherControl"),
       url: "#",

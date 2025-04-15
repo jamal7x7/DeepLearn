@@ -6,6 +6,7 @@ import {
   announcementRecipients,
   activityLogs,
   TeamMember, // Import TeamMember type
+  users, // Add users import
 } from '@/lib/db/schema';
 import { getSession } from '@/lib/auth/session'; // Correct import for session
 import { revalidatePath } from 'next/cache';
@@ -41,18 +42,30 @@ try {
   // 1. Verify the user is a teacher/admin in ALL selected teams
   const userMemberships = await getUserMembershipsInTeams(userId, teamIds);
 
-  // Check if the user is a member of all requested teams
-  if (userMemberships.length !== teamIds.length) {
-      return { success: false, message: 'You are not a member of all selected teams.' };
-  }
+  // Check if user is admin
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
+  
+  const isAdmin = user?.role === 'admin';
 
-  // Check if the user has the required role ('teacher' or 'admin') in all those teams
-  const hasPermissionInAllTeams = userMemberships.every(
-      (membership: TeamMember) => membership.role === 'teacher' || membership.role === 'admin'
-  );
+  // If user is admin, they can send announcements to any team
+  if (!isAdmin) {
+    // Check if the user is a member of all requested teams
+    if (userMemberships.length !== teamIds.length) {
+        return { success: false, message: 'You are not a member of all selected teams.' };
+    }
 
-  if (!hasPermissionInAllTeams) {
-      return { success: false, message: `You do not have permission to send announcements to some selected teams.` };
+    // Check if the user has the required role ('teacher' or 'admin') in all those teams
+    const hasPermissionInAllTeams = userMemberships.every(
+        (membership: TeamMember) => membership.role === 'teacher' || membership.role === 'admin'
+    );
+
+    if (!hasPermissionInAllTeams) {
+        return { success: false, message: `You do not have permission to send announcements to some selected teams.` };
+    }
   }
 
   // Old logic was here and is now fully removed.

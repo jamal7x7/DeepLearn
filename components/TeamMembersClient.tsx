@@ -2,13 +2,15 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Users, ArrowLeft, Star, Shield, MoreVertical, Trash2, Send, Loader2 } from "lucide-react";
+import { Users, ArrowLeft, Star, Shield, MoreVertical, Trash2, Send, Loader2, Pencil } from "lucide-react";
 import TeamMemberCard from "@/components/TeamMemberCard";
 import { Badge } from "@/components/ui/badge";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -142,6 +144,9 @@ export default function TeamMembersClient({ teams: initialTeams }: { teams: Team
   const [teams, setTeams] = useState<TeamData[]>(initialTeams);
   const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
+  const [editingTeamId, setEditingTeamId] = useState<number | null>(null);
+  const [editingName, setEditingName] = useState("");
+  const [isRenaming, setIsRenaming] = useState(false);
   const { t , i18n} = useTranslation();
 
   const selectedTeam = teams.find((t) => t.teamId === selectedTeamId);
@@ -149,6 +154,41 @@ export default function TeamMembersClient({ teams: initialTeams }: { teams: Team
   function canDeleteTeam(role: string) {
     return ["teacher", "admin", "dev"].includes(role);
   }
+  
+  // Handler to start renaming
+  const startRenaming = (teamId: number, currentName: string) => {
+    setEditingTeamId(teamId);
+    setEditingName(currentName);
+  };
+
+  // Handler to save new name
+  const saveRenaming = async (teamId: number) => {
+    if (!editingName.trim() || isRenaming) return;
+    setIsRenaming(true);
+    try {
+      const res = await fetch('/api/manage-users/teams', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teamId, newName: editingName.trim() }),
+      });
+      if (res.ok) {
+        setTeams(teams =>
+          teams.map(t =>
+            t.teamId === teamId ? { ...t, teamName: editingName.trim() } : t
+          )
+        );
+        setEditingTeamId(null);
+        toast.success(t("teamRenamed"));
+      } else {
+        toast.error(t("failedToRenameTeam"));
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error(t("failedToRenameTeam"));
+    } finally {
+      setIsRenaming(false);
+    }
+  };
 
   async function handleDeleteTeam(teamId: number) {
     if (window.confirm(t("deleteTeamConfirm"))) {
@@ -160,6 +200,55 @@ export default function TeamMembersClient({ teams: initialTeams }: { teams: Team
 
   return (
     <div>
+      {/* Dialog for editing team name */}
+      <Dialog open={editingTeamId !== null} onOpenChange={(open) => !open && setEditingTeamId(null)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t("editTeamName")}</DialogTitle>
+            <DialogDescription>
+              {t("enterNewTeamName")}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="teamName">{t("teamName")}</Label>
+              <Input
+                id="teamName"
+                value={editingName}
+                onChange={(e) => setEditingName(e.target.value)}
+                className="w-full"
+                disabled={isRenaming}
+                autoFocus
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => setEditingTeamId(null)}
+              disabled={isRenaming}
+            >
+              {t("cancel")}
+            </Button>
+            <Button 
+              type="button" 
+              onClick={() => saveRenaming(editingTeamId!)}
+              disabled={isRenaming || !editingName.trim()}
+            >
+              {isRenaming ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {t("saving")}
+                </>
+              ) : (
+                t("save")
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {!selectedTeamId ? (
         <div>
           <h2 className="text-xl font-bold mb-4">{t("yourTeams")}</h2>
@@ -217,6 +306,18 @@ export default function TeamMembersClient({ teams: initialTeams }: { teams: Team
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
+                        <DropdownMenuItem
+                          asChild
+                          onSelect={(e) => {
+                            e.preventDefault();
+                            startRenaming(team.teamId, team.teamName);
+                          }}
+                        >
+                          <button type="button" className="flex items-center gap-2 w-full">
+                            <Pencil className="h-4 w-4" />
+                            {t("editName")}
+                          </button>
+                        </DropdownMenuItem>
                         <DropdownMenuItem
                           asChild
                           variant="destructive"

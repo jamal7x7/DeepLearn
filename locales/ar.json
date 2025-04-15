@@ -95,7 +95,12 @@
   "verify": "تحقق",
   "redirectingToDashboard": "جارٍ إعادة التوجيه إلى لوحة التحكم...",
   "joining": "جارٍ الانضمام...",
-
   "teamMembersTab": "أعضاء المجموعة",
-  "announcementsTab": "إعلانات"
+  "announcementsTab": "إعلانات",
+  "header": "العنوان الرئيسي",
+  "type": "النوع",
+  "status": "الحالة",
+  "target": "الهدف",
+  "limit": "الحد",
+  "reviewer": "المراجع"
 }

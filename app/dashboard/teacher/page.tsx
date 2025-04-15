@@ -109,84 +109,89 @@ export default function TeacherDashboardPage() {
         description={t('manageYourClassesAndAnnouncements')} 
       />
       
-      {/* Analytics Widgets */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Total Students Widget */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">{t('totalStudents')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center">
-              <Users className="h-5 w-5 text-muted-foreground mr-2" />
-              <div className="text-2xl font-bold">{totalStudents}</div>
+      {/* Main Dashboard Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 ">
+        {/* Team Announcements Section - Takes 3/4 of the width on large screens */}
+        <div className="lg:col-span-3 ">
+          <div className="mb-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 ">
+              <h2 className="text-xl font-semibold mb-2 sm:mb-0">{t('teamAnnouncements')}</h2>
+              
+              <div className="flex space-x-2">
+                <Select value={filterTeam} onValueChange={setFilterTeam}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder={t('filterByTeam')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">{t('allTeams')}</SelectItem>
+                    {teams.map(team => (
+                      <SelectItem key={team.id} value={team.name}>{team.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder={t('sortBy')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="date">{t('dateNewestFirst')}</SelectItem>
+                    <SelectItem value="team">{t('teamName')}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-          </CardContent>
-        </Card>
-        
-        {/* Student Activity Widget */}
-        <StudentActivityWidget dailyData={activityData} weeklyData={weeklyData} monthlyData={monthlyData} />
-        
-        {/* Team Activity Widget */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">{t('teamActivity')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              {teams.map(team => (
-                <div key={team.id} className="flex items-center justify-between">
-                  <span className="text-sm">{team.name}</span>
-                  <span className="text-sm font-medium">{team.memberCount} {t('students')}</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-      
-      {/* Announcements Section */}
-      <div>
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-          <h2 className="text-xl font-semibold mb-2 sm:mb-0">{t('teamAnnouncements')}</h2>
-          
-          <div className="flex space-x-2">
-            <Select value={filterTeam} onValueChange={setFilterTeam}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder={t('filterByTeam')} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">{t('allTeams')}</SelectItem>
-                {teams.map(team => (
-                  <SelectItem key={team.id} value={team.name}>{team.name}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
             
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder={t('sortBy')} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="date">{t('dateNewestFirst')}</SelectItem>
-                <SelectItem value="team">{t('teamName')}</SelectItem>
-              </SelectContent>
-            </Select>
+            {filteredAnnouncements.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-12 text-muted-foreground border rounded-md bg-card/50">
+                <Bell className="h-12 w-12 mb-4 opacity-20" />
+                <p>{t('noAnnouncementsFound')}</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {filteredAnnouncements.map((announcement) => (
+                  <AnnouncementCard key={announcement.id} announcement={announcement} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
         
-        {filteredAnnouncements.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-12 text-muted-foreground border rounded-md bg-card/50">
-            <Bell className="h-12 w-12 mb-4 opacity-20" />
-            <p>{t('noAnnouncementsFound')}</p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {filteredAnnouncements.map((announcement) => (
-              <AnnouncementCard key={announcement.id} announcement={announcement} />
-            ))}
-          </div>
-        )}
+        {/* Analytics Widgets - Takes 1/4 of the width on large screens */}
+        <div className="lg:col-span-1 space-y-4 lg:sticky lg:top-6 lg:self-start">
+          {/* Total Students Widget */}
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">{t('totalStudents')}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center">
+                <Users className="h-5 w-5 text-muted-foreground mr-2" />
+                <div className="text-2xl font-bold">{totalStudents}</div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {/* Student Activity Widget */}
+          <StudentActivityWidget dailyData={activityData} weeklyData={weeklyData} monthlyData={monthlyData} />
+          
+          {/* Team Activity Widget */}
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">{t('teamActivity')}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {teams.map(team => (
+                  <div key={team.id} className="flex items-center justify-between">
+                    <span className="text-sm">{team.name}</span>
+                    <span className="text-sm font-medium">{team.memberCount} {t('students')}</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
