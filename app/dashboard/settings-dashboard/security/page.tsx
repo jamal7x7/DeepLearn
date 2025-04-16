@@ -8,6 +8,7 @@ import { Lock, Trash2, Loader2 } from "lucide-react";
 import { startTransition, useActionState } from "react";
 import { updatePassword, deleteAccount } from "@/app/(login)/actions";
 import HeadingSmall from "@/components/heading-small";
+import { useTranslation } from 'react-i18next';
 
 type ActionState = {
   error?: string;
@@ -15,6 +16,7 @@ type ActionState = {
 };
 
 export default function SecurityPage() {
+  const { t } = useTranslation();
   const [passwordState, passwordAction, isPasswordPending] = useActionState<
     ActionState,
     FormData
@@ -29,13 +31,6 @@ export default function SecurityPage() {
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    // If you call the Server Action directly, it will automatically
-    // reset the form. We don't want that here, because we want to keep the
-    // client-side values in the inputs. So instead, we use an event handler
-    // which calls the action. You must wrap direct calls with startTransition.
-    // When you use the `action` prop it automatically handles that for you.
-    // Another option here is to persist the values to local storage. I might
-    // explore alternative options.
     startTransition(() => {
       passwordAction(new FormData(event.currentTarget));
     });
@@ -53,19 +48,18 @@ export default function SecurityPage() {
   return (
     <section className="flex-1 p-4 lg:p-0">
       {/* <h1 className="text-lg lg:text-2xl font-medium bold  mb-6">
-      
-        Security Settings
+        {t('settings.security.title', 'Security Settings')}
       </h1> */}
-      <HeadingSmall title='Security Settings' description="Update your Password or delete your account "/>
+      <HeadingSmall title={t('settings.security.title', 'Security Settings')} description={t('settings.security.description', 'Update your Password or delete your account')}/>
 
       <Card className="mb-8 mt-6">
         <CardHeader>
-          <CardTitle>Password</CardTitle>
+          <CardTitle>{t('settings.security.password', 'Password')}</CardTitle>
         </CardHeader>
         <CardContent>
           <form className="space-y-4" onSubmit={handlePasswordSubmit}>
             <div className="space-y-3">
-              <Label htmlFor="current-password">Current Password</Label>
+              <Label htmlFor="current-password">{t('settings.security.currentPassword', 'Current Password')}</Label>
               <Input
                 id="current-password"
                 name="currentPassword"
@@ -77,7 +71,7 @@ export default function SecurityPage() {
               />
             </div>
             <div className="space-y-3">
-              <Label htmlFor="new-password">New Password</Label>
+              <Label htmlFor="new-password">{t('settings.security.newPassword', 'New Password')}</Label>
               <Input
                 id="new-password"
                 name="newPassword"
@@ -89,7 +83,7 @@ export default function SecurityPage() {
               />
             </div>
             <div className="space-y-3">
-              <Label htmlFor="confirm-password">Confirm New Password</Label>
+              <Label htmlFor="confirm-password">{t('settings.security.confirmPassword', 'Confirm New Password')}</Label>
               <Input
                 id="confirm-password"
                 name="confirmPassword"
@@ -100,26 +94,25 @@ export default function SecurityPage() {
               />
             </div>
             {passwordState.error && (
-              <p className="text-red-500 text-sm">{passwordState.error}</p>
+              <p className="text-red-500 text-sm">{t(passwordState.error)}</p>
             )}
             {passwordState.success && (
-              <p className="text-green-500 text-sm">{passwordState.success}</p>
+              <p className="text-green-500 text-sm">{t(passwordState.success)}</p>
             )}
             <Button
               type="submit"
-              // variant={"default"}
               className="bg-amber-600 hover:bg-amber-700 text-white"
               disabled={isPasswordPending}
             >
               {isPasswordPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Updating...
+                  {t('common.saving', 'Saving...')}
                 </>
               ) : (
                 <>
                   <Lock className="mr-2 h-4 w-4" />
-                  Update Password
+                  {t('settings.security.updatePassword', 'Update Password')}
                 </>
               )}
             </Button>
@@ -129,15 +122,15 @@ export default function SecurityPage() {
 
       <Card  className=" rounded-lg border border-red-100 bg-red-50  dark:border-red-200/10 dark:bg-red-700/10">
         <CardHeader>
-          <CardTitle>Delete Account</CardTitle>
+          <CardTitle>{t('settings.security.deleteAccount', 'Delete Account')}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-gray-500 mb-4">
-            Account deletion is non-reversable. Please proceed with caution.
+            {t('settings.security.deleteAccountWarning', 'Account deletion is non-reversable. Please proceed with caution.')}
           </p>
           <form onSubmit={handleDeleteSubmit} className="space-y-4">
             <div className="space-y-3">
-              <Label htmlFor="delete-password">Confirm Password</Label>
+              <Label htmlFor="delete-password">{t('settings.security.confirmPassword', 'Confirm Password')}</Label>
               <Input
                 id="delete-password"
                 name="password"
@@ -148,23 +141,22 @@ export default function SecurityPage() {
               />
             </div>
             {deleteState.error && (
-              <p className="text-red-500 text-sm">{deleteState.error}</p>
+              <p className="text-red-500 text-sm">{t(deleteState.error)}</p>
             )}
             <Button
               type="submit"
-              // variant="destructive"
               className="bg-destructive hover:bg-red-700"
               disabled={isDeletePending}
             >
               {isDeletePending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Deleting...
+                  {t('common.deleting', 'Deleting...')}
                 </>
               ) : (
                 <>
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Delete Account
+                  {t('settings.security.deleteAccountButton', 'Delete Account')}
                 </>
               )}
             </Button>

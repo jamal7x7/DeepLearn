@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Loader2, Bell, RefreshCw, Filter, AlertCircle } from 'lucide-react'; // Added AlertCircle
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Keep Card for internal use if needed, but remove outer one
+import { CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Keep Card for internal use if needed, but remove outer one
 import { AnnouncementCard, AnnouncementCardProps } from "@/components/AnnouncementCard";
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'; // Import Alert components
 import { useTranslation } from "react-i18next";
@@ -64,7 +64,7 @@ export default function AdminAnnouncementsDashboard({ teams }: AdminAnnouncement
       setLastRefreshed(new Date());
       setError(null);
     } catch (err) {
-      setError(t('errorFetchingAnnouncements', 'Failed to load announcements. Please try refreshing.'));
+      setError(t('admin.announcements.errorFetching', 'Failed to load announcements. Please try refreshing.'));
       console.error('Error fetching announcements:', err);
     } finally {
       setLoading(false);
@@ -154,7 +154,7 @@ export default function AdminAnnouncementsDashboard({ teams }: AdminAnnouncement
         {error && (
           <Alert variant="destructive" className="mb-4">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>{t('errorTitle', 'Error')}</AlertTitle>
+            <AlertTitle>{t('admin.announcements.errorTitle', 'Error')}</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
@@ -162,7 +162,7 @@ export default function AdminAnnouncementsDashboard({ teams }: AdminAnnouncement
         {filteredAnnouncements.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-10 border rounded-md bg-card/50">
             <Bell className="h-8 w-8 text-muted-foreground mb-2" />
-            <p className="text-muted-foreground">{t('noAnnouncementsFound')}</p>
+            <p className="text-muted-foreground">{t('admin.announcements.noAnnouncementsDesc', 'There are no announcements for the selected team.')}</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -175,6 +175,10 @@ export default function AdminAnnouncementsDashboard({ teams }: AdminAnnouncement
             ))}
           </div>
         )}
+        <Button variant="outline" onClick={handleRefresh} disabled={refreshing}>
+          {refreshing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
+          {refreshing ? t('common.refreshing', 'Refreshing...') : t('common.refresh', 'Refresh')}
+        </Button>
     </div>
   );
 }

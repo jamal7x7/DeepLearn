@@ -5,11 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Bell, Pencil, Download as DownloadIcon } from "lucide-react";
+import { Pencil, Download as DownloadIcon } from "lucide-react";
 import Jdenticon from "react-jdenticon";
 import React from "react";
 import AnnouncementMdxStaticPreview from "@/components/AnnouncementMdxStaticPreview";
 import { useTranslation } from "react-i18next";
+import cn from "classnames";
 
 export type AnnouncementCardProps = {
   id: number;
@@ -30,6 +31,20 @@ export const AnnouncementCard: React.FC<{ announcement: AnnouncementCardProps; c
   const [editOpen, setEditOpen] = React.useState(false);
   const [editValue, setEditValue] = React.useState(announcement.content || "");
   const [saving, setSaving] = React.useState(false);
+
+  // Utility: Determine sender role for badge/accent
+  const getRole = () => {
+    if (announcement.sender.toLowerCase().includes('admin')) return 'admin';
+    // Only show 'Me' if this is the current teacher's own announcement (not another teacher)
+    if (canEdit && announcement.email && typeof window !== 'undefined') {
+      const userEmail = window.localStorage.getItem('userEmail');
+      if (userEmail && announcement.email === userEmail) return 'self';
+    }
+    return 'teacher';
+  };
+  const role = getRole();
+  const roleColor = role === 'admin' ? 'bg-red-500 text-white' : role === 'self' ? 'bg-blue-500 text-white' : 'bg-green-500 text-white';
+  const roleLabel = role === 'admin' ? t('admin', 'Admin') : role === 'self' ? t('me', 'Me') : t('teacher', 'Teacher');
 
   // Download MDX as .md file
   const handleDownload = () => {
@@ -70,107 +85,93 @@ export const AnnouncementCard: React.FC<{ announcement: AnnouncementCardProps; c
   return (
     <Card
       key={announcement.id}
-      className="bg-card/90 hover:bg-accent/60 transition-colors border border-primary/20 shadow-md hover:shadow-lg rounded-lg"
+      className={
+        cn(
+          'group bg-card/90 hover:bg-accent/60 transition-colors border shadow-md hover:shadow-lg rounded-lg overflow-hidden',
+          role === 'admin' ? 'border-red-400/60' : role === 'self' ? 'border-blue-400/60' : 'border-green-400/40'
+        )
+      }
     >
-      <CardHeader className="py-2">
-        <CardTitle className="text-sm flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            <Bell className="h-4 w-4 text-primary" />
-            <Badge variant="outline" className="font-normal text-xs px-2 py-0.5">
+      <CardHeader className="py-3 flex flex-row items-center gap-3 border-b border-muted/30 bg-muted/10">
+        <Avatar className="h-10 w-10">
+          <AvatarFallback className="rounded-lg">
+            <Jdenticon size={24} value={announcement.email || announcement.sender || 'unknown'} />
+          </AvatarFallback>
+        </Avatar>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-base text-foreground truncate max-w-[120px]">{announcement.sender}</span>
+            <Badge className={cn('text-xs px-2 py-0.5', roleColor)}>{roleLabel}</Badge>
+            <Badge variant="outline" className="ml-2 font-normal text-xs px-2 py-0.5 text-muted-foreground border-muted-foreground/20">
               {announcement.teamName}
             </Badge>
           </div>
-          <time
-            dateTime={announcement.sentAt}
-            className="text-xs text-muted-foreground font-normal"
-          >
-            {new Date(announcement.sentAt).toLocaleString()}
+          <time dateTime={announcement.sentAt} className="text-xs text-muted-foreground font-normal">
+            {new Date(announcement.sentAt).toLocaleDateString(i18n.language, { year: 'numeric', month: 'short', day: 'numeric' })}
           </time>
-        </CardTitle>
+        </div>
+        <div className="flex gap-1">
+          {/* Only show edit/download for self (logged-in teacher, never for admin) */}
+          {role === 'self' && (
+            <>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setEditOpen(true)}
+                className="transition-colors hover:bg-accent-foreground/10 hover:text-primary text-accent-foreground/70"
+                aria-label={t('edit', 'Edit')}
+              >
+                <Pencil className="w-4 h-4" />
+              </Button>
+              {announcement.type === 'mdx' && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleDownload}
+                  className="transition-colors hover:bg-accent-foreground/10 hover:text-primary text-accent-foreground/70"
+                  aria-label={t('download', 'Download')}
+                >
+                  <DownloadIcon className="w-4 h-4" />
+                </Button>
+              )}
+            </>
+          )}
+        </div>
       </CardHeader>
-      <CardContent className="py-2">
+      <CardContent className="py-3">
         <div className="mb-1">
-          <div className="bg-muted/70 rounded-xl px-3 py-2 relative">
-            {announcement.type === "mdx" ? (
-              <>
-                <AnnouncementMdxStaticPreview value={announcement.content || announcement.message || ""} />
-                <div className="absolute top-2 right-2 flex gap-2 z-10">
-                  {canEdit && (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setEditOpen(true)}
-                      className=" p-2  transition-colors hover:bg-accent-foreground/10 hover:text-primary text-accent-foreground/70"
-                      aria-label="Edit"
-                    >
-                      <Pencil className="w-4 h-4 " />
-                    </Button>
-                  )}
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={handleDownload}
-                    className=" p-2  transition-colors hover:bg-accent-foreground/10 hover:text-primary text-accent-foreground/70"
-                    aria-label="Download"
-                  >
-                    <DownloadIcon className="w-4 h-4" />
-                  </Button>
-                </div>
-                <Dialog open={editOpen} onOpenChange={setEditOpen}>
-                  <DialogContent className="max-w-lg">
-                    <DialogHeader>
-                      <DialogTitle>Edit MDX Announcement</DialogTitle>
-                    </DialogHeader>
-                    <textarea
-                      className="w-full border rounded p-2 min-h-[180px] font-mono"
-                      value={editValue}
-                      onChange={e => setEditValue(e.target.value)}
-                      disabled={saving}
-                      autoFocus
-                    />
-                    <DialogFooter>
-                      <Button
-                        onClick={handleSave}
-                        disabled={saving}
-                      >
-                        {saving ? "Saving..." : "Save"}
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        onClick={() => setEditOpen(false)}
-                        disabled={saving}
-                      >
-                        Cancel
-                      </Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
-              </>
+          <div className="bg-muted/70 rounded-xl px-3 py-2 relative min-h-[56px]">
+            {announcement.type === 'mdx' ? (
+              <AnnouncementMdxStaticPreview value={announcement.content || announcement.message || ''} />
             ) : (
-              <span className="text-base font-medium text-foreground leading-snug break-words">
+              <span className="text-base font-medium text-foreground leading-snug break-words line-clamp-3">
                 {announcement.content || announcement.message}
               </span>
             )}
           </div>
         </div>
-        <div className="flex justify-end mt-2">
-          <div
-            dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
-            className="flex items-center gap-1 bg-muted/50 px-2 py-0.5 rounded-full shadow-sm border border-muted-foreground/10"
-          >
-            <Avatar className="h-6 w-6">
-              <AvatarFallback className="rounded-lg">
-                <Jdenticon
-                  size={16}
-                  value={announcement.email || announcement.sender || "unknown"}
-                />
-              </AvatarFallback>
-            </Avatar>
-            <span className="text-xs text-muted-foreground font-medium">
-              {t("from")}: {announcement.sender || t("teacher")}
-            </span>
-          </div>
-        </div>
+        <Dialog open={editOpen} onOpenChange={setEditOpen}>
+          <DialogContent className="max-w-lg">
+            <DialogHeader>
+              <DialogTitle>{t('editAnnouncement', 'Edit Announcement')}</DialogTitle>
+            </DialogHeader>
+            <textarea
+              className="w-full border rounded p-2 min-h-[180px] font-mono"
+              value={editValue}
+              onChange={e => setEditValue(e.target.value)}
+              disabled={saving}
+              autoFocus
+            />
+            <DialogFooter>
+              <Button onClick={handleSave} disabled={saving}>
+                {saving ? t('saving', 'Saving...') : t('save', 'Save')}
+              </Button>
+              <Button variant="ghost" onClick={() => setEditOpen(false)} disabled={saving}>
+                {t('cancel', 'Cancel')}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </CardContent>
     </Card>
   );

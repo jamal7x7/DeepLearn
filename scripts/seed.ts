@@ -119,6 +119,26 @@ async function seedDatabase() {
     // Fetch all users (existing + newly created)
     const allUsers = await db.select().from(users);
 
+    // --- Create Admin User (if not exists) ---
+    const adminEmail = 'admin@example.com';
+    let adminUser = await userExists(adminEmail);
+    if (!adminUser) {
+      await db.insert(users).values({
+        name: 'Admin',
+        email: adminEmail,
+        passwordHash: hashedPassword,
+        role: 'admin',
+      });
+      // Fetch the full admin user object after insert
+      adminUser = await userExists(adminEmail);
+      console.log('Created admin user.');
+    } else {
+      console.log('Admin user already exists.');
+    }
+    if (!adminUser) {
+      throw new Error('Failed to create or fetch admin user.');
+    }
+
     // --- Assign Users to Teams ---
     console.log('Assigning users to teams...');
     const teamMembersToCreate: { userId: number; teamId: number; role: string }[] = [];
@@ -167,6 +187,16 @@ async function seedDatabase() {
     function getTeacherForTeam(teamId: number) {
       return teamMembersToCreate.find(tm => tm.teamId === teamId && tm.role === 'teacher');
     }
+
+    // --- Admin Announcement Seed ---
+    // Insert at least one admin announcement visible to all users
+    announcementInserts.push({
+      senderId: adminUser.id,
+      content: 'This is a global admin announcement: Platform maintenance on 2025-04-20.',
+      type: 'plain',
+      sender: 'Admin',
+      createdAt: new Date(),
+    });
 
     // Example announcement content
     const exampleAnnouncements = [

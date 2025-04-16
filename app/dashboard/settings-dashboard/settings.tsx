@@ -9,6 +9,7 @@ import { TeamDataWithMembers, User } from '@/lib/db/schema';
 import { removeTeamMember } from '@/app/(login)/actions';
 import { InviteTeamMember } from './invite-team';
 import HeadingSmall from '@/components/heading-small';
+import { useTranslation } from 'react-i18next';
 
 type ActionState = {
   error?: string;
@@ -16,41 +17,42 @@ type ActionState = {
 };
 
 export function Settings({ teamData }: { teamData: TeamDataWithMembers }) {
+  const { t } = useTranslation();
   const [removeState, removeAction, isRemovePending] = useActionState<
     ActionState,
     FormData
   >(removeTeamMember, { error: '', success: '' });
 
   const getUserDisplayName = (user: Pick<User, 'id' | 'name' | 'email'>) => {
-    return user.name || user.email || 'Unknown User';
+    return user.name || user.email || t('settings.unknownUser', 'Unknown User');
   };
 
   return (
     <section className="flex-1 p-4 lg:p-0">
-      {/* <h1 className="text-lg lg:text-2xl font-medium mb-6">Team Settings</h1> */}
-      <HeadingSmall title='Team Settings' description='Update your Team  and Team Subscription'/>
+      {/* <h1 className="text-lg lg:text-2xl font-medium mb-6">{t('settings.teamSettings', 'Team Settings')}</h1> */}
+      <HeadingSmall title={t('settings.teamSettings', 'Team Settings')} description={t('settings.teamSettingsDescription', 'Update your Team  and Team Subscription')}/>
       <Card className="mb-8 mt-6">
         <CardHeader>
-          <CardTitle>Team Subscription</CardTitle>
+          <CardTitle>{t('settings.teamSubscription', 'Team Subscription')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
               <div className="mb-4 sm:mb-0">
                 <p className="font-medium">
-                  Current Plan: {teamData.planName || 'Free'}
+                  {t('settings.currentPlan', 'Current Plan')}: {teamData.planName || t('settings.free', 'Free')}
                 </p>
                 <p className="text-sm text-muted-foreground">
                   {teamData.subscriptionStatus === 'active'
-                    ? 'Billed monthly'
+                    ? t('settings.billedMonthly', 'Billed monthly')
                     : teamData.subscriptionStatus === 'trialing'
-                      ? 'Trial period'
-                      : 'No active subscription'}
+                      ? t('settings.trialPeriod', 'Trial period')
+                      : t('settings.noActiveSubscription', 'No active subscription')}
                 </p>
               </div>
               <form action={customerPortalAction}>
                 <Button type="submit" variant="outline">
-                  Manage Subscription
+                  {t('settings.manageSubscription', 'Manage Subscription')}
                 </Button>
               </form>
             </div>
@@ -59,7 +61,7 @@ export function Settings({ teamData }: { teamData: TeamDataWithMembers }) {
       </Card>
       <Card className="mb-8">
         <CardHeader>
-          <CardTitle>Team Members</CardTitle>
+          <CardTitle>{t('settings.teamMembers', 'Team Members')}</CardTitle>
         </CardHeader>
         <CardContent>
           <ul className="space-y-4">
@@ -79,10 +81,8 @@ export function Settings({ teamData }: { teamData: TeamDataWithMembers }) {
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-medium">
-                      {getUserDisplayName(member.user)}
-                    </p>
-                    <p className="text-sm text-muted-foreground capitalize">
+                    <p className="font-medium">{getUserDisplayName(member.user)}</p>
+                    <p className="text-xs text-muted-foreground capitalize">
                       {member.role}
                     </p>
                   </div>
@@ -96,7 +96,7 @@ export function Settings({ teamData }: { teamData: TeamDataWithMembers }) {
                       size="sm"
                       disabled={isRemovePending}
                     >
-                      {isRemovePending ? 'Removing...' : 'Remove'}
+                      {isRemovePending ? t('settings.removing', 'Removing...') : t('settings.remove', 'Remove')}
                     </Button>
                   </form>
                 ) : null}

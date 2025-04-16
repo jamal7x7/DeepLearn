@@ -105,17 +105,16 @@ export default async function TeacherDashboardPage() {
       />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Student Engagement Widget on the right (col-span-1) */}
-        <div className="order-2 md:order-3 md:col-span-1">
+        <div className=" order-2 md:order-3 md:col-span-1">
           <StudentActivityWidget dailyData={activityData} weeklyData={weeklyData} monthlyData={monthlyData} />
         </div>
         {/* Latest Announcement in an attractive container, 2/3 width below the hero bar */}
         <div className="order-1 md:order-1 md:col-span-2 flex flex-col gap-6">
-          <section className="mt-8">
+          <section className="mt-2">
             <LatestAnnouncementCard announcement={myAnnouncements[0] || adminAnnouncements[0] || null} isRTL={false} />
             <AllAnnouncementsWidget
               myAnnouncements={myAnnouncements}
-              adminAnnouncements={adminAnnouncements}
-              otherTeacherAnnouncements={otherTeacherAnnouncements}
+              adminAnnouncements={adminAnnouncements}              otherTeacherAnnouncements={otherTeacherAnnouncements}
               isRTL={false}
             />
           </section>

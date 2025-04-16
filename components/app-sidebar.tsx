@@ -37,6 +37,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { is } from "drizzle-orm"
+import { featureFlags, isFeatureEnabled } from "@/lib/feature-flags";
 
 export function useUserTeamRole() {
   const [userRole, setUserRole] = React.useState<string | null>(null);
@@ -84,11 +85,10 @@ const buildNavMain = (userRole: string | null, teamRole: string | null, t: (key:
         ]
       }
     ] : []),
-    {
+    ...(isFeatureEnabled('teacherControl') || userRole === 'dev' ? [{
       title: t("teacherControl"),
       url: "#",
       icon: FileText,
-      // isActive: true,
       items: [
         {
           title: t("overview"),
@@ -116,7 +116,7 @@ const buildNavMain = (userRole: string | null, teamRole: string | null, t: (key:
           icon: Pencil,
         },
       ]
-    },
+    }] : []),
     {
       title: t("studentStream"),
       url: "#",

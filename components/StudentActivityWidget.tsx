@@ -57,7 +57,7 @@ export default function StudentActivityWidget({
   const renderActivityChart = (data: ActivityData[], period: ActivityPeriod) => {
     const maxVisits = Math.max(...data.map(d => d.visits));
     return (
-      <div className="relative mt-4 flex w-full h-36 md:h-40 items-end justify-between gap-1 text-xs text-muted-foreground">
+      <div className=" relative  mt-4 flex w-full h-36 md:h-40 items-end justify-between gap-1 text-xs text-muted-foreground">
         {data.map((item, i) => {
           const maxBarHeight = 112; // px, matches h-28
           const barValue = maxVisits > 0 ? (item.visits / maxVisits) * maxBarHeight : 0;
@@ -89,7 +89,7 @@ export default function StudentActivityWidget({
               : item.day;
           }
           return (
-            <div key={i} className="flex flex-col items-center w-8 group relative z-10">
+            <div key={i} className="flex flex-col items-center w-8 group relative z-10 ">
               {/* Bar is absolutely aligned to the bottom */}
               <div className="relative flex items-end justify-center w-full" style={{ height: maxBarHeight }}>
                 <AnimatePresence>
@@ -151,7 +151,7 @@ export default function StudentActivityWidget({
   };
   
   return (
-    <Tabs defaultValue="day" className="w-full" dir={isRTL ? 'rtl' : 'ltr'}>
+    <Tabs defaultValue="day" className="w-full " dir={isRTL ? 'rtl' : 'ltr'}>
       <TabsList className="flex w-full max-w-full sm:max-w-xs mx-auto bg-muted/50 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-1 mt-2 mb-4 overflow-x-auto scrollbar-thin scrollbar-thumb-blue-200 scrollbar-track-transparent">
         <TabsTrigger value="day" className="flex-1 min-w-0 basis-0 truncate rounded-md px-2 md:px-3 py-1.5 text-sm font-medium transition-all data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow data-[state=inactive]:text-blue-900 dark:data-[state=inactive]:text-blue-100 data-[state=inactive]:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 dark:focus-visible:ring-blue-800">{t('day', 'Day')}</TabsTrigger>
         <TabsTrigger value="week" className="flex-1 min-w-0 basis-0 truncate rounded-md px-2 md:px-3 py-1.5 text-sm font-medium transition-all data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow data-[state=inactive]:text-blue-900 dark:data-[state=inactive]:text-blue-100 data-[state=inactive]:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 dark:focus-visible:ring-blue-800">{t('week', 'Week')}</TabsTrigger>
