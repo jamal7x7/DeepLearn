@@ -96,7 +96,7 @@ export const TurtlePreview: React.FC<TurtlePreviewProps> = ({
           {/* Simple turtle icon based on style */}
           <polygon 
             points="0,-5 -3,3 0,1 3,3" 
-            fill={style.color || '#00FF00'} 
+            fill={style.headColor || '#00FF00'} 
             stroke="#000000" 
             strokeWidth="0.5"
           />

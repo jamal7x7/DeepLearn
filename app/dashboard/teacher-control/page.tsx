@@ -309,7 +309,8 @@ Write your content here...
 
         const result = await sendAnnouncementAction(
             announcementMessage,
-            selectedTeamIdsForAnnouncement
+            selectedTeamIdsForAnnouncement,
+            "plain"
         );
 
         setIsSendingAnnouncement(false);

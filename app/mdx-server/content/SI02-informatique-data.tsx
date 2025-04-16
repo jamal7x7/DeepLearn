@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const accordionItems = [
   {
     title: "Étape 4: Les algorithmes, base de la programmation",

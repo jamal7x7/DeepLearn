@@ -9,6 +9,9 @@ import {
   UserMinus,
   Mail,
   CheckCircle,
+  Ticket,
+  UserCheck,
+  Megaphone,
   type LucideIcon,
 } from 'lucide-react';
 import { ActivityType } from '@/lib/db/schema';
@@ -26,6 +29,9 @@ const iconMap: Record<ActivityType, LucideIcon> = {
   [ActivityType.REMOVE_TEAM_MEMBER]: UserMinus,
   [ActivityType.INVITE_TEAM_MEMBER]: Mail,
   [ActivityType.ACCEPT_INVITATION]: CheckCircle,
+  [ActivityType.GENERATE_INVITATION_CODE]: Ticket,
+  [ActivityType.JOIN_TEAM_WITH_CODE]: UserCheck,
+  [ActivityType.SEND_ANNOUNCEMENT]: Megaphone,
 };
 
 function getRelativeTime(date: Date) {
@@ -64,6 +70,12 @@ function formatAction(action: ActivityType): string {
       return 'You invited a team member';
     case ActivityType.ACCEPT_INVITATION:
       return 'You accepted an invitation';
+    case ActivityType.GENERATE_INVITATION_CODE:
+      return 'You generated an invitation code';
+    case ActivityType.JOIN_TEAM_WITH_CODE:
+      return 'You joined a team with a code';
+    case ActivityType.SEND_ANNOUNCEMENT:
+      return 'You sent an announcement';
     default:
       return 'Unknown action occurred';
   }

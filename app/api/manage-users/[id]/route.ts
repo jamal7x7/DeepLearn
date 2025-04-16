@@ -5,11 +5,11 @@ import { eq } from 'drizzle-orm';
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: any
 ) {
   await db
     .update(users)
     .set({ deletedAt: new Date() })
-    .where(eq(users.id, parseInt(params.id)));
+    .where(eq(users.id, parseInt(context.params.id)));
   return NextResponse.json({ success: true });
 }

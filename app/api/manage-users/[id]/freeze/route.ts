@@ -5,9 +5,9 @@ import { eq } from 'drizzle-orm';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: any
 ) {
-  const userId = parseInt(params.id);
+  const userId = parseInt(context.params.id) ;
   const [user] = await db.select().from(users).where(eq(users.id, userId));
 
   if (!user) {

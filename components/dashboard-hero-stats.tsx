@@ -12,7 +12,13 @@ interface DashboardHeroStatsProps {
   isRTL?: boolean;
 }
 
-const stats = [
+const stats: {
+  key: string;
+  icon: typeof Users;
+  color: string;
+  tooltip: string;
+  suffix?: string;
+}[] = [
   {
     key: 'totalStudents',
     icon: Users,
@@ -24,6 +30,7 @@ const stats = [
     icon: Activity,
     color: 'bg-green-100 text-green-600',
     tooltip: 'engagementRateTooltip',
+    suffix: '%',
   },
   {
     key: 'teamActivity',
@@ -48,7 +55,7 @@ export function DashboardHeroStats({ totalStudents, engagementRate, teamActivity
         isRTL ? 'direction-rtl' : 'direction-ltr'
       )}
     >
-      {data.map(({ key, icon: Icon, value, label, color, suffix, tooltip }) => (
+      {data.map(({ key, icon: Icon, value, label, color, tooltip, suffix = '' }) => (
         <TooltipProvider key={key} delayDuration={100}>
           <Tooltip>
             <TooltipTrigger asChild>

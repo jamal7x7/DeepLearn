@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TURTLE_DESIGNS } from '@/lib/turtle';
+import { TURTLE_STYLES } from '@/lib/turtleStyles';
+import { Turtle } from '@/lib/turtle';
 
 function CanvasCard() {
-    const [selectedTurtleDesign, setSelectedTurtleDesign] = useState(TURTLE_DESIGNS[0]);
-    const canvasRef = useRef(null);
-    const turtleRef = useRef(null);
+    const [selectedTurtleDesign, setSelectedTurtleDesign] = useState(TURTLE_STYLES[0]);
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
+    const turtleRef = useRef<Turtle | null>(null);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -13,13 +14,16 @@ function CanvasCard() {
         if (!ctx) return;
 
         if (!turtleRef.current) {
-            turtleRef.current = new Turtle(ctx);
+            turtleRef.current = new Turtle(selectedTurtleDesign);
+        } else {
+            turtleRef.current.setStyle(selectedTurtleDesign);
         }
 
-        turtleRef.current.setDesign(selectedTurtleDesign);
+        // Drawing logic would use ctx and turtleRef.current state
+        // (implement drawing here if needed)
     }, [selectedTurtleDesign]);
 
-    const handleTurtleDesignChange = (design) => {
+    const handleTurtleDesignChange = (design: typeof TURTLE_STYLES[number]) => {
         setSelectedTurtleDesign(design);
     };
 
@@ -39,16 +43,12 @@ function CanvasCard() {
                     id="turtle-design-select"
                     value={selectedTurtleDesign.name}
                     onChange={(e) => {
-                        const selectedDesign = TURTLE_DESIGNS.find(d => d.name === e.target.value);
-                        if (selectedDesign) {
-                            handleTurtleDesignChange(selectedDesign);
-                        }
+                        const selected = TURTLE_STYLES.find(style => style.name === e.target.value);
+                        if (selected) handleTurtleDesignChange(selected);
                     }}
                 >
-                    {TURTLE_DESIGNS.map((design) => (
-                        <option key={design.name} value={design.name}>
-                            {design.name}
-                        </option>
+                    {TURTLE_STYLES.map(style => (
+                        <option key={style.id} value={style.name}>{style.name}</option>
                     ))}
                 </select>
             </div>
@@ -56,4 +56,4 @@ function CanvasCard() {
     );
 }
 
-export default CanvasCard; 
+export default CanvasCard;
