@@ -56,6 +56,12 @@ export const activityLogs = pgTable('activity_logs', {
   ipAddress: varchar('ip_address', { length: 45 }),
 });
 
+
+export const featureFlags = pgTable('feature_flags', {
+  key: varchar('key', { length: 64 }).primaryKey(),
+  enabled: boolean('enabled').notNull().default(false),
+});
+
 export const invitations = pgTable('invitations', {
   id: serial('id').primaryKey(),
   teamId: integer('team_id')

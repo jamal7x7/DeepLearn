@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Users, Settings, Shield, Activity, Menu, Cog, CreditCard, Ticket, UserPlus } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import  Heading  from '@/components/heading'; // Adjust the path based on your project structure
 import { cn } from '@/lib/utils';
@@ -16,13 +17,14 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { t } = useTranslation();
 
   const navItems = [
-    { href: '/dashboard/settings-dashboard/account', icon: Cog, label: 'Account' },
-    { href: '/dashboard/settings-dashboard', icon: Users, label: 'Team' },
-    { href: '/dashboard/settings-dashboard/invitation-codes', icon: Ticket, label: 'Invitation Codes' },
-    { href: '/dashboard/join-team', icon: UserPlus, label: 'Join Team' },
-    { href: '/dashboard/settings-dashboard/billing', icon: CreditCard, label: 'Billing' },
+    { href: '/dashboard/settings-dashboard/account', icon: Cog, label: t('settings.account', 'Account') },
+    { href: '/dashboard/settings-dashboard', icon: Users, label: t('settings.team', 'Team') },
+    { href: '/dashboard/settings-dashboard/invitation-codes', icon: Ticket, label: t('settings.invitationCodes', 'Invitation Codes') },
+    { href: '/dashboard/join-team', icon: UserPlus, label: t('settings.joinTeam', 'Join Team') },
+    { href: '/dashboard/settings-dashboard/billing', icon: CreditCard, label: t('settings.billing', 'Billing') },
   ];
 
   return (
@@ -31,7 +33,7 @@ export default function DashboardLayout({
       {/* Mobile header */}
       <div className="lg:hidden flex items-center justify-between  border-b  p-4">
         <div className="flex items-center">
-          <span className="font-medium">Settings</span>
+          <span className="font-medium">{t('settings.title', 'Settings')}</span>
         </div>
         <Button
           className="-mr-3"
@@ -39,11 +41,11 @@ export default function DashboardLayout({
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
           <Menu className="h-6 w-6" />
-          <span className="sr-only">Toggle sidebar</span>
+          <span className="sr-only">{t('settings.toggleSidebar', 'Toggle sidebar')}</span>
         </Button>
       </div>
       <div className="   hidden lg:block lg:px-4 lg:py-0">
-        <Heading  title="Settings" description="Manage your profile and account settings " />
+        <Heading  title={t('settings.title', 'Settings')} description={t('settings.description', 'Manage your profile and account settings ')} />
       </div>
 
         

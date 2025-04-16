@@ -106,8 +106,13 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
     redirect('/dashboard/student');
   } else if (fullUser.role === 'teacher') {
     redirect('/dashboard/teacher');
-  } else {
-    redirect('/dashboard');
+  } else if (fullUser.role === 'dev') {
+    redirect('/dashboard/dev');
+  }else if (fullUser.role === 'admin') {
+    redirect('/dashboard/admin');
+  }
+ else {
+    redirect('/');
   }
 });
 
@@ -300,7 +305,7 @@ export const signUp = validatedAction(
     }
 
     // Redirect to dashboard
-    redirect(createdUser.role === 'student' ? '/dashboard/student' : '/dashboard');
+    redirect(createdUser.role === 'student' ? '/dashboard/student' : '/');
   }
 );
 

@@ -9,6 +9,7 @@ import { Loader2 } from 'lucide-react';
 import { useUser } from '@/lib/auth';
 import { updateAccount } from '@/app/(login)/actions';
 import HeadingSmall from '@/components/heading-small';
+import { useTranslation } from 'react-i18next';
 
 type ActionState = {
   error?: string;
@@ -22,6 +23,7 @@ export default function GeneralPage() {
     updateAccount,
     { error: '', success: '' }
   );
+  const { t } = useTranslation();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,42 +42,42 @@ export default function GeneralPage() {
   return (
     <section className="flex-1 p-4 lg:p-0">
       {/* <h1 className="text-lg lg:text-2xl font-medium  mb-6">
-        General Settings
+        {t('settings.general.title', 'General Settings')}
       </h1> */}
-            <HeadingSmall title='General Settings' description='Update your General Settings'/>
+      <HeadingSmall title={t('settings.general.title', 'General Settings')} description={t('settings.general.description', 'Update your General Settings')}/>
       
       <Card className="mb-8 mt-6">
         <CardHeader>
-          <CardTitle>Account Information</CardTitle>
+          <CardTitle>{t('settings.general.accountInfo', 'Account Information')}</CardTitle>
         </CardHeader>
         <CardContent>
           <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-3">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">{t('settings.general.name', 'Name')}</Label>
               <Input
                 id="name"
                 name="name"
-                placeholder="Enter your name"
+                placeholder={t('settings.general.namePlaceholder', 'Enter your name')}
                 defaultValue={user?.name || ''}
                 required
               />
             </div>
             <div className="space-y-3">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t('settings.general.email', 'Email')}</Label>
               <Input
                 id="email"
                 name="email"
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t('settings.general.emailPlaceholder', 'Enter your email')}
                 defaultValue={user?.email || ''}
                 required
               />
             </div>
             {state.error && (
-              <p className="text-red-500 text-sm">{state.error}</p>
+              <p className="text-red-500 text-sm">{t(state.error)}</p>
             )}
             {state.success && (
-              <p className="text-green-500 text-sm">{state.success}</p>
+              <p className="text-green-500 text-sm">{t(state.success)}</p>
             )}
             <Button
               type="submit"
@@ -85,10 +87,10 @@ export default function GeneralPage() {
               {isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Saving...
+                  {t('common.saving', 'Saving...')}
                 </>
               ) : (
-                'Save Changes'
+                t('common.saveChanges', 'Save Changes')
               )}
             </Button>
           </form>

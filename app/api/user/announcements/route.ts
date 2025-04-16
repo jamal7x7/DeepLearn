@@ -1,13 +1,15 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db/drizzle';
 import { getSession } from '@/lib/auth/session';
+import { db } from '@/lib/db/drizzle';
 import { announcements, announcementRecipients, teamMembers, teams, users } from '@/lib/db/schema';
-import { eq, and, desc } from 'drizzle-orm';
+import { eq, and, desc, or, ilike } from 'drizzle-orm';
 
 export async function GET() {
   try {
     const session = await getSession();
+    console.log('DEBUG: Session', session);
     if (!session?.user?.id) {
+      console.log('DEBUG: Unauthorized - no session user');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -43,9 +45,14 @@ export async function GET() {
         eq(users.id, announcements.senderId)
       )
       .where(
-        eq(teamMembers.userId, userId)
+        or(
+          and(eq(teamMembers.userId, userId), eq(announcementRecipients.teamId, teams.id)),
+          ilike(users.name, '%admin%')
+        )
       )
       .orderBy(desc(announcements.createdAt));
+
+    console.log('DEBUG: Announcements data', userAnnouncements);
 
     // Remove duplicate announcements by id and set sender fallback
     const uniqueAnnouncements = [];
@@ -61,10 +68,7 @@ export async function GET() {
     }
     return NextResponse.json({ announcements: uniqueAnnouncements });
   } catch (error) {
-    console.error('Error fetching announcements:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch announcements' },
-      { status: 500 }
-    );
+    console.error('DEBUG: Error in announcements endpoint', error);
+    return NextResponse.json({ error: 'Internal Server Error', details: String(error) }, { status: 500 });
   }
 }

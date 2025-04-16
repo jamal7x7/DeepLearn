@@ -5,13 +5,14 @@ import { signToken, verifyToken } from '@/lib/auth/session';
 const protectedRoutes = '/dashboard';
 
 const roles = {
-  '/dashboard/invitation-codes': ['admin', 'teacher'],
-  '/dashboard/join-team': ['admin', 'teacher', 'student'],
-  '/dashboard/settings-dashboard/account ': ['admin', 'teacher', 'student'],
-  '/dashboard/admin': ['admin'],
-  '/dashboard/teacher-control': ['admin', 'teacher'],
-  '/dashboard': ['admin', 'teacher', 'student'],
-  '/dashboard/student': ['student'],
+  '/dashboard/invitation-codes': ['admin', 'teacher', 'dev'],
+  '/dashboard/join-team': ['admin', 'teacher', 'student', 'dev'],
+  '/dashboard/settings-dashboard/account ': ['admin', 'teacher', 'student', 'dev'],
+  '/dashboard/admin': ['admin', 'dev'],
+  '/dashboard/teacher-control': ['admin', 'teacher', 'dev'],
+  '/dashboard': ['admin', 'teacher', 'student', 'dev'],
+  '/dashboard/student': ['student', 'dev'],
+  '/dashboard/admin/feature-flags': ['dev'],
 };
 
 export async function middleware(request: NextRequest) {
@@ -49,6 +50,11 @@ export async function middleware(request: NextRequest) {
         console.error(`Unauthorized access attempt: Path=${pathname}, Role=${userRole}, Allowed=${allowedRoles}`);
         return NextResponse.redirect(new URL('/unauthorized', request.url));
       }
+
+      // Redirect dev role to /dashboard/admin if landing on /dashboard after login
+      // if (pathname === '/dashboard' && userRole === 'dev') {
+      //   return NextResponse.redirect(new URL('/dashboard/admin', request.url));
+      // }
 
       const expiresInOneDay = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
