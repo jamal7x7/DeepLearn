@@ -24,6 +24,8 @@ export const users = pgTable('users', {
 export const teams = pgTable('teams', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 100 }).notNull(),
+  type: varchar('type', { length: 32 }).notNull().default('class'),
+  order: integer('order').default(0),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
   stripeCustomerId: text('stripe_customer_id').unique(),
@@ -55,7 +57,6 @@ export const activityLogs = pgTable('activity_logs', {
   timestamp: timestamp('timestamp').notNull().defaultNow(),
   ipAddress: varchar('ip_address', { length: 45 }),
 });
-
 
 export const featureFlags = pgTable('feature_flags', {
   key: varchar('key', { length: 64 }).primaryKey(),

@@ -48,6 +48,10 @@ export class LogoInterpreter {
     // The first element is the global scope (only procedures here),
     // subsequent elements are local scopes for procedure calls.
     private scopeStack: SymbolTable[] = [this.procedures];
+    // Drawing context and origin for turtle rendering
+    private ctx: CanvasRenderingContext2D | null = null;
+    private canvasOriginX: number = 0;
+    private canvasOriginY: number = 0;
 
     constructor() {
         // Initialize global scope (procedures are added during interpretation)
@@ -128,7 +132,7 @@ export class LogoInterpreter {
         // console.log("AST:", JSON.stringify(ast, null, 2)); // Optional: Log AST for debugging
 
         // 3. Interpret AST (now async)
-        this.turtle.clearScreen(); // Clear canvas before execution
+        this.turtle.reset(); // Reset turtle state before execution
 
         // Wrap the interpretation logic in a promise that execute will await
         await (async () => {
@@ -136,7 +140,9 @@ export class LogoInterpreter {
                 await this.interpretStatements(ast); // Await the async interpretation
                 // Final Touches moved inside async block
                 if (!this.commandLog.some(msg => msg.startsWith("RUNTIME ERROR"))) {
-                    this.turtle?.drawTurtle(); // Draw the turtle only if no runtime errors occurred
+                    if (this.ctx && this.turtle) {
+                        this.turtle.drawTurtle(this.ctx, this.canvasOriginX, this.canvasOriginY);
+                    }
                     this.log("--- Execution Finished ---");
                 }
             } catch (error) {
@@ -159,6 +165,12 @@ export class LogoInterpreter {
 
         // Return the final logs after interpretation is complete
         return this.commandLog;
+    }
+
+    setDrawingContext(ctx: CanvasRenderingContext2D, originX: number, originY: number) {
+        this.ctx = ctx;
+        this.canvasOriginX = originX;
+        this.canvasOriginY = originY;
     }
 
     // --- AST Interpretation Methods ---
@@ -307,9 +319,9 @@ export class LogoInterpreter {
             case 'CLEARSCREEN':
             case 'HOME':
                  if (args.length !== 0) throw new RuntimeError(`${node.command} expects 0 arguments, got ${args.length}`, node);
-                 if (node.command === 'PENUP') this.turtle.penUp();
-                 else if (node.command === 'PENDOWN') this.turtle.penDown();
-                 else if (node.command === 'CLEARSCREEN') this.turtle.clearScreen();
+                 if (node.command === 'PENUP') this.turtle.setPenUp();
+                 else if (node.command === 'PENDOWN') this.turtle.setPenDown();
+                 else if (node.command === 'CLEARSCREEN') this.turtle.reset(); // Use reset to clear state
                  else if (node.command === 'HOME') this.turtle.home();
                 break;
             case 'HIDETURTLE':

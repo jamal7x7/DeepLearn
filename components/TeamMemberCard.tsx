@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Jdenticon from "react-jdenticon";
 import React from "react";
+import cn from "classnames";
 
 function getRoleIcon(role: string) {
   if (role === "teacher") return <Star className="h-4 w-4 text-yellow-500 mr-1" />;
@@ -44,87 +45,58 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
   return (
     <Card
       className={
-        variant === "teacher"
-          ? "flex flex-col transition-shadow hover:shadow-2xl group border-2 border-yellow-400 bg-card text-card-foreground"
-          : variant === "staff"
-          ? "flex flex-col transition-shadow hover:shadow-xl group bg-card text-card-foreground"
-          : "flex flex-row items-center gap-3 px-3 py-2 min-h-0 rounded-lg bg-card text-card-foreground border transition-shadow hover:shadow-md group"
+        cn(
+          "flex flex-row items-center gap-3 px-3 py-2 min-h-0 rounded-lg bg-card text-card-foreground border transition-shadow hover:shadow-lg group",
+          variant === "teacher" && "border-yellow-400 bg-yellow-50 dark:bg-yellow-900/20",
+          variant === "staff" && "bg-muted border-muted-foreground/10",
+        )
       }
-      style={variant === "student" ? { minHeight: "0", height: "auto" } : undefined}
+      style={{ minHeight: 0, height: "auto" }}
     >
-      {variant === "student" ? (
-        <CardContent className="flex flex-row items-center gap-3 p-0 w-full">
-          <Avatar className="h-8 w-8">
-            <AvatarFallback className="rounded-lg">
-              <Jdenticon
-                size={avatarSize}
-                value={String(member.id || member.email || member.name || "user")}
-                title={member.name || member.email || "User"}
-                style={{ borderRadius: "9999px", width: "100%", height: "100%" }}
-              />
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex-1 min-w-0">
-            <div className="font-medium text-sm truncate">{member.name || "No Name"}</div>
-            <div className="text-xs text-muted-foreground truncate">{member.email}</div>
+      <CardContent className="flex flex-row items-center gap-3 p-0 w-full">
+        <Avatar className="h-8 w-8">
+          <AvatarFallback className="rounded-lg">
+            <Jdenticon
+              size={avatarSize}
+              value={String(member.id || member.email || member.name || "user")}
+              title={member.name || member.email || "User"}
+              style={{ borderRadius: "9999px", width: "100%", height: "100%" }}
+            />
+          </AvatarFallback>
+        </Avatar>
+        <div className="flex-1 min-w-0">
+          <div className="font-medium text-sm truncate flex items-center gap-1">
+            {getRoleIcon(member.role)}
+            {member.name || "No Name"}
           </div>
-          <Badge variant="secondary" className="ml-2 shrink-0">{member.role}</Badge>
-          {canDelete && showDelete && (
-            <div className="ml-2 flex items-center">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="text-muted-foreground"
-                    type="button"
-                    aria-label="Open menu"
-                  >
-                    <MoreVertical className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem asChild variant="destructive">
-                    <button type="submit" className="flex items-center gap-2 w-full">
-                      <Trash2 className="h-4 w-4" />
-                      Remove
-                    </button>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          )}
-        </CardContent>
-      ) : (
-        <>
-          <CardHeader className="flex flex-row items-center gap-3 pb-2 min-h-0">
-            <Avatar className={variant === "teacher" ? "h-9 w-9" : "h-10 w-10"}>
-              <AvatarFallback className="rounded-lg">
-                <Jdenticon
-                  size={variant === "teacher" ? 36 : avatarSize}
-                  value={String(member.id || member.email || member.name || "user")}
-                  title={member.name || member.email || "User"}
-                  style={{ borderRadius: "9999px", width: "100%", height: "100%" }}
-                />
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <CardTitle className={variant === "teacher" ? "text-base flex items-center gap-1" : "text-base flex items-center gap-1"}>
-                {getRoleIcon(member.role)}
-                {member.name || "No Name"}
-              </CardTitle>
-              <div className="text-xs text-muted-foreground">{member.email}</div>
-              <Badge
-                className="mt-1"
-                variant={member.role === "admin" ? "destructive" : "secondary"}
-              >
-                {member.role}
-              </Badge>
-            </div>
-          </CardHeader>
-          {/* No CardContent or CardFooter for teacher card to keep it compact */}
-        </>
-      )}
+          <div className="text-xs text-muted-foreground truncate">{member.email}</div>
+        </div>
+        <Badge variant={member.role === "teacher" ? "destructive" : member.role === "admin" ? "outline" : "secondary"} className="ml-2 shrink-0 capitalize">
+          {member.role}
+        </Badge>
+        {canDelete && showDelete && (
+          <div className="ml-2 flex items-center">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="text-muted-foreground"
+                  type="button"
+                  aria-label="Open menu"
+                >
+                  <MoreVertical className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem className="text-red-600">
+                  <Trash2 className="w-4 h-4 mr-2" /> Remove
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )}
+      </CardContent>
     </Card>
   );
 };

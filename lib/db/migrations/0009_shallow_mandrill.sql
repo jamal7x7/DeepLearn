@@ -1,0 +1,1 @@
+ALTER TABLE "teams" ADD COLUMN "type" varchar(32) DEFAULT 'class' NOT NULL;

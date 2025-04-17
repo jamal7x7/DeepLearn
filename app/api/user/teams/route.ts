@@ -12,17 +12,20 @@ export async function GET() {
       console.log('DEBUG: Unauthorized - no session user');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    // Get all teams for the current user, with member count
+    // Get all teams for the current user, with member count, ORDERED by the 'order' column, and include type
     const result = await db
       .select({
         id: teams.id,
         name: teams.name,
-        memberCount: sql`COUNT(tm.id)`
+        type: teams.type,
+        memberCount: count(teamMembers.id),
+        order: teams.order,
       })
       .from(teams)
       .innerJoin(teamMembers, eq(teams.id, teamMembers.teamId))
       .where(eq(teamMembers.userId, session.user.id))
-      .groupBy(teams.id, teams.name);
+      .groupBy(teams.id, teams.name, teams.type, teams.order)
+      .orderBy(teams.order);
     console.log('DEBUG: Teams result', result);
     return NextResponse.json(result);
   } catch (error) {

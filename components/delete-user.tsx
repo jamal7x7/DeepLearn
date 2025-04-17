@@ -1,4 +1,4 @@
-import { useForm } from '@inertiajs/react';
+// import { useForm } from '@inertiajs/react';
 import { FormEventHandler, useRef } from 'react';
 
 import InputError from './input-error';
@@ -11,24 +11,23 @@ import HeadingSmall from './heading-small';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 export default function DeleteUser() {
-    const passwordInput = useRef<HTMLInputElement>(null);
-    const { data, setData, delete: destroy, processing, reset, errors, clearErrors } = useForm<Required<{ password: string }>>({ password: '' });
+    // const passwordInput = useRef<HTMLInputElement>(null);
+    // const { data, setData, delete: destroy, processing, reset, errors, clearErrors } = useForm<Required<{ password: string }>>({ password: '' });
 
-    const deleteUser: FormEventHandler = (e) => {
-        e.preventDefault();
+    // const deleteUser: FormEventHandler = (e) => {
+    //     e.preventDefault();
+    //     destroy(route('profile.destroy'), {
+    //         preserveScroll: true,
+    //         onSuccess: () => closeModal(),
+    //         onError: () => passwordInput.current?.focus(),
+    //         onFinish: () => reset(),
+    //     });
+    // };
 
-        destroy(route('profile.destroy'), {
-            preserveScroll: true,
-            onSuccess: () => closeModal(),
-            onError: () => passwordInput.current?.focus(),
-            onFinish: () => reset(),
-        });
-    };
-
-    const closeModal = () => {
-        clearErrors();
-        reset();
-    };
+    // const closeModal = () => {
+    //     clearErrors();
+    //     reset();
+    // };
 
     return (
         <div className="space-y-6">
@@ -49,7 +48,8 @@ export default function DeleteUser() {
                             Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your password
                             to confirm you would like to permanently delete your account.
                         </DialogDescription>
-                        <form className="space-y-6" onSubmit={deleteUser}>
+                        {/* Inertia.js form functionality commented out for Next.js compatibility */}
+                        {/* <form className="space-y-6" onSubmit={deleteUser}>
                             <div className="grid gap-2">
                                 <Label htmlFor="password" className="sr-only">
                                     Password
@@ -80,7 +80,7 @@ export default function DeleteUser() {
                                     <button type="submit">Delete account</button>
                                 </Button>
                             </DialogFooter>
-                        </form>
+                        </form> */}
                     </DialogContent>
                 </Dialog>
             </div>

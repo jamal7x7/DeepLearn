@@ -64,6 +64,20 @@
       "when": 1744815298308,
       "tag": "0008_short_johnny_storm",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1744868709409,
+      "tag": "0009_shallow_mandrill",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1744926477458,
+      "tag": "0010_curly_plazm",
+      "breakpoints": true
     }
   ]
 }

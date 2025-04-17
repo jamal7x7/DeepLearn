@@ -11,17 +11,21 @@ export default async function TeamMembersPage() {
     return <div className="p-6">You must be signed in to view team members.</div>;
   }
 
-  const userTeamMemberships = await db
+  // Sort userTeamMemberships by the teams.order column
+  const orderedMemberships = await db
     .select({
       teamId: teamMembers.teamId,
       teamName: teams.name,
       userRole: teamMembers.role,
+      order: teams.order,
+      type: teams.type,
     })
     .from(teamMembers)
     .innerJoin(teams, eq(teamMembers.teamId, teams.id))
-    .where(eq(teamMembers.userId, session.user.id));
+    .where(eq(teamMembers.userId, session.user.id))
+    .orderBy(teams.order);
 
-  if (!userTeamMemberships.length) {
+  if (!orderedMemberships.length) {
     return (
       <div className="p-6 flex flex-col items-center justify-center h-64 text-center">
         <Users className="h-10 w-10 text-muted-foreground mb-2" />
@@ -32,7 +36,7 @@ export default async function TeamMembersPage() {
   }
 
   const teamData = await Promise.all(
-    userTeamMemberships.map(async (membership) => {
+    orderedMemberships.map(async (membership) => {
       const members = await db
         .select({
           id: users.id,
@@ -47,6 +51,8 @@ export default async function TeamMembersPage() {
         teamId: membership.teamId,
         teamName: membership.teamName,
         userRole: membership.userRole,
+        order: membership.order ?? 0, // ensure number, never null
+        type: membership.type ?? (typeof membership.type === 'string' ? membership.type : 'class'),
         members,
       };
     })

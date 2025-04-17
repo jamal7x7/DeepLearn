@@ -27,6 +27,10 @@ import {
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import dynamic from "next/dynamic"
+
+// Dynamically import QuickCreateModal for code splitting and SSR safety
+const QuickCreateModal = dynamic(() => import("./quick-create/quick-create-modal").then(mod => mod.QuickCreateModal), { ssr: false })
 
 export function NavMain({
   items,
@@ -56,7 +60,9 @@ export function NavMain({
 
   // State for expanded submenus (by title)
   const [expandedMenus, setExpandedMenus] = useState<{ [key: string]: boolean }>({});
- 
+  // Modal state
+  const [isQuickCreateOpen, setQuickCreateOpen] = useState(false)
+
   // Helper function to get appropriate icon for stream-related items
   const getStreamActionIcon = (title: string, defaultIcon?: React.ComponentType<import("lucide-react").LucideProps>) => {
     if (title.toLowerCase().includes('start stream')) {
@@ -79,6 +85,7 @@ export function NavMain({
             <SidebarMenuButton
               tooltip="Quick Create"
               className="bg-primary  hover:bg-primary/90 text-foreground hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-300 ease-out group relative bg-gradient-to-r from-primary/20 to-transparent shadow-sm hover:shadow-md hover:scale-[1.02] transition-all"
+              onClick={() => setQuickCreateOpen(true)}
             >
               <IconCirclePlusFilled className="transition-transform duration-300 ease-out  group-hover:scale-110" />
               <span >Quick Create</span>
@@ -91,6 +98,7 @@ export function NavMain({
               <IconMail className="transition-transform duration-300 ease-out hover:scale-110" />
               <span className="sr-only">Inbox</span>
             </Button>
+            <QuickCreateModal open={isQuickCreateOpen} onOpenChange={setQuickCreateOpen} />
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>

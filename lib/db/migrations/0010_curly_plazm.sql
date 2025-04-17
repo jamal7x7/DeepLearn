@@ -1,0 +1,1 @@
+ALTER TABLE "teams" ADD COLUMN "order" integer DEFAULT 0;

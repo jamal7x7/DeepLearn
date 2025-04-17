@@ -89,97 +89,103 @@ export default function JoinTeamPage() {
   if (user === null) {
     // Show a centered loader while checking authentication
     return (
-      <div className="flex items-center justify-center min-h-[200px]">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      <div className="flex items-center justify-center min-h-[300px]">
+        <Loader2 className="h-10 w-10 animate-spin text-muted-foreground" />
       </div>
     );
   }
 
   return (
-    <div className="max-w-md mx-auto p-6" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
-      <Card>
-        <CardHeader>
-          <CardTitle>{t('joinATeam')}</CardTitle>
-          <CardDescription>
-            {t('enterInvitationCode')}
+    <div className="min-h-[80vh] flex flex-col items-center justify-center bg-background px-4 py-10">
+      <Card className="w-full max-w-md shadow-lg border-2 border-primary-100">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl font-bold flex flex-col items-center gap-2">
+            <span>👥</span>
+            {t('joinATeam', 'Join a Team')}
+          </CardTitle>
+          <CardDescription className="text-muted-foreground">
+            {t('enterInvitationCode', 'Enter your invitation code below to join a team.')}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
+          <form action={joinAction} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="code">{t('invitationCode')}</Label>
-              <div className="flex space-x-2">
+              <Label htmlFor="code" className="font-semibold">{t('invitationCode', 'Invitation Code')}</Label>
+              <div className="flex gap-2 items-center">
                 <Input
                   id="code"
+                  name="code"
                   value={code}
-                  onChange={(e) => setCode(e.target.value.toUpperCase())}
-                  placeholder={t('enterCode')}
-                  className="font-mono uppercase"
+                  onChange={e => setCode(e.target.value.toUpperCase())}
+                  placeholder={t('enterCode', 'e.g. ABC123')}
+                  className="font-mono uppercase tracking-widest text-lg text-center py-6 border-2 border-primary-200 focus:ring-2 focus:ring-primary-500 transition-all"
                   maxLength={10}
+                  autoComplete="off"
+                  required
+                  aria-invalid={!!validationResult && !validationResult.valid}
+                  aria-describedby="code-feedback"
                 />
                 <Button
                   type="button"
                   variant="outline"
                   onClick={validateCode}
                   disabled={isValidating || !code.trim()}
+                  aria-label={t('verify', 'Verify Code')}
+                  className="h-12"
                 >
                   {isValidating ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <Loader2 className="h-5 w-5 animate-spin" />
                   ) : (
-                    t('verify')
+                    t('verify', 'Verify')
                   )}
                 </Button>
               </div>
+              {validationResult && (
+                <div
+                  id="code-feedback"
+                  className={`flex items-center gap-2 mt-2 p-2 rounded-md text-sm font-medium transition-all ${
+                    validationResult.valid
+                      ? 'bg-green-50 text-green-700 border border-green-200 dark:bg-green-900/20 dark:text-green-300 dark:border-green-900'
+                      : 'bg-red-50 text-red-700 border border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-900'
+                  }`}
+                  role={validationResult.valid ? 'status' : 'alert'}
+                  aria-live="polite"
+                >
+                  {validationResult.valid ? (
+                    <span className="inline-block">✔️</span>
+                  ) : (
+                    <span className="inline-block">❌</span>
+                  )}
+                  <span>{validationResult.message}</span>
+                  {validationResult.valid && validationResult.teamName && (
+                    <span className="ml-auto text-xs text-muted-foreground">{t('team', 'Team')}: <span className="font-bold">{validationResult.teamName}</span></span>
+                  )}
+                </div>
+              )}
             </div>
 
-            {validationResult && (
-              <div
-                className={`p-3 rounded-md ${
-                  validationResult.valid
-                    ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-900'
-                    : 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900'
-                }`}
-              >
-                <p
-                  className={`${
-                    validationResult.valid
-                      ? 'text-green-700 dark:text-green-300'
-                      : 'text-red-700 dark:text-red-300'
-                  } font-medium`}
-                >
-                  {validationResult.message}
-                </p>
-                {validationResult.valid && validationResult.teamName && (
-                  <p className="mt-1 text-sm">{t('team')} {validationResult.teamName}</p>
-                )}
-              </div>
-            )}
-
             {joinState?.error && (
-              <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900 rounded-md">
-                <p className="text-red-700 dark:text-red-300 font-medium">
-                  {joinState.error}
-                </p>
+              <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900 rounded-md text-red-700 dark:text-red-300 font-medium animate-shake">
+                {joinState.error}
+              </div>
+            )}
+            {joinState?.success && (
+              <div className="p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-900 rounded-md text-green-700 dark:text-green-300 font-medium animate-fade-in">
+                {joinState.success}
+                <div className="mt-1 text-xs text-muted-foreground">{t('redirectingToDashboard', 'Redirecting to dashboard...')}</div>
               </div>
             )}
 
-            {joinState?.success && (
-              <div className="p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-900 rounded-md">
-                <p className="text-green-700 dark:text-green-300 font-medium">
-                  {joinState.success}
-                </p>
-                <p className="mt-1 text-sm">{t('redirectingToDashboard')}</p>
-              </div>
-            )}
-          </div>
-        </CardContent>
-        <CardFooter>
-          <form action={joinAction} className="w-full">
-            <input type="hidden" name="code" value={code} />
             <Button
               type="submit"
-              className="w-full"
+              className="w-full h-12 text-lg font-semibold"
               disabled={
+                isJoinPending ||
+                !code.trim() ||
+                !validationResult?.valid ||
+                Boolean(joinState?.success)
+              }
+              aria-disabled={
                 isJoinPending ||
                 !code.trim() ||
                 !validationResult?.valid ||
@@ -188,15 +194,15 @@ export default function JoinTeamPage() {
             >
               {isJoinPending ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {t('joining')}
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  {t('joining', 'Joining...')}
                 </>
               ) : (
-                t('joinTeam')
+                t('joinTeam', 'Join Team')
               )}
             </Button>
           </form>
-        </CardFooter>
+        </CardContent>
       </Card>
     </div>
   );

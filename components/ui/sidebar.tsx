@@ -69,9 +69,14 @@ function SidebarProvider({
   const isMobile = useIsMobile()
   const [openMobile, setOpenMobile] = React.useState(false)
 
-  // This is the internal state of the sidebar.
-  // We use openProp and setOpenProp for control from outside the component.
-  const [_open, _setOpen] = React.useState(defaultOpen)
+  // Get initial state from cookie (SSR-safe)
+  const getInitialOpen = () => {
+    if (typeof window === 'undefined') return defaultOpen;
+    const match = document.cookie.match(/(?:^|; )sidebar_state=(true|false)/);
+    return match ? match[1] === 'true' : defaultOpen;
+  };
+
+  const [_open, _setOpen] = React.useState(getInitialOpen)
   const open = openProp ?? _open
   const setOpen = React.useCallback(
     (value: boolean | ((value: boolean) => boolean)) => {
@@ -81,12 +86,24 @@ function SidebarProvider({
       } else {
         _setOpen(openState)
       }
-
-      // This sets the cookie to keep the sidebar state.
       document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
     },
     [setOpenProp, open]
   )
+
+  React.useEffect(() => {
+    // Sync state with cookie on mount (client only)
+    if (typeof window !== 'undefined') {
+      const match = document.cookie.match(/(?:^|; )sidebar_state=(true|false)/)
+      if (match) {
+        const cookieState = match[1] === 'true'
+        if (cookieState !== _open) {
+          _setOpen(cookieState)
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Helper to toggle the sidebar.
   const toggleSidebar = React.useCallback(() => {
@@ -109,6 +126,9 @@ function SidebarProvider({
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [toggleSidebar])
 
+  const [isHydrated, setIsHydrated] = React.useState(false);
+  React.useEffect(() => { setIsHydrated(true); }, []);
+
   // We add a state so that we can do data-state="expanded" or "collapsed".
   // This makes it easier to style the sidebar with Tailwind classes.
   const state = open ? "expanded" : "collapsed"
@@ -125,6 +145,11 @@ function SidebarProvider({
     }),
     [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
   )
+
+  // Render placeholder until hydrated to prevent SSR/CSR mismatch flicker
+  if (!isHydrated) {
+    return <div style={{ width: SIDEBAR_WIDTH }} aria-hidden />;
+  }
 
   return (
     <SidebarContext.Provider value={contextValue}>

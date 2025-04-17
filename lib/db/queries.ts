@@ -163,7 +163,10 @@ export async function getTeamsForUser(userId: number, role?: string) {
   const teamMembersArr = (result as any)?.teamMembers as Array<{ role: string; team: any }> | undefined;
   if (!teamMembersArr) return [];
   const filtered = role ? teamMembersArr.filter(tm => tm.role === role) : teamMembersArr;
-  return filtered.map((tm: { team: any }) => tm.team);
+  // Sort by team.order ASC, fallback to id ASC
+  return filtered
+    .map((tm: { team: any }) => tm.team)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || (a.id - b.id));
 }
 
 /**

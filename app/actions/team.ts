@@ -10,13 +10,13 @@ export async function removeTeamMember(teamId: number, userId: number) {
   await db.delete(teamMembers).where(
     and(eq(teamMembers.teamId, teamId), eq(teamMembers.userId, userId))
   );
-  revalidatePath("/dashboard/team-members");
+  revalidatePath("/dashboard/teams");
 }
 
 // Server action to delete a team
 export async function removeTeam(teamId: number) {
   await db.delete(teams).where(eq(teams.id, teamId));
-  revalidatePath("/dashboard/team-members");
+  revalidatePath("/dashboard/teams");
 }
 /**
  * Server action to create a new team and add the user as a teacher.

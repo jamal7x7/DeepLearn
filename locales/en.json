@@ -237,10 +237,12 @@
   "myAnnouncements": "My Announcements",
   "adminAnnouncements": "Admin",
   "otherTeachersAnnouncements": "Other Teachers",
-  "noAnnouncementsFound": "No announcements found",
+
   "latestAnnouncement": {
     "noAnnouncementsFound": "No announcements found",
     "latest": "Latest Announcement",
     "sentAt": "Sent at {{date}}"
-  }
+  },
+  "teamCreatedSuccess": "Team created successfully!"
+
 }

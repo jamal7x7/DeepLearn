@@ -1,6 +1,6 @@
 "use client";
 
-import { Users, Activity, BarChart2 } from 'lucide-react';
+import { Users, Activity, BarChart2, type LucideIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -12,13 +12,17 @@ interface DashboardHeroStatsProps {
   isRTL?: boolean;
 }
 
-const stats: {
+type Stat = {
   key: string;
-  icon: typeof Users;
+  icon: LucideIcon;
   color: string;
   tooltip: string;
+  value: number;
+  label: string;
   suffix?: string;
-}[] = [
+};
+
+const stats: Omit<Stat, 'value' | 'label'>[] = [
   {
     key: 'totalStudents',
     icon: Users,
@@ -42,7 +46,7 @@ const stats: {
 
 export function DashboardHeroStats({ totalStudents, engagementRate, teamActivity, isRTL }: DashboardHeroStatsProps) {
   const { t } = useTranslation();
-  const data = [
+  const data: Stat[] = [
     { ...stats[0], value: totalStudents, label: t('totalStudents', 'Total Students') },
     { ...stats[1], value: engagementRate, label: t('engagementRate', 'Engagement Rate'), suffix: '%' },
     { ...stats[2], value: teamActivity, label: t('teamActivity', 'Team Activity') },

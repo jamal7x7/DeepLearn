@@ -139,7 +139,11 @@ export class Turtle implements TurtleState {
         console.log(`State Set Pen Color: ${this.penColor}`);
     }
 
-    // setBackgroundColor removed - not part of turtle state
+    setBackgroundColor(r: number, g: number, b: number): void {
+        // Optionally store this value if you want to use it for drawing
+        // this.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+        console.log(`Set background color to rgb(${r}, ${g}, ${b})`);
+    }
 
     setHeading(targetAngleInput: number): void {
         this.angle = this.normalizeAngle(targetAngleInput);
