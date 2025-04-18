@@ -3,7 +3,6 @@ module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
   plugins: [
-    '@typescript-eslint',
     'react',
     'react-hooks',
     'jsx-a11y',
