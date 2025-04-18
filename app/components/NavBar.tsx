@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { Separator } from "@radix-ui/react-separator";
 
 export default function NavBar() {
   return (
@@ -10,12 +12,20 @@ export default function NavBar() {
         Avent
       </div>
       <div className="flex items-center gap-4">
-        <Link href="/sign-in" className="text-sm font-medium hover:underline">
+        <Link
+          href="/sign-in"
+          className="text-sm font-medium rounded-md px-3 py-1 bg-white dark:bg-black/20 hover:bg-gray-100 hover:font-bold dark:hover:bg-gray-900 dark:hover:text-blue-400 hover:text-blue-500 transition-all duration-200"
+        >
           Login
         </Link>
-        <Link href="/sign-up" className="text-sm font-medium hover:underline">
+        <Link
+          href="/sign-up"
+          className="text-sm font-medium rounded-md px-3 py-1 bg-white dark:bg-black/20 hover:bg-gray-100 hover:font-bold dark:hover:bg-gray-900 dark:hover:text-blue-400 hover:text-blue-500 transition-all duration-200"
+        >
           Register
         </Link>
+        <Separator className="h-4" />
+        <LanguageSwitcher />
         <ModeToggle />
       </div>
     </nav>

@@ -2,7 +2,7 @@
 
 import { useTranslation } from "react-i18next";
 import React from "react";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Globe } from "lucide-react";
 
@@ -12,7 +12,7 @@ const LANGS = [
   { code: "ar", label: "العربية" }
 ];
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ animateGlobe = false }: { animateGlobe?: boolean } = {}) {
   const { i18n } = useTranslation();
 
   const handleChange = (lng: string) => {
@@ -23,34 +23,30 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          size="sm"
-          className="flex items-center gap-2 px-3 py-1.5 rounded"
+          size="icon"
+          className={`relative flex items-center justify-center ${animateGlobe ? ' animate-pulse' : ''}`}
           aria-label="Select language"
         >
-          <Globe className="w-4 h-4" />
-          <span className="text-sm">{LANGS.find(l => l.code === i18n.language)?.label || "EN"}</span>
+          <Globe className="w-[1rem] h-[1rem] text-primary group-hover:scale-110 transition-transform" />
+          <span className="sr-only">Toggle language</span>
         </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-36 p-2">
-        <div className="flex flex-col gap-1">
-          {LANGS.map((lang) => (
-            <Button
-              key={lang.code}
-              variant={i18n.language === lang.code ? "default" : "ghost"}
-              size="sm"
-              className={`justify-start w-full text-left rounded ${i18n.language === lang.code ? "" : "hover:bg-accent"}`}
-              onClick={() => handleChange(lang.code)}
-              aria-label={`Switch to ${lang.label}`}
-            >
-              {lang.label}
-            </Button>
-          ))}
-        </div>
-      </PopoverContent>
-    </Popover>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        {LANGS.map((lang) => (
+          <DropdownMenuItem
+            key={lang.code}
+            onClick={() => handleChange(lang.code)}
+            className={i18n.language === lang.code ? "font-bold text-primary" : ""}
+            aria-label={`Switch to ${lang.label}`}
+          >
+            {lang.label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

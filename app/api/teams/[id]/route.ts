@@ -6,15 +6,16 @@ import { teams, teamMembers } from "@/lib/db/schema";
 import { getSession } from "@/lib/auth/session";
 import { eq, and } from 'drizzle-orm';
 
-export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+export async function DELETE(
+  request: NextRequest,
+  context: any
+) {
   try {
     const session = await getSession();
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    // Await params as per Next.js dynamic API route requirements
-    const { params } = context;
-    const teamId = Number(params.id);
+    const teamId = Number(context.params.id);
     if (!teamId || isNaN(teamId)) {
       return NextResponse.json({ error: "Invalid team id" }, { status: 400 });
     }

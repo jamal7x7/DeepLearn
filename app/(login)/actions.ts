@@ -304,8 +304,8 @@ export const signUp = validatedAction(
       return createCheckoutSession({ team: createdTeam, priceId });
     }
 
-    // Redirect to dashboard
-    redirect(createdUser.role === 'student' ? '/dashboard/student' : '/');
+    // Redirect to login after successful registration
+    redirect('/sign-in');
   }
 );
 
