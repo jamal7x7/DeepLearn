@@ -12,7 +12,6 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { MoreVertical, Trash2 } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
@@ -33,11 +32,6 @@ export default function TeamsPage() {
   const [isSendingAnnouncement, setIsSendingAnnouncement] = useState(false);
   const [announcementType, setAnnouncementType] = useState<"plain" | "mdx">("plain");
 
-  // Fetch teams on mount
-  useEffect(() => {
-    fetchTeams();
-  }, []);
-
   const fetchTeams = async () => {
     setIsLoading(true);
     try {
@@ -50,6 +44,11 @@ export default function TeamsPage() {
       setIsLoading(false);
     }
   };
+
+  // Fetch teams on mount
+  useEffect(() => {
+    fetchTeams();
+  }, [fetchTeams]);
 
   const handleCreateTeam = async (e: React.FormEvent) => {
     e.preventDefault();

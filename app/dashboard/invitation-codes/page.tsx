@@ -24,7 +24,7 @@ import { InvitationCode } from '@/lib/db/schema';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { createTeamAction } from '@/app/actions/team';
 import { generateInvitationCode, revokeInvitationCode } from '@/app/api/invitation-codes/actions';
- 
+
 type Team = { id: number; name: string };
 
 export default function InvitationCodesPage() {
@@ -39,7 +39,7 @@ export default function InvitationCodesPage() {
   const [editingTeamId, setEditingTeamId] = useState<number | null>(null);
   const [editingName, setEditingName] = useState('');
   const [isRenaming, setIsRenaming] = useState(false);
-   const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     setRoleLoading(true);
@@ -52,7 +52,6 @@ export default function InvitationCodesPage() {
       .finally(() => setRoleLoading(false));
   }, []);
 
-  // Fetch teams for the teacher
   useEffect(() => {
     setIsLoadingTeams(true);
     fetch('/api/manage-users/teams')
@@ -72,7 +71,7 @@ export default function InvitationCodesPage() {
   useEffect(() => {
     userPromise.then(setUser);
   }, [userPromise]);
-  // Only allow teachers, owners, or representatives
+
   if (roleLoading) {
     return (
       <div className="flex items-center justify-center min-h-[200px]">
@@ -92,21 +91,16 @@ export default function InvitationCodesPage() {
     );
   }
 
-  // State for renaming teams (moved hooks to top)
-
-  // Handler to start renaming
   const startRenaming = (teamId: number, currentName: string) => {
     setEditingTeamId(teamId);
     setEditingName(currentName);
   };
 
-  // Handler to cancel renaming
   const cancelRenaming = () => {
     setEditingTeamId(null);
     setEditingName('');
   };
 
-  // Handler to save new name
   const saveRenaming = async (teamId: number) => {
     if (!editingName.trim() || isRenaming) return;
     setIsRenaming(true);
@@ -122,7 +116,6 @@ export default function InvitationCodesPage() {
             t.id === teamId ? { ...t, name: editingName.trim() } : t
           )
         );
-        // If the currently selected tab was renamed, update its label
         if (selectedTab === String(teamId)) {
           setSelectedTab(String(teamId));
         }
@@ -135,9 +128,7 @@ export default function InvitationCodesPage() {
     }
   };
 
-
   const handleTeamCreated = (team: Team) => {
-    // After creating a team, refetch teams and select the new team tab
     fetch('/api/manage-users/teams')
       .then(res => res.json())
       .then(data => {
@@ -149,118 +140,121 @@ export default function InvitationCodesPage() {
   const isTeacher = user?.role === 'teacher' || user?.role === 'owner';
 
   return (
-    <div className="p-6 space-y-6 " dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <h1 className="text-2xl font-bold">{t("invitationCodesTitle")}</h1>
-          <p className="text-muted-foreground">
-            {t("invitationCodesDescription")}
-          </p>
-        </div>
-        {isTeacher && (
-          <Button 
-            onClick={() => setSelectedTab("new")} 
-            className="bg-primary hover:bg-primary/90 text-white font-medium"
-            size="lg"
-          >
-            <PlusCircle className="mr-2 h-5 w-5" />
-            {t("addTeam")}
-          </Button>
-        )}
-      </div>
-      {isLoadingTeams ? (
-        <div className="flex justify-center py-8">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-        </div>
-      ) : (
-        <Tabs
-          value={selectedTab}
-          onValueChange={setSelectedTab}
-          className="w-full"
-        >
-          <TabsList className="flex justify-between items-center w-full">
-            <div className="flex gap-1">
-              {teams.map(team => (
-                <TabsTrigger key={team.id} value={String(team.id)}>
-                  {team.name}
-                </TabsTrigger>
-              ))}
+    <div className="flex flex-col h-full">
+      <div className="flex-1 flex flex-col overflow-auto">
+        <div className="p-6 space-y-6 w-full max-w-5xl mx-auto" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
+          <div className="flex justify-between items-center mb-4">
+            <div>
+              <h1 className="text-2xl font-bold">{t("invitationCodesTitle")}</h1>
+              <p className="text-muted-foreground">
+                {t("invitationCodesDescription")}
+              </p>
             </div>
-            <div className="flex gap-1 items-center">
-              {isTeacher && selectedTab && selectedTab !== "new" && (
-                editingTeamId === Number(selectedTab) ? (
-                  <div className="flex items-center gap-1">
-                    <Input
-                      value={editingName}
-                      onChange={e => setEditingName(e.target.value)}
-                      className="h-7 w-24 px-2 py-1 text-xs"
-                      autoFocus
-                      maxLength={32}
-                      onKeyDown={e => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault();
-                          saveRenaming(Number(selectedTab));
-                        } else if (e.key === 'Escape') {
-                          cancelRenaming();
-                        }
-                      }}
-                    />
-                    <Button
-                      type="button"
-                      size="icon"
-                      variant="ghost"
-                      className="h-7 w-7 p-0"
-                      onClick={() => saveRenaming(Number(selectedTab))}
-                      disabled={isRenaming}
-                      aria-label={t("save")}
-                    >
-                      <Check className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      type="button"
-                      size="icon"
-                      variant="ghost"
-                      className="h-7 w-7 p-0"
-                      onClick={cancelRenaming}
-                      aria-label={t("cancel")}
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </div>
-                ) : (
-                  <Button
-                    type="button"
-                    size="icon"
-                    variant="ghost"
-                    className="h-7 w-7 p-0"
-                    onClick={() => startRenaming(Number(selectedTab), teams.find(t => String(t.id) === selectedTab)?.name || '')}
-                    aria-label={t("rename")}
-                  >
-                    <Pencil className="h-4 w-4" />
-                  </Button>
-                )
-              )}
-              <TabsTrigger value="new" className="flex items-center">
-                <PlusCircle className="h-4 w-4 mr-1" />
+            {isTeacher && (
+              <Button 
+                onClick={() => setSelectedTab("new")}
+                className="bg-primary hover:bg-primary/90 text-white font-medium"
+                size="lg"
+              >
+                <PlusCircle className="mr-2 h-5 w-5" />
                 {t("addTeam")}
-              </TabsTrigger>
+              </Button>
+            )}
+          </div>
+          {isLoadingTeams ? (
+            <div className="flex justify-center py-8">
+              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
             </div>
-          </TabsList>
-          {teams.map(team => (
-            <TabsContent key={team.id} value={String(team.id)}  dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
-              <TeamTabContent team={team} user={user} />
-            </TabsContent>
-          ))}
-          <TabsContent value="new"  dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
-            <AddTeamForm user={user} onTeamCreated={handleTeamCreated} />
-          </TabsContent>
-        </Tabs>
-      )}
+          ) : (
+            <Tabs
+              value={selectedTab}
+              onValueChange={setSelectedTab}
+              className="w-full"
+            >
+              <TabsList className="flex justify-between items-center w-full bg-background border-b rounded-none px-0">
+                <div className="flex gap-1">
+                  {teams.map(team => (
+                    <TabsTrigger key={team.id} value={String(team.id)} className="rounded-none px-4 py-2 text-sm font-medium">
+                      {team.name}
+                    </TabsTrigger>
+                  ))}
+                </div>
+                <div className="flex gap-1 items-center">
+                  {isTeacher && selectedTab && selectedTab !== "new" && (
+                    editingTeamId === Number(selectedTab) ? (
+                      <div className="flex items-center gap-1">
+                        <Input
+                          value={editingName}
+                          onChange={e => setEditingName(e.target.value)}
+                          className="h-7 w-24 px-2 py-1 text-xs"
+                          autoFocus
+                          maxLength={32}
+                          onKeyDown={e => {
+                            if (e.key === 'Enter') {
+                              e.preventDefault();
+                              saveRenaming(Number(selectedTab));
+                            } else if (e.key === 'Escape') {
+                              cancelRenaming();
+                            }
+                          }}
+                        />
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="ghost"
+                          className="h-7 w-7 p-0"
+                          onClick={() => saveRenaming(Number(selectedTab))}
+                          disabled={isRenaming}
+                          aria-label={t("save")}
+                        >
+                          <Check className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="ghost"
+                          className="h-7 w-7 p-0"
+                          onClick={cancelRenaming}
+                          aria-label={t("cancel")}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ) : (
+                      <Button
+                        type="button"
+                        size="icon"
+                        variant="ghost"
+                        className="h-7 w-7 p-0"
+                        onClick={() => startRenaming(Number(selectedTab), teams.find(t => String(t.id) === selectedTab)?.name || '')}
+                        aria-label={t("rename")}
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                    )
+                  )}
+                  <TabsTrigger value="new" className="flex items-center rounded-none px-4 py-2 text-sm font-medium">
+                    <PlusCircle className="h-4 w-4 mr-1" />
+                    {t("addTeam")}
+                  </TabsTrigger>
+                </div>
+              </TabsList>
+              {teams.map(team => (
+                <TabsContent key={team.id} value={String(team.id)} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'} className="pt-6">
+                  <TeamTabContent team={team} user={user} />
+                </TabsContent>
+              ))}
+              <TabsContent value="new" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'} className="pt-6">
+                <AddTeamForm user={user} onTeamCreated={handleTeamCreated} />
+              </TabsContent>
+            </Tabs>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
 
-// Component: TeamTabContent
 function TeamTabContent({ team, user }: { team: Team; user: any }) {
   const [codes, setCodes] = useState<InvitationCode[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -278,25 +272,6 @@ function TeamTabContent({ team, user }: { team: Team; user: any }) {
   );
 
   const { t } = useTranslation();
-
-  useEffect(() => {
-    fetchCodes();
-    // eslint-disable-next-line
-  }, [team.id]);
-
-  useEffect(() => {
-    if (generateState?.success && generateState?.code) {
-      fetchCodes();
-    }
-    // eslint-disable-next-line
-  }, [generateState]);
-
-  useEffect(() => {
-    if (revokeState?.success) {
-      fetchCodes();
-    }
-    // eslint-disable-next-line
-  }, [revokeState]);
 
   const fetchCodes = async () => {
     setIsLoading(true);
@@ -316,6 +291,22 @@ function TeamTabContent({ team, user }: { team: Team; user: any }) {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchCodes();
+  }, [team?.id]);
+
+  useEffect(() => {
+    if (generateState?.success && generateState?.code) {
+      fetchCodes();
+    }
+  }, [generateState, fetchCodes]);
+
+  useEffect(() => {
+    if (revokeState?.success) {
+      fetchCodes();
+    }
+  }, [revokeState, fetchCodes]);
 
   const copyToClipboard = (code: string) => {
     navigator.clipboard.writeText(code);
@@ -516,7 +507,6 @@ function TeamTabContent({ team, user }: { team: Team; user: any }) {
   );
 }
 
-// Component: AddTeamForm
 function AddTeamForm({
   user,
   onTeamCreated,

@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { eq } from 'drizzle-orm';
 import { db } from '@/lib/db/drizzle';
 import { users, teams, teamMembers } from '@/lib/db/schema';
