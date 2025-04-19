@@ -37,6 +37,7 @@ import {
   sortableKeyboardCoordinates
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { Muted } from "./ui/typography";
 
 // Use local TeamData interface
 export interface TeamData {
@@ -76,12 +77,15 @@ const TEAM_TYPE_ICONS: Record<string, React.ReactNode> = {
 function getTeamTypeIcon(type?: string) {
   return TEAM_TYPE_ICONS[type?.toLowerCase() ?? 'default'] ?? TEAM_TYPE_ICONS['default'];
 }
+function getTeamTypeJDentIcon(typeOption? : any) {
+  return {jdenticon: <Jdenticon size={28} value={String(typeOption?.value)} className={String(typeOption?.jdenticon)} />}
+}
 
 const TEAM_TYPE_OPTIONS = [
-  { value: "class", label: "Class", icon: <GraduationCapIcon className="w-5 h-5 text-blue-500" aria-label="Class" />, bg: "bg-blue-100 dark:bg-blue-900/40 border-blue-400 dark:border-blue-600" },
-  { value: "club", label: "Club", icon: <Users2 className="w-5 h-5 text-green-500" aria-label="Club" />, bg: "bg-green-100 dark:bg-green-900/40 border-green-400 dark:border-green-600" },
-  { value: "study group", label: "Study Group", icon: <BookOpen className="w-5 h-5 text-purple-500" aria-label="Study Group" />, bg: "bg-purple-100 dark:bg-purple-900/40 border-purple-400 dark:border-purple-600" },
-  { value: "other", label: "Other", icon: <Sparkles className="w-5 h-5 text-yellow-500" aria-label="Other" />, bg: "bg-yellow-100 dark:bg-yellow-900/40 border-yellow-400 dark:border-yellow-600" },
+  { value: "class", label: "Class", icon: <GraduationCapIcon className="w-5 h-5 text-blue-500" aria-label="Class" />, bg: "bg-blue-100 dark:bg-blue-900/40 border-blue-400 dark:border-blue-600" , color: "text-blue-500", jdenticon: " rounded-full border-8 border-blue-500 bg-white dark:bg-muted"},
+  { value: "club", label: "Club", icon: <Users2 className="w-5 h-5 text-green-500" aria-label="Club" />, bg: "bg-green-100 dark:bg-green-900/40 border-green-400 dark:border-green-600" , color: "text-green-500", jdenticon: " rounded-full border-8 border-green-500 bg-white dark:bg-muted"},
+  { value: "study group", label: "Study Group", icon: <BookOpen className="w-5 h-5 text-purple-500" aria-label="Study Group" />, bg: "bg-purple-100 dark:bg-purple-900/40 border-purple-400 dark:border-purple-600" , color: "text-purple-500", jdenticon: " rounded-full border-8 border-purple-500 bg-white dark:bg-muted"},
+  { value: "other", label: "Other", icon: <Sparkles className="w-5 h-5 text-yellow-500" aria-label="Other" />, bg: "bg-yellow-100 dark:bg-yellow-900/40 border-yellow-400 dark:border-yellow-600" , color: "text-yellow-500", jdenticon: " rounded-full border-8 border-yellow-500 bg-white dark:bg-muted"},
 ];
 
 function CreateNewTeamModal({ open, onOpenChange, onTeamCreated }: { open: boolean; onOpenChange: (open: boolean) => void; onTeamCreated: (optimisticTeam: { name: string; type: string }) => void }) {
@@ -486,9 +490,9 @@ function TeamMembersClient(props: TeamMembersClientProps) {
   const mergedTeams = useMergedTeams(teams, pendingTeams);
 
   return (
-    <div className="flex h-full min-h-[60vh] border border-secondary rounded-lg overflow-hidden">
+    <div className="flex h-full min-h-[60vh] border-0 border-secondary rounded-lg overflow-hidden">
       {/* Sidebar: Teams */}
-      <aside className="w-[320px] min-w-[220px] max-w-[100vw] bg-background border-r border-secondary flex flex-col">
+      <aside className="w-[380px] min-w-[220px] max-w-[100vw] bg-background border-r border-secondary flex flex-col">
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDndKitDragEnd}>
           <SortableContext items={orderedTeams.map(t => String(t.teamId))} strategy={verticalListSortingStrategy}>
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
@@ -502,8 +506,12 @@ function TeamMembersClient(props: TeamMembersClientProps) {
                   onRemove={handleRemoveTeam}
                 >
                   <div className="flex items-center gap-3 px-4 py-3">
-                    <Jdenticon size={28} value={String(team.teamName || team.teamId)} className="rounded-full border border-background bg-white dark:bg-muted" />
-                    <span className="flex-1 truncate text-base font-medium">{team.teamName}</span>
+                    <div className="border-3 p-2  rounded-lg"> 
+                    {TEAM_TYPE_OPTIONS.find(t => t.value === team.type)?.icon}
+                    {/* {getTeamTypeJDentIcon(TEAM_TYPE_OPTIONS.find(t => t.value === team.type))?.jdenticon} */}
+                      {/* <Jdenticon size={28} value={String(team.teamName || team.teamId)} className=" rounded-full border-8 border-yellow-500 bg-white dark:bg-muted" /> */}
+                    </div>
+                    <span className="flex-1 truncate text-base font-medium">{team.teamName} </span>
                     <Badge variant="outline" className="text-xs px-2 py-0.5 lowercase">{team.type}</Badge>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -517,8 +525,8 @@ function TeamMembersClient(props: TeamMembersClientProps) {
                   </div>
                 </SortableTeamCard>
               ))}
-              <button className="w-full mt-4 py-2 border-2 border-dashed border-primary/40 rounded-lg flex items-center justify-center gap-2 text-primary hover:border-primary/80 transition text-lg font-semibold" onClick={() => setShowCreate(true)}>
-                <Plus className="w-6 h-6" /> {t('createNewTeam')}
+              <button className="w-full mt-4 py-2 border-2 border-dashed border-primary/20 rounded-lg flex items-center justify-center gap-2 text-primary hover:border-primary/50 transition text-lg font-semibold" onClick={() => setShowCreate(true)}>
+                <Plus className="w-6 h-6" /> <Muted>{t('createNewTeam')}</Muted>
               </button>
             </div>
           </SortableContext>
