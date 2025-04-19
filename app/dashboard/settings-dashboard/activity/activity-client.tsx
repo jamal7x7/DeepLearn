@@ -118,9 +118,7 @@ const ActivityClient: React.FC<ActivityClientProps> = ({ logs, error }) => {
 
   return (
     <section className="flex-1 p-4 lg:p-0">
-      <HeadingSmall>
-        {t("activity.title", { defaultValue: "Recent Activity" })}
-      </HeadingSmall>
+      <HeadingSmall title={t("activity.title", { defaultValue: "Recent Activity" })} />
       {logs.length === 0 ? (
         <Card className="mt-6">
           <CardContent className="flex flex-col items-center justify-center py-12">

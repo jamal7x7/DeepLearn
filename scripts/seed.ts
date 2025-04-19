@@ -38,9 +38,7 @@ const arabicNames = [
   "Nabil El Amrani", "Rania El Mansouri", "Tarik El Ghazali", "Soukaina El Mahdi", "Jalil El Fadili"
 ];
 
-import bcrypt from 'bcryptjs'; // Use bcryptjs
-
-const SALT_ROUNDS = 10; // For bcrypt hashing
+import { hashPassword } from '../lib/auth/session'; // Use PBKDF2 hashing for compatibility
 
 async function seedDatabase() {
   console.log('Seeding database...');
@@ -85,7 +83,6 @@ async function seedDatabase() {
     // --- Create Users (Teachers & Students) ---
     console.log('Creating users...');
     const usersToCreate = [];
-    const hashedPassword = await bcrypt.hash('password123', SALT_ROUNDS); // Use a common password for simplicity
 
     // Helper to check if user exists by email
     async function userExists(email: string) {
@@ -112,7 +109,7 @@ async function seedDatabase() {
         usersToCreate.push({
           name: arabicNames[i % arabicNames.length],
           email,
-          passwordHash: hashedPassword,
+          passwordHash: await hashPassword('password123'),
           role: 'teacher',
         });
       }
@@ -128,7 +125,7 @@ async function seedDatabase() {
         usersToCreate.push({
           name: arabicNames[(i - 1) % arabicNames.length],
           email,
-          passwordHash: hashedPassword,
+          passwordHash: await hashPassword('password123'),
           role: 'student',
         });
       }
@@ -156,7 +153,7 @@ async function seedDatabase() {
       await db.insert(users).values({
         name: 'Admin',
         email: adminEmail,
-        passwordHash: hashedPassword,
+        passwordHash: await hashPassword('password123'),
         role: 'admin',
       });
       // Fetch the full admin user object after insert
