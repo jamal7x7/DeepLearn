@@ -21,7 +21,21 @@ const arabicNames = [
   "Amina Benjelloun", "Hassan Tazi", "Leila Saadi", "Hamza Belmekki", "Zineb El Aaroui",
   "Omar El Fassi", "Nadia Bennis", "Karim El Mansouri", "Samira El Ghazali", "Rachid El Idrissi",
   "Imane El Khatib", "Younes El Amrani", "Sara El Yacoubi", "Mounir El Hachimi", "Latifa El Fadili",
-  "Nabil El Malki", "Rania El Gharbi", "Tarik El Moutawakkil", "Soukaina El Fassi", "Jalil El Amrani"
+  "Nabil El Malki", "Rania El Gharbi", "Tarik El Moutawakkil", "Soukaina El Fassi", "Jalil El Amrani",
+  "Mouad El Idrissi", "Hajar Boukhris", "Ayoub El Mahdi", "Ilham Bennis", "Zakaria El Khatib",
+  "Najib El Ghazali", "Malak Benjelloun", "Yassir Tazi", "Siham El Aaroui", "Othmane Belmekki",
+  "Rim El Fassi", "Houda Saadi", "Reda Barada", "Asmae Chafai", "Walid Bouzid",
+  "Souad Belmekki", "Fouad El Mansouri", "Samia Idrissi", "Khalid Naciri", "Laila Benani",
+  "Ayman Amine", "Ikram El Ghazali", "Yassine El Malki", "Kenza Saadi", "Soukaina El Aaroui",
+  "Badr El Amrani", "Sanae El Fadili", "Meryem El Mahdi", "Noureddine Alaoui", "Imane Benjelloun",
+  "Omar Bouzid", "Nadia El Fassi", "Hicham El Ghazali", "Salma El Aaroui", "Karim Barada",
+  "Amina El Khatib", "Tarik Boukhris", "Latifa El Mansouri", "Hamza El Malki", "Rania El Fadili",
+  "Abdelhak El Ghazali", "Mounir Benjelloun", "Loubna El Amrani", "Youssef El Fassi", "Samira El Aaroui",
+  "Nabil El Khatib", "Imane Bouzid", "Younes Belmekki", "Sara Benani", "Mohamed El Ghazali",
+  "Khadija El Aaroui", "Hassan El Fadili", "Leila El Mahdi", "Hamza Benjelloun", "Zineb El Ghazali",
+  "Omar El Mansouri", "Nadia Benani", "Karim El Fadili", "Samira El Mahdi", "Rachid El Amrani",
+  "Imane El Ghazali", "Younes Benjelloun", "Sara El Mahdi", "Mounir El Khatib", "Latifa El Aaroui",
+  "Nabil El Amrani", "Rania El Mansouri", "Tarik El Ghazali", "Soukaina El Mahdi", "Jalil El Fadili"
 ];
 
 import bcrypt from 'bcryptjs'; // Use bcryptjs
@@ -49,7 +63,12 @@ async function seedDatabase() {
 
     // --- Create Teams (skip if exists) ---
     console.log('Creating teams...');
-    const teamNames = ['Math Wizards', 'Science Explorers', 'History Buffs'];
+    const teamNames = [
+      'Math Wizards', 'Science Explorers', 'History Buffs',
+      'Literature Legends', 'Robotics Club', 'Art Masters',
+      'Debate Society', 'Chess Champions', 'Coding Ninjas',
+      'Eco Warriors', 'Music Ensemble', 'Drama Troupe'
+    ];
     const createdTeams = [];
     for (const name of teamNames) {
       const { eq } = await import('drizzle-orm');
@@ -76,12 +95,22 @@ async function seedDatabase() {
     }
 
     // Teachers
-    const teacherEmails = [`teacher1@example.com`, `teacher2@example.com`];
-    for (const email of teacherEmails) {
+    const teacherEmails = [
+      `teacher1@example.com`, `teacher2@example.com`,
+      `teacher3@example.com`, `teacher4@example.com`,
+      `teacher5@example.com`, `teacher6@example.com`,
+      `teacher7@example.com`, `teacher8@example.com`,
+      `teacher9@example.com`, `teacher10@example.com`,
+      `teacher11@example.com`, `teacher12@example.com`,
+      `teacher13@example.com`, `teacher14@example.com`,
+      `teacher15@example.com`
+    ];
+    for (let i = 0; i < teacherEmails.length; i++) {
+      const email = teacherEmails[i];
       const existing = await userExists(email);
       if (!existing) {
         usersToCreate.push({
-          name: baseFaker.person.fullName(),
+          name: arabicNames[i % arabicNames.length],
           email,
           passwordHash: hashedPassword,
           role: 'teacher',
@@ -143,34 +172,35 @@ async function seedDatabase() {
     // --- Assign Users to Teams ---
     console.log('Assigning users to teams...');
     const teamMembersToCreate: { userId: number; teamId: number; role: string }[] = [];
-    const teacher1 = allUsers.find(u => u.email === 'teacher1@example.com');
-    const teacher2 = allUsers.find(u => u.email === 'teacher2@example.com');
-    const mathTeam = createdTeams.find(t => t.name === 'Math Wizards');
-    const scienceTeam = createdTeams.find(t => t.name === 'Science Explorers');
-    const historyTeam = createdTeams.find(t => t.name === 'History Buffs'); // Teacherless team for testing
 
-    if (!teacher1 || !teacher2 || !mathTeam || !scienceTeam || !historyTeam) {
-        throw new Error("Failed to find required teachers or teams after creation.");
+    // Assign teachers to teams (round-robin)
+    const teachers = allUsers.filter(u => u.role === 'teacher');
+    let teacherIdx = 0;
+    for (const team of createdTeams) {
+      if (teachers.length > 0) {
+        const teacher = teachers[teacherIdx % teachers.length];
+        teamMembersToCreate.push({ userId: teacher.id, teamId: team.id, role: 'teacher' });
+        teacherIdx++;
+      }
     }
 
-    // Assign Teacher 1 to Math Wizards
-    teamMembersToCreate.push({ userId: teacher1.id, teamId: mathTeam.id, role: 'teacher' });
-    // Assign Teacher 2 to Science Explorers
-    teamMembersToCreate.push({ userId: teacher2.id, teamId: scienceTeam.id, role: 'teacher' });
-
-    // Assign Students
-    let studentIndex = 0;
-    for (const user of createdUsers) {
-      if (user.role === 'student') {
-        studentIndex++;
-        if (studentIndex <= 30) { // First 30 students in Math
-          teamMembersToCreate.push({ userId: user.id, teamId: mathTeam.id, role: 'student' });
-        } else if (studentIndex <= 60) { // Next 30 students in Science
-          teamMembersToCreate.push({ userId: user.id, teamId: scienceTeam.id, role: 'student' });
-        } else { // Last 30 students in History
-          teamMembersToCreate.push({ userId: user.id, teamId: historyTeam.id, role: 'student' });
-        }
+    // Assign students to teams (ensure at least 4 members per team)
+    const students = allUsers.filter(u => u.role === 'student');
+    let studentIdx = 0;
+    for (const team of createdTeams) {
+      let teamStudentCount = 0;
+      // Assign at least 3 students to each team (since 1 teacher already assigned)
+      while (teamStudentCount < 3 && studentIdx < students.length) {
+        teamMembersToCreate.push({ userId: students[studentIdx].id, teamId: team.id, role: 'student' });
+        teamStudentCount++;
+        studentIdx++;
       }
+    }
+    // Distribute remaining students evenly
+    while (studentIdx < students.length) {
+      const team = createdTeams[studentIdx % createdTeams.length];
+      teamMembersToCreate.push({ userId: students[studentIdx].id, teamId: team.id, role: 'student' });
+      studentIdx++;
     }
 
     await db.insert(teamMembers).values(teamMembersToCreate);
@@ -183,21 +213,7 @@ async function seedDatabase() {
     // Use statically imported announcements, announcementRecipients
     const announcementInserts = [];
     const recipientInserts = [];
-
-    // Helper: get teacher for a team
-    function getTeacherForTeam(teamId: number) {
-      return teamMembersToCreate.find(tm => tm.teamId === teamId && tm.role === 'teacher');
-    }
-
-    // --- Admin Announcement Seed ---
-    // Insert at least one admin announcement visible to all users
-    announcementInserts.push({
-      senderId: adminUser.id,
-      content: 'This is a global admin announcement: Platform maintenance on 2025-04-20.',
-      type: 'plain',
-      sender: 'Admin',
-      createdAt: new Date(),
-    });
+    const teachersForAnnouncements = allUsers.filter(u => u.role === 'teacher');
 
     // Example announcement content
     const exampleAnnouncements = [
@@ -254,15 +270,15 @@ async function seedDatabase() {
       }
     ];
 
-    // For each team, create 2-3 announcements
-    for (const team of createdTeams) {
-      const teacher = getTeacherForTeam(team.id);
-      if (!teacher) continue;
-      for (let i = 0; i < 3; i++) {
+    // Each teacher gets at least 10 announcements
+    for (const teacher of teachersForAnnouncements) {
+      for (let i = 0; i < 10; i++) {
         const ann = exampleAnnouncements[i % exampleAnnouncements.length];
+        // Optionally, tweak content to make each announcement unique
+        const uniqueContent = ann.content + `\n\n[Announcement #${i + 1} by ${teacher.email}]`;
         announcementInserts.push({
-          senderId: teacher.userId,
-          content: ann.content,
+          senderId: teacher.id,
+          content: uniqueContent,
           type: ann.type,
         });
       }
@@ -276,15 +292,17 @@ async function seedDatabase() {
       type: announcements.type,
     });
 
-    // Link each announcement to its team
+    // Optionally, link each announcement to a team (e.g., round-robin or by teacher's assigned team)
     let annIdx = 0;
-    for (const team of createdTeams) {
-      for (let i = 0; i < 3; i++) {
+    for (const teacher of teachersForAnnouncements) {
+      // Find a team this teacher is assigned to
+      const teacherTeam = createdTeams.find(team => teamMembersToCreate.some(tm => tm.userId === teacher.id && tm.teamId === team.id && tm.role === 'teacher'));
+      for (let i = 0; i < 10; i++) {
         const ann = createdAnnouncements[annIdx++];
-        if (ann) {
+        if (ann && teacherTeam) {
           recipientInserts.push({
             announcementId: ann.id,
-            teamId: team.id,
+            teamId: teacherTeam.id,
           });
         }
       }
