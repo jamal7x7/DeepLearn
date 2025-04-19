@@ -194,27 +194,42 @@ export class LogoInterpreter {
                 await this.visitCommand(node); // Await command execution
                 break;
             case 'Repeat':
-                await this.visitRepeat(node); // Await repeat execution
+                if (this.isRepeatNode(node)) {
+                    await this.visitRepeat(node);
+                } else {
+                    throw new RuntimeError('Node is not a valid RepeatNode', node);
+                }
                 break;
             case 'ProcedureDefinition':
-                this.visitProcedureDefinition(node); // Definition is synchronous
+                if (this.isProcedureDefinitionNode(node)) {
+                    this.visitProcedureDefinition(node);
+                } else {
+                    throw new RuntimeError('Node is not a valid ProcedureDefinitionNode', node);
+                }
                 break;
             case 'ProcedureCall':
-                // Procedure calls used as statements don't return values here.
-                // If a procedure call is used in an expression context, evaluateExpression handles it.
-                await this.visitProcedureCall(node); // Corrected: Removed second argument
+                if (this.isProcedureCallNode(node)) {
+                    await this.visitProcedureCall(node);
+                } else {
+                    throw new RuntimeError('Node is not a valid ProcedureCallNode', node);
+                }
                 break;
-            case 'If': // Added IfNode case
-                await this.visitIf(node as IfNode);
+            case 'If':
+                if (this.isIfNode(node)) {
+                    await this.visitIf(node);
+                } else {
+                    throw new RuntimeError('Node is not a valid IfNode', node);
+                }
                 break;
-            case 'Output': // Added OutputNode case
-                this.visitOutput(node as OutputNode); // Output throws signal, doesn't need await here
+            case 'Output':
+                if (this.isOutputNode(node)) {
+                    await this.visitOutput(node);
+                } else {
+                    throw new RuntimeError('Node is not a valid OutputNode', node);
+                }
                 break;
             default:
-                // This check helps ensure all statement types are handled.
-                // If you add a new Statement type, TypeScript will error here until you add a case.
-                const exhaustiveCheck: never = node;
-                throw new RuntimeError(`Unhandled statement type: ${(exhaustiveCheck as any).type}`, node);
+                throw new RuntimeError(`Unknown command encountered during interpretation: '${(node as any).command}'`, node);
         }
     }
 
@@ -366,19 +381,39 @@ export class LogoInterpreter {
                  this.log(String(args[0]));
                  break;
             case 'Repeat':
-                await this.visitRepeat(node as RepeatNode);
+                if (this.isRepeatNode(node)) {
+                    await this.visitRepeat(node);
+                } else {
+                    throw new RuntimeError('Node is not a valid RepeatNode', node);
+                }
                 break;
             case 'ProcedureDefinition':
-                this.visitProcedureDefinition(node as ProcedureDefinitionNode);
+                if (this.isProcedureDefinitionNode(node)) {
+                    this.visitProcedureDefinition(node);
+                } else {
+                    throw new RuntimeError('Node is not a valid ProcedureDefinitionNode', node);
+                }
                 break;
             case 'ProcedureCall':
-                await this.visitProcedureCall(node as ProcedureCallNode);
+                if (this.isProcedureCallNode(node)) {
+                    await this.visitProcedureCall(node);
+                } else {
+                    throw new RuntimeError('Node is not a valid ProcedureCallNode', node);
+                }
                 break;
             case 'If':
-                await this.visitIf(node as IfNode);
+                if (this.isIfNode(node)) {
+                    await this.visitIf(node);
+                } else {
+                    throw new RuntimeError('Node is not a valid IfNode', node);
+                }
                 break;
             case 'Output':
-                await this.visitOutput(node as OutputNode);
+                if (this.isOutputNode(node)) {
+                    await this.visitOutput(node);
+                } else {
+                    throw new RuntimeError('Node is not a valid OutputNode', node);
+                }
                 break;
             default:
                 throw new RuntimeError(`Unknown command encountered during interpretation: '${node.command}'`, node);
@@ -515,5 +550,30 @@ export class LogoInterpreter {
                 throw new RuntimeError(`Cannot evaluate unhandled expression type: ${(node as any).type}`, node);
             }
         }
+    }
+
+    // Helper type guard for RepeatNode
+    private isRepeatNode(node: any): node is RepeatNode {
+        return node && node.type === 'Repeat' && 'count' in node && 'body' in node;
+    }
+
+    // Helper type guard for ProcedureDefinitionNode
+    private isProcedureDefinitionNode(node: any): node is ProcedureDefinitionNode {
+        return node && node.type === 'ProcedureDefinition' && 'name' in node && 'parameters' in node && 'body' in node;
+    }
+
+    // Helper type guard for ProcedureCallNode
+    private isProcedureCallNode(node: any): node is ProcedureCallNode {
+        return node && node.type === 'ProcedureCall' && 'name' in node && 'arguments' in node;
+    }
+
+    // Helper type guard for IfNode
+    private isIfNode(node: any): node is IfNode {
+        return node && node.type === 'If' && 'condition' in node && 'body' in node;
+    }
+
+    // Helper type guard for OutputNode
+    private isOutputNode(node: any): node is OutputNode {
+        return node && node.type === 'Output' && 'value' in node;
     }
 }
