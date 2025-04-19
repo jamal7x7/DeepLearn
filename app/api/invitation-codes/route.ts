@@ -1,3 +1,4 @@
+export const runtime = 'nodejs';
 import { NextRequest, NextResponse } from 'next/server';
 import { and, eq, or, gte, lt, isNull } from 'drizzle-orm';
 

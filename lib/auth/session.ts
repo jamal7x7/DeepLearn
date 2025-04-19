@@ -1,21 +1,37 @@
-import { compare, hash } from 'bcryptjs';
+import { pbkdf2Async } from '@noble/hashes/pbkdf2';
+import { sha256 } from '@noble/hashes/sha256';
+import { randomBytes } from '@noble/hashes/utils';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 
 import { NewUser, User } from '@/lib/db/schema';
 
-const key = new TextEncoder().encode(process.env.AUTH_SECRET);
-const SALT_ROUNDS = 10;
+const key = new TextEncoder().encode(process.env.AUTH_SECRET || 'default_secret');
+const PBKDF2_ITERATIONS = 100_000;
+const PBKDF2_KEYLEN = 32;
+const SALT_LENGTH = 16;
 
-export async function hashPassword(password: string) {
-  return hash(password, SALT_ROUNDS);
+/**
+ * Hash a password using PBKDF2 (Edge-compatible)
+ * Returns a string: salt:hash (both hex)
+ */
+export async function hashPassword(password: string): Promise<string> {
+  const salt = randomBytes(SALT_LENGTH);
+  const hash = await pbkdf2Async(sha256, new TextEncoder().encode(password), salt, { c: PBKDF2_ITERATIONS, dkLen: PBKDF2_KEYLEN });
+  return `${Buffer.from(salt).toString('hex')}:${Buffer.from(hash).toString('hex')}`;
 }
 
-export async function comparePasswords(
-  plainTextPassword: string,
-  hashedPassword: string
-) {
-  return compare(plainTextPassword, hashedPassword);
+/**
+ * Compare a plain password to a PBKDF2 hash (salt:hash format)
+ */
+export async function comparePasswords(plainTextPassword: string, stored: string): Promise<boolean> {
+  const [saltHex, hashHex] = stored.split(':');
+  if (!saltHex || !hashHex) return false;
+  const salt = Buffer.from(saltHex, 'hex');
+  const expectedHash = Buffer.from(hashHex, 'hex');
+  const hash = await pbkdf2Async(sha256, new TextEncoder().encode(plainTextPassword), salt, { c: PBKDF2_ITERATIONS, dkLen: PBKDF2_KEYLEN });
+  // Constant-time comparison
+  return hash.length === expectedHash.length && hash.every((val, i) => val === expectedHash[i]);
 }
 
 type SessionData = {

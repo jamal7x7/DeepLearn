@@ -1,3 +1,4 @@
+export const runtime = 'nodejs';
 import { NextResponse } from 'next/server';
 
 // This route doesn't need to do much. Its primary purpose is to

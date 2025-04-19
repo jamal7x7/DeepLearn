@@ -1,7 +1,5 @@
-export const runtime = "nodejs";
-
 import { NextResponse } from 'next/server';
-import { eq, sql, inArray } from 'drizzle-orm';
+import { eq, inArray } from 'drizzle-orm';
 
 import { db } from '@/lib/db/drizzle';
 import { getSession } from '@/lib/auth/session';

@@ -1,3 +1,4 @@
+export const runtime = 'nodejs';
 import { NextResponse } from 'next/server';
 import { serialize } from 'next-mdx-remote/serialize';
 import remarkMath from 'remark-math';

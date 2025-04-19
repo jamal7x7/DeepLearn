@@ -1,3 +1,4 @@
+export const runtime = 'nodejs';
 import { NextResponse } from 'next/server';
 
 import { updateTeamName } from '@/lib/db/queries';
