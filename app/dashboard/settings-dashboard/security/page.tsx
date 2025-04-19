@@ -1,14 +1,16 @@
 "use client";
 
+import { Lock, Trash2, Loader2 } from "lucide-react";
+import { startTransition, useActionState } from "react";
+import { useTranslation } from 'react-i18next';
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Lock, Trash2, Loader2 } from "lucide-react";
-import { startTransition, useActionState } from "react";
 import { updatePassword, deleteAccount } from "@/app/(login)/actions";
 import HeadingSmall from "@/components/heading-small";
-import { useTranslation } from 'react-i18next';
+
 
 type ActionState = {
   error?: string;

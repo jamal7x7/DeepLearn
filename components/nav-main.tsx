@@ -10,13 +10,16 @@ import {
   IconPlayerStop,
   IconAntenna, // Added for Stream Control
 } from "@tabler/icons-react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import dynamic from "next/dynamic"
+
 import { useSidebar } from "@/components/ui/sidebar"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-
 import { Button } from "@/components/ui/button"
 import {
   SidebarGroup,
@@ -25,9 +28,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import dynamic from "next/dynamic"
 
 // Dynamically import QuickCreateModal for code splitting and SSR safety
 const QuickCreateModal = dynamic(() => import("./quick-create/quick-create-modal").then(mod => mod.QuickCreateModal), { ssr: false })

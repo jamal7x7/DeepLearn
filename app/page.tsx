@@ -1,20 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { ContainerScroll } from "@/components/ui/container-scroll-animation";
-
-import { Separator } from "@/components/ui/separator";
 import { ShieldCheck, Users, Settings, Lock } from "lucide-react";
-import FeatureParallax from "@/app/components/FeatureParallax";
-import {RainbowButton} from "@/components/ui/rainbow-button";
-import NavBar from "./components/NavBar";
-
 import { useTranslation } from "react-i18next";
 import { useEffect, useRef } from "react";
 import React from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+
+import { Button } from "@/components/ui/button";
+import { ContainerScroll } from "@/components/ui/container-scroll-animation";
+import { Separator } from "@/components/ui/separator";
+import FeatureParallax from "@/app/components/FeatureParallax";
+import {RainbowButton} from "@/components/ui/rainbow-button";
+
+import NavBar from "./components/NavBar";
+
 
 
 export default function LandingPage() {

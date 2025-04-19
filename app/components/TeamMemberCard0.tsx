@@ -1,13 +1,14 @@
 "use client";
 
 import { Mail, Trash2, Star, Shield } from "lucide-react";
+import Jdenticon from "react-jdenticon";
+import React from "react";
+
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import Jdenticon from "react-jdenticon";
-import React from "react";
 
 function getRoleIcon(role: string) {
   if (role === "teacher") return <Star className="h-4 w-4 text-yellow-500 mr-1" />;

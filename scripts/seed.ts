@@ -1,9 +1,10 @@
+import { faker as baseFaker } from '@faker-js/faker';
+import { Faker } from '@faker-js/faker';
+
 import { db } from '../lib/db/drizzle'; // Adjust path if needed
 import { users, teams, teamMembers } from '../lib/db/schema'; // Adjust path if needed
 // Import all relevant tables for deletion
 import { announcements, announcementRecipients, activityLogs } from '../lib/db/schema';
-import { faker as baseFaker } from '@faker-js/faker';
-import { Faker } from '@faker-js/faker';
 // Try to import Arabic locale, fallback to hardcoded names if not available
 // (removed ar_MA import)
 let arabicFaker: Faker | null = null;

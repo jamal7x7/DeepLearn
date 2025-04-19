@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import { getUser } from '@/lib/db/queries';
 import { getUserWithTeam } from '@/lib/db/queries';
 

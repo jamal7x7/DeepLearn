@@ -9,7 +9,7 @@ import {
 
 export class Parser {
     private tokens: Token[];
-    private current: number = 0;
+    private current = 0;
     private logError: (message: string, token: Token | null) => void;
 
     constructor(

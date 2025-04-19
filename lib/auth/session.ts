@@ -1,6 +1,7 @@
 import { compare, hash } from 'bcryptjs';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
+
 import { NewUser, User } from '@/lib/db/schema';
 
 const key = new TextEncoder().encode(process.env.AUTH_SECRET);

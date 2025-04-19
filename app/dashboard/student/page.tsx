@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Loader2, Users } from "lucide-react";
-import { AnnouncementCard, AnnouncementCardProps } from "@/components/AnnouncementCard";
 import { useTranslation } from "react-i18next";
+
+import { AnnouncementCard, AnnouncementCardProps } from "@/components/AnnouncementCard";
 
 // Real API call to fetch announcements for student's teams
 async function fetchStudentAnnouncements() {

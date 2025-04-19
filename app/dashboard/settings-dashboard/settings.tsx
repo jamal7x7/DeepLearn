@@ -1,15 +1,17 @@
 'use client';
 
+import { useActionState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { customerPortalAction } from '@/lib/payments/actions';
-import { useActionState } from 'react';
 import { TeamDataWithMembers, User } from '@/lib/db/schema';
 import { removeTeamMember } from '@/app/(login)/actions';
-import { InviteTeamMember } from './invite-team';
 import HeadingSmall from '@/components/heading-small';
-import { useTranslation } from 'react-i18next';
+
+import { InviteTeamMember } from './invite-team';
 
 type ActionState = {
   error?: string;

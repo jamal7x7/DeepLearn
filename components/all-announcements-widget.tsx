@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from 'react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { useTranslation } from 'react-i18next';
+import { User, Shield, Users } from 'lucide-react';
+
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { AnnouncementCard, AnnouncementCardProps } from '@/components/AnnouncementCard';
 import AnnouncementMdxPreview from '@/components/AnnouncementMdxPreview';
-import { User, Shield, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectContent, SelectItem } from '@/components/ui/select';

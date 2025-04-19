@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { Card } from "@/components/ui/card";
 import { UserPlus, ShieldCheck, Settings, Users, MessageCircle } from "lucide-react";
-
 import { useTranslation } from "react-i18next";
+
+import { Card } from "@/components/ui/card";
 
 const features = [
   {

@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Switch } from "@/components/ui/switch";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+
+import { Switch } from "@/components/ui/switch";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 interface FeatureFlag {
   key: string;

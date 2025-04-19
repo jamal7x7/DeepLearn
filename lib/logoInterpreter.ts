@@ -392,7 +392,7 @@ export class LogoInterpreter {
         this.executeHome(true); // Pass flag to avoid duplicate HOME action if CS implies it
     }
 
-    private executeHome(calledFromCS: boolean = false): void {
+    private executeHome(calledFromCS = false): void {
         const startX = this.turtleState.x;
         const startY = this.turtleState.y;
         const startAngle = this.turtleState.angle;

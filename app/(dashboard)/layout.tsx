@@ -2,8 +2,10 @@
 
 import Link from 'next/link';
 import { use, useState, Suspense } from 'react';
-import { Button } from '@/components/ui/button';
 import { Home, LogOut, TriangleIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +15,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useUser } from '@/lib/auth';
 import { signOut } from '@/app/(login)/actions';
-import { useRouter } from 'next/navigation';
+
 
 function UserMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

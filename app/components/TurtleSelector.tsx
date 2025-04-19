@@ -1,6 +1,8 @@
 'use client'; // Required for Popover and state interaction
 
 import React, { useState } from 'react';
+import { Check, Palette } from 'lucide-react'; // Icons
+
 import { Button } from '@/components/ui/button';
 import {
   Popover,
@@ -8,9 +10,9 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { TurtleStyle, TURTLE_STYLES } from '@/lib/turtleStyles';
-import { TurtlePreview } from './TurtlePreview';
-import { Check, Palette } from 'lucide-react'; // Icons
 import { cn } from '@/lib/utils'; // For conditional classes
+
+import { TurtlePreview } from './TurtlePreview';
 
 interface TurtleSelectorProps {
   currentStyle: TurtleStyle;

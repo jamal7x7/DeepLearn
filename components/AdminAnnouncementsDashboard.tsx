@@ -2,11 +2,12 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { Loader2, Bell, RefreshCw, Filter, AlertCircle } from 'lucide-react'; // Added AlertCircle
+import { useTranslation } from "react-i18next";
+
 import { Button } from '@/components/ui/button';
 import { CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Keep Card for internal use if needed, but remove outer one
 import { AnnouncementCard, AnnouncementCardProps } from "@/components/AnnouncementCard";
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'; // Import Alert components
-import { useTranslation } from "react-i18next";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 type Announcement = AnnouncementCardProps & {

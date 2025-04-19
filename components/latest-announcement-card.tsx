@@ -1,8 +1,9 @@
 "use client";
 
-import { AnnouncementCardProps } from '@/components/AnnouncementCard';
 import { useTranslation } from 'react-i18next';
 import { Calendar, Bell } from 'lucide-react';
+
+import { AnnouncementCardProps } from '@/components/AnnouncementCard';
 import { cn } from '@/lib/utils';
 import AnnouncementMdxPreview from '@/components/AnnouncementMdxPreview';
 

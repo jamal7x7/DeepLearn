@@ -1,13 +1,14 @@
 "use client"
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { motion, AnimatePresence } from  "motion/react"
+import { CheckCircle, XCircle, Award, Keyboard, ChevronRight, RotateCcw } from "lucide-react";
+
 import { cn } from "@/lib/utils"; // Assurez-vous que ce chemin est correct pour votre config shadcn
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { motion, AnimatePresence } from  "motion/react"
-import { CheckCircle, XCircle, Award, Keyboard, ChevronRight, RotateCcw } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 // Ajout de styles CSS pour le curseur clignotant
@@ -279,10 +280,10 @@ export function TypingTutor() {
     const renderText = () => {
         const chars = textToType.split('').map((char, index) => {
             let className = "";
-            let isCurrent = index === currentPosition;
-            let charToDisplay = char === ' ' ? '\u00A0' : char; // Espace insécable
-            let isTyped = index < currentPosition;
-            let isError = isCurrent && isInErrorState;
+            const isCurrent = index === currentPosition;
+            const charToDisplay = char === ' ' ? '\u00A0' : char; // Espace insécable
+            const isTyped = index < currentPosition;
+            const isError = isCurrent && isInErrorState;
 
             if (isTyped) {
                 // Correctement tapé

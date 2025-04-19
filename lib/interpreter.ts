@@ -41,7 +41,7 @@ class RuntimeError extends Error {
 export class LogoInterpreter {
     private turtle: Turtle | null = null;
     private commandLog: string[] = [];
-    private stopRequested: boolean = false; // Flag to signal stop
+    private stopRequested = false; // Flag to signal stop
     // Global symbol table for procedures
     private procedures: SymbolTable = {};
     // Stack of execution scopes (for parameters/local variables)
@@ -50,8 +50,8 @@ export class LogoInterpreter {
     private scopeStack: SymbolTable[] = [this.procedures];
     // Drawing context and origin for turtle rendering
     private ctx: CanvasRenderingContext2D | null = null;
-    private canvasOriginX: number = 0;
-    private canvasOriginY: number = 0;
+    private canvasOriginX = 0;
+    private canvasOriginY = 0;
 
     constructor() {
         // Initialize global scope (procedures are added during interpretation)
@@ -237,7 +237,7 @@ export class LogoInterpreter {
     }
 
     // Modified to handle potential output and return value or void
-    private async visitProcedureCall(node: ProcedureCallNode, expectOutput: boolean = false): Promise<number | void> {
+    private async visitProcedureCall(node: ProcedureCallNode, expectOutput = false): Promise<number | void> {
         const procNameUpper = node.name.toUpperCase();
         const proc = this.procedures[procNameUpper];
 

@@ -1,10 +1,11 @@
 'use client';
 
 import { useMemo, useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BarChart3, Users, Calendar, Activity, RefreshCw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 
 type ActivityData = {

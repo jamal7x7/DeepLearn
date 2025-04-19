@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import { IconBulb, IconBulbFilled, IconBulbOff, IconCircuitBulb } from '@tabler/icons-react';
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
@@ -215,7 +217,6 @@ export function Tip({ children }: { children: React.ReactNode }) {
 }
 
 import { GlowEffect } from '@/components/ui/glow-effect';
-import { IconBulb, IconBulbFilled, IconBulbOff, IconCircuitBulb } from '@tabler/icons-react';
 
 export function GlowEffectCardBackground() {
   return (

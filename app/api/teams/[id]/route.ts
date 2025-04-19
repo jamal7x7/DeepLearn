@@ -1,10 +1,11 @@
 export const runtime = "nodejs";
 
 import { NextRequest, NextResponse } from "next/server";
+import { eq, and } from 'drizzle-orm';
+
 import { db } from "@/lib/db/drizzle";
 import { teams, teamMembers } from "@/lib/db/schema";
 import { getSession } from "@/lib/auth/session";
-import { eq, and } from 'drizzle-orm';
 
 export async function DELETE(
   request: NextRequest,

@@ -1,10 +1,11 @@
 export const runtime = "nodejs";
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+
 import { db } from "@/lib/db/drizzle";
 import { teams, teamMembers } from "@/lib/db/schema";
 import { getSession } from "@/lib/auth/session";
-import { z } from "zod";
 
 const createTeamSchema = z.object({
   name: z.string().min(2),

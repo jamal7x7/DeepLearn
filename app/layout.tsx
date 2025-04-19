@@ -4,11 +4,13 @@ import 'katex/dist/katex.min.css'; // Add KaTeX CSS
 import 'prismjs/themes/prism-okaidia.css' ; // Add Prism theme CSS
 import type { Metadata, Viewport } from 'next';
 import { Manrope, Instrument_Sans } from 'next/font/google';
+import { cookies } from "next/headers";
+
 import { UserProvider } from '@/lib/auth';
 import { getUser } from '@/lib/db/queries';
-import AppClientProviders from "./components/AppClientProviders";
-import { cookies } from "next/headers";
 import { cn } from "@/lib/utils";
+
+import AppClientProviders from "./components/AppClientProviders";
 
 const META_THEME_COLORS = {
   light: "#ffffff",
@@ -32,7 +34,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  let userPromise = getUser();
+  const userPromise = getUser();
   const cookieStore = await cookies();
   const activeThemeValue = cookieStore.get("active_theme")?.value;
   const isScaled = activeThemeValue?.endsWith("-scaled");

@@ -1,6 +1,7 @@
 'use client'; // Add this directive at the top to mark as client component
 
 import React, { useRef, useEffect, useState } from 'react';
+
 import { TurtleStyle, DEFAULT_TURTLE_STYLE } from '@/lib/turtleStyles';
 import { LogoInterpreter } from '@/lib/logoInterpreter';
 import { Turtle } from '@/lib/turtle'; // The state-only Turtle
@@ -40,7 +41,7 @@ const drawLine = (
     ctx: CanvasRenderingContext2D,
     originX: number, originY: number,
     startX: number, startY: number, endX: number, endY: number,
-    color: string, lineWidth: number = 1
+    color: string, lineWidth = 1
 ) => {
     ctx.beginPath();
     ctx.moveTo(originX + startX, originY - startY); // Convert to canvas coords
@@ -308,7 +309,7 @@ export const TurtlePreview: React.FC<TurtlePreviewProps> = ({
       if (!turtleRef.current) return;
 
       // Create a temporary state for drawing the current frame
-      let frameTurtleState = new Turtle(turtleRef.current.style);
+      const frameTurtleState = new Turtle(turtleRef.current.style);
       frameTurtleState.x = turtleRef.current.x;
       frameTurtleState.y = turtleRef.current.y;
       frameTurtleState.angle = turtleRef.current.angle;
@@ -333,7 +334,7 @@ export const TurtlePreview: React.FC<TurtlePreviewProps> = ({
         case 'turn':
           const turnAction = currentAction as TurnAction;
           // Ensure shortest path interpolation
-          let angleDiff = turnAction.degrees;
+          const angleDiff = turnAction.degrees;
           // No need for complex wrapping logic here if degrees is correct
           frameTurtleState.angle = normalizeAngle(turnAction.startAngle + angleDiff * progress);
           break;

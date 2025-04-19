@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import io, { Socket } from 'socket.io-client';
-import MdxRenderer from '../components/MdxRenderer';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
+
+import MdxRenderer from '../components/MdxRenderer';
 
 // Define the shape of the data received from the socket
 interface CurrentMdxData {

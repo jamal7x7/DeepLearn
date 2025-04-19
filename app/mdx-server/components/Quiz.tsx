@@ -1,13 +1,15 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { CheckCircledIcon, CrossCircledIcon, RocketIcon, TimerIcon, LightningBoltIcon, StarFilledIcon } from '@radix-ui/react-icons';
+import dynamic from 'next/dynamic';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CheckCircledIcon, CrossCircledIcon, RocketIcon, TimerIcon, LightningBoltIcon, StarFilledIcon } from '@radix-ui/react-icons';
 import { Progress } from '@/components/ui/progress';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import dynamic from 'next/dynamic';
+
 
 // Dynamically import canvas-confetti to avoid SSR issues
 const confetti = dynamic(() => import('canvas-confetti').then(mod => mod.default), {

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
-import { getSession } from '@/lib/auth/session';
 import { redirect } from 'next/navigation';
+
+import { getSession } from '@/lib/auth/session';
 
 export const metadata: Metadata = {
   title: 'Teacher Dashboard',

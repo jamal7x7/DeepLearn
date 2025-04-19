@@ -3,17 +3,19 @@
 import Link from 'next/link';
 import { useActionState, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { CircleIcon, Loader2, Triangle } from 'lucide-react';
-import { signIn, signUp } from './actions';
-import { ActionState } from '@/lib/auth/middleware';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { GraduationCap, BookOpen, Shield, Code2 } from 'lucide-react';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { useTranslation } from 'react-i18next';
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ActionState } from '@/lib/auth/middleware';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+
+import { signIn, signUp } from './actions';
 
 const ROLES = [
   {

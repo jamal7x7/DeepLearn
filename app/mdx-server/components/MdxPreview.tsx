@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
+
 import MdxRenderer from './MdxRenderer';
 
 interface MdxPreviewProps {

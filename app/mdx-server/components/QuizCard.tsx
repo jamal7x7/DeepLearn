@@ -1,11 +1,9 @@
 'use client';
 
 import React from 'react';
+import { motion } from "motion/react"
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
-
-import { motion } from "motion/react"
 import AnimatedGradient from "@/components/background/animated-gradient-with-svg"
 
 interface QuizCardProps {

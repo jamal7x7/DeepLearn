@@ -1,8 +1,10 @@
 "use client"
 
+import { MessageCircle, Settings, ShieldCheck, UserPlus, Users } from 'lucide-react';
+
 import { InfiniteSlider } from '@/components/ui/infinite-slider'
 import { ProgressiveBlur } from '@/components/ui/progressive-blur'
-import { MessageCircle, Settings, ShieldCheck, UserPlus, Users } from 'lucide-react';
+
 import { Card } from './ui/card';
 
 

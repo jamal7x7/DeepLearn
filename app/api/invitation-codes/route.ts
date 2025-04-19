@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { and, eq, or, gte, lt, isNull } from 'drizzle-orm';
+
 import { db } from '@/lib/db/drizzle';
 import { invitationCodes } from '@/lib/db/schema';
-import { and, eq, or, gte, lt, isNull } from 'drizzle-orm';
 import { getUser } from '@/lib/db/queries';
 
 // API route to validate an invitation code without requiring authentication

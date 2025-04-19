@@ -2,13 +2,15 @@
 
 import React from 'react';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
+
 // Import custom MDX components
-import { ExerciseCard, TutorialAccordion, CenteredContent, Tip, GlowEffectCardBackground } from './MdxComponents';
-import { QuizCard } from './QuizCard';
-import { ResourcesCard } from './ResourcesCard'; // Import the ResourcesCard component
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { GlowEffect } from '@/components/ui/glow-effect'
+
+import { ExerciseCard, TutorialAccordion, CenteredContent, Tip, GlowEffectCardBackground } from './MdxComponents';
+import { QuizCard } from './QuizCard';
+import { ResourcesCard } from './ResourcesCard'; // Import the ResourcesCard component
 import { Quiz } from './Quiz1'; // Import the Quiz component
 
 // Define the shape of front-matter data

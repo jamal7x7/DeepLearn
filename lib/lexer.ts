@@ -12,7 +12,7 @@ export function tokenize(code: string): Token[] {
 
     for (let lineNum = 0; lineNum < lines.length; lineNum++) {
         let line = lines[lineNum];
-        let currentColumn = 1; // Start column at 1 for user-friendliness
+        const currentColumn = 1; // Start column at 1 for user-friendliness
 
         // Basic comment removal
         const commentStart = line.indexOf(';');

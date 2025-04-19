@@ -8,6 +8,9 @@ import {
   IconNotification,
   IconUserCircle,
 } from "@tabler/icons-react"
+import { useRouter } from 'next/navigation';
+import { use, useState, Suspense } from 'react';
+import Jdenticon from 'react-jdenticon';
 
 import {
   Avatar,
@@ -29,14 +32,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-
 import {  signOut } from '@/app/(login)/actions';
-import { useRouter } from 'next/navigation';
 import { useUser } from '@/lib/auth';
-import { use, useState, Suspense } from 'react';
 import { TeamDataWithMembers, User } from '@/lib/db/schema';
 
-import Jdenticon from 'react-jdenticon';
 
 
 

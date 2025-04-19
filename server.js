@@ -1,10 +1,14 @@
 // server.js
-const { createServer } = require('http');
-const { parse } = require('url');
-const next = require('next');
-const { Server } = require('socket.io');
-const fs = require('fs').promises; // Use promises version of fs
-const path = require('path');
+import { createServer } from 'http';
+import { parse } from 'url';
+import fs from 'fs/promises'; // Use promises version of fs
+import path from 'path';
+import next from 'next';
+import { Server } from 'socket.io';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';

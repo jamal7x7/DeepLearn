@@ -1,10 +1,11 @@
 export const runtime = "nodejs";
 
 import { NextResponse } from 'next/server';
+import { eq, sql, inArray } from 'drizzle-orm';
+
 import { db } from '@/lib/db/drizzle';
 import { getSession } from '@/lib/auth/session';
 import { teamMembers } from '@/lib/db/schema';
-import { eq, sql, inArray } from 'drizzle-orm';
 
 export async function GET() {
   try {

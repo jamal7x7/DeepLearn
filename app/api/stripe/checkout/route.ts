@@ -1,12 +1,14 @@
 export const runtime = "nodejs";
 
 import { eq } from 'drizzle-orm';
+import { NextRequest, NextResponse } from 'next/server';
+import Stripe from 'stripe';
+
 import { db } from '@/lib/db/drizzle';
 import { users, teams, teamMembers } from '@/lib/db/schema';
 import { setSession } from '@/lib/auth/session';
-import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/payments/stripe';
-import Stripe from 'stripe';
+
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;

@@ -2,10 +2,12 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { Loader2, Bell, RefreshCw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'motion/react'; // framer-motion changed to motion/react in new version, so don't change this
-import { AnnouncementCard, AnnouncementCardProps } from "@/components/AnnouncementCard";
 import { useTranslation } from "react-i18next";
+
+import { Button } from '@/components/ui/button';
+import { AnnouncementCard, AnnouncementCardProps } from "@/components/AnnouncementCard";
+
 
 type Announcement = AnnouncementCardProps;
 

@@ -1,4 +1,6 @@
 import React from 'react';
+import { Settings, ChevronDown } from 'lucide-react';
+
 import {
   Popover,
   PopoverContent,
@@ -14,7 +16,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { TurtleStyle, TURTLE_STYLES } from '@/lib/turtleStyles';
-import { Settings, ChevronDown } from 'lucide-react';
 
 interface LogoStylePopupProps {
   selectedStyle: TurtleStyle;

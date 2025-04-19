@@ -2,6 +2,9 @@
 
 import { z } from 'zod';
 import { and, eq, or, gte, lt, sql, SQL } from 'drizzle-orm';
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
+
 import { db } from '@/lib/db/drizzle';
 import {
   User,
@@ -19,8 +22,6 @@ import {
   invitationCodeUses,
 } from '@/lib/db/schema';
 import { comparePasswords, hashPassword, setSession } from '@/lib/auth/session';
-import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
 import { createCheckoutSession } from '@/lib/payments/stripe';
 import { getUser, getUserWithTeam } from '@/lib/db/queries';
 import {

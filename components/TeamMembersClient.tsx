@@ -2,26 +2,8 @@
 import React, { useState, useRef, useEffect, memo } from "react";
 import { useTranslation } from "react-i18next";
 import { Users, MoreVertical, Trash2, Plus, Shield, BookUser, GraduationCap as GraduationCapIcon, Users2, BookOpen, Sparkles } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button"; // Explicitly added import for Button
 import { toast } from "sonner";
-import TeamAnnouncementHistory from "@/components/TeamAnnouncementHistory";
 import Jdenticon from "react-jdenticon";
-import { useUser } from '@/lib/auth';
-import type { User } from '@/lib/db/schema';
-import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
-import { Skeleton } from '@/components/ui/skeleton';
 import {
   DndContext,
   closestCenter,
@@ -37,6 +19,27 @@ import {
   sortableKeyboardCoordinates
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button"; // Explicitly added import for Button
+import TeamAnnouncementHistory from "@/components/TeamAnnouncementHistory";
+import { useUser } from '@/lib/auth';
+import type { User } from '@/lib/db/schema';
+import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
+import { Skeleton } from '@/components/ui/skeleton';
+
+
 import { Muted } from "./ui/typography";
 
 // Use local TeamData interface

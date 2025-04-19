@@ -1,15 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { DataTable } from '@/components/data-table'; // Import the generic DataTable
 import { ColumnDef } from '@tanstack/react-table';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"; // For Avatar column
-import { Badge } from "@/components/ui/badge"; // For Status column
 import { Trash2, Ban, CheckCircle } from "lucide-react"; // Icons for actions
 import { useTranslation } from 'react-i18next'; // For i18n
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"; // For Team Selection
 import Jdenticon from "react-jdenticon"; // For Avatar fallback
+
+import { Button } from '@/components/ui/button';
+import { DataTable } from '@/components/data-table'; // Import the generic DataTable
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"; // For Avatar column
+import { Badge } from "@/components/ui/badge"; // For Status column
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"; // For Team Selection
+
 
 // Define the User/Student type matching the expected data
 type Student = {

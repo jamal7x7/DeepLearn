@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton'; // Import Skeleton
 import { BarChart3, Users, Calendar, Bell, Activity, AlertCircle } from 'lucide-react'; // Added AlertCircle
 import { useTranslation } from 'react-i18next';
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton'; // Import Skeleton
 import { Button } from '@/components/ui/button';
 import AdminTeamActivityWidget from '@/components/AdminTeamActivityWidget';
 import AdminAnnouncementsDashboard from '@/components/AdminAnnouncementsDashboard';

@@ -31,12 +31,12 @@ function rgbToCssString(r: number, g: number, b: number): string {
  * Drawing is handled externally based on this state.
  */
 export class Turtle implements TurtleState {
-    x: number = 0;
-    y: number = 0;
-    angle: number = 0; // 0 degrees is UP (standard Logo)
-    penDown: boolean = true;
-    penColor: string = 'rgb(0, 0, 0)'; // Default black
-    isVisible: boolean = true;
+    x = 0;
+    y = 0;
+    angle = 0; // 0 degrees is UP (standard Logo)
+    penDown = true;
+    penColor = 'rgb(0, 0, 0)'; // Default black
+    isVisible = true;
     style: TurtleStyle;
 
     constructor(initialStyle?: TurtleStyle) {

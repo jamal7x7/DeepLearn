@@ -1,6 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Loader2 } from 'lucide-react';
+import { useActionState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -11,13 +16,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Loader2 } from 'lucide-react';
 import { Label } from '@/components/ui/label';
-import { useActionState } from 'react';
 import { joinTeamWithCode } from '@/app/api/invitation-codes/actions';
-import { useRouter } from 'next/navigation';
 import { useUser } from '@/lib/auth';
-import { useTranslation } from 'react-i18next';
+
 
 type ActionState = {
   error?: string;

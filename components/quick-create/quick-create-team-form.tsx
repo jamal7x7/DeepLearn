@@ -3,11 +3,12 @@ import * as React from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Users, GraduationCap, Users2, BookOpen, Sparkles } from "lucide-react";
+
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 const teamSchema = z.object({
   name: z.string().min(2, "Team name must be at least 2 characters"),

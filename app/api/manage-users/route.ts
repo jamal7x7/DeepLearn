@@ -1,6 +1,7 @@
 export const runtime = "nodejs";
 
 import { NextResponse } from 'next/server';
+
 import { getTeamMembersWithUserDetails } from '@/lib/db/queries'; // Use the new function
 import { getSession } from '@/lib/auth/session'; // Use session for auth
 

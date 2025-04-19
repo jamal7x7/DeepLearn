@@ -1,7 +1,8 @@
 import { Users } from "lucide-react";
+import { eq } from "drizzle-orm";
+
 import { db } from "@/lib/db/drizzle";
 import { teamMembers, users, teams } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth/session";
 import TeamMembersClient from "@/components/TeamMembersClient";
 

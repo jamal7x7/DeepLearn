@@ -4,7 +4,11 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { createHighlighter, Highlighter } from 'shiki';
 import Editor from 'react-simple-code-editor';
+
 // import { Turtle } from '@/lib/turtle'; // No longer needed directly
+import { Play, Square, Gauge } from 'lucide-react'; // Added Gauge icon for speed control
+import { useTheme } from 'next-themes';
+
 import { TurtleStyle, TURTLE_STYLES, DEFAULT_TURTLE_STYLE } from '@/lib/turtleStyles';
 // import { LogoInterpreter } from '@/lib/interpreter'; // No longer needed directly
 import { Button } from "@/components/ui/button";
@@ -13,7 +17,6 @@ import { TurtleSelector } from '@/app/components/TurtleSelector';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 // import { Play, Square, ZoomIn, ZoomOut, RefreshCw, Palette } from 'lucide-react'; // Removed unused icons
-import { Play, Square, Gauge } from 'lucide-react'; // Added Gauge icon for speed control
 import { Slider } from "@/components/ui/slider"; // Import Slider component
 import { Label } from "@/components/ui/label"; // Import Label component
 
@@ -24,7 +27,6 @@ import { TurtlePreview } from '@/app/components/TurtlePreview';
 import { LogoStylePopup } from '@/components/LogoStylePopup';
 
 // Import theme hook
-import { useTheme } from 'next-themes';
 
 // Import theme JSONs
 import darkTheme from '../../assets/moonlight-ii.json';

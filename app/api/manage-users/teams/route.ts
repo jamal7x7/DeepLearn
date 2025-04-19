@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import { updateTeamName } from '@/lib/db/queries';
 import { getUser, getTeamsForUser } from '@/lib/db/queries';
 

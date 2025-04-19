@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+
 import I18nProvider from "@/components/providers/I18nProvider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ActiveThemeProvider } from "@/components/active-theme";

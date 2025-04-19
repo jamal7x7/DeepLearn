@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+
 import {
   Dialog,
   DialogContent,
@@ -12,6 +13,7 @@ import {
   TabsTrigger,
   TabsContent,
 } from "../ui/tabs";
+
 import { QuickCreateTeamForm } from "./quick-create-team-form";
 import { QuickCreateInviteForm } from "./quick-create-invite-form";
 import { QuickCreateCourseForm } from "./quick-create-course-form";

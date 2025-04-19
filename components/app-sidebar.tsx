@@ -22,6 +22,7 @@ import {
   Activity,
   Bell,
 } from "lucide-react"
+import { is } from "drizzle-orm"
 
 import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
@@ -36,7 +37,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { is } from "drizzle-orm"
 import { featureFlags, isFeatureEnabled } from "@/lib/feature-flags";
 
 export function useUserTeamRole() {

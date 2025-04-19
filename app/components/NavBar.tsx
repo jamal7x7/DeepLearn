@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { Separator } from "@radix-ui/react-separator";
+
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { Separator } from "@radix-ui/react-separator";
 
 export default function NavBar() {
   return (

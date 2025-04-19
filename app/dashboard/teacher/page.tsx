@@ -1,11 +1,12 @@
 // Removed 'use client'; this is now a pure Server Component
 
+import { cookies } from 'next/headers';
+
 import DashboardHeroStats from '@/components/dashboard-hero-stats';
 import LatestAnnouncementCard from '@/components/latest-announcement-card';
 import AllAnnouncementsWidget from '@/components/all-announcements-widget';
 import StudentActivityWidget from '@/components/StudentActivityWidget';
 import { AnnouncementCardProps } from '@/components/AnnouncementCard';
-import { cookies } from 'next/headers';
 
 // Types
 export type Announcement = AnnouncementCardProps;
@@ -58,7 +59,7 @@ export default async function TeacherDashboardPage() {
   let announcements: Announcement[] = [];
   let teams: TeamData[] = [];
   let activityData: ActivityData[] = [];
-  let totalStudents: number = 0;
+  let totalStudents = 0;
 
   if (announcementsRes.ok) {
     const announcementsJson = await announcementsRes.json();

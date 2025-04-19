@@ -1,9 +1,10 @@
 "use server";
 
-import { db } from "@/lib/db/drizzle";
-import { teamMembers, teams } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+
+import { db } from "@/lib/db/drizzle";
+import { teamMembers, teams } from "@/lib/db/schema";
 
 // Server action to remove a team member
 export async function removeTeamMember(teamId: number, userId: number) {

@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Settings,
   LogOut,
@@ -14,10 +13,13 @@ import {
   UserCheck,
   Megaphone,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ActivityType } from '@/lib/db/schema';
 import { getActivityLogs } from '@/lib/db/queries';
 import HeadingSmall from '@/components/heading-small';
-import { useTranslation } from 'react-i18next';
+
 
 const iconMap: Record<ActivityType, LucideIcon> = {
   [ActivityType.SIGN_UP]: UserPlus,

@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Settings,
   LogOut,
@@ -14,6 +13,8 @@ import {
   Megaphone,
   type LucideIcon,
 } from 'lucide-react';
+
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ActivityType } from '@/lib/db/schema';
 import { getActivityLogs } from '@/lib/db/queries';
 import HeadingSmall from '@/components/heading-small';
