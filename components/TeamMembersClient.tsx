@@ -38,7 +38,8 @@ import { useUser } from '@/lib/auth';
 import type { User } from '@/lib/db/schema';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Skeleton } from '@/components/ui/skeleton';
-
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useMediaQuery } from "@/lib/hooks/use-media-query";
 
 import { Muted } from "./ui/typography";
 
@@ -492,78 +493,180 @@ function TeamMembersClient(props: TeamMembersClientProps) {
 
   const mergedTeams = useMergedTeams(teams, pendingTeams);
 
+  // Mobile navigation state
+  const isMobile = useMediaQuery('(max-width: 767px)');
+  const [mobileSelectedTeamId, setMobileSelectedTeamId] = useState<number | null>(null);
+
   return (
     <div className="flex h-full min-h-[60vh] border-0 border-secondary rounded-lg overflow-hidden">
-      {/* Sidebar: Teams */}
-      <aside className="w-[380px] min-w-[220px] max-w-[100vw] bg-background border-r border-secondary flex flex-col">
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDndKitDragEnd}>
-          <SortableContext items={orderedTeams.map(t => String(t.teamId))} strategy={verticalListSortingStrategy}>
-            <div className="flex-1 overflow-y-auto p-4 space-y-3">
-              {orderedTeams.map((team, idx) => (
-                <SortableTeamCard
-                  key={team.teamId}
-                  team={team}
-                  index={idx}
-                  selected={selectedTeam?.teamId === team.teamId}
-                  onSelect={setSelectedTeam}
-                  onRemove={handleRemoveTeam}
-                >
-                  <div className="flex items-center gap-3 px-4 py-3">
-                    <div className="border-3 p-2  rounded-lg"> 
-                    {TEAM_TYPE_OPTIONS.find(t => t.value === team.type)?.icon}
-                    {/* {getTeamTypeJDentIcon(TEAM_TYPE_OPTIONS.find(t => t.value === team.type))?.jdenticon} */}
-                      {/* <Jdenticon size={28} value={String(team.teamName || team.teamId)} className=" rounded-full border-8 border-yellow-500 bg-white dark:bg-muted" /> */}
+      {/* Desktop layout: sidebar + main */}
+      {!isMobile && (
+        <>
+          {/* Sidebar: Teams */}
+          <aside className="w-[380px] min-w-[220px] max-w-[100vw] bg-background border-r border-secondary flex flex-col">
+            <div className="flex flex-1 min-h-0">
+              <ScrollArea className="w-full  h-[calc(100vh-80px)]">
+                <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDndKitDragEnd}>
+                  <SortableContext items={orderedTeams.map(t => String(t.teamId))} strategy={verticalListSortingStrategy}>
+                    <div className="p-4 space-y-3 pb-0 ">
+                      {orderedTeams.map((team, idx) => (
+                        <SortableTeamCard
+                          key={team.teamId}
+                          team={team}
+                          index={idx}
+                          selected={selectedTeam?.teamId === team.teamId}
+                          onSelect={setSelectedTeam}
+                          onRemove={handleRemoveTeam}
+                        >
+                          <div className="flex items-center gap-3 px-4 py-3">
+                            <div className="border-3 p-2  rounded-lg"> 
+                            {TEAM_TYPE_OPTIONS.find(t => t.value === team.type)?.icon}
+                            </div>
+                            <span className="flex-1 truncate text-base font-medium">{team.teamName} </span>
+                            <Badge variant="outline" className="text-xs px-2 py-0.5 lowercase">{team.type}</Badge>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <button className="p-1 rounded-full hover:bg-muted focus:outline-none focus:ring-2 focus:ring-primary/40"><MoreVertical className="w-5 h-5" /></button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem onClick={() => setSelectedTeam(team)}>{t('view')}</DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => handleRemoveTeam(team.teamId)} className="text-destructive">{t('remove', 'Remove')}</DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </div>
+                        </SortableTeamCard>
+                      ))}
                     </div>
-                    <span className="flex-1 truncate text-base font-medium">{team.teamName} </span>
-                    <Badge variant="outline" className="text-xs px-2 py-0.5 lowercase">{team.type}</Badge>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <button className="p-1 rounded-full hover:bg-muted focus:outline-none focus:ring-2 focus:ring-primary/40"><MoreVertical className="w-5 h-5" /></button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => setSelectedTeam(team)}>{t('view')}</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleRemoveTeam(team.teamId)} className="text-destructive">{t('remove', 'Remove')}</DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </SortableTeamCard>
-              ))}
-              <button className="w-full mt-4 py-2 border-2 border-dashed border-primary/20 rounded-lg flex items-center justify-center gap-2 text-primary hover:border-primary/50 transition text-lg font-semibold" onClick={() => setShowCreate(true)}>
-                <Plus className="w-6 h-6" /> <Muted>{t('createNewTeam')}</Muted>
-              </button>
-            </div>
-          </SortableContext>
-        </DndContext>
-      </aside>
-      {/* Main: Members of selected team */}
-      <main className="flex-1 bg-background p-8 overflow-y-auto">
-        {selectedTeam ? (
-          <div>
-            <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-              <Jdenticon size={32} value={String(selectedTeam.teamName || selectedTeam.teamId)} className="rounded-full border border-background bg-white dark:bg-muted" />
-              {selectedTeam.teamName}
-              <Badge variant="outline" className="ml-2 text-xs px-2 py-0.5 lowercase">{selectedTeam.type}</Badge>
-            </h2>
-            <div className="space-y-3">
-              {selectedTeam.members.length === 0 && (
-                <div className="text-muted-foreground italic">{t('noMembers', 'No members in this team yet.')}</div>
-              )}
-              {selectedTeam.members.map((member) => (
-                <div key={member.id} className="flex items-center gap-4 p-3 border-b border-secondary">
-                  <Jdenticon size={26} value={String(member.email || member.id)} className="rounded-full border border-background bg-white dark:bg-muted" />
-                  <div className="flex-1 min-w-0">
-                    <span className="font-medium truncate">{member.name || member.email}</span>
-                    {member.role === 'teacher' && <span className="ml-2 text-xs text-primary font-semibold">{t('teacher', 'Teacher')}</span>}
-                  </div>
-                  <span className="text-xs text-muted-foreground">{member.role}</span>
+                  </SortableContext>
+                </DndContext>
+                {/* Sticky create button at bottom of sidebar */}
+                <div className="sticky bottom-0 left-0 w-full bg-background/50 border-t border-secondary/20 p-4 z-10 backdrop-blur-lg">
+                  <button className="w-full py-2 border-2 border-dashed border-primary/20 rounded-lg flex items-center justify-center gap-2 text-primary hover:border-primary/50 transition text-lg font-semibold bg-background" onClick={() => setShowCreate(true)}>
+                    <Plus className="w-5 h-5" /> {t('createNewTeam', 'Create New Team')}
+                  </button>
                 </div>
-              ))}
+              </ScrollArea>
             </div>
-          </div>
-        ) : (
-          <div className="flex items-center justify-center h-full text-muted-foreground text-lg">{t('selectTeam', 'Select a team to view members')}</div>
-        )}
-      </main>
+          </aside>
+          {/* Main: Members of selected team */}
+          <main className="flex-1 bg-background p-8 min-h-0">
+            <div className="h-[calc(100vh-160px)] min-h-0">
+              <ScrollArea className="h-full">
+                {selectedTeam ? (
+                  <div>
+                    <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                      <Jdenticon size={32} value={String(selectedTeam.teamName || selectedTeam.teamId)} className="rounded-full border border-background bg-white dark:bg-muted" />
+                      {selectedTeam.teamName}
+                      <Badge variant="outline" className="ml-2 text-xs px-2 py-0.5 lowercase">{selectedTeam.type}</Badge>
+                    </h2>
+                    <div className="space-y-3">
+                      {selectedTeam.members.length === 0 && (
+                        <div className="text-muted-foreground italic">{t('noMembers', 'No members in this team yet.')}</div>
+                      )}
+                      {selectedTeam.members.map((member) => (
+                        <div key={member.id} className="flex items-center gap-4 p-3 border-b border-secondary">
+                          <Jdenticon size={26} value={String(member.email || member.id)} className="rounded-full border border-background bg-white dark:bg-muted" />
+                          <div className="flex-1 min-w-0">
+                            <span className="font-medium truncate">{member.name || member.email}</span>
+                            {member.role === 'teacher' && <span className="ml-2 text-xs text-primary font-semibold">{t('teacher', 'Teacher')}</span>}
+                          </div>
+                          <span className="text-xs text-muted-foreground">{member.role}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-muted-foreground text-lg">{t('selectTeam', 'Select a team to view members')}</div>
+                )}
+              </ScrollArea>
+            </div>
+          </main>
+        </>
+      )}
+      {/* Mobile layout: page navigation */}
+      {isMobile && (
+        <>
+          {/* Page 1: Team list */}
+          {mobileSelectedTeamId === null && (
+            <div className="w-full">
+              <div className="flex flex-col gap-3 p-3 ">
+                {orderedTeams.map((team, idx) => (
+                  <div key={team.teamId}>
+                    <SortableTeamCard
+                      team={team}
+                      index={idx}
+                      selected={false}
+                      onSelect={() => setMobileSelectedTeamId(team.teamId)}
+                      onRemove={handleRemoveTeam}
+                    >
+                      <div className=" flex items-center bg-muted/30 rounded-lg gap-3 px-4 py-3 min-w-[250px] max-w-[90vw]">
+                        <div className="border-3 p-2   rounded-lg"> 
+                        {TEAM_TYPE_OPTIONS.find(t => t.value === team.type)?.icon}
+                        </div>
+                        <span className="flex-1 truncate text-base font-medium">{team.teamName} </span>
+                        <Badge variant="outline" className="text-xs px-2 py-0.5 lowercase">{team.type}</Badge>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <button className="p-1 rounded-full hover:bg-muted focus:outline-none focus:ring-2 focus:ring-primary/40"><MoreVertical className="w-5 h-5" /></button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => setMobileSelectedTeamId(team.teamId)}>{t('view')}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleRemoveTeam(team.teamId)} className="text-destructive">{t('remove', 'Remove')}</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </SortableTeamCard>
+                  </div>
+                ))}
+                <button className="w-full mt-4 py-2 border-2 border-dashed border-primary/20 rounded-lg flex items-center justify-center gap-2 text-primary hover:border-primary/50 transition text-lg font-semibold" onClick={() => setShowCreate(true)}>
+                  <Plus className="w-5 h-5" /> {t('createNewTeam', 'Create New Team')}
+                </button>
+              </div>
+            </div>
+          )}
+          {/* Page 2: Team members with back button */}
+          {mobileSelectedTeamId !== null && (
+            <div className="w-full">
+              <button
+                type="button"
+                className="flex items-center gap-2 px-4 py-2 mb-3 text-primary font-medium bg-muted rounded hover:bg-muted/70 focus:outline-none focus:ring-2 focus:ring-primary/40"
+                onClick={() => setMobileSelectedTeamId(null)}
+              >
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                {t('back', 'Back')}
+              </button>
+              {(() => {
+                const team = orderedTeams.find(t => t.teamId === mobileSelectedTeamId);
+                if (!team) return null;
+                return (
+                  <div>
+                    <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                      <Jdenticon size={32} value={String(team.teamName || team.teamId)} className="rounded-full border border-background bg-white dark:bg-muted" />
+                      {team.teamName}
+                      <Badge variant="outline" className="ml-2 text-xs px-2 py-0.5 lowercase">{team.type}</Badge>
+                    </h2>
+                    <div className="space-y-3">
+                      {team.members.length === 0 && (
+                        <div className="text-muted-foreground italic">{t('noMembers', 'No members in this team yet.')}</div>
+                      )}
+                      {team.members.map((member) => (
+                        <div key={member.id} className="flex items-center gap-4 p-3 border-b border-secondary">
+                          <Jdenticon size={26} value={String(member.email || member.id)} className="rounded-full border border-background bg-white dark:bg-muted" />
+                          <div className="flex-1 min-w-0">
+                            <span className="font-medium truncate">{member.name || member.email}</span>
+                            {member.role === 'teacher' && <span className="ml-2 text-xs text-primary font-semibold">{t('teacher', 'Teacher')}</span>}
+                          </div>
+                          <span className="text-xs text-muted-foreground">{member.role}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+          )}
+        </>
+      )}
       <CreateNewTeamModal open={showCreate} onOpenChange={setShowCreate} onTeamCreated={handleTeamCreated} />
     </div>
   );

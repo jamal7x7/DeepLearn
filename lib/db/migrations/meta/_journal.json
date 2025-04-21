@@ -78,6 +78,13 @@
       "when": 1744926477458,
       "tag": "0010_curly_plazm",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1745088992293,
+      "tag": "0011_curly_sharon_carter",
+      "breakpoints": true
     }
   ]
 }

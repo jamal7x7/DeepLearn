@@ -2,53 +2,54 @@
 
 import React, { useState, useEffect } from 'react';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
+import { useTheme } from "next-themes";
 
 import MdxRenderer from './MdxRenderer';
 
 interface MdxPreviewProps {
-  fileName: string;
-  onClose?: () => void; // Made onClose optional
-  socket?: any; // Optionally pass the socket from parent
+  fileName?: string;
+  mdxContent?: string;
+  onClose?: () => void; 
+  socket?: any; 
 }
 
-export default function MdxPreview({ fileName, onClose, socket }: MdxPreviewProps) {
+export default function MdxPreview({ fileName, mdxContent, onClose, socket }: MdxPreviewProps) {
+  const { resolvedTheme } = useTheme();
   const [serializedSource, setSerializedSource] = useState<MDXRemoteSerializeResult | null>(null);
   const [frontMatter, setFrontMatter] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [mdxContent, setMdxContent] = useState<string>('');
+  const [rawContent, setRawContent] = useState<string>("");
 
-  // First fetch the raw MDX content
+  // Unified effect: either use mdxContent or fetch by fileName
   useEffect(() => {
-    async function fetchMdxContent() {
-      if (!fileName) return;
-      
+    async function loadContent() {
       setIsLoading(true);
       setError(null);
-      
       try {
-        // Use a simple fetch to get the file content from the server
-        const response = await fetch(`/api/mdx/content?fileName=${encodeURIComponent(fileName)}`);
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        let content = mdxContent;
+        if (!content && fileName) {
+          // Fetch file content if mdxContent not provided
+          const response = await fetch(`/api/mdx/content?fileName=${encodeURIComponent(fileName)}`);
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          const data = await response.json();
+          if (data.success && data.content) {
+            content = data.content;
+          } else {
+            throw new Error(data.message || 'Failed to load file content');
+          }
         }
-        
-        const data = await response.json();
-        if (data.success && data.content) {
-          setMdxContent(data.content);
-          compileMdx(data.content);
-        } else {
-          throw new Error(data.message || 'Failed to load file content');
-        }
+        if (!content) throw new Error('No MDX content provided');
+        setRawContent(content);
+        await compileMdx(content);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An unknown error occurred');
         setIsLoading(false);
       }
     }
-    
-    fetchMdxContent();
-  }, [fileName]);
+    loadContent();
+    // Only rerun if fileName or mdxContent changes
+  }, [fileName, mdxContent]);
 
   // Compile the MDX content
   const compileMdx = async (content: string) => {
@@ -58,11 +59,9 @@ export default function MdxPreview({ fileName, onClose, socket }: MdxPreviewProp
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mdxContent: content }),
       });
-      
       if (!compileResponse.ok) {
         throw new Error(`HTTP error! status: ${compileResponse.status}`);
       }
-      
       const data = await compileResponse.json();
       setSerializedSource(data.serializedSource);
       setFrontMatter(data.frontMatter || null);
@@ -102,15 +101,15 @@ export default function MdxPreview({ fileName, onClose, socket }: MdxPreviewProp
     return (
       <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center" onClick={onClose}>
         <div
-          className="bg-white dark:bg-gray-900 rounded-lg shadow-lg w-[90%] md:w-[70%] lg:w-[60%] h-[80%] overflow-auto flex flex-col" // Added flex flex-col
+          className="bg-white dark:bg-gray-900 rounded-lg shadow-lg w-[90%] md:w-[70%] lg:w-[60%] h-[80%] overflow-auto flex flex-col" 
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="sticky top-0 bg-white dark:bg-gray-900 p-4 border-b flex justify-between items-center flex-shrink-0"> {/* Added flex-shrink-0 */}
+          <div className="sticky top-0 bg-white dark:bg-gray-900 p-4 border-b flex justify-between items-center flex-shrink-0"> 
             <h3 className="text-lg font-semibold">{fileName} - Prévisualisation</h3>
             <button
               onClick={onClose}
               className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
-              aria-label="Close preview" // Added aria-label
+              aria-label="Close preview" 
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -118,8 +117,7 @@ export default function MdxPreview({ fileName, onClose, socket }: MdxPreviewProp
               </svg>
             </button>
           </div>
-          {/* Removed scale transform for modal */}
-          <div className="p-4 overflow-y-auto flex-grow"> {/* Added overflow-y-auto and flex-grow */}
+          <div className="p-4 overflow-y-auto flex-grow"> 
             {renderContent()}
           </div>
         </div>
@@ -129,8 +127,20 @@ export default function MdxPreview({ fileName, onClose, socket }: MdxPreviewProp
 
   // Otherwise, render inline (without modal wrapper)
   return (
-    <div className="w-full"> {/* Simple wrapper for inline rendering */}
-       {renderContent()}
+    <div
+      className={
+        `w-full mdx-preview-content ${resolvedTheme === 'dark' ? 'dark' : ''}`
+      }
+      style={{
+        background: resolvedTheme === 'dark' ? '#18181b' : '#f8fafc',
+        color: resolvedTheme === 'dark' ? '#e5e7eb' : '#1e293b',
+        borderRadius: 8,
+        padding: 16,
+        minHeight: 80,
+        transition: 'background 0.2s, color 0.2s',
+      }}
+    >
+      {renderContent()}
     </div>
   );
 }

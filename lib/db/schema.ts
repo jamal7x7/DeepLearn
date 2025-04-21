@@ -237,6 +237,20 @@ export const usersRelationsExtended = relations(users, ({ many }) => ({
   sentAnnouncements: many(announcements), // Added relation
 }));
 
+export const courses = pgTable('courses', {
+  id: serial('id').primaryKey(),
+  title: varchar('title', { length: 255 }).notNull(),
+  description: text('description'),
+  content: text('content'), // markdown
+  modules: text('modules'), // JSON stringified array of modules/lessons
+  media: text('media'), // JSON stringified array of media URLs/objects
+  tags: text('tags'), // JSON stringified array of tags
+  authorId: integer('author_id').notNull().references(() => users.id),
+  status: varchar('status', { length: 20 }).notNull().default('draft'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type Team = typeof teams.$inferSelect;

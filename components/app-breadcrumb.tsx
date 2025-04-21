@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import React from 'react';
 
 import {
   Breadcrumb,
@@ -56,7 +57,7 @@ export function AppBreadcrumb() {
           </BreadcrumbLink>
         </BreadcrumbItem>
         {crumbs.map((crumb, idx) => (
-          <>
+          <React.Fragment key={crumb.href}>
             <BreadcrumbSeparator key={"sep-" + idx} />
             <BreadcrumbItem key={crumb.href}>
               {crumb.isLast ? (
@@ -67,7 +68,7 @@ export function AppBreadcrumb() {
                 </BreadcrumbLink>
               )}
             </BreadcrumbItem>
-          </>
+          </React.Fragment>
         ))}
       </BreadcrumbList>
     </Breadcrumb>

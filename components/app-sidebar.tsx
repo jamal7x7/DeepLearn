@@ -21,6 +21,7 @@ import {
   Triangle,
   Activity,
   Bell,
+  BookOpen,
 } from "lucide-react"
 import { is } from "drizzle-orm"
 
@@ -118,6 +119,18 @@ const buildNavMain = (userRole: string | null, teamRole: string | null, t: (key:
       ]
     }] : []),
     {
+      title: t("manageUsers"),
+      url: "/dashboard/manage-users",
+      icon: Users,
+    },
+    ...(userRole === 'teacher' ? [
+      {
+        title: t("courses"),
+        url: "/dashboard/courses",
+        icon: BookOpen,
+      },
+    ] : []),
+    {
       title: t("studentStream"),
       url: "#",
       icon: List,
@@ -146,11 +159,6 @@ const buildNavMain = (userRole: string | null, teamRole: string | null, t: (key:
         },
       ],
     },
-    {
-      title: t("manageUsers"),
-      url: "/dashboard/manage-users",
-      icon: Users,
-    },
   ]
 
 export function AppSidebar({ userRole: incomingUserRole, teamRole: incomingTeamRole, ...restProps }: React.ComponentProps<typeof Sidebar> & { userRole?: string, teamRole?: string }) {
@@ -177,7 +185,7 @@ export function AppSidebar({ userRole: incomingUserRole, teamRole: incomingTeamR
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent >
         <NavMain items={navMain} userRole={userRole ?? undefined} />
         {/* <NavDocuments items={data.documents} /> */}
         {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
