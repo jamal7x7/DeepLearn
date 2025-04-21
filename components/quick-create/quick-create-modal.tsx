@@ -16,7 +16,6 @@ import {
 
 import { QuickCreateTeamForm } from "./quick-create-team-form";
 import { QuickCreateInviteForm } from "./quick-create-invite-form";
-import { QuickCreateCourseForm } from "./quick-create-course-form";
 import { QuickCreateAnnouncementForm } from "./quick-create-announcement-form";
 
 interface QuickCreateModalProps {
@@ -36,7 +35,7 @@ export function QuickCreateModal({ open, onOpenChange, onTeamCreated }: QuickCre
           <TabsList className="flex gap-2 mb-4">
             <TabsTrigger value="team">Team</TabsTrigger>
             <TabsTrigger value="invite">Invitation Code</TabsTrigger>
-            <TabsTrigger value="course">Course</TabsTrigger>
+            {/* <TabsTrigger value="course">Course</TabsTrigger> */}
             <TabsTrigger value="announcement">Announcement</TabsTrigger>
           </TabsList>
           <TabsContent value="team">
@@ -45,9 +44,9 @@ export function QuickCreateModal({ open, onOpenChange, onTeamCreated }: QuickCre
           <TabsContent value="invite">
             <QuickCreateInviteForm />
           </TabsContent>
-          <TabsContent value="course">
+          {/* <TabsContent value="course">
             <QuickCreateCourseForm />
-          </TabsContent>
+          </TabsContent> */}
           <TabsContent value="announcement">
             <QuickCreateAnnouncementForm />
           </TabsContent>

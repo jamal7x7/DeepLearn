@@ -5,7 +5,7 @@
  * You can toggle these for development, staging, or production as needed.
  */
 export const featureFlags = {
-  teacherControl: false, // Toggle Teacher Control sidebar menu
+  teacherControl: true, // Toggle Teacher Control sidebar menu
 };
 
 /**
