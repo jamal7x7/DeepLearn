@@ -18,6 +18,7 @@ import { useUserTeams } from "./use-user-teams";
 const announcementSchema = z.object({
   content: z.string().min(2, "Announcement content must be at least 2 characters"),
   teamId: z.string().min(1, "Please select a team"),
+  type: z.string().min(1, "Please select a type"),
 });
 
 type AnnouncementFormValues = z.infer<typeof announcementSchema>;
@@ -26,13 +27,16 @@ export function QuickCreateAnnouncementForm({ onSuccess }: { onSuccess?: () => v
   const router = useRouter();
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset, watch, setValue } = useForm<AnnouncementFormValues>({
     resolver: zodResolver(announcementSchema),
+    defaultValues: {
+      type: 'plain',
+    },
   });
   const { teams, isLoading: isTeamsLoading, hasError } = useUserTeams();
 
   async function onSubmit(data: AnnouncementFormValues) {
     try {
       const teamId = parseInt(data.teamId, 10);
-      const result = await sendAnnouncementAction(data.content, [teamId], "plain");
+      const result = await sendAnnouncementAction(data.content, [teamId], data.type);
       if (result.success) {
         reset();
         onSuccess?.();
@@ -47,6 +51,24 @@ export function QuickCreateAnnouncementForm({ onSuccess }: { onSuccess?: () => v
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <label className="block mb-1 font-medium">Type</label>
+        <div className="flex gap-2 mb-2">
+          {['plain', 'mdx'].map((type) => (
+            <Button
+              key={type}
+              type="button"
+              variant={watch('type') === type ? 'default' : 'outline'}
+              className={`capitalize px-4 py-1 rounded transition-colors border
+                ${watch('type') === type ? 'bg-primary text-primary-foreground dark:bg-secondary dark:text-secondary-foreground' : ''}
+                dark:border-neutral-700 dark:bg-background dark:text-foreground`}
+              onClick={() => setValue('type', type, { shouldValidate: true })}
+            >
+              {type}
+            </Button>
+          ))}
+        </div>
+      </div>
       <div>
         <label className="block mb-1 font-medium">Announcement</label>
         <Textarea {...register("content")}
@@ -64,7 +86,7 @@ export function QuickCreateAnnouncementForm({ onSuccess }: { onSuccess?: () => v
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select a team" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="z-[9999]" position="popper">
             {/* Remove SelectItem with empty value, only show actual teams */}
             {teams.map((team) => (
               <SelectItem key={team.id} value={String(team.id)}>

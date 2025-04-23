@@ -147,7 +147,7 @@ async function seedDatabase() {
     const allUsers = await db.select().from(users);
 
     // --- Create Admin User (if not exists) ---
-    const adminEmail = 'admin@example.com';
+    const adminEmail = 'admin1@example.com';
     let adminUser = await userExists(adminEmail);
     if (!adminUser) {
       await db.insert(users).values({
@@ -164,6 +164,31 @@ async function seedDatabase() {
     }
     if (!adminUser) {
       throw new Error('Failed to create or fetch admin user.');
+    }
+
+    // --- Create 10 Global Announcements from admin1 ---
+    if (adminUser) {
+      const globalAnnouncements = Array.from({ length: 10 }).map((_, i) => ({
+        senderId: adminUser.id,
+        content: `Global Announcement #${i + 1} from admin1 - This is a message for all users.`,
+        type: 'plain',
+      }));
+      const createdGlobalAnnouncements = await db.insert(announcements).values(globalAnnouncements).returning({ id: announcements.id });
+      // Make each announcement visible to all teams
+      const recipientInserts = [];
+      for (const ann of createdGlobalAnnouncements) {
+        for (const team of createdTeams) {
+          recipientInserts.push({
+            announcementId: ann.id,
+            teamId: team.id,
+            readAt: null, // seed as unread by default
+          });
+        }
+      }
+      await db.insert(announcementRecipients).values(recipientInserts);
+      console.log(`Created ${createdGlobalAnnouncements.length} global announcements from admin1.`);
+    } else {
+      console.warn('admin1 user not found; skipping global announcements.');
     }
 
     // --- Assign Users to Teams ---
@@ -187,7 +212,7 @@ async function seedDatabase() {
     for (const team of createdTeams) {
       let teamStudentCount = 0;
       // Assign at least 3 students to each team (since 1 teacher already assigned)
-      while (teamStudentCount < 3 && studentIdx < students.length) {
+      while (teamStudentCount < 20 && studentIdx < students.length) {
         teamMembersToCreate.push({ userId: students[studentIdx].id, teamId: team.id, role: 'student' });
         teamStudentCount++;
         studentIdx++;
@@ -300,6 +325,7 @@ async function seedDatabase() {
           recipientInserts.push({
             announcementId: ann.id,
             teamId: teacherTeam.id,
+            readAt: null, // seed as unread by default
           });
         }
       }

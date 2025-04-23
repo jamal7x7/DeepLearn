@@ -2,23 +2,132 @@
 
 import { revalidatePath } from 'next/cache';
 import { and, eq, inArray } from 'drizzle-orm';
+import { sql } from 'drizzle-orm';
 
 import { db } from '@/lib/db/drizzle';
+import { auditLogs } from '@/lib/db/schema';
 import {
   announcements,
   announcementRecipients,
   activityLogs,
-  TeamMember, // Import TeamMember type
-  users, // Add users import
+  TeamMember,
+  users,
 } from '@/lib/db/schema';
 import { getSession } from '@/lib/auth/session'; // Correct import for session
 import { ActivityType } from '@/lib/db/schema';
 import { getUserMembershipsInTeams } from '@/lib/db/queries'; // Correct import for query
+import { updateAnnouncementSchema, reassignAnnouncementSchema } from '@/lib/announcement-schema';
 
 interface SendAnnouncementResult {
   success: boolean;
   message: string;
   announcementId?: number;
+}
+
+interface LogAuditParams {
+  action: string;
+  userId: number;
+  teamId: number;
+  announcementId?: number;
+  details?: string;
+}
+
+/**
+ * Write an audit log entry for admin actions.
+ */
+async function logAudit({ action, userId, teamId, announcementId, details }: LogAuditParams) {
+  try {
+    await db.insert(auditLogs).values({ action, userId, teamId, announcementId, details });
+  } catch (e) {
+    // Non-blocking: log error but do not throw
+    console.error('Audit log error:', e);
+  }
+}
+
+export async function updateAnnouncementAction(id: number, content: string, type: string, teamId: number) {
+  try {
+    const session = await getSession();
+    if (!session?.user?.id) throw new Error('Unauthorized');
+    const validated = updateAnnouncementSchema.parse({ id, content, type, teamId });
+    await db.update(announcements)
+      .set({ content: validated.content, type: validated.type })
+      .where(eq(announcements.id, validated.id));
+    await db.delete(announcementRecipients).where(eq(announcementRecipients.announcementId, validated.id));
+    await db.insert(announcementRecipients).values({ announcementId: validated.id, teamId: validated.teamId });
+    revalidatePath('/dashboard/admin/announcements');
+    await logAudit({ action: 'update', userId: session.user.id, teamId: validated.teamId, announcementId: validated.id, details: JSON.stringify({ content, type, teamId }) });
+    return { success: true, message: 'Announcement updated.' };
+  } catch (error) {
+    console.error('Update announcement error:', error);
+    return { success: false, message: 'Failed to update announcement.' };
+  }
+}
+
+export async function deleteAnnouncementAction(id: number, teamId: number) {
+  try {
+    const session = await getSession();
+    if (!session?.user?.id) throw new Error('Unauthorized');
+    await db.delete(announcements).where(eq(announcements.id, id));
+    await db.delete(announcementRecipients).where(eq(announcementRecipients.announcementId, id));
+    revalidatePath('/dashboard/admin/announcements');
+    await logAudit({ action: 'delete', userId: session.user.id, teamId, announcementId: id });
+    return { success: true, message: 'Announcement deleted.' };
+  } catch (error) {
+    console.error('Delete announcement error:', error);
+    return { success: false, message: 'Failed to delete announcement.' };
+  }
+}
+
+export async function reassignAnnouncementAction(id: number, teamIds: number[], teamId: number) {
+  try {
+    const session = await getSession();
+    if (!session?.user?.id) throw new Error('Unauthorized');
+    const validated = reassignAnnouncementSchema.parse({ id, teamIds });
+    await db.delete(announcementRecipients).where(eq(announcementRecipients.announcementId, validated.id));
+    await db.insert(announcementRecipients).values(
+      validated.teamIds.map(teamId => ({ announcementId: validated.id, teamId }))
+    );
+    revalidatePath('/dashboard/admin/announcements');
+    await logAudit({ action: 'reassign', userId: session.user.id, teamId, announcementId: validated.id, details: JSON.stringify({ teamIds }) });
+    return { success: true, message: 'Announcement reassigned.' };
+  } catch (error) {
+    console.error('Reassign announcement error:', error);
+    return { success: false, message: 'Failed to reassign announcement.' };
+  }
+}
+
+export async function bulkDeleteAnnouncementsAction(ids: number[]) {
+  try {
+    const session = await getSession();
+    if (!session?.user?.id) throw new Error('Unauthorized');
+    await db.delete(announcements).where(inArray(announcements.id, ids));
+    await db.delete(announcementRecipients).where(inArray(announcementRecipients.announcementId, ids));
+    revalidatePath('/dashboard/admin/announcements');
+    await logAudit({ action: 'bulk_delete', userId: session.user.id, teamId: 0, announcementId: undefined, details: JSON.stringify({ ids }) });
+    return { success: true, message: 'Announcements deleted.' };
+  } catch (error) {
+    console.error('Bulk delete error:', error);
+    return { success: false, message: 'Failed to delete announcements.' };
+  }
+}
+
+export async function bulkReassignAnnouncementsAction(ids: number[], teamIds: number[]) {
+  try {
+    const session = await getSession();
+    if (!session?.user?.id) throw new Error('Unauthorized');
+    for (const id of ids) {
+      await db.delete(announcementRecipients).where(eq(announcementRecipients.announcementId, id));
+      await db.insert(announcementRecipients).values(
+        teamIds.map(teamId => ({ announcementId: id, teamId }))
+      );
+    }
+    revalidatePath('/dashboard/admin/announcements');
+    await logAudit({ action: 'bulk_reassign', userId: session.user.id, teamId: teamIds[0] ?? 0, announcementId: undefined, details: JSON.stringify({ ids, teamIds }) });
+    return { success: true, message: 'Announcements reassigned.' };
+  } catch (error) {
+    console.error('Bulk reassign error:', error);
+    return { success: false, message: 'Failed to reassign announcements.' };
+  }
 }
 
 export async function sendAnnouncementAction(
@@ -109,6 +218,7 @@ try {
     // 5. Revalidate relevant paths if needed (e.g., a page displaying announcements)
     // revalidatePath('/dashboard/announcements'); // Example path
 
+    await logAudit({ action: 'send_announcement', userId, teamId: teamIds[0], announcementId: newAnnouncement.id, details: JSON.stringify({ content, type, teamIds }) });
     return {
       success: true,
       message: 'Announcement sent successfully.',
@@ -121,4 +231,54 @@ try {
       message: 'An error occurred while sending the announcement.',
     };
   }
+}
+
+// --- Get All Announcements ---
+/**
+ * Fetch all announcements from the database.
+ * @returns {Promise<any[]>} Array of announcements
+ */
+export async function getAllAnnouncements() {
+  // TODO: Add filtering, pagination, and shape as needed
+  return await db.select().from(announcements);
+}
+
+// --- Get Announcement Stats ---
+/**
+ * Fetch statistics about announcements (e.g., count, etc).
+ * @returns {Promise<{ total: number; unreadAnnouncements: number; announcementsToday: number }>} Announcement stats
+ */
+export async function getAnnouncementStats(): Promise<{
+  total: number;
+  unreadAnnouncements: number;
+  announcementsToday: number;
+}> {
+  // Total announcements
+  const totalRows = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(announcements);
+  const total = totalRows[0]?.count ?? 0;
+
+  // Unread announcements (all users, unread in announcementRecipients)
+  const unreadRows = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(announcementRecipients)
+    .where(sql`"read_at" IS NULL`);
+  const unreadAnnouncements = unreadRows[0]?.count ?? 0;
+
+  // Announcements sent today
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayISO = today.toISOString();
+  const todayRows = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(announcements)
+    .where(sql`"created_at" >= ${todayISO}`);
+  const announcementsToday = todayRows[0]?.count ?? 0;
+
+  return {
+    total,
+    unreadAnnouncements,
+    announcementsToday,
+  };
 }

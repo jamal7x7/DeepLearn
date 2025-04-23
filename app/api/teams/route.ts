@@ -1,10 +1,10 @@
 export const runtime = 'nodejs';
 
-
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { db } from "@/lib/db/drizzle";
+import { count, eq } from 'drizzle-orm';
 import { teams, teamMembers } from "@/lib/db/schema";
 import { getSession } from "@/lib/auth/session";
 
@@ -52,5 +52,25 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, team });
   } catch (error) {
     return NextResponse.json({ error: "Server error", details: String(error) }, { status: 500 });
+  }
+}
+
+export async function GET(req: NextRequest) {
+  try {
+    // Fetch all teams
+    const allTeams = await db.select().from(teams);
+    // For each team, count members
+    const teamsWithCounts = await Promise.all(
+      allTeams.map(async team => {
+        const countResult = await db.select({ count: count() })
+          .from(teamMembers)
+          .where(eq(teamMembers.teamId, team.id));
+        const memberCount = countResult[0]?.count ? Number(countResult[0].count) : 0;
+        return { ...team, memberCount };
+      })
+    );
+    return NextResponse.json({ teams: teamsWithCounts });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch teams', details: String(error) }, { status: 500 });
   }
 }

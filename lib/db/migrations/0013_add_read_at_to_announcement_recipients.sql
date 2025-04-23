@@ -1,0 +1,1 @@
+ALTER TABLE announcement_recipients ADD COLUMN read_at TIMESTAMP;

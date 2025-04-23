@@ -58,6 +58,17 @@ export const activityLogs = pgTable('activity_logs', {
   ipAddress: varchar('ip_address', { length: 45 }),
 });
 
+export const auditLogs = pgTable('audit_logs', {
+  id: serial('id').primaryKey(),
+  teamId: integer('team_id').notNull(),
+  userId: integer('user_id'),
+  action: text('action').notNull(),
+  announcementId: integer('announcement_id'),
+  details: text('details'),
+  timestamp: timestamp('timestamp').notNull().defaultNow(),
+  ipAddress: varchar('ip_address', { length: 45 }),
+});
+
 export const featureFlags = pgTable('feature_flags', {
   key: varchar('key', { length: 64 }).primaryKey(),
   enabled: boolean('enabled').notNull().default(false),
@@ -195,6 +206,7 @@ export const announcementRecipients = pgTable('announcement_recipients', {
   teamId: integer('team_id')
     .notNull()
     .references(() => teams.id, { onDelete: 'cascade' }),
+  readAt: timestamp('read_at'),
 });
 
 export const announcementsRelations = relations(announcements, ({ one, many }) => ({

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { BarChart3, Users, Calendar, Bell, Activity, AlertCircle } from 'lucide-react'; // Added AlertCircle
+import {  Users, Bell, Activity, AlertCircle } from 'lucide-react'; // Added AlertCircle
 import { useTranslation } from 'react-i18next';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -34,7 +34,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchTeams = async () => {
       try {
-        const response = await fetch('/api/team/all');
+        const response = await fetch('/api/teams');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -117,7 +117,15 @@ export default function AdminDashboard() {
   // Main Dashboard Content
   return (
     <div className="container mx-auto py-6 space-y-6"> {/* Added padding and spacing */}
-      <h1 className="text-3xl font-bold tracking-tight">{t('adminDashboardTitle', 'Admin Dashboard')}</h1> {/* Added Page Title */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold tracking-tight">{t('adminDashboardTitle', 'Admin Dashboard')}</h1> {/* Added Page Title */}
+        <Button asChild variant="default" className="gap-2">
+          <a href="/dashboard/admin/announcements">
+            <Bell className="w-4 h-4" />
+            {t('manageAnnouncements', 'Manage Announcements')}
+          </a>
+        </Button>
+      </div>
       {/* Platform Stats Overview */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"> {/* Adjusted grid and spacing */}
         <Card>

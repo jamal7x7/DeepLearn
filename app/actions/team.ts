@@ -19,6 +19,15 @@ export async function removeTeam(teamId: number) {
   await db.delete(teams).where(eq(teams.id, teamId));
   revalidatePath("/dashboard/teams");
 }
+
+/**
+ * Fetch all teams from the database.
+ * Returns an array of teams.
+ */
+export async function getTeams() {
+  return db.select().from(teams);
+}
+
 /**
  * Server action to create a new team and add the user as a teacher.
  * @param teamName string
