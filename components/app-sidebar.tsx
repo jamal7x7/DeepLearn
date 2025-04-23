@@ -58,29 +58,9 @@ export function useUserTeamRole() {
 
 const buildNavMain = (userRole: string | null, teamRole: string | null, t: (key: string) => string) => [
     {
-      title: t("classes"),
-      url: "/dashboard/classes",
-      icon: Folder,
-    },
-    {
-      title: t("students"),
-      url: "/dashboard/students",
-      icon: Users,
-    },
-    {
-      title: t("attendance"),
-      url: "/dashboard/attendance",
-      icon: BarChart,
-    },
-    {
-      title: t("assignments"),
-      url: "/dashboard/assignments",
-      icon: FileText,
-    },
-    {
-      title: t("courses"),
-      url: "/dashboard/courses",
-      icon: BookOpen,
+      title: t("dashboard"),
+      url: userRole === 'admin' ? "/dashboard/admin" : "/dashboard/teacher",
+      icon: LayoutDashboard,
     },
     ...(userRole === 'admin' ? [
       {
@@ -143,6 +123,13 @@ const buildNavMain = (userRole: string | null, teamRole: string | null, t: (key:
       url: "/dashboard/manage-users",
       icon: Users,
     },
+    ...(userRole === 'teacher' ? [
+      {
+        title: t("courses"),
+        url: "/dashboard/courses",
+        icon: BookOpen,
+      },
+    ] : []),
     {
       title: t("studentStream"),
       url: "#",
