@@ -1,6 +1,6 @@
 "use client";
 
-import { Pencil, Download as DownloadIcon } from "lucide-react";
+import { Pencil, Download as DownloadIcon, ListChecks } from "lucide-react";
 import Jdenticon from "react-jdenticon";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -12,22 +12,46 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import AnnouncementMdxStaticPreview from "@/components/AnnouncementMdxStaticPreview";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
 
-
-export type AnnouncementCardProps = {
+// AnnouncementCardProps: Props for a single announcement card
+export interface AnnouncementCardProps {
   id: number;
-  teamName: string;
-  content?: string;
-  message?: string;
-  sentAt: string;
+  title: string;
+  content: string;
+  type?: string;
   sender: string;
   email?: string;
-  type: "plain" | "mdx";
-};
+  sentAt?: string;
+  teamId?: number;
+  schedule?: string;
+  notifiedAt?: string;
+  importance?: string;
+  senderName?: string;
+  teamName?: string;
+}
 
-export const AnnouncementCard: React.FC<{ announcement: AnnouncementCardProps; canEdit?: boolean }> = ({
+export interface AnnouncementCardActionHandlers {
+  onView: (announcement: AnnouncementCardProps) => void;
+  onEdit: (announcement: AnnouncementCardProps) => void;
+  onDelete: (announcement: AnnouncementCardProps) => void;
+  onReassign: (announcement: AnnouncementCardProps) => void;
+}
+
+export const AnnouncementCard: React.FC<{
+  announcement: AnnouncementCardProps;
+  canEdit?: boolean;
+  actions?: AnnouncementCardActionHandlers;
+}> = ({
   announcement,
   canEdit = true,
+  actions,
 }) => {
   const { t, i18n } = useTranslation();
   const [editOpen, setEditOpen] = React.useState(false);
@@ -108,11 +132,33 @@ export const AnnouncementCard: React.FC<{ announcement: AnnouncementCardProps; c
               {announcement.teamName}
             </Badge>
           </div>
-          <time dateTime={announcement.sentAt} className="text-xs text-muted-foreground font-normal">
-            {new Date(announcement.sentAt).toLocaleDateString(i18n.language, { year: 'numeric', month: 'short', day: 'numeric' })}
+          <time dateTime={announcement.sentAt ?? ''} className="text-xs text-muted-foreground font-normal">
+            {announcement.sentAt ? new Date(announcement.sentAt).toLocaleDateString(i18n.language, { year: 'numeric', month: 'short', day: 'numeric' }) : t('unknown', 'Unknown')}
           </time>
         </div>
         <div className="flex gap-1">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label={t('actions', 'Actions')}>
+                <ListChecks className="w-4 h-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => actions?.onView?.(announcement)}>
+                {t('view', 'View')}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => actions?.onEdit?.(announcement)}>
+                {t('edit', 'Edit')}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => actions?.onDelete?.(announcement)}>
+                {t('delete', 'Delete')}
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => actions?.onReassign?.(announcement)}>
+                {t('reassign', 'Reassign')}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           {/* Only show edit/download for self (logged-in teacher, never for admin) */}
           {role === 'self' && (
             <>
@@ -144,10 +190,10 @@ export const AnnouncementCard: React.FC<{ announcement: AnnouncementCardProps; c
         <div className="mb-1">
           <div className="bg-muted/70 rounded-xl px-3 py-2 relative min-h-[56px]">
             {announcement.type === 'mdx' ? (
-              <AnnouncementMdxStaticPreview value={announcement.content || announcement.message || ''} />
+              <AnnouncementMdxStaticPreview value={announcement.content || ''} />
             ) : (
               <span className="text-base font-medium text-foreground leading-snug break-words line-clamp-3">
-                {announcement.content || announcement.message}
+                {announcement.content || ''}
               </span>
             )}
           </div>

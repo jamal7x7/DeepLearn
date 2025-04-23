@@ -9,7 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 type Announcement = {
   id: number;
   teamName: string;
-  message: string;
+  content: string;
   sentAt: string;
   sender: string;
 };
@@ -61,7 +61,7 @@ export default function AnnouncementHistory() {
               </CardTitle>
             </CardHeader>
             <CardContent className="py-3">
-              <p className="text-sm mb-2">{announcement.message}</p>
+              <p className="text-sm mb-2">{announcement.content || ''}</p>
               <p className="text-xs text-muted-foreground">From: {announcement.sender}</p>
             </CardContent>
           </Card>

@@ -16,7 +16,7 @@ import {
 import { getSession } from '@/lib/auth/session'; // Correct import for session
 import { ActivityType } from '@/lib/db/schema';
 import { getUserMembershipsInTeams } from '@/lib/db/queries'; // Correct import for query
-import { updateAnnouncementSchema, reassignAnnouncementSchema } from '@/lib/announcement-schema';
+import { updateAnnouncementSchema, reassignAnnouncementSchema, sendAnnouncementSchema } from '@/lib/announcement-schema';
 
 interface SendAnnouncementResult {
   success: boolean;
@@ -134,91 +134,79 @@ export async function sendAnnouncementAction(
   content: string,
   teamIds: number[],
   type: "plain" | "mdx",
+  schedule?: string,
+  importance?: string,
 ): Promise<SendAnnouncementResult> {
-  const session = await getSession(); // Use getSession
-  // Adjust check for session structure from getSession
+  const session = await getSession();
   if (!session?.user?.id || typeof session.user.id !== 'number') {
     return { success: false, message: 'User not authenticated.' };
   }
-  const userId = session.user.id; // ID is already a number
+  const userId = session.user.id;
 
-  if (!content.trim()) {
-    return { success: false, message: 'Announcement content cannot be empty.' };
+  // --- Robust Zod validation ---
+  const parseResult = sendAnnouncementSchema.safeParse({
+    content,
+    teamIds,
+    type,
+    schedule,
+    importance
+  });
+  if (!parseResult.success) {
+    const errorMsg = parseResult.error.errors.map(e => e.message).join(', ');
+    return { success: false, message: `Validation failed: ${errorMsg}` };
   }
-  if (!teamIds || teamIds.length === 0) {
-    return { success: false, message: 'Please select at least one team.' };
-  }
-try {
-  // 1. Verify the user is a teacher/admin in ALL selected teams
-  const userMemberships = await getUserMembershipsInTeams(userId, teamIds);
+  // Use parsed values (with all defaults)
+  const { content: validContent, teamIds: validTeamIds, type: validType, schedule: validSchedule, importance: validImportance } = parseResult.data;
 
-  // Check if user is admin
-  const [user] = await db
-    .select()
-    .from(users)
-    .where(eq(users.id, userId))
-    .limit(1);
-  
-  const isAdmin = user?.role === 'admin';
-
-  // If user is admin, they can send announcements to any team
-  if (!isAdmin) {
-    // Check if the user is a member of all requested teams
-    if (userMemberships.length !== teamIds.length) {
+  try {
+    // 1. Verify the user is a teacher/admin in ALL selected teams
+    const userMemberships = await getUserMembershipsInTeams(userId, validTeamIds);
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+    const isAdmin = user?.role === 'admin';
+    if (!isAdmin) {
+      if (userMemberships.length !== validTeamIds.length) {
         return { success: false, message: 'You are not a member of all selected teams.' };
-    }
-
-    // Check if the user has the required role ('teacher' or 'admin') in all those teams
-    const hasPermissionInAllTeams = userMemberships.every(
+      }
+      const hasPermissionInAllTeams = userMemberships.every(
         (membership: TeamMember) => membership.role === 'teacher' || membership.role === 'admin'
-    );
-
-    if (!hasPermissionInAllTeams) {
+      );
+      if (!hasPermissionInAllTeams) {
         return { success: false, message: `You do not have permission to send announcements to some selected teams.` };
+      }
     }
-  }
-
-  // Old logic was here and is now fully removed.
-  // }
-
-
     // 2. Create the announcement
     const [newAnnouncement] = await db
       .insert(announcements)
       .values({
         senderId: userId,
-        content: content.trim(),
-        type,
+        content: validContent.trim(),
+        type: validType,
+        schedule: validSchedule ? new Date(validSchedule) : null,
+        importance: validImportance,
       })
       .returning({ id: announcements.id });
-
     if (!newAnnouncement?.id) {
       throw new Error('Failed to create announcement record.');
     }
-
     // 3. Link announcement to recipient teams
-    const recipientData = teamIds.map((teamId) => ({
+    const recipientData = validTeamIds.map((teamId) => ({
       announcementId: newAnnouncement.id,
       teamId: teamId,
     }));
-
     await db.insert(announcementRecipients).values(recipientData);
-
-    // 4. Log activity (optional, adjust based on your logging needs)
-    // Log one entry per team for granularity, or one general entry
-    const logEntries = teamIds.map(teamId => ({
-        teamId: teamId,
-        userId: userId,
-        action: ActivityType.SEND_ANNOUNCEMENT,
-        // Optionally add more details like announcement ID or content snippet
+    // 4. Log activity
+    const logEntries = validTeamIds.map(teamId => ({
+      teamId: teamId,
+      userId: userId,
+      action: ActivityType.SEND_ANNOUNCEMENT,
     }));
     await db.insert(activityLogs).values(logEntries);
-
-
-    // 5. Revalidate relevant paths if needed (e.g., a page displaying announcements)
-    // revalidatePath('/dashboard/announcements'); // Example path
-
-    await logAudit({ action: 'send_announcement', userId, teamId: teamIds[0], announcementId: newAnnouncement.id, details: JSON.stringify({ content, type, teamIds }) });
+    // 5. Revalidate relevant paths if needed
+    await logAudit({ action: 'send_announcement', userId, teamId: validTeamIds[0], announcementId: newAnnouncement.id, details: JSON.stringify({ content: validContent, type: validType, teamIds: validTeamIds, schedule: validSchedule, importance: validImportance }) });
     return {
       success: true,
       message: 'Announcement sent successfully.',

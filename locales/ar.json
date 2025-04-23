@@ -1,4 +1,9 @@
 {
+  "announcements": "إعلانات",
+  "createAnnouncement": "إنشاء إعلان",
+  "createAnnouncementDesc": "إنشاء إعلان جديد لفريقك.",
+  "announcementsDesc": "إدارة جميع إعلانات المجموعات",
+  "announcementsTitle": "إعلانات",
   "teamAnnouncements": "إعلانات المجموعة",
   "noAnnouncements": "لا توجد إعلانات من مجموعاتك بعد.",
   "from": "من",

@@ -56,7 +56,7 @@ export default function TeacherControlPage() {
     const [selectedTeam, setSelectedTeam] = useState<{ id: number; name: string } | null>(null); // Used for team context, keep as is for now
 
     // Announcement state
-    const [announcementMessage, setAnnouncementMessage] = useState<string>('');
+    const [announcementContent, setAnnouncementContent] = useState<string>('');
     const [selectedTeamIdsForAnnouncement, setSelectedTeamIdsForAnnouncement] = useState<number[]>([]);
     const [isSendingAnnouncement, setIsSendingAnnouncement] = useState<boolean>(false);
 
@@ -297,8 +297,8 @@ Write your content here...
 
     // Handle sending the announcement
     const handleSendAnnouncement = async () => {
-        if (!announcementMessage.trim()) {
-            toast.error("Please enter an announcement message.");
+        if (!announcementContent.trim()) {
+            toast.error("Please enter announcement content.");
             return;
         }
         if (selectedTeamIdsForAnnouncement.length === 0) {
@@ -310,7 +310,7 @@ Write your content here...
         toast.info("Sending announcement...");
 
         const result = await sendAnnouncementAction(
-            announcementMessage,
+            announcementContent,
             selectedTeamIdsForAnnouncement,
             "plain"
         );
@@ -319,7 +319,7 @@ Write your content here...
 
         if (result.success) {
             toast.success(result.message);
-            setAnnouncementMessage(''); // Clear message
+            setAnnouncementContent(''); // Clear content
             setSelectedTeamIdsForAnnouncement([]); // Clear selection
         } else {
             toast.error(result.message || "Failed to send announcement.");
@@ -582,7 +582,7 @@ Write your content here...
                     <Card>
                         <CardHeader>
                             <CardTitle>Send Announcement</CardTitle>
-                            <CardDescription>Send a message to selected teams.</CardDescription>
+                            <CardDescription>Send a content to selected teams.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-6">
                             {/* Team Selection */}
@@ -614,14 +614,14 @@ Write your content here...
                                 )}
                             </div>
 
-                            {/* Message Input */}
+                            {/* Content Input */}
                             <div>
-                                <Label htmlFor="announcement-message" className="text-base font-medium mb-2 block">Message</Label>
+                                <Label htmlFor="announcement-content" className="text-base font-medium mb-2 block">Content</Label>
                                 <Textarea
-                                    id="announcement-message"
-                                    placeholder="Type your announcement here..."
-                                    value={announcementMessage}
-                                    onChange={(e) => setAnnouncementMessage(e.target.value)}
+                                    id="announcement-content"
+                                    placeholder="Type your announcement content here..."
+                                    value={announcementContent}
+                                    onChange={(e) => setAnnouncementContent(e.target.value)}
                                     rows={5}
                                     disabled={isSendingAnnouncement}
                                     className="min-h-[100px]"
@@ -631,7 +631,7 @@ Write your content here...
                         <CardFooter className="flex justify-end">
                             <Button
                                 onClick={handleSendAnnouncement}
-                                disabled={isSendingAnnouncement || selectedTeamIdsForAnnouncement.length === 0 || !announcementMessage.trim()}
+                                disabled={isSendingAnnouncement || selectedTeamIdsForAnnouncement.length === 0 || !announcementContent.trim()}
                             >
                                 {isSendingAnnouncement ? "Sending..." : <><Send className="mr-2 h-4 w-4" /> Send Announcement</>}
                             </Button>

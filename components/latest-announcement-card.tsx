@@ -40,14 +40,14 @@ export function LatestAnnouncementCard({ announcement, isRTL }: LatestAnnounceme
       </div>
       <div className="text-base text-gray-800 dark:text-gray-100 mb-2">
         {announcement.type === 'mdx' ? (
-          <AnnouncementMdxPreview value={announcement.content || announcement.message || ''} />
+          <AnnouncementMdxPreview value={announcement.content || ''} />
         ) : (
-          <span className="line-clamp-3">{announcement.content || announcement.message}</span>
+          <span className="line-clamp-3">{announcement.content || ''}</span>
         )}
       </div>
       <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mt-auto">
         <Calendar className="w-4 h-4" />
-        <span>{t('latestAnnouncement.sentAt', { defaultValue: 'Sent at {{date}}', date: new Date(announcement.sentAt).toLocaleDateString() })}</span>
+        <span>{t('latestAnnouncement.sentAt', { defaultValue: 'Sent at {{date}}', date: new Date(announcement.sentAt ?? '').toLocaleDateString() })}</span>
       </div>
       <span className="absolute top-4 right-4 bg-blue-200 dark:bg-blue-700 text-blue-800 dark:text-blue-100 px-2 py-0.5 rounded-full text-xs font-semibold shadow-sm">
         {t('latestAnnouncement.latest', 'Latest Announcement')}

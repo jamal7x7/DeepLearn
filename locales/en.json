@@ -1,4 +1,7 @@
 {
+  "announcements": "Announcements",
+  "createAnnouncement": "Create Announcement",
+  "createAnnouncementDesc": "Create a new announcement for your team.",
   "teamAnnouncements": "Team Announcements",
   "noAnnouncements": "No announcements from your teams yet.",
   "from": "From",

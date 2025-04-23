@@ -23,8 +23,8 @@ export default async function AdminDashboardLayout({
   return (
     <div className="container mx-auto p-4">
       {/* <div className="mb-4">
-        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <p className="text-muted-foreground">Manage all teams and monitor platform activity</p>
+        <h1 className="text-3xl font-bold">Announcements</h1>
+        <p className="text-muted-foreground">Manage all teams announcements</p>
       </div> */}
       {children}
     </div>

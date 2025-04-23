@@ -196,6 +196,9 @@ export const announcements = pgTable('announcements', {
   content: text('content').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   type: text('type').notNull().default('plain'),
+  schedule: timestamp('schedule'),
+  importance: varchar('importance', { length: 16 }).notNull().default('normal'),
+  notifiedAt: timestamp('notified_at'),
 });
 
 export const announcementRecipients = pgTable('announcement_recipients', {
