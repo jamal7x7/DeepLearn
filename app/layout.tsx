@@ -3,7 +3,7 @@ import './globals.css';
 import 'katex/dist/katex.min.css'; // Add KaTeX CSS
 import 'prismjs/themes/prism-okaidia.css' ; // Add Prism theme CSS
 import type { Metadata, Viewport } from 'next';
-import { Manrope, Instrument_Sans } from 'next/font/google';
+import { Manrope, Instrument_Sans, Inter } from 'next/font/google';
 import { cookies } from "next/headers";
 
 import { UserProvider } from '@/lib/auth';
@@ -18,16 +18,17 @@ const META_THEME_COLORS = {
 };
 
 export const metadata: Metadata = {
-  title: 'Triangl',
-  description: 'Get started quickly with Next.js, Postgres, and Stripe.',
+  title: 'Avent',
+  description: 'Study nest',
 };
 
 export const viewport: Viewport = {
   maximumScale: 1,
 };
 
-const manrope = Manrope({ subsets: ['latin'] });
-const instrumentSans  = Instrument_Sans ({ subsets: ['latin'] });
+// const manrope = Manrope({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'] });
+// const instrumentSans  = Instrument_Sans ({ subsets: ['latin'] });
 
 export default async function RootLayout({
   children,
@@ -43,17 +44,18 @@ export default async function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className}`}
+      className={`bg-white dark:bg-gray-950 text-black dark:text-white ${inter.className}`}
     >
       <head>
         {/* Add any additional scripts or meta tags here */}
       </head>
       <body
         className={cn(
-          "bg-background overscroll-none font-sans antialiased",
+          " bg-background overscroll-none font-sans antialiased",
           activeThemeValue ? `theme-${activeThemeValue}` : "",
           isScaled ? "theme-scaled" : ""
         )}
+        
       >
         <UserProvider userPromise={userPromise}>
           <AppClientProviders>

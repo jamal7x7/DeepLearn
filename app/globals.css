@@ -102,7 +102,7 @@
 
 @layer base {
   body {
-    font-family:  'Manrope','Tajawal',monospace , Arial, Helvetica, sans-serif !important;
+    font-family:  "Inter", 'Manrope', 'Tajawal', monospace, Arial, Helvetica, sans-serif !important;
   }
 }
 
@@ -491,7 +491,16 @@
       height: 0;
     }
   }
-}
+  --animate-grid: grid 50s linear infinite
+;
+  @keyframes grid {
+  0% {
+    transform: translateY(-50%);
+    }
+  100% {
+    transform: translateY(0);
+    }
+  }}
 
 /*
   ---break---

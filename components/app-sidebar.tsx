@@ -171,7 +171,7 @@ export function AppSidebar({ userRole: incomingUserRole, teamRole: incomingTeamR
             >
               <a href="/">
                 <Triangle className="!size-5 fill-primary-foreground" />
-                <span className="text-base font-semibold">Triangl.</span>
+                <span className="text-base font-black">AVENT</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

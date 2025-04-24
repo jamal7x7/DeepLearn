@@ -167,8 +167,16 @@ export function NavMain({
                       tooltip={item.title}
                       isActive={false}
                       className={`relative overflow-hidden group/sidebar-accordion`}
+                      onClick={(e) => {
+                        // Fix: TS error - tagName may not exist on EventTarget, so cast to HTMLElement
+                        if ((e.target as HTMLElement).tagName === 'BUTTON') return;
+                        setExpandedMenus((prev) => ({
+                          ...prev,
+                          [item.title]: !prev[item.title],
+                        }));
+                      }}
                     >
-                      <div className="flex w-full items-center gap-2 cursor-default select-none">
+                      <div className="flex w-full items-center gap-2 cursor-pointer select-none">
                         {item.icon && (
                           <div className="relative">
                             <item.icon className="h-4 w-4 transition-transform duration-300 ease-out group-hover/sidebar-accordion:scale-110 text-primary/80" />

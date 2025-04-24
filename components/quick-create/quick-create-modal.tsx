@@ -28,7 +28,9 @@ interface QuickCreateModalProps {
 export function QuickCreateModal({ open, onOpenChange, onTeamCreated }: QuickCreateModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg w-full p-0 rounded-lg shadow-xl min-h-[480px] max-h-[90vh] ">
+            <DialogContent className="w-full max-w-full md:max-w-[55vw] p-0 rounded-lg shadow-xl min-h-[480px] max-h-[90vh] ">
+
+      {/* <DialogContent className="max-w-lg  w-full p-0 rounded-lg shadow-xl min-h-[480px] max-h-[90vh] "> */}
         <DialogHeader className="border-b p-6">
           <DialogTitle className="text-lg font-semibold">Quick Create</DialogTitle>
         </DialogHeader>

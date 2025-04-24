@@ -29,6 +29,8 @@ import { format, isWithinInterval, parseISO } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
 import { DateTimePicker } from "@/components/date-time-picker";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Calendar as CalendarIcon } from "lucide-react";
 
 // --- Announcement type with senderName for search ---
 export type Announcement = Omit<AnnouncementCardProps, 'id'> & { id: number };
@@ -615,15 +617,29 @@ export function AnnouncementsDashboardClient({
             ))}
           </SelectContent>
         </Select>
-        <div className="w-full md:w-auto">
-          <Calendar
-            mode="range"
-            selected={dateRange}
-            onSelect={handleDateRangeSelect}
-            className="rounded-md border"
-            aria-label={t('dateRange')}
-          />
-        </div>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              className="w-full md:w-[240px] justify-start text-left font-normal"
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {dateRange?.from
+                ? dateRange.to
+                  ? `${format(dateRange.from, "LLL dd, y")} - ${format(dateRange.to, "LLL dd, y")}`
+                  : format(dateRange.from, "LLL dd, y")
+                : t("pickADate", "Pick a date")}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              mode="range"
+              selected={dateRange}
+              onSelect={handleDateRangeSelect}
+              aria-label={t('dateRange')}
+            />
+          </PopoverContent>
+        </Popover>
         <Button variant="outline" onClick={() => {
           setSearch('');
           setFilterType('all');

@@ -15,6 +15,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 
+import { RetroGrid } from "@/components/magicui/retro-grid";
+import { BorderBeam } from "@/components/magicui/border-beam";
+
 import { signIn, signUp } from './actions';
 
 const ROLES = [
@@ -88,6 +91,11 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
   const isArabic = i18n.language === 'ar';
 
   return (
+    <>
+  
+  <div className="absolute bottom-0 mb-0 z-10 h-[500px] w-full overflow-hidden pointer-events-none">
+    <RetroGrid />
+  </div>
     <Tooltip.Provider delayDuration={200}>
       <div className="absolute top-4 right-4 z-30">
         <LanguageSwitcher animateGlobe />
@@ -96,13 +104,11 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
         className={`flex min-h-screen flex-col justify-center py-6 px-2 sm:px-6 lg:px-8 bg-background dark:bg-background${isArabic ? ' text-right' : ''}`}
         dir={isArabic ? 'rtl' : 'ltr'}
       >
-        <div className="w-full max-w-md mx-auto relative">
-          {/* Back button moved to bottom */}
-        </div>
+    
 
-        <div className={`mt-6 w-full max-w-md mx-auto${isArabic ? ' text-right' : ''}`}>
+        <div className={`  mt-6 w-full max-w-md mx-auto${isArabic ? ' text-right' : ''}`}>
           {mode === 'signup' && invitationCode && teamInfo && (
-            <Card className={`mb-4 bg-transparent border-transparent${isArabic ? ' text-right' : ''}`}>
+            <Card className={`mb-4 bg-transparent border-transparent ${isArabic ? ' text-right' : ''}`}>
               <CardHeader>
                 <CardTitle>{t('joiningTeam', 'Joining a Team')}</CardTitle>
                 <CardDescription>
@@ -114,10 +120,12 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                   <p className="font-medium">{teamInfo.teamName}</p>
                   <p className="text-sm text-muted-foreground mt-1">{t('usingInvitationCode', 'Using invitation code:')} {invitationCode}</p>
                 </div>
+                
               </CardContent>
+
             </Card>
           )}
-          <div className={`bg-transparent px-2 py-6 sm:px-6 sm:py-8 shadow sm:rounded-lg border border-transparent${isArabic ? ' text-right' : ''}`}>
+          <div className={`bg-transparent px-2 py-6 sm:px-6 sm:py-8 shadow sm:rounded-lg border border-transparent ${isArabic ? ' text-right' : ''}`}>
             <form className="space-y-6" action={formAction}>
               <input type="hidden" name="inviteId" value={inviteId || ''} />
               <input type="hidden" name="priceId" value={priceId || ''} />
@@ -130,6 +138,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                     {ROLES.map(({ key, label, icon: Icon, helper }) => (
                       <Tooltip.Root key={key} delayDuration={200}>
                         <Tooltip.Trigger asChild>
+                          
                           <button
                             type="button"
                             aria-pressed={role === key}
@@ -143,6 +152,8 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                           >
                             <Icon className={`w-5 h-5 mb-0.5 ${role === key ? 'text-primary' : 'text-muted-foreground'}`} />
                             <span className="font-medium text-sm">{t(`role.${key}`, label)}</span>
+
+                    
                           </button>
                         </Tooltip.Trigger>
                         <Tooltip.Portal>
@@ -183,6 +194,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                     className="bg-background border-border text-foreground placeholder:text-muted-foreground focus:bg-background focus:border-primary text-left"
                   />
                 </div>
+                
               </div>
               {mode === 'signup' && !invitationCode && (
                 <div className={isArabic ? 'text-right' : ''}>
@@ -198,6 +210,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                   <p className="text-xs text-muted-foreground mt-1">
                     {t('invitationCodeHelp', 'If you have an invitation code from your teacher, enter it here to join their team.')}
                   </p>
+                  
                 </div>
               )}
               {state.error && (
@@ -221,6 +234,9 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                   )}
                 </Button>
               </div>
+
+              
+              
             </form>
             <div className="mt-6">
               <div className="relative">
@@ -242,8 +258,11 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                     ? t('dontHaveAccount', "Don't have an account? Sign up")
                     : t('alreadyHaveAccount', 'Already have an account? Sign in')}
                 </Link>
+                
               </div>
+              
             </div>
+            
           </div>
           {/* Bottom-aligned back button */}
           <div className={`w-full max-w-md mx-auto mt-8 flex justify-center${isArabic ? ' text-right' : ''}`}>
@@ -260,8 +279,13 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               <span className="sr-only">{t('back', 'Back')}</span>
             </Link>
           </div>
+          
         </div>
+        
       </div>
     </Tooltip.Provider>
+    
+
+    </>
   );
 }

@@ -5,12 +5,16 @@ import { Separator } from "@radix-ui/react-separator";
 
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { Triangle } from "lucide-react";
 
 export default function NavBar() {
   return (
     <nav className="w-full flex items-center justify-between px-6 py-3 bg-white/50 dark:bg-black/30 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 fixed top-0 left-0 z-50">
-      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-        Avent
+      <div className="text-2xl  font-black text-blue-600 dark:text-blue-400 flex items-center gap-2 cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 transition-all duration-200">
+        <a href="/" className="flex items-center gap-2">
+          <Triangle className="!size-5  " />
+          <span className="text-base font-black">AVENT</span>
+        </a>
       </div>
       <div className="flex items-center gap-4">
         <Link
